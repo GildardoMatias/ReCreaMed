@@ -1,0 +1,22 @@
+Hospitales
+Actividades Frontend
+- Generar interfaz para ver listado de hospitales
+- Formulario para regirstro de hospitales
+- Validaciones 
+Actividades Backend
+- Configuracion de modelo
+- Creacion de migracion MySQL
+- Funcionalidad de controlador
+- Publicación API
+
+Pacientes
+    Notas
+    Recetas
+    
+Catalogo de Hospitales 
+Registro de Medicos 
+Control de Citas 
+Balance
+
+
+Antd reconciliation good for notas medicas
