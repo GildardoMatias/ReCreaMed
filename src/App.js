@@ -9,20 +9,24 @@ import Doctors from "./views/doctors/main.doctors";
 import Patients from "./views/pacientes/main.patients";
 import { Login } from "./views/session/login";
 import { Register } from "./views/session/register";
+import { Button } from 'antd'
 
 function Navigator() {
+
+  const logout = () => { window.location.href = '/login'; }
+
   return <Navbar bg="light" expand="lg">
     <Container>
-    <Navbar.Brand href="#home">
-      <img
-        src={icon}
-        width="40"
-        height="35"
-        className="d-inline-block align-top"
-        alt="Recreamed logo"
-      />
-      {/* re-creaMed */}
-    </Navbar.Brand>
+      <Navbar.Brand href="#home">
+        <img
+          src={icon}
+          width="40"
+          height="35"
+          className="d-inline-block align-top"
+          alt="Recreamed logo"
+        />
+        {/* re-creaMed */}
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
@@ -33,6 +37,9 @@ function Navigator() {
           <Nav.Link href="#">Citas?</Nav.Link>
           <Nav.Link href="#">Balances</Nav.Link>
         </Nav>
+      </Navbar.Collapse>
+      <Navbar.Collapse className="justify-content-end">
+        <Button onClick={logout} >Cerrar Sesion</Button>
       </Navbar.Collapse>
     </Container>
   </Navbar>

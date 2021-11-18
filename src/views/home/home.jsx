@@ -4,6 +4,7 @@ import { Pie, Line } from '@ant-design/charts';
 import './home.css'
 
 export class Home extends Component {
+    
     dataPie = [
         {
             type: 'Covid',
