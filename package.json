@@ -20,7 +20,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "producir": "react-scripts build && cp -r ./build/* /var/www/misionsos.com/html"
   },
   "eslintConfig": {
     "extends": [
