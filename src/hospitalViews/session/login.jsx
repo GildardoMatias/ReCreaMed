@@ -4,8 +4,57 @@ import logo from '../assets/Logo.png';
 
 
 export function Login() {
+
+
+  const setUserType = (usr) => {
+    localStorage.setItem('sessionToken', 'trl8358');
+    switch (usr) {
+      case 'admin@recreamed.com':
+        console.log("admin")
+        localStorage.setItem("userType", "admin");
+        return 'admin';
+      case 'medico@recreamed.com':
+        console.log("medic")
+        localStorage.setItem("userType", "medic");
+        return 'medic';
+      case 'paciente@recreamed.com':
+        console.log("admin")
+        localStorage.setItem("userType", "patient");
+        return 'patient';
+      default:
+        return 'user';
+    }
+  }
+
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
+    //{username: 'admin@recreamed.com', password: 'medicalAccess2017#', remember: true}
+    // Set Dummy User Type
+    setUserType(values.username);
+
+    // Inicio de sesion
+    const body = {
+      email: values.username,
+      password: values.password
+    }
+
+    // Api de sesion
+    // const response = fetch("https://recreamed.com/api/v1/auth/login", {
+    //   method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    //   mode: 'cors', // no-cors, *cors, same-origin
+    //   cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    //   credentials: 'same-origin', // include, *same-origin, omit
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   redirect: 'follow', // manual, *follow, error
+    //   referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    //   body: JSON.stringify(body) // body data type must match "Content-Type" header
+    // })
+    //   .then((data) => { console.log("data", data); return data.json() })
+    //   .then(res => { console.log("resp", res) })
+    //   .catch(err => window.alert("Error: ", err))
+
     window.location.href = '/';
   };
 
@@ -71,7 +120,7 @@ export function Login() {
             </Form.Item>
             <Form.Item>
               <Row justify="center"> O <a href="register">Registrarse</a></Row>
-             
+
             </Form.Item>
           </Form>
         </Card>

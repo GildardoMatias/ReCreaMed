@@ -42,10 +42,10 @@ CREATE TABLE `doctores`  (
 -- ----------------------------
 -- Table structure for expedientes
 -- ----------------------------
-DROP TABLE IF EXISTS `expedientes`;
+DROP TABLE IF EXISTS `expedientes`; 
 CREATE TABLE `expedientes`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `medico_id` int(11) NULL DEFAULT NULL,
+  `medico_id` int(11) NULL DEFAULT NULL,/* 1-N */
   `paciente_id` int(11) NULL DEFAULT NULL,
   `sucursal_id` int(11) NULL DEFAULT NULL,
   `created_at` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
@@ -304,7 +304,7 @@ INSERT INTO `pacientes_historial_clinica` VALUES (13, 13, '', 0, 0, 0, 0, 0, 0, 
 -- ----------------------------
 -- Table structure for pacientes_nota
 -- ----------------------------
-DROP TABLE IF EXISTS `pacientes_nota`;
+DROP TABLE IF EXISTS `pacientes_nota`; /*TAked every  meet*/
 CREATE TABLE `pacientes_nota`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `no_expediente` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,

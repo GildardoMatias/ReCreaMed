@@ -1,0 +1,72 @@
+Hospitales
+Actividades Frontend
+- Generar interfaz para ver listado de hospitales
+- Formulario para regirstro de hospitales
+- Validaciones 
+Actividades Backend
+- Configuracion de modelo
+- Creacion de migracion MySQL
+- Funcionalidad de controlador
+- Publicación API
+
+Pacientes
+    Notas
+    Recetas
+    
+Catalogo de Hospitales 
+Registro de Medicos 
+Control de Citas 
+Balance
+
+
+Antd reconciliation good for notas medicas
+
+
+Dividir roles user medic
+
+Paciente crea citas
+
+PAciente tiene acceso a su historial de Citas
+
+Add carro on alumno
+
+Change balances statistic
+
+Dividir
+superadmin
+Hospital
+    Medic pacient 
+
+Tipo de cobro
+
+APIKEY
+AIzaSyA8fRG8GwQ3Gi-4bTk8EO2__sCQUXTKZd4
+
+ID Cliente
+304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com
+304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com
+
+secreto cliente
+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
+
+{
+    "error": "idpiframe_initialization_failed",
+    "details": "Not a valid origin for the client: http://localhost:3000 has not been registered for client ID 304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com. Please go to https://console.developers.google.com/ and register this origin for your project's client ID."
+}
+{
+    "error": "idpiframe_initialization_failed",
+    "details": "Not a valid origin for the client: https://recreamed.surge.sh has not been registered for client ID 304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com. Please go to https://console.developers.google.com/ and register this origin for your project's client ID."
+}
+
+Citas: 
+- 1 de diciembre al 3 de diciembre @done
+- 15 Dic @done
+Expedientes:
+    - 28 dic @done
+
+Usuarios
+    - 2 Feb
+Notas
+- Create detail note modal @done322SSW|EWWQ2SSDWQQ2SD<Z
+- 
+-

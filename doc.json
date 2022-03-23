@@ -1,0 +1,15 @@
+{
+    "id_sucursal": 2,
+    "nombre": "Name",
+    "apellido_paterno": "App",
+    "apellido_materno": "Apm",
+    "cedula": "12345689",
+    "calle": "",
+    "numero": "",
+    "colonia": "",
+    "telefono": "12341654",
+    "email": "",
+    "delete": "",
+    "created_at": "",
+    "updated_at": ""
+}

@@ -1,0 +1,26 @@
+8:34 am -   4:11 pm RecreaMed   historialClinico.jsx
+8:09 am -   4:19 pm RecreaMed   App.JS  Modificacion de la barra de navegacion. Ca,b
+8:07 am -   4:01 pm RecreaMed   App.JS  Llamada al api usuario a partir del id obtenido de la sesion, se obtienen los datos personales y se colocan en la vista perfil. Los datos del plan estan escritos directamente en la vista, no se tiene un api de planes
+8:14 am -   4:07 pm RecreaMed   App.JS  Agregados boton editar datos personales, modal para editar nombre, apellidos, contacto. Se sugiere agregar un campo con la direccion del usuario
+8:28 am -   4:21 pm RecreaMed   App.JS  Creacion de tarjetas y avatar donde se mostrará la informacion personal, y el plan o paquete actual
+8:45 am -   4:14 pm RecreaMed   Citas.jsx Actualizacion del front en el servidor. Agregado el perfil en la barra de navegacion. Agregado boton cerrar sesion en navbar, y enlaces a registro y login cuando no se tiene sesion
+8:25 am -   4:23 pm RecreaMed   Nav.jsx Implementacion del formulario dentro del modal, validacion de campos y estilizacion del formulario, en la vista contactos
+8:09 am -   4:23 pm RecreaMed   Nav.jsx Consumir el api de agregar contactos despues de validar y enviar los datos de formulario, validar respuesta y mostrar un mensaje para el caso de envio correcto y error 
+8:07 am -   4:23 pm RecreaMed   Gog.jsx Creada vista citas. Agregado modelo de tablas para listar las diferentes citas
+8:15 am -   4:23 pm RecreaMed   Citas.jsx Agregado formulario con campos para registrar citas
+8:10 am -   4:23 pm RecreaMed   Usuarios.jsx Consumo de apis que subio hugo
+
+8:34 am -   4:11 pm MisionSOS   Profile.jsx
+8:09 am -   4:19 pm MisionSOS   App.jsx
+8:07 am -   4:01 pm MisionSOS   Home.jsx
+8:14 am -   4:07 pm MisionSOS   Contacts.jsx
+8:28 am -   4:21 pm MisionSOS   Contacts.jsx
+8:45 am -   4:14 pm MisionSOS   Contacts.jsx
+8:25 am -   4:23 pm MisionSOS   Contacts.jsx
+8:09 am -   4:23 pm MisionSOS   Home.jsx
+8:07 am -   4:23 pm MisionSOS   App.jsx
+8:15 am -   4:23 pm Backend   Contactos
+8:10 am -   4:23 pm Backend   Usuarios
+8:07 am -   4:23 pm Backend   Perfil
+8:16 am -   4:23 pm Backend   Creacion
+8:21 am -   4:23 pm MisionSOS   Creacion

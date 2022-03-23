@@ -14,6 +14,9 @@ export default function Register() {
             <h1>Registrar doctor</h1>
             <br/>
             <Form name="basic" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
+          <Form.Item label="Hospital" name="Hospital" rules={[{ required: true, message: 'Please input your username!' }]} >
+            <Input />
+          </Form.Item>
           <Form.Item label="Nombre" name="username" rules={[{ required: true, message: 'Please input your username!' }]} >
             <Input />
           </Form.Item>

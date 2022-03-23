@@ -1,0 +1,306 @@
+{
+    "Purepecha-Español": [
+        {
+            "purepecha": "A",
+            "tipo": "verbo",
+            "español": "Come (imperativo)."
+        },
+        {
+            "purepecha": "Acha",
+            "tipo": "sustantivo",
+            "español": "Senor."
+        },
+        {
+            "purepecha": "Achaati",
+            "tipo": "sustantivo",
+            "español": "Señor de respeto."
+        },
+        {
+            "purepecha": "Achamasï",
+            "tipo": "sustantivo",
+            "español": "Hombre de respeto, caballero. De mucha experiencia"
+        },
+        {
+            "purepecha": "Achamasïri",
+            "tipo": "sustantivo",
+            "español": "Del caballero."
+        },
+        {
+            "purepecha": "Acheeti",
+            "tipo": "sustantivo",
+            "español": "Señor, hombre de familia."
+        },
+        {
+            "purepecha": "Acheetiri",
+            "tipo": "sustantivo",
+            "español": "Del señor."
+        },
+        {
+            "purepecha": "Achoki",
+            "tipo": "sustantivo",
+            "español": "Ajolote.",
+            "clasififcación": "animal"
+        },
+        {
+            "purepecha": "Aianguni",
+            "tipo": "verbo",
+            "español": "Comunicar, informar."
+        },
+        {
+            "purepecha": "Aianhperata",
+            "tipo": "sustantivo",
+            "español": "Información, comunicación"
+        },
+        {
+            "purepecha": "Aianhpisïptiksï",
+            "tipo": "verbo",
+            "español": "Informaron (ellos), habían informado."
+        },
+        {
+            "purepecha": "Akajchuni",
+            "tipo": "sustantivo",
+            "español": "La comunidad de Acachuén.",
+            "clasififcación": "ejemplo"
+        },
+        {
+            "purepecha": "Akamba",
+            "tipo": "sustantivo",
+            "español": "Maguey.",
+            "clasififcación": "planta"
+        },
+        {
+            "purepecha": " Akambarhu",
+            "tipo": "sustantivo",
+            "español": "En el maguey."
+        },
+        {
+            "purepecha": "Akamberi",
+            "tipo": "sustantivo",
+            "español": "De maguey."
+        },
+        {
+            "purepecha": "Akarhini",
+            "tipo": "sustantivo",
+            "español": "Chayotillo.",
+            "clasififcación": "planta"
+        },
+        {
+            "purepecha": "Akarhinirhu",
+            "tipo": "sustantivo",
+            "español": "En el chayotillo."
+        },
+        {
+            "purepecha": "Aku",
+            "tipo": "verbo",
+            "español": "Cómele (algo de alguien, modo imperativo)."
+        },
+        {
+            "purepecha": "Akua",
+            "tipo": "sustantivo",
+            "español": "Comestible."
+        },
+        {
+            "purepecha": "Akuarhchani",
+            "tipo": "verbo",
+            "español": "Cortarse en el cuello o en la lengua."
+        },
+        {
+            "purepecha": "Akuarhenharhini",
+            "tipo": "verbo",
+            "español": "Cortarse en la cara."
+        },
+        {
+            "purepecha": "Akuarheta",
+            "tipo": "sustantivo",
+            "español": "Herida (de arma punzante)."
+        },
+        {
+            "purepecha": "Akuarhimuni",
+            "tipo": "verbo",
+            "español": "Herida en la boca."
+        },
+        {
+            "purepecha": "Akuarhindini",
+            "tipo": "verbo",
+            "español": "Cortarse en alguna parte del cuerpo."
+        },
+        {
+            "purepecha": "Akuarhkuni",
+            "tipo": "verbo",
+            "español": "Cortarse en la mano."
+        },
+        {
+            "purepecha": "Akuitse",
+            "tipo": "sustantivo",
+            "español": "Serpiente, víbora, culebra."
+        },
+        {
+            "purepecha": "Akuitsi",
+            "tipo": "sustantivo",
+            "español": "Serpiente, víbora, culebra."
+        },
+        {
+            "purepecha": "Akumarha",
+            "tipo": "sustantivo",
+            "español": "Pescado (salmón)."
+        },
+        {
+            "purepecha": "Akuni",
+            "tipo": "verbo",
+            "español": "Comérselo el fruto del árbol (o comida ajena)."
+        },
+        {
+            "purepecha": "Akurhintasïpti",
+            "tipo": "verbo",
+            "español": "Volver a roer."
+        },
+        {
+            "purepecha": "Amamba",
+            "tipo": "sustantivo",
+            "español": "Madre, mamá."
+        },
+        {
+            "purepecha": "Amanhenchakua",
+            "tipo": "sustantivo",
+            "español": "Fruta, postre, gusguera."
+        },
+        {
+            "purepecha": "Amani",
+            "tipo": "verbo",
+            "español": "Comer con exceso, comer de paso."
+        },
+        {
+            "purepecha": "Amatsï",
+            "tipo": "sustantivo",
+            "español": "Tejón",
+            "clasififcación": "animal"
+        },
+        {
+            "purepecha": "Ambaatani",
+            "tipo": "verbo",
+            "español": "Limpiar una superficie plana."
+        },
+        {
+            "purepecha": "Ambajtsïntani",
+            "tipo": "verbo",
+            "español": "Volver a peinarse."
+        },
+        {
+            "purepecha": "Ambajtsïtakua",
+            "tipo": "sustantivo",
+            "español": "Peine, cepillo."
+        },
+        {
+            "purepecha": "Ambakerani",
+            "tipo": "verbo",
+            "español": "Limpiar."
+        },
+        {
+            "purepecha": "Ambakerantani",
+            "tipo": "verbo",
+            "español": "Sanar a alguien."
+        },
+        {
+            "purepecha": "Ambakiti",
+            "tipo": "adjetivo",
+            "español": "Bueno, consistente útil."
+        },
+        {
+            "purepecha": "Ambarhati",
+            "tipo": "adjetivo",
+            "español": "Cosas de valor (buenos)."
+        },
+        {
+            "purepecha": "Ambarhaticha",
+            "tipo": "adjetivo",
+            "español": "Cosas de valor."
+        },
+        {
+            "purepecha": "Ambaratichaksï",
+            "tipo": "adjetivo",
+            "español": "Cosas buenas."
+        },
+        {
+            "purepecha": "Ambarhini",
+            "tipo": "verbo",
+            "español": "Limpiado."
+        },
+        {
+            "purepecha": "Ambatakata",
+            "tipo": "adjetivo",
+            "español": "Limpio de hierbas."
+        },
+        {
+            "purepecha": "Ambe",
+            "tipo": "adjetivo",
+            "español": "Qué, mande (expresión utilizada para contestar un llamado)."
+        },
+        {
+            "purepecha": "Ambenarhini",
+            "tipo": "verbo",
+            "español": "Malgastar, desperdiciar o derrochar."
+        },
+        {
+            "purepecha": "Ambokuta",
+            "tipo": "sustantivo",
+            "español": "Calle, vereda, camino."
+        },
+        {
+            "purepecha": "Ambonhasïkani",
+            "tipo": "verbo",
+            "español": "Recuperar la sobriedad."
+        },
+        {
+            "purepecha": "Ambusï",
+            "tipo": "sustantivo",
+            "español": "Piojo.",
+            "clasififcación": "animal"
+        },
+        {
+            "purepecha": "Anapu",
+            "tipo": "adjetivo",
+            "español": "Originario de…"
+        },
+        {
+            "purepecha": "Anapuecha",
+            "tipo": "adjetivo",
+            "español": "Originarios de…"
+        },
+        {
+            "purepecha": "Anapuechaksï",
+            "tipo": "adjetivo",
+            "español": "Originarios de … (ellos)."
+        },
+        {
+            "purepecha": "Anapuechani",
+            "tipo": "adjetivo",
+            "español": "A los originarios de…"
+        },
+        {
+            "purepecha": "Anapuepka",
+            "tipo": "adjetivo",
+            "español": "El que era originario de…"
+        },
+        {
+            "purepecha": "Anapuesti",
+            "tipo": "adjetivo",
+            "español": "Es originario de…"
+        },
+        {
+            "purepecha": "ánchekorheta",
+            "tipo": "sustantivo",
+            "español": "Trabajo, actividad, empleo, trabajo realizado."
+        },
+        {
+            "purepecha": "ánchikuarhiaaka",
+            "tipo": "verbo",
+            "español": "Trabajaré"
+        },
+        {
+            "purepecha": "ánchikuarhikua",
+            "tipo": "sustantivo",
+            "español": "Tranajo, empleo.",
+            "clasififcación": "pagina 15"
+        }
+    ]
+}
