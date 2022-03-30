@@ -12,7 +12,8 @@ import {
   Button,
   AutoComplete,
 } from 'antd';
-import logo from '../assets/Logo.png'; 
+import API from '../../resources'
+import logo from '../assets/Logo.png';
 import './login.css';
 
 const { Option } = Select;
@@ -84,8 +85,29 @@ const tailFormItemLayout = {
 export function Register() {
   const [form] = Form.useForm();
 
+  const sendUser = () => {
+    fetch(
+
+    )
+      .then(response => response.json())
+      .then(data => console.log(data));
+  }
+
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
+
+    var data = { username: 'example' };
+
+    console.log(JSON.stringify(values))
+    // fetch(API, {
+    //   method: 'POST',
+    //   body: JSON.stringify(data),
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // }).then(res => res.json())
+    //   .catch(error => console.error('Error:', error))
+    //   .then(response => console.log('Success:', response));
   };
 
   const prefixSelector = (
@@ -95,8 +117,7 @@ export function Register() {
           width: 70,
         }}
       >
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
+        <Option value="+52">+52</Option>
       </Select>
     </Form.Item>
   );
@@ -207,9 +228,9 @@ export function Register() {
             </Form.Item>
 
             <Form.Item
-              name="nickname"
-              label="Usuario"
-              tooltip="Debes ingresar tu nombre real"
+              name="rol"
+              label="Rol"
+              tooltip="Ingresa el rol"
               rules={[
                 {
                   required: true,
@@ -236,7 +257,7 @@ export function Register() {
       </Form.Item> */}
 
             <Form.Item
-              name="phone"
+              name="telefono"
               label="Telefono"
               rules={[
                 {
@@ -254,12 +275,12 @@ export function Register() {
             </Form.Item>
 
             <Form.Item
-              name="donation"
+              name="name"
               label="Nombre"
               rules={[
                 {
                   required: true,
-                  message: 'Please input donation amount!',
+                  message: 'Ingresa Nombre y apellidos',
                 },
               ]}
             >
@@ -271,20 +292,21 @@ export function Register() {
               />
             </Form.Item>
 
-            <Form.Item
-              name="website"
-              label="Apellido Paterno"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input website!',
-                },
-              ]}
-            >
+            <Form.Item name="colonia" label="Colonia" rules={[{ required: true, message: 'Ingresa tu colonia' }]} > <Input /> </Form.Item>
+            <Form.Item name="municipio" label="Municipio" rules={[{ required: true, message: 'Ingresa tu municipio' }]} > <Input /> </Form.Item>
+            <Form.Item name="estado" label="Estado" rules={[{ required: true, message: 'Ingresa tu estado' }]} > <Input /> </Form.Item>
+            <Form.Item name="municipio" label="Municipio" rules={[{ required: true, message: 'Ingresa tu municipio' }]} > <Input /> </Form.Item>
+            <Form.Item name="codigopostal" label="Codigo Postal" rules={[{required: true,message: 'Ingresa codigopostal',},]}>
+              <InputNumber addonAfter={suffixSelector} style={{ width: '100%',}}/>
+            </Form.Item>
+            <Form.Item name="certificacion" label="Certificacion" rules={[{ required: true, message: 'Ingresa tu certificacion' }]} > <Input /> </Form.Item>
+            <Form.Item name="universidad" label="Universidad" rules={[{ required: true, message: 'Ingresa tu universidad' }]} > <Input /> </Form.Item>
+
+            {/* <Form.Item name="website" label="Apellido Paterno" rules={[ {required: true,message: 'Please input website!',},]}>
               <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="website">
                 <Input />
               </AutoComplete>
-            </Form.Item>
+            </Form.Item> */}
 
             <Form.Item
               name="gender"

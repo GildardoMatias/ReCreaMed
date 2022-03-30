@@ -197,19 +197,6 @@ function Navigator() {
 export function App() {
 
   useEffect(() => {
-    // fetch("https://recreamed.com/usuarios", {
-    //   //  'GET', // *GET, POST, PUT, DELETE, etc.
-    //   mode: 'same-origin', // no-cors, *cors, same-origin
-    //   // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    //   // credentials: 'same-origin', // include, *same-origin, omit
-    //   // headers: {
-    //   //  'Content-Type': 'application/json'
-    //   //  'Content-Type': 'application/x-www-form-urlencoded',
-    //   //  'Access-Control-Allow-Origin': '*',
-    //   // }
-    // })
-    //   .then(data =>{ console.log("dara", data); return data})
-    //   .then(res => console.log("Users", res.body)) 
   }, [])
 
   const token = localStorage.getItem('sessionToken');
@@ -218,9 +205,13 @@ export function App() {
     console.log("tok:", localStorage.getItem('sessionToken'));
     return <Router>
       <Switch>
+        <Route path="/register">
+          <Register />
+        </Route>
         <Router path="/">
           <Login />
         </Router>
+
       </Switch>
     </Router>
   }
@@ -232,9 +223,7 @@ export function App() {
         <Route path="/login">
           <Login />
         </Route>
-        {/* <Route path="/register">
-          <Register />
-        </Route> */}
+
         <Route path="/hospitales">
 
           <Hospitales />
