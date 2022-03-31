@@ -1,7 +1,7 @@
-import { Form, Input, Button, Checkbox, Row, Col, Card } from 'antd';
+import { Form, Input, Button, Checkbox, Row, Col, Card, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { S_API } from '../../resources'
 import logo from '../assets/Logo.png';
-
 
 export function Login() {
 
@@ -27,35 +27,28 @@ export function Login() {
   }
 
   const onFinish = (values) => {
+    delete values.remember;
     console.log('Received values of form: ', values);
-    //{username: 'admin@recreamed.com', password: 'medicalAccess2017#', remember: true}
-    // Set Dummy User Type
-    setUserType(values.username);
 
     // Inicio de sesion
-    const body = {
-      email: values.username,
-      password: values.password
-    }
+    const response = fetch(S_API + 'login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    })
+      .then((data) => { console.log("data", data); return data.json() })
+      .then(res => {
+        console.log("resp", res);
+        if (res.message === "Bienvenido") {
+          localStorage.setItem("userType", res.user.rol);
+          localStorage.setItem('sessionToken', res.data.token);
+          window.location.href = '/';
+        } else (message.info(res.error || res.message))
+      })
+      .catch(err => window.alert("Error: ", err))
 
-    // Api de sesion
-    // const response = fetch("https://recreamed.com/api/v1/auth/login", {
-    //   method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    //   mode: 'cors', // no-cors, *cors, same-origin
-    //   cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    //   credentials: 'same-origin', // include, *same-origin, omit
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   redirect: 'follow', // manual, *follow, error
-    //   referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    //   body: JSON.stringify(body) // body data type must match "Content-Type" header
-    // })
-    //   .then((data) => { console.log("data", data); return data.json() })
-    //   .then(res => { console.log("resp", res) })
-    //   .catch(err => window.alert("Error: ", err))
-
-    window.location.href = '/';
   };
 
   return (
@@ -81,7 +74,7 @@ export function Login() {
             onFinish={onFinish}
           >
             <Form.Item
-              name="username"
+              name="email"
               rules={[
                 {
                   required: true,

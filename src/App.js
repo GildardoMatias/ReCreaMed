@@ -26,7 +26,7 @@ const userType = localStorage.getItem('userType');
 
 function Navigator() {
   switch (userType) {
-    case 'admin':
+    case 'Administrador':
       return <Navbar bg="light" expand="lg">
         <Container>
           <Navbar.Brand href="#home">
@@ -60,7 +60,7 @@ function Navigator() {
           </Navbar.Collapse>
         </Container>
       </Navbar>;
-    case 'patient':
+    case 'Paciente':
       return <Navbar bg="light" expand="lg">
         <Container>
           <Navbar.Brand href="#home">
@@ -87,7 +87,7 @@ function Navigator() {
           </Navbar.Collapse>
         </Container>
       </Navbar>;
-    case 'medic':
+    case 'Medico':
       return <Navbar bg="light" expand="lg">
         <Container>
           <Navbar.Brand href="#home">

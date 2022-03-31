@@ -11,46 +11,15 @@ import {
   Checkbox,
   Button,
   AutoComplete,
+  message
 } from 'antd';
-import API from '../../resources'
+import {S_API} from '../../resources'
 import logo from '../assets/Logo.png';
 import './login.css';
 
 const { Option } = Select;
-const residences = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
+const estados = ["Michoacan", "Morelos", "Guerrero"];
+
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -85,291 +54,299 @@ const tailFormItemLayout = {
 export function Register() {
   const [form] = Form.useForm();
 
-  const sendUser = () => {
-    fetch(
-
-    )
-      .then(response => response.json())
-      .then(data => console.log(data));
-  }
-
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    values.avatar = 'https://';
+    values.estatus = '1';
+    delete values.confirm;
+    delete values.prefix;
+    delete values.agreement;
 
-    var data = { username: 'example' };
+    console.log(values)
+    fetch(S_API+'register', {
+      method: 'POST',
+      body: JSON.stringify(values),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(response => {console.log('Success:', response); message.success(response.message);})
+      .catch (error => console.error('Error:', error))
+};
 
-    console.log(JSON.stringify(values))
-    // fetch(API, {
-    //   method: 'POST',
-    //   body: JSON.stringify(data),
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // }).then(res => res.json())
-    //   .catch(error => console.error('Error:', error))
-    //   .then(response => console.log('Success:', response));
-  };
+const prefixSelector = (
+  <Form.Item name="prefix" noStyle>
+    <Select
+      style={{
+        width: 70,
+      }}
+    >
+      <Option value="+52">+52</Option>
+    </Select>
+  </Form.Item>
+);
+const suffixSelector = (
+  <Form.Item name="suffix" noStyle>
+    <Select
+      style={{
+        width: 70,
+      }}
+    >
+      <Option value="USD">$</Option>
+      <Option value="CNY">¥</Option>
+    </Select>
+  </Form.Item>
+);
 
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="+52">+52</Option>
-      </Select>
-    </Form.Item>
-  );
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
-      </Select>
-    </Form.Item>
-  );
-  const [autoCompleteResult, setAutoCompleteResult] = useState([]);
-
-  const onWebsiteChange = (value) => {
-    if (!value) {
-      setAutoCompleteResult([]);
-    } else {
-      setAutoCompleteResult(['.com', '.org', '.net'].map((domain) => `${value}${domain}`));
-    }
-  };
-
-  const websiteOptions = autoCompleteResult.map((website) => ({
-    label: website,
-    value: website,
-  }));
-  return (
-    <Row>
-      <Col span={12} offset={6}>
+return (
+  <Row>
+    <Col span={12} offset={6}>
+      <br />
+      <br />
+      <Card hoverable>
+        <Row justify="center"> <img src={logo} alt="Logo" width={160} /></Row>
         <br />
         <br />
-        <Card hoverable>
-          <Row justify="center"> <img src={logo} alt="Logo" width={160} /></Row>
-          <br />
-          <br />
-          <Row justify="center">
-            <h3>Registro de administrador</h3>
-          </Row>
-          <br />
-          <br />
-          <Form
-            {...formItemLayout}
-            form={form}
-            name="register"
-            onFinish={onFinish}
-            initialValues={{
-              residence: ['zhejiang', 'hangzhou', 'xihu'],
-              prefix: '86',
-            }}
-            scrollToFirstError
+        <Row justify="center">
+          <h3>Registro de administrador</h3>
+        </Row>
+        <br />
+        <br />
+        <Form
+          {...formItemLayout}
+          form={form}
+          name="register"
+          onFinish={onFinish}
+          initialValues={{
+            residence: ['zhejiang', 'hangzhou', 'xihu'],
+            prefix: '52',
+          }}
+          scrollToFirstError
+        >
+          <Form.Item
+            name="email"
+            label="Correo"
+            rules={[
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+              {
+                required: true,
+                message: 'Please input your E-mail!',
+              },
+            ]}
           >
-            <Form.Item
-              name="email"
-              label="Correo"
-              rules={[
-                {
-                  type: 'email',
-                  message: 'The input is not valid E-mail!',
+            <Input />
+          </Form.Item>
+
+          <Form.Item name="password" label="Contraseña" rules={[{ required: true, message: 'Por favor ingrese su contraseña!', },]} hasFeedback >
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item
+            name="confirm"
+            label="Confirmar contraseña"
+            dependencies={['password']}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: 'Please confirm your password!',
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error('Las contraseñas deben coincidir!'));
                 },
-                {
-                  required: true,
-                  message: 'Please input your E-mail!',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+              }),
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
 
-            <Form.Item
-              name="password"
-              label="Contraseña"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your password!',
-                },
-              ]}
-              hasFeedback
-            >
-              <Input.Password />
-            </Form.Item>
+          <Form.Item name="rol" label="Rol" rules={[{ required: true, message: 'Elije el rol', },]}>
+            <Select placeholder="Elije tu estado">
+              <Option value="Administrador">Administrador</Option>
+              <Option value="Medico">Medico</Option>
+              <Option value="Paciente">Paciente</Option>
+            </Select>
+          </Form.Item>
 
-            <Form.Item
-              name="confirm"
-              label="Confirmar contraseña"
-              dependencies={['password']}
-              hasFeedback
-              rules={[
-                {
-                  required: true,
-                  message: 'Please confirm your password!',
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue('password') === value) {
-                      return Promise.resolve();
-                    }
+          <Form.Item
+            name="telefono"
+            label="Telefono"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your phone number!',
+              },
+            ]}
+          >
+            <Input
+              addonBefore={prefixSelector}
+              style={{
+                width: '100%',
+              }}
+            />
+          </Form.Item>
 
-                    return Promise.reject(new Error('Las contraseñas deben coincidir!'));
-                  },
-                }),
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+          <Form.Item
+            name="id_sucursal"
+            label="Id Sucursal"
+            rules={[
+              {
+                required: true,
+                message: 'Ingresa el ID de la sucursal',
+              },
+            ]}
+          >
+            <InputNumber
+              addonAfter={suffixSelector}
+              style={{
+                width: '100%',
+              }}
+            />
+          </Form.Item>
 
-            <Form.Item
-              name="rol"
-              label="Rol"
-              tooltip="Ingresa el rol"
-              rules={[
-                {
-                  required: true,
-                  message: 'Debes ingresar tu nombre real',
-                  whitespace: true,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+          <Form.Item
+            name="id_medicoasignado"
+            label="Id Medico Asignado"
+            rules={[
+              {
+                required: true,
+                message: 'Ingresa el ID del medico ',
+              },
+            ]}
+          >
+            <InputNumber
+              addonAfter={suffixSelector}
+              style={{
+                width: '100%',
+              }}
+            />
+          </Form.Item>
 
-            {/* <Form.Item
-        name="residence"
-        label="Habitual Residence"
-        rules={[
-          {
-            type: 'array',
-            required: true,
-            message: 'Please select your habitual residence!',
-          },
-        ]}
-      >
-        <Cascader options={residences} />
-      </Form.Item> */}
+          <Form.Item
+            name="name"
+            label="Nombre"
+            rules={[
+              {
+                required: true,
+                message: 'Ingresa Nombre y apellidos',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-            <Form.Item
-              name="telefono"
-              label="Telefono"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your phone number!',
-                },
-              ]}
-            >
-              <Input
-                addonBefore={prefixSelector}
-                style={{
-                  width: '100%',
-                }}
-              />
-            </Form.Item>
+          <Form.Item
+            name="cedula"
+            label="Cedula"
+            rules={[
+              {
+                required: true,
+                message: 'Ingresa cedula',
+              },
+            ]}
+          >
+            <Input/>
+          </Form.Item>
 
-            <Form.Item
-              name="name"
-              label="Nombre"
-              rules={[
-                {
-                  required: true,
-                  message: 'Ingresa Nombre y apellidos',
-                },
-              ]}
-            >
-              <InputNumber
-                addonAfter={suffixSelector}
-                style={{
-                  width: '100%',
-                }}
-              />
-            </Form.Item>
+          <Form.Item
+            name="calle"
+            label="Calle"
+            rules={[
+              {
+                required: true,
+                message: 'Ingresa calle',
+                whitespace: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-            <Form.Item name="colonia" label="Colonia" rules={[{ required: true, message: 'Ingresa tu colonia' }]} > <Input /> </Form.Item>
-            <Form.Item name="municipio" label="Municipio" rules={[{ required: true, message: 'Ingresa tu municipio' }]} > <Input /> </Form.Item>
-            <Form.Item name="estado" label="Estado" rules={[{ required: true, message: 'Ingresa tu estado' }]} > <Input /> </Form.Item>
-            <Form.Item name="municipio" label="Municipio" rules={[{ required: true, message: 'Ingresa tu municipio' }]} > <Input /> </Form.Item>
-            <Form.Item name="codigopostal" label="Codigo Postal" rules={[{required: true,message: 'Ingresa codigopostal',},]}>
-              <InputNumber addonAfter={suffixSelector} style={{ width: '100%',}}/>
-            </Form.Item>
-            <Form.Item name="certificacion" label="Certificacion" rules={[{ required: true, message: 'Ingresa tu certificacion' }]} > <Input /> </Form.Item>
-            <Form.Item name="universidad" label="Universidad" rules={[{ required: true, message: 'Ingresa tu universidad' }]} > <Input /> </Form.Item>
+          <Form.Item
+            name="numexterior"
+            label="Num Exterior"
+            rules={[
+              {
+                required: true,
+                message: 'Ingresa numero exterior',
+              },
+            ]}
+          >
+            <Input/>
+          </Form.Item>
 
-            {/* <Form.Item name="website" label="Apellido Paterno" rules={[ {required: true,message: 'Please input website!',},]}>
-              <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="website">
-                <Input />
-              </AutoComplete>
-            </Form.Item> */}
+          <Form.Item
+            name="numinterior"
+            label="Num Interior"
+            rules={[
+              {
+                required: true,
+                message: 'Ingresa numinterior',
+              },
+            ]}
+          >
+            <Input/>
+          </Form.Item>
 
-            <Form.Item
-              name="gender"
-              label="Apellido Materno"
-              rules={[
-                {
-                  required: true,
-                  message: 'Apellido materno',
-                },
-              ]}
-            >
-              <Select placeholder="select your gender">
-                <Option value="male">Male</Option>
-                <Option value="female">Female</Option>
-                <Option value="other">Other</Option>
-              </Select>
-            </Form.Item>
+          <Form.Item
+            label="Colonia"
+            name="colonia"
+            rules={[{ required: true, message: 'Please input your colobnia!' }]}
+          >
+            <Input />
+          </Form.Item>
 
-            <Form.Item label="Captcha" extra="We must make sure that your are a human.">
-              <Row gutter={8}>
-                <Col span={12}>
-                  <Form.Item
-                    name="captcha"
-                    noStyle
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input the captcha you got!',
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Button>Get captcha</Button>
-                </Col>
-              </Row>
-            </Form.Item>
+          <Form.Item name="estado" label="Estado" rules={[{ required: true, message: 'Apellido materno', },]}>
+            <Select placeholder="Elije tu estado">
+              {estados.map(e => <Option value={e}>{e}</Option>)}
+            </Select>
+          </Form.Item>
+          <Form.Item name="municipio" label="Municipio" rules={[{ required: true, message: 'Ingresa tu municipio' }]} > <Input /> </Form.Item>
+          <Form.Item name="codigopostal" label="Codigo Postal" rules={[{ required: true, message: 'Ingresa codigopostal', },]}>
+            <InputNumber addonAfter={suffixSelector} style={{ width: '100%', }} />
+          </Form.Item>
+          <Form.Item
+            name="certificacion"
+            label="Certificacion"
+            rules={[{ required: true, message: 'Ingresa tu certificacion' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="universidad"
+            label="Universidad" rules={[{ required: true, message: 'Ingresa tu universidad' }]} >
+            <Input />
+          </Form.Item>
 
-            <Form.Item
-              name="agreement"
-              valuePropName="checked"
-              rules={[
-                {
-                  validator: (_, value) =>
-                    value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-                },
-              ]}
-              {...tailFormItemLayout}
-            >
-              <Checkbox>
-                I have read the <a href="">agreement</a>
-              </Checkbox>
-            </Form.Item>
-            <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" htmlType="submit">
-                Register
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </Col>
-    </Row>
-  );
+          <Form.Item
+            name="agreement"
+            valuePropName="checked"
+            rules={[
+              {
+                validator: (_, value) =>
+                  value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+              },
+            ]}
+            {...tailFormItemLayout}
+          >
+            <Checkbox>
+              He leído y acepto los <a href="https://recreamed.com">terminos y condiciones</a>
+            </Checkbox>
+          </Form.Item>
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit">
+              Register
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
+    </Col>
+  </Row>
+);
 };
