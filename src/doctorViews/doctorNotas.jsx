@@ -1,61 +1,80 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, Button, Modal, Row, Col, Space, Table, Tag } from 'antd';
 import { NuevaNota } from './nuevaNota';
+import { API } from '../resources';
+import Loading from '../loading';
 
 
 export function DoctorNotas() {
 
     const [nota, setNota] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [notasData, setNotasData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const showModal = () => { setIsModalVisible(true); };
-    const handleOk = () => { setIsModalVisible(false); };
+    const handleOk = () => { setIsModalVisible(false); getNotasData();};
     const handleCancel = () => { setIsModalVisible(false); };
 
     const [isModalDetailVisible, setIsModalDetailVisible] = useState(false);
     const showDetailModal = () => { setIsModalDetailVisible(true); };
     const handleDetailOk = () => { setIsModalDetailVisible(false); };
     const handleDetailCancel = () => { setIsModalDetailVisible(false); };
+
+    useEffect(() => {
+      getNotasData()
+    }, [])
+
+    const getNotasData = () => {
+        fetch( API + 'notas')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); setNotasData(data);
+                setIsLoading(false)
+            })
+            .finally(() => setIsLoading(false))
+    }
+
     const columns = [
         {
             title: 'Paciente',
-            dataIndex: 'Paciente',
+            dataIndex: 'id_usuario',
             key: 'Paciente',
             render: text => <a>{text}</a>,
         }, {
             title: 'Edad',
-            dataIndex: 'Edad',
+            dataIndex: 'edad',
             key: 'Edad',
         },
-        // {
-        //     title: 'Talla',
-        //     dataIndex: 'Talla',
-        //     key: 'Talla',
-        // },
         {
-            title: 'Peso',
-            dataIndex: 'Peso',
-            key: 'Peso',
+            title: 'Talla',
+            dataIndex: 'talla',
+            key: 'Talla',
+        },
+        {
+            title: 'IMC',
+            dataIndex: 'imc',
+            key: 'imc',
         },
 
         {
             title: 'Observaciones',
             key: 'Observaciones',
             dataIndex: 'observaciones',
-            render: observaciones => (
-                <>
-                    {observaciones.map(tag => {
-                        let color = tag.length > 5 ? 'geekblue' : 'green';
-                        if (tag === 'diabetes') {
-                            color = 'volcano';
-                        }
-                        return (
-                            <Tag color={color} key={tag}>
-                                {tag.toUpperCase()}
-                            </Tag>
-                        );
-                    })}
-                </>
-            ),
+            // render: observaciones => (
+            //     <>
+            //         {observaciones.map(tag => {
+            //             let color = tag.length > 5 ? 'geekblue' : 'green';
+            //             if (tag === 'diabetes') {
+            //                 color = 'volcano';
+            //             }
+            //             return (
+            //                 <Tag color={color} key={tag}>
+            //                     {tag.toUpperCase()}
+            //                 </Tag>
+            //             );
+            //         })}
+            //     </>
+            // ),
         },
         {
             title: 'Detalles',
@@ -68,54 +87,6 @@ export function DoctorNotas() {
         },
     ];
 
-    const data = [
-        {
-            key: '1',
-            fecha: '10/1/2022',
-            Paciente: "Jhon Doe",
-            Edad: 18,
-            Talla: 32,
-            Peso: "55 kg",
-            IMC: 32,
-            temperatura: "36 C",
-            presion_arterial: "180 120",
-            frec_cardiaca: "void",
-            frec_respiratoria: 32,
-            estudios: 'Analisis de sangre',
-            observaciones: ['ocio', 'colesterol'],
-        },
-        {
-            key: '2',
-            fecha: '08/01/2022',
-            Paciente: "Jane Doe",
-            Edad: 18,
-            Talla: 32,
-            Peso: "55 kg",
-            IMC: 32,
-            temperatura: "36 C",
-            presion_arterial: "180 120",
-            frec_cardiaca: "void",
-            frec_respiratoria: 32,
-            estudios: 'Prueba de glucosa',
-            observaciones: ['diabetes'],
-        },
-        {
-            key: '3',
-            fecha: '14/12/2021',
-            Paciente: "Bob Stanley",
-            Edad: 18,
-            Talla: 32,
-            Peso: "55 kg",
-            IMC: 32,
-            temperatura: "36 C",
-            presion_arterial: "180 120",
-            frec_cardiaca: "void",
-            frec_respiratoria: 32,
-            estudios: 'Revision',
-            observaciones: ['vacio'],
-        },
-    ];
-
     const gridStyle = {
         width: '50%',
         height: '50px',
@@ -124,6 +95,7 @@ export function DoctorNotas() {
         justifyContent: 'center',
         alignItems: 'center'
     };
+
 
     function DetalleNota() {
         return <div>
@@ -136,6 +108,8 @@ export function DoctorNotas() {
             </Card>
         </div>
     }
+
+
     return (
         <div className='mainContainer'>
             <Row>
@@ -147,8 +121,8 @@ export function DoctorNotas() {
                 </Col>
             </Row>
 
-            
-            <Table columns={columns} dataSource={data} />
+            { isLoading ? <Loading/> :  <Table columns={columns} dataSource={notasData} /> }
+
 
 
 

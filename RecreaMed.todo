@@ -1,13 +1,6 @@
-Hospitales
-Actividades Frontend
-- Generar interfaz para ver listado de hospitales
-- Formulario para regirstro de hospitales
-- Validaciones 
-Actividades Backend
-- Configuracion de modelo
-- Creacion de migracion MySQL
-- Funcionalidad de controlador
-- Publicación API
+IMPORTANT
+Detalle en historias no user id
+IMPORTANT
 
 Pacientes
     Notas
@@ -17,10 +10,6 @@ Catalogo de Hospitales
 Registro de Medicos 
 Control de Citas 
 Balance
-
-
-Antd reconciliation good for notas medicas
-
 
 Dividir roles user medic
 
@@ -39,25 +28,6 @@ Hospital
 
 Tipo de cobro
 
-APIKEY
-AIzaSyA8fRG8GwQ3Gi-4bTk8EO2__sCQUXTKZd4
-
-ID Cliente
-304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com
-304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com
-
-secreto cliente
-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
-
-{
-    "error": "idpiframe_initialization_failed",
-    "details": "Not a valid origin for the client: http://localhost:3000 has not been registered for client ID 304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com. Please go to https://console.developers.google.com/ and register this origin for your project's client ID."
-}
-{
-    "error": "idpiframe_initialization_failed",
-    "details": "Not a valid origin for the client: https://recreamed.surge.sh has not been registered for client ID 304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com. Please go to https://console.developers.google.com/ and register this origin for your project's client ID."
-}
-
 Citas: 
 - 1 de diciembre al 3 de diciembre @done
 - 15 Dic @done
@@ -67,6 +37,55 @@ Expedientes:
 Usuarios
     - 2 Feb
 Notas
-- Create detail note modal @done322SSW|EWWQ2SSDWQQ2SD<Z
-- 
+- Create detail note modal @done
 -
+User puede tener mas de una sucursal
+
+Verificar que no choquen citas - el usuario crea las citas
+
+De acuerdo al horario se asigna sucursal
+
+tabla de horarios
+
+Id sucursalres
+pasar pacientes a otro medico
+el nuevo medico nop puede borrar al paciente que le pasaron
+agregar nuevas notas citas recetas pero no al hisitorial ni al paciente
+Los medicos van agregando hojas pero no pueden modifi
+
+el exp esta por hitoria y notas
+
+Asignar automaticamente sucursal 
+
+Crear contraseña por defecto
+
+Quitar cetula
+Quitar certificacion
+Quitar universidad
+
+Obligatorios
+Nombre
+
+Agregar especialidad en medico non obligatorio para paciente
+
+recepcion pacientes y sus citas de un medico
+Recepcion esta ligado a un medico
+
+un exp incluye hist y notas
+
+crear todo recepcion
+
+Considerar usuarios con mas de un rol
+Contraseña es telefono cuando medico registra paciente
+
+videollamada en cita
+
+APIKEY
+AIzaSyA8fRG8GwQ3Gi-4bTk8EO2__sCQUXTKZd4
+
+ID Cliente
+304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com
+304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com
+
+secreto cliente
+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

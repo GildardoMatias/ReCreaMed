@@ -1,27 +1,26 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import { Table } from 'antd'
+import { API } from '../../resources'
+import Loading from '../../loading'
 
 
-export default function Dash () {
+export default function Dash() {
 
-  const [dataSource, setDataSource] = useState( [
-    {
-      key: '1',
-      name: 'Antonio Lopez',
-      age: 32,
-      address: '10 Downing Street',
-      xped: "Ir al exediente", 
-      med: "Jhon Doe"
-    },
-    {
-      key: '2',
-      name: 'Benito Maximo',
-      age: 42,
-      address: '10 Downing Street',
-      xped: "Ir al exediente", 
-      med: "Jane Doe"
-    },
-  ])
+  const [pacientesData, setPacientesData] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    getPacientesData()
+  }, [])
+
+  const getPacientesData = () => {
+    fetch(API + 'users_by_rol/Paciente')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data); setPacientesData(data);
+      })
+      .finally(() => setIsLoading(false))
+  }
 
   const columns = [
     {
@@ -29,33 +28,46 @@ export default function Dash () {
       dataIndex: 'name',
       key: 'name',
     },
-    {
-      title: 'Edad',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: 'Direccion',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: 'Expediente',
-      dataIndex: 'xped',
-      key: 'xped',
-      render: text => <a href='#'>{text}</a>,
-    },
+    // {
+    //   title: 'Edad',
+    //   dataIndex: 'age',
+    //   key: 'age',
+    // },
     {
       title: 'Medico',
-      dataIndex: 'med',
-      key: 'med',
+      dataIndex: 'id_medicoasignado',
+      key: 'id_medicoasignado',
     },
+    {
+      title: 'Municipio',
+      dataIndex: 'municipio',
+      key: 'municipio',
+    },
+    {
+      title: 'Calle',
+      dataIndex: 'calle',
+      key: 'calle',
+    },
+    {
+      title: 'N Exterior',
+      dataIndex: 'numexterior',
+      key: 'numexterior',
+    },
+    {
+      title: 'Telefono',
+      dataIndex: 'telefono',
+      key: 'telefono',
+    },
+    
   ];
 
   return (
     <div>
       <h1>Pacientes</h1>
-      <Table dataSource={dataSource} columns={columns} />
+      {
+        isLoading ? <Loading /> :
+          <Table dataSource={pacientesData} columns={columns} />
+      }
     </div>
   )
 
