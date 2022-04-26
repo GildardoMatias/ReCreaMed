@@ -21,8 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "producir": "react-scripts build && cp -r ./build/* /var/www/recreamed.com/html",
-    "copiar": "cp -r ./build/* /var/www/recreamed.com/html"
+    "producir": "react-scripts build && cp -r ./build/* /var/www/sistema.recreamed.com",
+    "copiar": "cp -r ./build/* /var/www/sistema.recreamed.com"
   },
   "eslintConfig": {
     "extends": [
