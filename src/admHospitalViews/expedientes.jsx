@@ -4,7 +4,7 @@ import { API } from '../resources';
 import Loading from '../loading';
 
 
-export function SuperAdminExpedientes() {
+export function Expedientes() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isLoading, setILoading] = useState(true);
     const [expedientesData, setExpedientesData] = useState([]);

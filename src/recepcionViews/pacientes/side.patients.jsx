@@ -1,11 +1,10 @@
 import { React, Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Layout, Menu } from 'antd';
-import { UserOutlined, UserAddOutlined, MenuOutlined, SwapOutlined } from '@ant-design/icons';
+import { UserOutlined, UserAddOutlined, MenuOutlined } from '@ant-design/icons';
 
 import Register from './register.patient';
 import Dash from './dash.patients';
-import MovePatients from './move.patients';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -45,10 +44,6 @@ class SideMenu extends Component {
                 <span>Registrar Paciente</span>
                 <Link to="/registrar" />
               </Menu.Item>
-              <Menu.Item icon={ <SwapOutlined />} key="3">
-                <span>Re-asignar Paciente</span>
-                <Link to="/mover" />
-              </Menu.Item>
             </Menu>
           </Sider>
           <Layout>
@@ -60,7 +55,6 @@ class SideMenu extends Component {
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
               <Route exact path="/registrar" component={Register} />
               <Route path="/pacientes" component={Dash} />
-              <Route path="/mover" component={MovePatients} />
             </Content>
 
             <Footer style={{ textAlign: 'center' }}>

@@ -14,14 +14,9 @@ export default function Register() {
     values.avatar = 'https://';
     values.estatus = '1';
     values.rol = 'Paciente';
-    values.password = values.telefono;
-    values.universidad = '';
-    values.certificacion = '';
-    values.cedula = '';
-    values.cedula = '';
-    values.id_medicoasignado = '1';
-
+    delete values.confirm;
     delete values.prefix;
+    delete values.agreement;
 
     console.log(values)
     fetch(S_API + 'register', {
@@ -64,7 +59,7 @@ export default function Register() {
   );
   return (
     <div>
-      <h4>Registrar Paciente</h4>
+      <h4>Registrar Usuario</h4>
       <br />
       <Form
         // {...formItemLayout}
@@ -95,9 +90,10 @@ export default function Register() {
           <Input />
         </Form.Item>
 
-        {/* <Form.Item name="password" label="Contraseña" rules={[{ required: true, message: 'Por favor ingrese su contraseña!', },]} hasFeedback >
+        <Form.Item name="password" label="Contraseña" rules={[{ required: true, message: 'Por favor ingrese su contraseña!', },]} hasFeedback >
           <Input.Password />
         </Form.Item>
+
         <Form.Item
           name="confirm"
           label="Confirmar contraseña"
@@ -119,7 +115,7 @@ export default function Register() {
           ]}
         >
           <Input.Password />
-        </Form.Item> */}
+        </Form.Item>
 
         <Form.Item
           name="telefono"
@@ -152,7 +148,7 @@ export default function Register() {
           <Input />
         </Form.Item>
 
-        {/* <Form.Item
+        <Form.Item
           name="id_medicoasignado"
           label="Id Medico Asignado"
           rules={[
@@ -163,7 +159,7 @@ export default function Register() {
           ]}
         >
           <Input />
-        </Form.Item> */}
+        </Form.Item>
 
         <Form.Item
           name="name"
@@ -254,18 +250,18 @@ export default function Register() {
         <Form.Item name="codigopostal" label="Codigo Postal" rules={[{ required: true, message: 'Ingresa codigopostal', },]}>
           <InputNumber addonAfter={suffixSelector} style={{ width: '100%', }} />
         </Form.Item>
-        {/* <Form.Item
+        <Form.Item
           name="certificacion"
           label="Certificacion"
           rules={[{ required: true, message: 'Ingresa tu certificacion' }]}
         >
           <Input />
-        </Form.Item> */}
-        {/* <Form.Item
+        </Form.Item>
+        <Form.Item
           name="universidad"
           label="Universidad" rules={[{ required: true, message: 'Ingresa tu universidad' }]} >
           <Input />
-        </Form.Item> */}
+        </Form.Item>
 
         <Form.Item >
           <Button type="primary" htmlType="submit">

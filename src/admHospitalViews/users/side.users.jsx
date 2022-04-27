@@ -1,11 +1,10 @@
 import { React, Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Layout, Menu } from 'antd';
-import { UserOutlined, UserAddOutlined, MenuOutlined, SwapOutlined } from '@ant-design/icons';
+import { UserOutlined, UserAddOutlined, MenuOutlined } from '@ant-design/icons';
 
-import Register from './register.patient';
-import Dash from './dash.patients';
-import MovePatients from './move.patients';
+import Register from './register.user';
+import Dash from './dash.users';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -38,16 +37,12 @@ class SideMenu extends Component {
             <div className="logo" />
             <Menu defaultSelectedKeys={['1']} mode="inline">
               <Menu.Item icon={ <UserOutlined /> } key="1">
-                <span>Pacientes</span>
-                <Link to="/pacientes" />
+                <span>Usuarios</span>
+                <Link to="/usuarios" />
               </Menu.Item>
               <Menu.Item icon={ <UserAddOutlined /> } key="2">
-                <span>Registrar Paciente</span>
-                <Link to="/registrar" />
-              </Menu.Item>
-              <Menu.Item icon={ <SwapOutlined />} key="3">
-                <span>Re-asignar Paciente</span>
-                <Link to="/mover" />
+                <span>Registrar Usuario</span>
+                <Link to="/registrar_usuario" />
               </Menu.Item>
             </Menu>
           </Sider>
@@ -58,9 +53,8 @@ class SideMenu extends Component {
             </Header>
 
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
-              <Route exact path="/registrar" component={Register} />
-              <Route path="/pacientes" component={Dash} />
-              <Route path="/mover" component={MovePatients} />
+              <Route exact path="/registrar_usuario" component={Register} />
+              <Route path="/usuarios" component={Dash} />
             </Content>
 
             <Footer style={{ textAlign: 'center' }}>

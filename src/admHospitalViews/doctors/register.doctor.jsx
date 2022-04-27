@@ -1,27 +1,25 @@
-import React from 'react'
 import { Form, Input, Button, message } from 'antd'
-import { InputNumber, Select } from 'antd';
+import React, { useState } from 'react';
+import {
+  InputNumber,
+  Select,
+  Checkbox,
+} from 'antd';
 import { S_API } from '../../resources'
-
 const { Option } = Select;
 const estados = ["Michoacan", "Morelos", "Guerrero"];
 
 export default function Register() {
-  
-  const [form] = Form.useForm(); 
+
+  const [form] = Form.useForm();
 
   const onFinish = (values) => {
     values.avatar = 'https://';
     values.estatus = '1';
-    values.rol = 'Paciente';
-    values.password = values.telefono;
-    values.universidad = '';
-    values.certificacion = '';
-    values.cedula = '';
-    values.cedula = '';
-    values.id_medicoasignado = '1';
-
+    values.rol = 'Medico';
+    delete values.confirm;
     delete values.prefix;
+    delete values.agreement;
 
     console.log(values)
     fetch(S_API + 'register', {
@@ -33,10 +31,6 @@ export default function Register() {
     }).then(res => res.json())
       .then(response => { console.log('Success:', response); message.success(response.message || response.error); })
       .catch(error => console.error('Error:', error))
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
   };
 
   const prefixSelector = (
@@ -62,10 +56,53 @@ export default function Register() {
       </Select>
     </Form.Item>
   );
+
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
   return (
     <div>
-      <h4>Registrar Paciente</h4>
+      <h1>Registrar doctor</h1>
       <br />
+      {/* <Form name="basic" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
+        <Form.Item label="Hospital" name="Hospital" rules={[{ required: true, message: 'Please input your username!' }]} >
+          <Input />
+        </Form.Item>
+        <Form.Item label="Nombre" name="username" rules={[{ required: true, message: 'Please input your username!' }]} >
+          <Input />
+        </Form.Item>
+        <Form.Item label="Apellido Paterno" name="rfc" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+          <Input />
+        </Form.Item>
+        <Form.Item label="Apellido Materno" name="calle" rules={[{ required: true, message: 'Avenida Madero esquina con Santiago Tapia' }]} >
+          <Input />
+        </Form.Item>
+        <Form.Item label="Cedula" name="nint" rules={[{ required: true, message: '74B' }]} >
+          <Input />
+        </Form.Item>
+        <Form.Item label="Calle" name="next" rules={[{ required: true, message: '12' }]} >
+          <Input />
+        </Form.Item>
+        <Form.Item label="Numero" name="colonia" rules={[{ required: true, message: 'Centro' }]} >
+          <Input />
+        </Form.Item>
+        <Form.Item label="Colonia" name="cp" rules={[{ required: true, message: '58000' }]} >
+          <Input />
+        </Form.Item>
+        <Form.Item label="Telefono" name="ciudad_municipio" rules={[{ required: true, message: 'Ingresa ciudad/municipio' }]} >
+          <Input />
+        </Form.Item>
+        <Form.Item label="Correo" name="estado" rules={[{ required: true, message: 'Ingresa estado' }]} >
+          <Input />
+        </Form.Item>
+
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Button type="primary" htmlType="submit">
+            Guardar
+          </Button>
+        </Form.Item>
+      </Form> */}
       <Form
         // {...formItemLayout}
         labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}
@@ -95,9 +132,10 @@ export default function Register() {
           <Input />
         </Form.Item>
 
-        {/* <Form.Item name="password" label="Contraseña" rules={[{ required: true, message: 'Por favor ingrese su contraseña!', },]} hasFeedback >
+        <Form.Item name="password" label="Contraseña" rules={[{ required: true, message: 'Por favor ingrese su contraseña!', },]} hasFeedback >
           <Input.Password />
         </Form.Item>
+
         <Form.Item
           name="confirm"
           label="Confirmar contraseña"
@@ -119,7 +157,7 @@ export default function Register() {
           ]}
         >
           <Input.Password />
-        </Form.Item> */}
+        </Form.Item>
 
         <Form.Item
           name="telefono"
@@ -152,7 +190,7 @@ export default function Register() {
           <Input />
         </Form.Item>
 
-        {/* <Form.Item
+        <Form.Item
           name="id_medicoasignado"
           label="Id Medico Asignado"
           rules={[
@@ -163,7 +201,7 @@ export default function Register() {
           ]}
         >
           <Input />
-        </Form.Item> */}
+        </Form.Item>
 
         <Form.Item
           name="name"
@@ -254,18 +292,18 @@ export default function Register() {
         <Form.Item name="codigopostal" label="Codigo Postal" rules={[{ required: true, message: 'Ingresa codigopostal', },]}>
           <InputNumber addonAfter={suffixSelector} style={{ width: '100%', }} />
         </Form.Item>
-        {/* <Form.Item
+        <Form.Item
           name="certificacion"
           label="Certificacion"
           rules={[{ required: true, message: 'Ingresa tu certificacion' }]}
         >
           <Input />
-        </Form.Item> */}
-        {/* <Form.Item
+        </Form.Item>
+        <Form.Item
           name="universidad"
           label="Universidad" rules={[{ required: true, message: 'Ingresa tu universidad' }]} >
           <Input />
-        </Form.Item> */}
+        </Form.Item>
 
         <Form.Item >
           <Button type="primary" htmlType="submit">

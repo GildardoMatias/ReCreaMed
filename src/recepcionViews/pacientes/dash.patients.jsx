@@ -63,7 +63,7 @@ export default function Dash() {
 
   return (
     <div>
-      <h4>Pacientes</h4>
+      <h1>Pacientes</h1>
       {
         isLoading ? <Loading /> :
           <Table dataSource={pacientesData} columns={columns} />

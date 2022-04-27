@@ -15,7 +15,7 @@ import { Notas } from "./patientViews/notas";
 import { DoctorNotas } from "./doctorViews/doctorNotas";
 import { MisCitas } from "./patientViews/misCitas";
 import "./App.css"
-import { Expedientes } from "./superAdminViews/expedientes";
+import { SuperAdminExpedientes } from "./superAdminViews/expedientes";
 import { Citas } from "./doctorViews/citas";
 import Users from "./superAdminViews/users/main.users";
 import { useEffect } from "react";
@@ -110,6 +110,8 @@ function Navigator() {
               <Nav.Link href="/pacientes">Pacientes</Nav.Link>
               <Nav.Link href="/citas">Citas</Nav.Link>
               <Nav.Link href="/notas">Notas</Nav.Link>
+              <Nav.Link href="#">Expedientes</Nav.Link>
+              <Nav.Link href="#">Recetas</Nav.Link>
 
             </Nav>
           </Navbar.Collapse>
@@ -161,9 +163,14 @@ export function App() {
           <Doctors />
         </Route>
         <Route path="/expedientes">
-          <Expedientes />
+          <SuperAdminExpedientes />
+        </Route>
+        <Route path="/usuarios">
+          <Users />
         </Route>
         {/* En of superadmin */}
+
+        {/* Start of Doctor */}
         <Route path="/pacientes">
           <Patients />
         </Route>
@@ -173,12 +180,9 @@ export function App() {
         <Route path="/notas">
           <DoctorNotas />
         </Route>
-        <Route path="/usuarios">
-          <Users />
-        </Route>
-        <Route path="/citas">
-          <Users />
-        </Route>
+        {/* End of Doctor */}
+
+        {/* Start Paciente */}
         <Route path="/misnotas">
           <Notas />
         </Route>
@@ -191,6 +195,7 @@ export function App() {
         <Route path="/">
           <Home />
         </Route>
+        {/* Ends Paciente */}
       </Switch>
     </Router>
   );
