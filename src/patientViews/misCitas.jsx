@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Table, Tag, Space, Button, Modal, Row, Col, Form, Input } from 'antd';
 
-export function MisCitas() {
+export default function MisCitas() {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const showModal = () => {

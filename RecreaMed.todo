@@ -1,45 +1,16 @@
-IMPORTANT
-Detalle en historias no user id
+
 IMPORTANT
 Citas by Doctor ID
+Recetas by nota ID
 
 Pacientes
     Notas
     Recetas
-    
-Catalogo de Hospitales 
-Registro de Medicos 
-Control de Citas 
-Balance
-
-Dividir roles user medic
 
 Paciente crea citas
 
 PAciente tiene acceso a su historial de Citas
 
-Add carro on alumno
-
-Change balances statistic
-
-Dividir
-superadmin
-Hospital
-    Medic pacient 
-
-Tipo de cobro
-
-Citas: 
-- 1 de diciembre al 3 de diciembre @done
-- 15 Dic @done
-Expedientes:
-    - 28 dic @done
-
-Usuarios
-    - 2 Feb
-Notas
-- Create detail note modal @done
--
 User puede tener mas de una sucursal
 
 Verificar que no choquen citas - el usuario crea las citas
@@ -58,7 +29,7 @@ el exp esta por hitoria y notas
 
 Asignar automaticamente sucursal 
 
-Crear contraseña por defecto
+Crear contraseña por defecto -> Numero de Telefono -> On doctor registers patient
 
 Quitar cetula
 Quitar certificacion

@@ -9,10 +9,11 @@
 /coverage
 
 # production
-#/build
+/build
 
 #ToDo
 frontend.todo
+RecreaMed.todo
 
 # misc
 .DS_Store

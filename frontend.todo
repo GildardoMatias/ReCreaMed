@@ -3,3 +3,9 @@
 -Send and save citas in medic profile
 -Expedientes en medico
 -Recetas en medico
+-Register User -> On select usertype, show or hide horario fields
+-Todo sucursalAdmin
+-PatientApp
+    Recetas
+    Perfil
+-DoctorApp

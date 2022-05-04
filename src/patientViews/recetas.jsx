@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Table, Tag, Space, Button, Modal } from 'antd';
 
 
-export function Notas() {
+export default function Recetas() {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const showModal = () => {
