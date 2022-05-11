@@ -1,6 +1,18 @@
 export const API = "https://api.recreamed.com/api/"
 export const S_API = "https://api.recreamed.com/session/"
 
+export const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); localStorage.removeItem('userData'); window.location.href = '/'; }
+
+export const usuario = JSON.parse( localStorage.getItem('userData') );
+
+export const getData = (endpoint) => {
+    fetch(API + endpoint)
+        .then(response => response.json())
+        .then(data => {
+            return data;
+        });
+}
+
 const getHospitalesData = () => {
     fetch(API + 'sucursales')
         .then(response => response.json())
@@ -10,6 +22,8 @@ const getHospitalesData = () => {
             // setILoading(false);
         });
 }
+
+
 
 const onFinish = (values) => {
     values.avatar = 'https://';

@@ -10,7 +10,7 @@ export function Login() {
     console.log('Received values of form: ', values);
 
     // Inicio de sesion
-    const response = fetch(S_API + 'login', {
+    fetch(S_API + 'login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -23,6 +23,7 @@ export function Login() {
         if (res.message === "Bienvenido") {
           localStorage.setItem("userType", res.user.rol);
           localStorage.setItem('sessionToken', res.data.token);
+          localStorage.setItem('userData', JSON.stringify(res.user) );
           window.location.href = '/';
         } else (message.info(res.error || res.message))
       })

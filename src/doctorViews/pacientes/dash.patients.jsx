@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from 'react'
 import { Table } from 'antd'
 import { API } from '../../resources'
 import Loading from '../../loading'
+import { usuario } from '../../resources'
 
 
 export default function Dash() {
@@ -14,7 +15,7 @@ export default function Dash() {
   }, [])
 
   const getPacientesData = () => {
-    fetch(API + 'users_by_rol/Paciente')
+    fetch(API + `mispacientes/${usuario._id}`)
       .then(response => response.json())
       .then(data => {
         console.log(data); setPacientesData(data);
@@ -58,7 +59,7 @@ export default function Dash() {
       dataIndex: 'telefono',
       key: 'telefono',
     },
-    
+
   ];
 
   return (

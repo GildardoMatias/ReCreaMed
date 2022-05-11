@@ -9,10 +9,11 @@ import Recetas from './recetas'
 import Perfil from './perfil'
 import Home from './home/home'
 import icon from '../assets/Icon.png';
-
-const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); window.location.href = '/'; }
+import { logout } from '../resources'
+import { usuario } from '../resources'
 
 function Navigator() {
+  console.log("DoctorApp", usuario.name)
   return <Navbar bg="light" expand="lg">
     <Container>
       <Navbar.Brand href="#home">
@@ -23,7 +24,7 @@ function Navigator() {
           className="d-inline-block align-top"
           alt="Recreamed logo"
         />
-        Bienvenido Medico
+        Bienvenido {usuario.name}
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
@@ -46,6 +47,7 @@ function Navigator() {
 }
 
 export default function DoctorApp() {
+
   return (
     <Router>
 

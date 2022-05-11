@@ -2,13 +2,14 @@ import React from 'react'
 import { Form, Input, Button, message } from 'antd'
 import { InputNumber, Select } from 'antd';
 import { S_API } from '../../resources'
+import { usuario } from '../../resources'
 
 const { Option } = Select;
 const estados = ["Michoacan", "Morelos", "Guerrero"];
 
 export default function Register() {
-  
-  const [form] = Form.useForm(); 
+
+  const [form] = Form.useForm();
 
   const onFinish = (values) => {
     values.avatar = 'https://';
@@ -18,8 +19,8 @@ export default function Register() {
     values.universidad = '';
     values.certificacion = '';
     values.cedula = '';
-    values.cedula = '';
-    values.id_medicoasignado = '1';
+    values.horarios = [];
+    values.medicos_asignados = [usuario._id];
 
     delete values.prefix;
 
@@ -140,32 +141,6 @@ export default function Register() {
         </Form.Item>
 
         <Form.Item
-          name="id_sucursal"
-          label="Id Sucursal"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa el ID de la sucursal',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        {/* <Form.Item
-          name="id_medicoasignado"
-          label="Id Medico Asignado"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa el ID del medico ',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item> */}
-
-        <Form.Item
           name="name"
           label="Nombre"
           rules={[
@@ -178,18 +153,7 @@ export default function Register() {
           <Input />
         </Form.Item>
 
-        <Form.Item
-          name="cedula"
-          label="Cedula"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa cedula',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
+
 
         <Form.Item
           name="calle"
