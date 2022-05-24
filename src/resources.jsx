@@ -3,15 +3,17 @@ export const S_API = "https://api.recreamed.com/session/"
 
 export const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); localStorage.removeItem('userData'); window.location.href = '/'; }
 
-export const usuario = JSON.parse( localStorage.getItem('userData') );
+export const usuario = JSON.parse(localStorage.getItem('userData'));
 
-export const getData = (endpoint) => {
-    fetch(API + endpoint)
+export async function getData(endpoint) {
+    return await fetch(API + endpoint)
         .then(response => response.json())
         .then(data => {
             return data;
         });
 }
+
+
 
 const getHospitalesData = () => {
     fetch(API + 'sucursales')

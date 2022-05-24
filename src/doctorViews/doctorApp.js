@@ -4,7 +4,7 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Patients from './pacientes/main.patients'
 import { Citas } from './citas'
-import Expedientes from './expedientes'
+import Expedientes from './expedientes/expedientes'
 import Recetas from './recetas'
 import Perfil from './perfil'
 import Home from './home/home'

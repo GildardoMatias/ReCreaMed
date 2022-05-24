@@ -18,40 +18,20 @@ export default function Recetas() {
     };
     const columns = [
         {
-            title: 'Fecha',
-            dataIndex: 'fecha',
-            key: 'fecha',
+            title: 'ID Receta',
+            dataIndex: 'key',
+            key: '_id',
             render: text => <a>{text}</a>,
         },
         {
-            title: 'Medico',
-            dataIndex: 'medico',
-            key: 'medico',
+            title: 'ID Nota',
+            dataIndex: 'id_nota',
+            key: 'id_nota',
         },
         {
-            title: 'Estudios',
-            dataIndex: 'estudios',
-            key: 'estudios',
-        },
-        {
-            title: 'Observaciones',
-            key: 'Observaciones',
-            dataIndex: 'observaciones',
-            render: observaciones => (
-                <>
-                    {observaciones.map(tag => {
-                        let color = tag.length > 5 ? 'geekblue' : 'green';
-                        if (tag === 'diabetes') {
-                            color = 'volcano';
-                        }
-                        return (
-                            <Tag color={color} key={tag}>
-                                {tag.toUpperCase()}
-                            </Tag>
-                        );
-                    })}
-                </>
-            ),
+            title: 'Prescripcion',
+            dataIndex: 'prescripcion',
+            key: 'prescripcion',
         },
         {
             title: 'Detalles',
@@ -66,46 +46,37 @@ export default function Recetas() {
 
     const data = [
         {
-            key: '1',
-            fecha: '10/1/2022',
-            medico: "Jhon Doe",
-            estudios: 'Analisis de sangre',
-            observaciones: ['ocio', 'colesterol'],
+            key: "62570ab89a6437369f835be7",
+            id_nota: "62570a9a9a6437369f835be5",
+            prescripcion: "Paracetamol cada 8 horas",
+            createdAt: "2022-04-13T17:39:04.541Z",
+            updatedAt: "2022-04-13T17:39:04.541Z",
+            __v: 0
         },
         {
-            key: '2',
-            fecha: '08/01/2022',
-            medico: "Jane Doe",
-            estudios: 'Prueba de glucosa',
-            observaciones: ['diabetes'],
-        },
-        {
-            key: '3',
-            fecha: '14/12/2021',
-            medico: "Bob Stanley",
-            estudios: 'Revision',
-            observaciones: ['vacio'],
-        },
+            key: "62570ab89a6437369f835be8",
+            id_nota: "62570a9a9a6437369f835be5",
+            prescripcion: "Paracetamol cada 8 horas",
+            createdAt: "2022-04-13T17:39:04.541Z",
+            updatedAt: "2022-04-13T17:39:04.541Z",
+            __v: 0
+        }
     ];
     return (
         <div className='mainContainer'>
-            <h4>Notas del paciente</h4>
-            <h4>Paciente ID: 0012N</h4>
+            <h4>Mis Recetas</h4>
+            
             <Table columns={columns} dataSource={data} />
 
             <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-               
-                <p>medico:	</p>
-                <p>edad:</p>
-                <p>talla:</p>
-                <p>peso:</p>
-                <p>imc:</p>
-                <p>temperatura:</p>
-                <p>presión arterial:</p>
-                <p>frec cardiaca:</p>
-                <p>frec respiratoria:</p>
-                <p>Estudios:</p>
-                <p>Observaciones:</p>
+
+                <p> _id": "62570ab89a6437369f835be7",</p>
+                <p> id_nota": "62570a9a9a6437369f835be5",</p>
+                <p> prescripcion": "Paracetamol cada 8 horas",</p>
+                <p> createdAt": "2022-04-13T17:39:04.541Z",</p>
+                <p> updatedAt": "2022-04-13T17:39:04.541Z",</p>
+                <p> __v": 0</p>
+
             </Modal>
         </div>
     )

@@ -1,11 +1,18 @@
 
 IMPORTANT
 Citas by Doctor ID
+Notas by Doctor ID
 Recetas by nota ID
 
 Pacientes
     Notas
     Recetas
+
+Expedientes
+For Each patient of MisPatients
+Select patient
+SubView With expedient
+Each card contains a object, consults the api by id
 
 Paciente crea citas
 

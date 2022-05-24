@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react'
-import { Table } from 'antd'
+import { Table, Space } from 'antd'
 import { API } from '../../resources'
 import Loading from '../../loading'
 
@@ -58,7 +58,17 @@ export default function Dash() {
       dataIndex: 'telefono',
       key: 'telefono',
     },
-    
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <Space size="middle">
+          <a href='#'>Modificar</a>
+          <a href='#'>Borrar</a>
+        </Space>
+      ),
+    }
+
   ];
 
   return (

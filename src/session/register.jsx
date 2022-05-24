@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Card,
   Form,
@@ -15,7 +15,7 @@ import {
   Space
 } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { S_API } from '../resources'
+import { S_API, API } from '../resources'
 import logo from '../assets/Logo.png';
 import './login.css';
 
@@ -55,6 +55,24 @@ const tailFormItemLayout = {
 
 export function Register() {
   const [form] = Form.useForm();
+  const [sucursales, setSucursales] = useState([]);
+  const [sucursalesLoading, setSucursalesLoading] = useState(true);
+
+  useEffect(() => {
+    getHospitalesData()
+
+  }, [])
+
+
+  const getHospitalesData = () => {
+    fetch(API + 'sucursales')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setSucursales(data);
+        setSucursalesLoading(false);
+      });
+  }
 
   const onFinish = (values) => {
     values.avatar = 'https://';
@@ -119,7 +137,7 @@ export function Register() {
             name="register"
             onFinish={onFinish}
             initialValues={{
-              horarios: [{id_sucursal: '', horario: ''}],
+              horarios: [{ id_sucursal: '', horario: '' }],
               prefix: '+52',
             }}
             scrollToFirstError
@@ -167,16 +185,16 @@ export function Register() {
 
             <Form.Item label="horarios" rules={[{ required: true, message: 'Ingresa al menos un horario', },]}>
               <Form.List name="horarios" label="horarios list"
-                // rules={[
-                //   {
-                //     validator: async (_, horarios) => {
-                //       if (!horarios || horarios.length < 1) {
-                //         message.error('Debes Ingresar al menos un horario')
-                //         return Promise.reject(new Error('Debe haber al menos un horario'));
-                //       }
-                //     },
-                //   },
-                // ]}
+              // rules={[
+              //   {
+              //     validator: async (_, horarios) => {
+              //       if (!horarios || horarios.length < 1) {
+              //         message.error('Debes Ingresar al menos un horario')
+              //         return Promise.reject(new Error('Debe haber al menos un horario'));
+              //       }
+              //     },
+              //   },
+              // ]}
               >
                 {(fields, { add, remove }) => (
                   <>
@@ -185,9 +203,13 @@ export function Register() {
                         <Form.Item
                           {...restField}
                           name={[name, 'id_sucursal']}
-                          rules={[{ required: true, message: 'Missing first name' }]}
+                          rules={[{ required: true, message: 'Elije Sucursal' }]}
                         >
-                          <Input placeholder="Sucursal" />
+                          <Select placeholder="Elije Sucursal" style={{width:'180px'}} >
+                            { sucursalesLoading ? "Cargando" :
+                              sucursales.map(s => <Option value={s._id}>{s.nombre}</Option>)
+                            }
+                          </Select>
                         </Form.Item>
                         <Form.Item
                           {...restField}
