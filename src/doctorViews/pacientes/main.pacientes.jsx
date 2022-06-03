@@ -1,14 +1,19 @@
 import React, { Component, useState, useEffect } from 'react'
-import { Table } from 'antd'
+import { Table, Space, Button } from 'antd'
 import { API } from '../../resources'
 import Loading from '../../loading'
 import { usuario } from '../../resources'
+import Expedientes from '../expedientes/expedientes'
+import DetallesPaciente from './detalles.paciente'
 
 
-export default function Dash() {
+
+export default function MainPacientes() {
 
   const [pacientesData, setPacientesData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [paciente, setPaciente] = useState(null)
+  const [view, setView] = useState('')
 
   useEffect(() => {
     getPacientesData()
@@ -28,47 +33,36 @@ export default function Dash() {
       title: 'Nombre',
       dataIndex: 'name',
       key: 'name',
+      render: (text, record)=><Button type="link" onClick={()=>{console.log(record); setPaciente(record._id)}}>{text}</Button>
     },
-    // {
-    //   title: 'Edad',
-    //   dataIndex: 'age',
-    //   key: 'age',
-    // },
+    
     {
-      title: 'Medico',
-      dataIndex: 'id_medicoasignado',
-      key: 'id_medicoasignado',
-    },
-    {
-      title: 'Municipio',
-      dataIndex: 'municipio',
-      key: 'municipio',
-    },
-    {
-      title: 'Calle',
-      dataIndex: 'calle',
-      key: 'calle',
-    },
-    {
-      title: 'N Exterior',
-      dataIndex: 'numexterior',
-      key: 'numexterior',
-    },
-    {
-      title: 'Telefono',
-      dataIndex: 'telefono',
-      key: 'telefono',
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Space size="middle">
+          <Button onClick={()=>setPaciente(record._id)}>Expediente</Button>
+          <Button>Ver datos</Button>
+          <Button>Editar</Button>
+        </Space>
+      ),
     },
 
   ];
 
+  const tablaPacientes = () => {
+
+  }
+
   return (
-    <div>
+    <div className='mainContainer'>
       <h4>Pacientes</h4>
       {
         isLoading ? <Loading /> :
           <Table dataSource={pacientesData} columns={columns} />
       }
+      <Expedientes paciente={paciente}/>
+      <DetallesPaciente paciente={paciente}/>
     </div>
   )
 

@@ -6,6 +6,7 @@ import { UserOutlined, UserAddOutlined, MenuOutlined, SwapOutlined } from '@ant-
 import Register from './register.patient';
 import Dash from './dash.patients';
 import MovePatients from './move.patients';
+import DetallesPaciente from './detalles.paciente';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -49,6 +50,10 @@ class SideMenu extends Component {
                 <span>Re-asignar Paciente</span>
                 <Link to="/mover" />
               </Menu.Item>
+              <Menu.Item icon={ <SwapOutlined />} key="4">
+                <span>Detalles</span>
+                <Link to="/detalles" />
+              </Menu.Item>
             </Menu>
           </Sider>
           <Layout>
@@ -60,6 +65,7 @@ class SideMenu extends Component {
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
               <Route exact path="/registrar" component={Register} />
               <Route path="/pacientes" component={Dash} />
+              <Route path="/detalles" component={DetallesPaciente} />
               <Route path="/mover" component={MovePatients} />
             </Content>
 

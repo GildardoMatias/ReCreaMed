@@ -18,7 +18,7 @@ export function Historial() {
             <h4>Historial Clinico</h4>
             <Form name="basic" labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
 
-                <Form.Item label="Nombre" name="username" rules={[{ required: true, message: 'Please input your username!' }]} >
+                <Form.Item label="Paciente" name="username" rules={[{ required: true, message: 'Please input your username!' }]} >
                     <Input />
                 </Form.Item>
                 <Form.Item label="comentarios" name="id_paciente" rules={[{ required: true, message: 'Ingresa RFC' }]} >

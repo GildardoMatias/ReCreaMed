@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Table, Space, Row, Col, Button, Modal, Form, Input, message, DatePicker } from 'antd';
+import { Calendar, Badge } from 'antd';
 import { API } from '../resources';
+import { usuario } from '../resources';
 import Loading from '../loading'
 // import { API } from '../resources'
 
@@ -14,7 +16,7 @@ export function Citas() {
     }, [])
 
     const getCitasData = () => {
-        fetch(API + 'citas')
+        fetch(API + `citas/medico/${usuario._id}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data); setCitasData(data);
@@ -68,8 +70,9 @@ export function Citas() {
     ];
 
     const onFinish = (values) => {
+        values.id_medico = usuario._id;
         console.log('Valores:', values);
-        fetch(API + 'expedientes/add', {
+        fetch(API + 'citas/add', {
             method: 'POST',
             body: JSON.stringify(values),
             headers: {
@@ -94,10 +97,49 @@ export function Citas() {
         console.log('onOk: ', value);
     }
 
+    //Calendar Functions
+    const getMonthData = (value) => {
+        if (value.month() === 8) {
+            return 1394;
+        }
+    };
+    const monthCellRender = (value) => {
+        const num = getMonthData(value);
+        return num ? (
+            <div className="notes-month">
+                <section>{num}</section>
+                <span>Backlog number</span>
+            </div>
+        ) : null;
+    };
+
+    const dateCellRender = (value) => {
+        // const hoy = value.format('L');
+        let hoy = value.format();
+        hoy = hoy.substring(0,10)
+        return (
+            <ul className="events">
+                {citasData.map((cita) => {
+                    cita.fecha_hora = cita.fecha_hora.substring(0,10);
+                    return <div>
+                        {
+                            cita.fecha_hora === hoy ?
+                                <li key={cita._id}>
+                                    <Badge status='success' text={cita.id_usuario} />
+                                </li>
+                                : <></>
+                        }
+                    </div>
+                })
+                }
+            </ul >
+        );
+    };
+
     return (
         <div className='mainContainer'>
             <Row>
-                <Col span={8}><h4>Citas con mis pacientes</h4></Col>
+                <Col span={8}><h4>CALENDARIO DE CITAS</h4></Col>
                 <Col>
                     <Button type="primary" onClick={showModal}>
                         Nueva Cita
@@ -105,7 +147,9 @@ export function Citas() {
                 </Col>
             </Row>
 
-            {isLoading ? <Loading /> : <Table columns={columns} dataSource={citasData} />}
+            {/* {isLoading ? <Loading /> : <Table columns={columns} dataSource={citasData} />} */}
+
+            <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
 
 
 
@@ -118,7 +162,7 @@ export function Citas() {
                     <Form.Item label="Sucursal" name="id_sucursal" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                         <Input />
                     </Form.Item>
-                    <Form.Item label="Fecha y Hora" name="id_nota" rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]} >
+                    <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]} >
                         <DatePicker showTime onChange={onChange} onOk={onOk} placeholder='Selecciona Fecha y Hora' />
                     </Form.Item>
                     <Form.Item label="Enlace a la reunion" name="id_reunion" rules={[{ required: true, message: 'Ingresa RFC' }]} >

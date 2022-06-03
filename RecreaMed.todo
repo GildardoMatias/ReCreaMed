@@ -4,6 +4,17 @@ Citas by Doctor ID
 Notas by Doctor ID
 Recetas by nota ID
 
+
+Paciente have an expedient for default
+
+On patient create-> Histoia Clinica -> After nota
+On select patient mostrar datos notas historia
+Expediente receta nota historia quitar -> Va dentro del páciente
+Pacientes -> Editar datButton -> href to expdata -> Cita too
+
+Citas -> 
+
+Farmacia al final antes de mi perfil
 Pacientes
     Notas
     Recetas

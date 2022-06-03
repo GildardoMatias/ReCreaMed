@@ -65,6 +65,9 @@ export default function Recetas() {
     return (
         <div className='mainContainer'>
             <h4>Recetas</h4>
+            <br/>
+            <br/>
+            <Button>Nueva Receta</Button>
             
             <Table columns={columns} dataSource={data} />
 

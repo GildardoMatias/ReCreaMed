@@ -3,7 +3,7 @@ import { Row, Col } from 'antd';
 import { Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { API } from '.././resources';
-import Loading  from '.././loading';
+import Loading from '.././loading';
 
 export default function Perfil() {
 
@@ -27,7 +27,7 @@ export default function Perfil() {
     return (
         <div className='mainContainer'>
             <h3>PERFIL</h3>
-            { isLoading ? <Loading/>:
+            {isLoading ? <Loading /> :
                 <Row>
                     <Col span={8}>
                         <Card>
