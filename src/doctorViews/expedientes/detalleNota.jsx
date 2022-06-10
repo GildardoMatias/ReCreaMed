@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import { Card } from 'antd';
+import { Card, Space, Button } from 'antd';
 import { getData } from '../../resources';
+import { PlusOutlined, FormOutlined  } from '@ant-design/icons';
 
 export default function DetalleNota(props) {
 
     const [notaData, setNotaData] = useState("")
     const [notaLoading, setnotaLoading] = useState(true)
+    const [editing, setEditing] = useState(false)
+
 
     useEffect(() => {
         console.log("Props IDNota: ", props.nota)
-        props.nota ? 
-        getData(`nota/${props.nota}`).then(rs => {  setNotaData(rs); setnotaLoading(false) })
-        :
-        setNotaData([]);
+        props.nota ?
+            getData(`nota/${props.nota}`).then(rs => { setNotaData(rs); setnotaLoading(false) })
+            :
+            finifhGet()
     }, [props.nota])
+
+    const finifhGet = () => { setNotaData([]); setnotaLoading(false); }
+
 
     const gridStyle = {
         width: '50%',
@@ -26,7 +32,11 @@ export default function DetalleNota(props) {
 
     return <div>
         <Card bordered={false}>
-            <h5>Nota </h5>
+            <Space>
+                <h5>Nota </h5> 
+                <Button size='small'type="primary" shape="circle" icon={<PlusOutlined />} />
+                <Button onClick={() => setEditing(true)} size='small' type="primary" shape="circle" icon={<FormOutlined />} />
+            </Space>
             {
                 notaLoading ? <h5>Cargando Nota...</h5> :
                     notaData.length > 0 ?

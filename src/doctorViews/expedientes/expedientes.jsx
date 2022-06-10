@@ -104,7 +104,6 @@ export default function Expedientes(props) {
                 </Button>
             </Col> */}
         </Row>
-        <br />
         {/* {
             pacientesLoading ? <Loading /> :
                 <Select
@@ -117,12 +116,6 @@ export default function Expedientes(props) {
                     }
                 </Select>
         } */}
-
-        <br />
-
-        <br />
-
-        <br />
 
         {/* <h5>Paciente: {expedientesData[0] && expedientesData[0].usuario.name}</h5> */}
 

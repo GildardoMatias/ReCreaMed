@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Table, Space, Row, Col, Button, Modal, Form, Input, message, DatePicker } from 'antd';
 import { Calendar, Badge } from 'antd';
-import { API } from '../resources';
+import { API, getData } from '../resources';
 import { usuario } from '../resources';
 import Loading from '../loading'
 // import { API } from '../resources'
@@ -13,6 +13,8 @@ export function Citas() {
 
     useEffect(() => {
         getCitasData()
+        // getData(`receta/${props.receta}`).then(rs => { setRecetaData(rs); setRecetaLoading(false) })
+
     }, [])
 
     const getCitasData = () => {
@@ -70,7 +72,7 @@ export function Citas() {
     ];
 
     const onFinish = (values) => {
-        values.id_medico = usuario._id;
+        values.medico = usuario._id;
         console.log('Valores:', values);
         fetch(API + 'citas/add', {
             method: 'POST',
@@ -116,20 +118,18 @@ export function Citas() {
     const dateCellRender = (value) => {
         // const hoy = value.format('L');
         let hoy = value.format();
-        hoy = hoy.substring(0,10)
+        hoy = hoy.substring(0, 10)
         return (
             <ul className="events">
                 {citasData.map((cita) => {
-                    cita.fecha_hora = cita.fecha_hora.substring(0,10);
-                    return <div>
-                        {
-                            cita.fecha_hora === hoy ?
-                                <li key={cita._id}>
-                                    <Badge status='success' text={cita.id_usuario} />
-                                </li>
-                                : <></>
-                        }
-                    </div>
+
+                    cita.fecha_hora = cita.fecha_hora.substring(0, 10);
+                    return cita.fecha_hora === hoy ?
+                        <li style={{ listStyleType: 'none' }} key={cita._id}>
+                            <Badge status='success' text={cita.usuario.name} />
+                        </li>
+                        : <></>
+
                 })
                 }
             </ul >
@@ -156,10 +156,10 @@ export function Citas() {
             <Modal title="Nuevo expediente" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 <Form name="expediente" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
 
-                    <Form.Item label="Paciente" name="id_usuario" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                    <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                         <Input />
                     </Form.Item>
-                    <Form.Item label="Sucursal" name="id_sucursal" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                    <Form.Item label="Sucursal" name="sucursal" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                         <Input />
                     </Form.Item>
                     <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]} >

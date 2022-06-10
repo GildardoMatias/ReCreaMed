@@ -33,13 +33,13 @@ function Navigator() {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link href="/">Inicio</Nav.Link>
-          <Nav.Link href="/pacientesdash">PacientesDash</Nav.Link>
+          {/* <Nav.Link href="/pacientesdash">PacientesDash</Nav.Link> */}
           <Nav.Link href="/pacientes">Pacientes</Nav.Link>
           <Nav.Link href="/citas">Citas</Nav.Link>
-          <Nav.Link href="/expedientes">Expedientes</Nav.Link>
-          <Nav.Link href="/recetas">Recetas</Nav.Link>
-          <Nav.Link href="/notas">Notas</Nav.Link>
-          <Nav.Link href="/historial">Historiales</Nav.Link>
+          {/* <Nav.Link href="/expedientes">Expedientes</Nav.Link> */}
+          {/* <Nav.Link href="/recetas">Recetas</Nav.Link> */}
+          {/* <Nav.Link href="/notas">Notas</Nav.Link> */}
+          {/* <Nav.Link href="/historial">Historiales</Nav.Link> */}
           <Nav.Link href="/perfil">Mi Perfil</Nav.Link>
         </Nav>
       </Navbar.Collapse>

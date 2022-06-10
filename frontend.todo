@@ -1,8 +1,14 @@
 -reset forms on hospital registered
--Create an sucursal adminsitrator profile, based on superadmin
--Send and save citas in medic profile
--Expedientes en medico
--Recetas en medico
+
+filtro recetas notas por fecha
+agregar horarios citas
+buscador de pacientes
+quitar add receta desde nota
+
+-Create an sucursal adminsitrator profile, based on superadmin @done
+-Send and save citas in medic profile @done
+-Expedientes en medico @done
+-Recetas en medico @done
 -Register User -> On select usertype, show or hide horario fields
 -Todo sucursalAdmin
 -PatientApp

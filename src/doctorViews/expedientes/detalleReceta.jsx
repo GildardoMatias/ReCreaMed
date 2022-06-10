@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react'
-import { Card } from 'antd';
+import { Card, Button, Row, Space } from 'antd';
 import { getData } from '../../resources';
+import { PlusOutlined, FormOutlined } from '@ant-design/icons';
 
 export default function DetalleReceta(props) {
 
     const [recetaData, setRecetaData] = useState("")
     const [recetaLoading, setRecetaLoading] = useState(true)
+    const [editing, setEditing] = useState(false)
 
     useEffect(() => {
         console.log("Props IDReceta: ", props.receta)
         props.receta ?
             getData(`receta/${props.receta}`).then(rs => { setRecetaData(rs); setRecetaLoading(false) })
             :
-            setRecetaData([]);
+            finifhGet()
+
     }, [props.receta])
+
+    const finifhGet = () => { setRecetaData([]); setRecetaLoading(false); }
 
     const gridStyle = {
         width: '50%',
@@ -26,7 +31,11 @@ export default function DetalleReceta(props) {
 
     return <div>
         <Card bordered={false}>
-            <h5>Receta </h5>
+            <Space>
+                <h5>Receta </h5> 
+                <Button size='small'  type="primary" shape="circle" icon={<PlusOutlined />} />
+                <Button onClick={() => setEditing(true)} size='small' type="primary" shape="circle" icon={<FormOutlined />} />
+            </Space>
             {
                 recetaLoading ? <h5>Cargando Receta...</h5> :
                     recetaData.length > 0 ?

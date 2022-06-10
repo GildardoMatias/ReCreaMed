@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col } from 'antd';
+import { Row, Col, Space, Button } from 'antd';
 import { Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { API } from '.././resources';
 import Loading from '.././loading';
+import { PlusOutlined, FormOutlined } from '@ant-design/icons';
+
 
 export default function Perfil() {
 
@@ -24,9 +26,18 @@ export default function Perfil() {
             });
     }
 
+    const detailsProfile = () => {
+        return <>
+        </>
+    }
+
     return (
         <div className='mainContainer'>
-            <h3>PERFIL</h3>
+
+            <Space>
+                <h3>PERFIL</h3>
+                <Button type="primary" shape="circle" icon={<FormOutlined />} />
+            </Space>
             {isLoading ? <Loading /> :
                 <Row>
                     <Col span={8}>
