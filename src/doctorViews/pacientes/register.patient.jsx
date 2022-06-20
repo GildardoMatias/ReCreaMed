@@ -1,38 +1,87 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Input, Button, message } from 'antd'
 import { InputNumber, Select } from 'antd';
-import { S_API } from '../../resources'
+import { S_API, API } from '../../resources'
 import { usuario } from '../../resources'
 
 const { Option } = Select;
 const estados = ["Michoacan", "Morelos", "Guerrero"];
 
-export default function Register() {
+
+export default function Register(props) {
 
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    values.avatar = 'https://';
-    values.estatus = '1';
-    values.rol = 'Paciente';
-    values.password = values.telefono;
-    values.universidad = '';
-    values.certificacion = '';
-    values.cedula = '';
-    values.horarios = [];
-    values.medicos_asignados = [usuario._id];
-
-    delete values.prefix;
-
-    console.log(values)
-    fetch(S_API + 'register', {
+  async function addHistoria() {
+    return await fetch(API + 'historias/add', {
       method: 'POST',
-      body: JSON.stringify(values),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        historial: "Historia clinica al " + new Date()
+      })
+    }).then(res => res.json())
+      .then(response => {
+        console.log('Story Created: ', response);
+        return response
+      })
+      .catch(error => console.error('Error:', error))
+  }
+
+  const createPAtientData = async (usr) => {
+    const historia = await addHistoria();
+    console.log('historia on Register: ', historia);
+    const postBody = {
+      usuario: usr,
+      historia: historia.id_historia,
+      notas: [],
+      recetas: []
+    }
+    console.log('postBodyForExpedient: ', postBody);
+    await fetch(API + 'expedientes/add', {
+      method: 'POST',
+      body: JSON.stringify(postBody),
       headers: {
         'Content-Type': 'application/json'
       }
     }).then(res => res.json())
       .then(response => { console.log('Success:', response); message.success(response.message || response.error); })
+      .catch(error => console.error('Error:', error))
+      .finally(() => { props.setAdding(false) })
+  }
+
+  const onFinish = async (values) => {
+
+    // Register patient
+    values.avatar = 'https://';
+    values.estatus = '1';
+    values.rol = 'Paciente';
+    values.password = '' + values.telefono;
+    values.universidad = '';
+    values.certificacion = '';
+    values.cedula = '';
+    values.horarios = [];
+    values.medicos_asignados = props.paciente ? props.paciente.medicos_asignados : [usuario._id];
+
+    delete values.prefix;
+
+    const url = props.paciente ? API + 'users/updateUser/' + props.paciente._id : S_API + 'register';
+
+    console.log(values)
+    console.log('url: ', url);
+    await fetch(url, {
+      method: props.paciente ? 'PUT' : 'POST',
+      body: JSON.stringify(values),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(response => {
+        console.log('Create User Response:', response);
+        message.success(response.message || response.error);
+        props.paciente ? console.log('Editing, not creating patient') : createPAtientData(response.user_id);
+      })
       .catch(error => console.error('Error:', error))
   };
 
@@ -64,8 +113,11 @@ export default function Register() {
     </Form.Item>
   );
   return (
-    <div>
-      <h4>Registrar Paciente</h4>
+    <div style={{ width: '100%' }}>
+      {
+        props.paciente ? <h4>Editar paciente</h4> : <h4>Registrar Paciente</h4>
+      }
+
       <br />
       <Form
         // {...formItemLayout}
@@ -73,10 +125,7 @@ export default function Register() {
         form={form}
         name="register"
         onFinish={onFinish}
-        initialValues={{
-          residence: ['zhejiang', 'hangzhou', 'xihu'],
-          prefix: '52',
-        }}
+        initialValues={props.paciente}
         scrollToFirstError
       >
         <Form.Item
@@ -235,6 +284,7 @@ export default function Register() {
           <Button type="primary" htmlType="submit">
             Registrar
           </Button>
+          <Button onClick={() => props.setAdding(false)}>Cancelar</Button>
         </Form.Item>
       </Form>
     </div>

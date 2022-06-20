@@ -5,6 +5,7 @@ import { Avatar, Card, Space, Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import Loading from '../../loading';
 import { FormOutlined } from '@ant-design/icons';
+import Register from './register.patient';
 
 
 export default function DetallesPaciente(props) {
@@ -19,8 +20,9 @@ export default function DetallesPaciente(props) {
     const ProfileDetails = () => {
         return editing ?
             <>
-                Editando
-                <Button onClick={() => setEditing(false)}>Guardar</Button>
+                <Register setAdding={setEditing} paciente={pacienteData} />
+                {/* Editando
+                <Button onClick={() => setEditing(false)}>Guardar</Button> */}
             </> :
             <>
                 <Col span={8}>

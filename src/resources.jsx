@@ -13,6 +13,35 @@ export async function getData(endpoint) {
         });
 }
 
+export async function sendData(endpoint) {
+
+    return await fetch(S_API + 'endpoint', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+        .then(response => {
+            console.log('Success:', response);
+        })
+        .catch(error => console.error('Error:', error))
+};
+
+export async function sendDataValues(values) {
+
+    return await fetch(S_API + 'register', {
+        method: 'POST',
+        body: JSON.stringify(values),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+        .then(response => {
+            console.log('Success:', response);
+            // message.success(response.message);
+        })
+        .catch(error => console.error('Error:', error))
+};
 
 
 const getHospitalesData = () => {

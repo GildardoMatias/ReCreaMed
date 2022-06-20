@@ -33,7 +33,6 @@ export default function DetalleReceta(props) {
         <Card bordered={false}>
             <Space>
                 <h5>Receta </h5> 
-                <Button size='small'  type="primary" shape="circle" icon={<PlusOutlined />} />
                 <Button onClick={() => setEditing(true)} size='small' type="primary" shape="circle" icon={<FormOutlined />} />
             </Space>
             {

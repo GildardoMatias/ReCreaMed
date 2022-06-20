@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Button, Modal, Row, Col, Space, Table, Tag } from 'antd';
-import { NuevaNota } from './nuevaNota';
 import { API } from '../resources';
 import Loading from '../loading';
 
@@ -127,7 +126,7 @@ export function DoctorNotas() {
 
 
             <Modal width={800} title={<h4>Crear Nota</h4>} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <NuevaNota />
+                {/* <NuevaNota /> */}
             </Modal>
             <Modal width={800} title={<h4>Detalles de la nota </h4>} visible={isModalDetailVisible} onOk={handleDetailOk} onCancel={handleDetailCancel}>
                 <DetalleNota />

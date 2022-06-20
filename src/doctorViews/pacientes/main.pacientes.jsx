@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react'
-import { Table, Space, Button, List, Row, Col } from 'antd'
+import { Table, Space, Button, List, Row, Col, Tabs } from 'antd'
 import { API } from '../../resources'
 import Loading from '../../loading'
 import { usuario } from '../../resources'
@@ -7,6 +7,7 @@ import Expedientes from '../expedientes/expedientes'
 import DetallesPaciente from './detalles.paciente'
 import Register from './register.patient'
 import { PlusOutlined, FormOutlined } from '@ant-design/icons';
+const { TabPane } = Tabs;
 
 export default function MainPacientes() {
 
@@ -51,7 +52,16 @@ export default function MainPacientes() {
   ];
 
   const TablaPacientes = () => {
-    return adding ? <Register /> : <Table dataSource={pacientesData} columns={columns} />
+    return adding ? <Register /> :
+      <Tabs tabPosition='left' onTabClick={(k, e) => { console.log('OnTABClick', k); setPaciente(k) }}>
+        {
+          pacientesData.map((pt) => {
+            return <TabPane tab={pt.name} key={pt._id} onClick={() => { setPaciente(pt._id) }}>
+              <DetallesPaciente paciente={pt._id} />
+            </TabPane>
+          })
+        }
+      </Tabs>
   }
 
   return (
@@ -61,34 +71,46 @@ export default function MainPacientes() {
         isLoading ? <Loading /> :
           <TablaPacientes />
       } */}
-      <Row gutter={16}>
+      <Space>
+        <h4>Pacientes </h4>
+        <Button onClick={() => setAdding(!adding)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
+      </Space>
+      {
+        isLoading ? <Loading /> :
+          adding ? <Register setAdding={setAdding}/> :
+            <Tabs tabPosition='left' onTabClick={(k, e) => { console.log('OnTABClick', k); setPaciente(k) }}>
+              {
+                pacientesData.map((pt) => {
+                  return <TabPane tab={pt.name} key={pt._id} onClick={() => { setPaciente(pt._id) }}>
+                    <DetallesPaciente paciente={pt._id} />
+                  </TabPane>
+                })
+              }
+            </Tabs>
+      }
+
+      <br />
+      <br />
+      {/* <Row gutter={16}>
         <Col span={4}>
           <><Space>
             <h4>Pacientes </h4>
             <Button onClick={() => setAdding(!adding)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
           </Space>
-            {
-              isLoading ? <Loading /> :
-                <List
-                  size="small"
-                  // header={<div>Header</div>}
-                  // footer={<div>Footer</div>}
-                  bordered
-                  dataSource={pacientesData}
-                  renderItem={(paciente) => <List.Item onClick={() => { setPaciente(paciente._id) }} >{paciente.name}</List.Item>}
-                />
 
-            }
+            { isLoading ? <Loading /> :<TablaPacientes /> }
+
           </>
         </Col>
         <Col span={20}>
           <DetallesPaciente paciente={paciente} />
         </Col>
-      </Row>
+      </Row> */}
+
       <Expedientes paciente={paciente} />
 
-      
-    </div>
+
+    </div >
   )
 
 }
