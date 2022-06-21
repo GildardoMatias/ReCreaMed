@@ -30,7 +30,7 @@ export default function DetalleHistoria(props) {
     };
 
     const HistoriaDetails = () => {
-        return editing ?  <><Input value={historiaData[0].historial}/><br/><Button onClick={() => setEditing(false)}>Guardar</Button></> : <Card style={gridStyle} size='small'>{historiaData[0].historial}</Card>  
+        return editing ?  <><Input defaultValue={historiaData[0].historial} /><br/><Button onClick={() => setEditing(false)}>Guardar</Button></> : <Card style={gridStyle} size='small'>{historiaData[0].historial}</Card>  
     }
 
 

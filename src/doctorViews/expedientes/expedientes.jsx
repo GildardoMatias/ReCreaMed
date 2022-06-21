@@ -19,8 +19,8 @@ export default function Expedientes(props) {
     const [pacientesLoading, setPacientesLoading] = useState(true);
     const [pacienteSelected, setPacienteSelected] = useState("Ninguno");
     const [historia, setHistoria] = useState("");
-    const [nota, setNota] = useState("");
-    const [receta, setReceta] = useState("");
+    const [notas, setNotas] = useState("");
+    const [recetas, setRecetas] = useState("");
 
 
     function handleChange(value) {
@@ -45,8 +45,8 @@ export default function Expedientes(props) {
                 console.log("GetExpData: ", data);
                 setExpedientesData(data);
                 if (typeof data != "undefined") {
-                    setNota(data.nota); setReceta(data.receta); setHistoria(data.historia);
-                } else { setNota(null); setReceta(null); setHistoria(null) }
+                    setNotas(data.notas); setRecetas(data.recetas); setHistoria(data.historia);
+                } else { setNotas(null); setRecetas(null); setHistoria(null) }
             })
             .finally(() => setExpedientesLoading(false))
     }
@@ -81,7 +81,7 @@ export default function Expedientes(props) {
             title: 'Notas Medicas',
             dataIndex: 'nota',
             key: 'notasMedicas',
-            render: (text, rec) => <Button onClick={() => { setNota(rec._id); showDetailModal() }}>Detalle Nota</Button>,
+            render: (text, rec) => <Button onClick={() => { setNotas(rec._id); showDetailModal() }}>Detalle Nota</Button>,
 
         },
         {
@@ -123,10 +123,10 @@ export default function Expedientes(props) {
         <Row>
             <Col span={12} >
                 <DetalleHistoria historia={historia} />
-                <DetalleReceta receta={receta} />
+                <DetalleReceta receta={recetas} />
             </Col>
             <Col span={12}>
-                <DetalleNota nota={nota} />
+                <DetalleNota notas={notas} id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={props.paciente} />
             </Col>
         </Row>
 

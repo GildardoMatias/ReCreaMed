@@ -1,11 +1,6 @@
+-Paciente have an expedient for default @done
 
-IMPORTANT
-Citas by Doctor ID
-Notas by Doctor ID
-Recetas by nota ID
-
-
-Paciente have an expedient for default
+Nota by ID FindOne
 
 On patient create-> Histoia Clinica -> After nota
 On select patient mostrar datos notas historia

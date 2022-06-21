@@ -56,7 +56,7 @@ export default function Recetas() {
         {
             key: "62570ab89a6437369f835be8",
             id_nota: "62570a9a9a6437369f835be5",
-            prescripcion: "Paracetamol cada 8 horas",
+            prescripcion: "Ibuprofeno",
             createdAt: "2022-04-13T17:39:04.541Z",
             updatedAt: "2022-04-13T17:39:04.541Z",
             __v: 0

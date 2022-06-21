@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Row, Col, Space, Button } from 'antd';
 import { Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { API } from '.././resources';
+import { API, usuario } from '.././resources';
 import Loading from '.././loading';
 import { PlusOutlined, FormOutlined } from '@ant-design/icons';
 
@@ -17,7 +17,7 @@ export default function Perfil() {
     }, [])
 
     const getProfileData = () => {
-        fetch(API + 'userByMail/medico@realidadcreativa.com')
+        fetch(API + 'userByMail/'+usuario.email)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
