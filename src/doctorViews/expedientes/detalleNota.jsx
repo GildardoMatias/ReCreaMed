@@ -65,7 +65,7 @@ export default function DetalleNota(props) {
     // End of Form
 
     useEffect(() => {
-        console.log('Notas received to detail: ', props.notas)
+        // console.log('Notas received to detail: ', props.notas)
         props.notas ?
             getData(`nota/${props.notas[0]}`).then(rs => { setNotaData(rs); setnotaLoading(false) })
             :

@@ -20,7 +20,7 @@ export default function Expedientes(props) {
     const [pacienteSelected, setPacienteSelected] = useState("Ninguno");
     const [historia, setHistoria] = useState("");
     const [notas, setNotas] = useState("");
-    const [recetas, setRecetas] = useState("");
+    const [recetas, setRecetas] = useState([]);
 
 
     function handleChange(value) {
@@ -42,7 +42,7 @@ export default function Expedientes(props) {
         fetch(API + `expedientes/${id_paciente}`)
             .then(response => response.json())
             .then(data => {
-                console.log("GetExpData: ", data);
+                // console.log("GetExpData: ", data);
                 setExpedientesData(data);
                 if (typeof data != "undefined") {
                     setNotas(data.notas); setRecetas(data.recetas); setHistoria(data.historia);
@@ -123,7 +123,7 @@ export default function Expedientes(props) {
         <Row>
             <Col span={12} >
                 <DetalleHistoria historia={historia} />
-                <DetalleReceta receta={recetas} />
+                <DetalleReceta recetas={recetas} />
             </Col>
             <Col span={12}>
                 <DetalleNota notas={notas} id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={props.paciente} />

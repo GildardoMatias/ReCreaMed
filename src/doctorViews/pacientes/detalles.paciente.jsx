@@ -24,26 +24,29 @@ export default function DetallesPaciente(props) {
                 {/* Editando
                 <Button onClick={() => setEditing(false)}>Guardar</Button> */}
             </> :
-            <>
-                <Col span={8}>
-                    <Card>
+            <Card style={{width: '100%'}}>
+                <Row>
+                    <Col span={8}>
+
                         <Avatar size={128} icon={<UserOutlined />} />
+                        <br />
                         <br />
                         <p>Nombre: {pacienteData.name} </p>
                         <p>Correo: {pacienteData.email} </p>
                         <p>Telefono: {pacienteData.telefono} </p>
-                    </Card>
-                </Col>
 
-                <Col span={8}>
-                    <Card>
+                    </Col>
+                    <Col span={8}>
+
                         <p>Estado: {pacienteData.estado}</p>
                         <p>Municipio: {pacienteData.municipio}</p>
                         <p>Colonia: {pacienteData.colonia}</p>
                         <p>Calle: {pacienteData.calle}</p>
                         <p>Codigo Postal:{pacienteData.codigopostal} </p>
-                    </Card>
-                </Col></>
+
+                    </Col>
+                </Row>
+            </Card>
     }
 
     return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Space, Button, Input, Form} from 'antd';
+import { Card, Space, Button, Input, Form } from 'antd';
 import { getData } from '../../resources';
-import {  FormOutlined } from '@ant-design/icons';
+import { FormOutlined } from '@ant-design/icons';
 
 export default function DetalleHistoria(props) {
 
@@ -12,7 +12,7 @@ export default function DetalleHistoria(props) {
     useEffect(() => {
         console.log("Props IDHistoria: ", props.historia)
         props.historia ?
-            getData(`historia/${props.historia}`).then(rs => { console.log("Historia response: ", rs); setHistoriaData(rs); setHistoriaLoading(false) })
+            getData(`historia/${props.historia}`).then(rs => { setHistoriaData(rs); setHistoriaLoading(false) })
             :
             finifhGet()
     }, [props.historia])
@@ -20,7 +20,7 @@ export default function DetalleHistoria(props) {
     const finifhGet = () => { setHistoriaData([]); setHistoriaLoading(false); }
 
     const gridStyle = {
-        // width: '50%',
+        width: '100%',
         // height: '40',
         textAlign: 'center',
         // display: 'inline-flex',
@@ -30,7 +30,12 @@ export default function DetalleHistoria(props) {
     };
 
     const HistoriaDetails = () => {
-        return editing ?  <><Input defaultValue={historiaData[0].historial} /><br/><Button onClick={() => setEditing(false)}>Guardar</Button></> : <Card style={gridStyle} size='small'>{historiaData[0].historial}</Card>  
+        return <Card.Grid style={gridStyle} >{
+            editing ?
+                <><Input defaultValue={historiaData[0].historial} /><br /><Button onClick={() => setEditing(false)}>Guardar</Button></>
+                :
+                historiaData[0].historial
+        }</Card.Grid>
     }
 
 
@@ -47,7 +52,7 @@ export default function DetalleHistoria(props) {
                         // Object.keys(historiaData[0]).map(k => {
                         //     return <><Card.Grid key={k} style={gridStyle}>{k}</Card.Grid><Card.Grid style={gridStyle} size='small'>{historiaData[0][k]}</Card.Grid></>
                         // })
-                            <HistoriaDetails/>                   
+                        <HistoriaDetails />
                         :
                         <h6>No hay una historia asignada</h6>
             }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Space, Button } from 'antd';
+import { Row, Col, Space, Button, Divider} from 'antd';
 import { Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { API, usuario } from '.././resources';
@@ -43,7 +43,7 @@ export default function Perfil() {
                     <Col span={8}>
                         <Card>
                             <Avatar size={128} icon={<UserOutlined />} />
-                            <br />
+                            <Divider/>
                             <p>Nombre: {profileData.name} </p>
                             <p>Correo: {profileData.email} </p>
                             <p>Telefono: {profileData.telefono} </p>
