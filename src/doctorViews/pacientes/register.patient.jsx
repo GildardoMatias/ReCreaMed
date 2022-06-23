@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Form, Input, Button, message } from 'antd'
 import { InputNumber, Select } from 'antd';
 import { S_API, API } from '../../resources'
@@ -6,7 +6,6 @@ import { usuario } from '../../resources'
 
 const { Option } = Select;
 const estados = ["Michoacan", "Morelos", "Guerrero"];
-
 
 export default function Register(props) {
 
@@ -85,10 +84,6 @@ export default function Register(props) {
       .catch(error => console.error('Error:', error))
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
-
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       <Select
@@ -131,17 +126,7 @@ export default function Register(props) {
         <Form.Item
           name="email"
           label="Correo"
-          rules={[
-            {
-              type: 'email',
-              message: 'The input is not valid E-mail!',
-            },
-            {
-              required: true,
-              message: 'Please input your E-mail!',
-            },
-          ]}
-        >
+          rules={[{type: 'email',message: 'The input is not valid E-mail!'},{required: true,message: 'Please input your E-mail!'}]}>
           <Input />
         </Form.Item>
 
