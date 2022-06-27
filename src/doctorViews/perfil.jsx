@@ -5,6 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { API, usuario } from '.././resources';
 import Loading from '.././loading';
 import { PlusOutlined, FormOutlined } from '@ant-design/icons';
+import { PerfilEdit } from './perfilEdit';
 
 
 export default function Perfil() {
@@ -75,6 +76,7 @@ export default function Perfil() {
 
                             <>
                                 <p>Editando</p>
+                                <PerfilEdit perfil={profileData}/>
                                 <Button onClick={() => setEditing(false)} type="primary" shape="circle" icon={<FormOutlined />} title='Cancelar' />
                             </> :
                             <DetailsProfile />
