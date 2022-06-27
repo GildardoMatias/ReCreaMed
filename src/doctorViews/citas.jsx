@@ -10,6 +10,8 @@ export function Citas() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [citasData, setCitasData] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [cita, setCita] = useState({})
+    const [isDetailVisible, setIsDetailVisible] = useState(false);
 
     useEffect(() => {
         getCitasData()
@@ -26,64 +28,28 @@ export function Citas() {
             .finally(() => setIsLoading(false))
     }
 
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
-    const columns = [
-        {
-            title: 'Fecha y Hora',
-            dataIndex: 'fecha_hora',
-            key: 'fecha_hora',
-            render: text => <a>{text}</a>,
-        },
-        {
-            title: 'Paciente',
-            dataIndex: 'id_usuario',
-            key: 'id_usuario',
-        },
-        {
-            title: 'Sucursal',
-            dataIndex: 'id_sucursal',
-            key: 'v',
-        },
-        {
-            title: 'Comentarios',
-            dataIndex: 'comentarios',
-            key: 'comentarios',
-        },
-        {
-            title: 'Detalles',
-            key: 'detalles',
-            render: (text, record) => (
-                <Space size="middle">
-                    {/* <a href>Enlace</a> */}
-                    <Button>Enlace</Button>
-                </Space>
-            ),
-        },
-    ];
+    // Add Modal
+    const showModal = () => { setIsModalVisible(true) };
+    const handleOk = () => { setIsModalVisible(false); };
+    const handleCancel = () => { setIsModalVisible(false); };
+    // Details Modal
+    const showDetailModal = () => { setIsDetailVisible(true); };
+    const handleDetailOk = () => { setIsDetailVisible(false); };
+    const handleDetailCancel = () => { setIsDetailVisible(false); };
 
     const onFinish = (values) => {
         values.medico = usuario._id;
         console.log('Valores:', values);
-        fetch(API + 'citas/add', {
-            method: 'POST',
-            body: JSON.stringify(values),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .then(response => { console.log('Success:', response); message.success(response.message || response.error); })
-            .catch(error => console.error('Error:', error))
-            .finally(() => { getCitasData(); setIsModalVisible(false) })
+        // fetch(API + 'citas/add', {
+        //     method: 'POST',
+        //     body: JSON.stringify(values),
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // }).then(res => res.json())
+        //     .then(response => { console.log('Success:', response); message.success(response.message || response.error); })
+        //     .catch(error => console.error('Error:', error))
+        //     .finally(() => { getCitasData(); setIsModalVisible(false) })
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -126,7 +92,7 @@ export function Citas() {
                     cita.fecha_hora = cita.fecha_hora.substring(0, 10);
                     return cita.fecha_hora === hoy ?
                         <li style={{ listStyleType: 'none' }} key={cita._id}>
-                            <Badge status='success' text={cita.usuario.name} />
+                            <Badge status='success' text={cita.usuario.name} onClick={() => { setCita(cita); setIsDetailVisible(true); }} />
                         </li>
                         : <></>
 
@@ -154,7 +120,8 @@ export function Citas() {
 
 
             <Modal title="Nuevo expediente" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <Form name="expediente" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
+                <Form name="expediente" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
+                    initialValues={{ id_reunion: 'https://recreamed.zoom.us/my/gildardo/' }}>
 
                     <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                         <Input />
@@ -181,6 +148,21 @@ export function Citas() {
                         </Button>
                     </Form.Item>
                 </Form>
+            </Modal>
+
+            <Modal title="Detalles de la cita" visible={isDetailVisible} onOk={handleDetailOk} onCancel={handleDetailCancel}>
+                {
+                    cita ?
+                        <>
+                            <p>Paciente: {cita.usuario?.name}</p>
+                            <p>fecha y hora: {cita.fecha_hora}</p>
+                            <p>Sucursal: {cita.sucursal?.nombre}</p>
+                            <p>Comentarios: {cita.comentarios}</p>
+                            <p> <a href={cita.id_reunion} target='_blank' rel='noreferrer'>ir a la cita </a> </p>
+                        </>
+                        :
+                        <p>Sin cita seleccionada</p>
+                }
             </Modal>
         </div>
     )
