@@ -1,55 +1,53 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Space, Row, Col, Button, Modal, Form, Input, message, DatePicker } from 'antd';
+import { Row, Col, Button, Modal, Form, Input, DatePicker, message } from 'antd';
 import { Calendar, Badge } from 'antd';
-import { API, getData } from '../resources';
-import { usuario } from '../resources';
-import Loading from '../loading'
+import { getData } from '../resources';
+import { API, usuario } from '../resources';
+import { Select } from 'antd';
+const { Option } = Select;
 // import { API } from '../resources'
 
 export function Citas() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [citasData, setCitasData] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
+    const [citasLoading, setCitasLoading] = useState(true)
     const [cita, setCita] = useState({})
     const [isDetailVisible, setIsDetailVisible] = useState(false);
+    const [misPacientes, setMisPacientes] = useState([])
 
     useEffect(() => {
+        console.log('Yo : ', usuario);
+        getData(`mispacientes/${usuario._id}`).then(rs => { setMisPacientes(rs) })
         getCitasData()
-        // getData(`receta/${props.receta}`).then(rs => { setRecetaData(rs); setRecetaLoading(false) })
-
     }, [])
 
     const getCitasData = () => {
-        fetch(API + `citas/medico/${usuario._id}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data); setCitasData(data);
-            })
-            .finally(() => setIsLoading(false))
+        getData(`citas/medico/${usuario._id}`).then(rs => { setCitasData(rs); setCitasLoading(false) })
     }
+
 
     // Add Modal
     const showModal = () => { setIsModalVisible(true) };
     const handleOk = () => { setIsModalVisible(false); };
     const handleCancel = () => { setIsModalVisible(false); };
     // Details Modal
-    const showDetailModal = () => { setIsDetailVisible(true); };
     const handleDetailOk = () => { setIsDetailVisible(false); };
     const handleDetailCancel = () => { setIsDetailVisible(false); };
 
     const onFinish = (values) => {
         values.medico = usuario._id;
+        values.sucursal = usuario.horarios[0].id_sucursal;
         console.log('Valores:', values);
-        // fetch(API + 'citas/add', {
-        //     method: 'POST',
-        //     body: JSON.stringify(values),
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // }).then(res => res.json())
-        //     .then(response => { console.log('Success:', response); message.success(response.message || response.error); })
-        //     .catch(error => console.error('Error:', error))
-        //     .finally(() => { getCitasData(); setIsModalVisible(false) })
+        fetch(API + 'citas/add', {
+            method: 'POST',
+            body: JSON.stringify(values),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(response => { console.log('Success:', response); message.success(response.message || response.error); })
+            .catch(error => console.error('Error:', error))
+            .finally(() => { getCitasData(); setIsModalVisible(false) })
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -101,6 +99,11 @@ export function Citas() {
             </ul >
         );
     };
+    // Select 
+    const handleChange = (value) => {
+        // console.log(`selected ${value}`);
+    };
+
 
     return (
         <div className='mainContainer'>
@@ -124,11 +127,19 @@ export function Citas() {
                     initialValues={{ id_reunion: 'https://recreamed.zoom.us/my/gildardo/' }}>
 
                     <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Ingresa RFC' }]} >
-                        <Input />
+                        <Select
+                            onChange={handleChange}
+                        >
+                            {
+                                misPacientes.map((p) => {
+                                    return <Option value={p._id}>{p.name}</Option>
+                                })
+                            }
+                        </Select>
                     </Form.Item>
-                    <Form.Item label="Sucursal" name="sucursal" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                    {/* <Form.Item label="Sucursal" name="sucursal" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                         <Input />
-                    </Form.Item>
+                    </Form.Item> */}
                     <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]} >
                         <DatePicker showTime onChange={onChange} onOk={onOk} placeholder='Selecciona Fecha y Hora' />
                     </Form.Item>

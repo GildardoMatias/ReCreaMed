@@ -10,6 +10,8 @@ export default function MisCitas() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [citasData, setCitasData] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [cita, setCita] = useState({})
+    const [isDetailVisible, setIsDetailVisible] = useState(false);
 
     useEffect(() => {
         getCitasData()
@@ -18,25 +20,22 @@ export default function MisCitas() {
     }, [])
 
     const getCitasData = () => {
-        fetch(API + `citas/medico/${usuario._id}`)
+        fetch(API + `citas/${usuario._id}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data); setCitasData(data);
             })
             .finally(() => setIsLoading(false))
     }
+    
+    // Add Modal
+    const showModal = () => { setIsModalVisible(true) };
+    const handleOk = () => { setIsModalVisible(false) };
+    const handleCancel = () => { setIsModalVisible(false) };
+    // Details Modal
+    const handleDetailOk = () => { setIsDetailVisible(false); };
+    const handleDetailCancel = () => { setIsDetailVisible(false); };
 
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
     const columns = [
         {
             title: 'Fecha y Hora',
@@ -126,7 +125,7 @@ export default function MisCitas() {
                     cita.fecha_hora = cita.fecha_hora.substring(0, 10);
                     return cita.fecha_hora === hoy ?
                         <li style={{ listStyleType: 'none' }} key={cita._id}>
-                            <Badge status='success' text={cita.usuario.name} />
+                            <Badge status='success' text={cita.medico.name} onClick={() => { setCita(cita); setIsDetailVisible(true); }} />
                         </li>
                         : <></>
 
@@ -181,6 +180,20 @@ export default function MisCitas() {
                         </Button>
                     </Form.Item>
                 </Form>
+            </Modal>
+            <Modal title="Detalles de la cita" visible={isDetailVisible} onOk={handleDetailOk} onCancel={handleDetailCancel}>
+                {
+                    cita ?
+                        <>
+                            <p>Paciente: {cita.usuario?.name}</p>
+                            <p>fecha y hora: {cita.fecha_hora}</p>
+                            <p>Sucursal: {cita.sucursal?.nombre}</p>
+                            <p>Comentarios: {cita.comentarios}</p>
+                            <p> <a href={cita.id_reunion} target='_blank' rel='noreferrer'>ir a la cita </a> </p>
+                        </>
+                        :
+                        <p>Sin cita seleccionada</p>
+                }
             </Modal>
         </div>
     )

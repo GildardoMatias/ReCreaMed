@@ -7,6 +7,7 @@ import MisCitas from './misCitas'
 import Recetas from './recetas'
 import Perfil from './perfil';
 import Home from './home/home';
+import { usuario } from '../resources'
 
 const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); window.location.href = '/'; }
 
@@ -22,7 +23,7 @@ function Navigator() {
           className="d-inline-block align-top"
           alt="Recreamed logo"
         />
-        Bienvenido Paciente
+        Bienvenido {usuario.name}
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
@@ -53,10 +54,10 @@ export default function PatientApp() {
           <Recetas />
         </Route>
         <Route path="/perfil">
-          <Perfil/>
+          <Perfil />
         </Route>
         <Route path="/">
-          <Home/>
+          <Home />
         </Route>
       </Switch>
     </Router>
