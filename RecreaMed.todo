@@ -1,76 +1,37 @@
 -Paciente have an expedient for default @done
-
-Nota by ID FindOne
+IMPORTANT
+Nota.UpdateRecetas
+On add receta, insert into nota en lugar de  expediente
 
 On patient create-> Histoia Clinica -> After nota
 On select patient mostrar datos notas historia
 Expediente receta nota historia quitar -> Va dentro del páciente
 Pacientes -> Editar datButton -> href to expdata -> Cita too
 
-Citas -> 
-
 Farmacia al final antes de mi perfil
-Pacientes
-    Notas
-    Recetas
 
-Expedientes
-For Each patient of MisPatients
-Select patient
-SubView With expedient
-Each card contains a object, consults the api by id
-
-Paciente crea citas
-
-PAciente tiene acceso a su historial de Citas
-
-User puede tener mas de una sucursal
 
 Verificar que no choquen citas - el usuario crea las citas
 
+tipo de cita
+
+Ajustes visuales en main
+
+Responsable del paciente nombre y telefono
+
+recetas only for notas
+
+Buscador de pacientes
+
+Telefono junto a nombre
+
+Nota desplegable
+
+Contador de notas
+
 De acuerdo al horario se asigna sucursal
-
-tabla de horarios
-
 Id sucursalres
 pasar pacientes a otro medico
 el nuevo medico nop puede borrar al paciente que le pasaron
 agregar nuevas notas citas recetas pero no al hisitorial ni al paciente
 Los medicos van agregando hojas pero no pueden modifi
-
-el exp esta por hitoria y notas
-
-Asignar automaticamente sucursal 
-
-Crear contraseña por defecto -> Numero de Telefono -> On doctor registers patient
-
-Quitar cetula
-Quitar certificacion
-Quitar universidad
-
-Obligatorios
-Nombre
-
-Agregar especialidad en medico non obligatorio para paciente
-
-recepcion pacientes y sus citas de un medico
-Recepcion esta ligado a un medico
-
-un exp incluye hist y notas
-
-crear todo recepcion
-
-Considerar usuarios con mas de un rol
-Contraseña es telefono cuando medico registra paciente
-
-videollamada en cita
-
-APIKEY
-AIzaSyA8fRG8GwQ3Gi-4bTk8EO2__sCQUXTKZd4
-
-ID Cliente
-304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com
-304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com
-
-secreto cliente
-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

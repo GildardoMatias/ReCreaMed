@@ -1,0 +1,16 @@
+{
+    "Adriana Guerrero": {
+        "Errores Criticos": 7,
+        "Errores de Bajo Nivel": 31,
+        "Errores Reportados": 38,
+        "Advertencias": 147,
+        "Observaciones": "A los medicos y usuarios se les dificulta el lenguaje tecnico utilizado en la plataforma en general"
+    },
+    "Edgar Eguia": {
+        "Errores Criticos": 4,
+        "Errores de Bajo Nivel": 38,
+        "Errores Reportados": 42,
+        "Advertencias": 91,
+        "Observaciones": "La mayoria de medicos no tienen amplio conocimiento de informatica y tecnologia en general, simplificar lo mas posible"
+    }
+}

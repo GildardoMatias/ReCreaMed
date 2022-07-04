@@ -120,15 +120,16 @@ export default function Expedientes(props) {
         {/* <h5>Paciente: {expedientesData[0] && expedientesData[0].usuario.name}</h5> */}
 
 
-        <Row>
+        <DetalleHistoria historia={historia} />
+        <DetalleNota notas={notas} id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={props.paciente} />
+        
+        {/* <Row>
             <Col span={12} >
-                <DetalleHistoria historia={historia} />
-                <DetalleReceta recetas={recetas} />
             </Col>
             <Col span={12}>
-                <DetalleNota notas={notas} id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={props.paciente} />
+                <DetalleReceta recetas={recetas} />
             </Col>
-        </Row>
+        </Row> */}
 
 
         <CreateExpedient isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} pacientesData={pacientesData} />

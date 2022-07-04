@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Space, Button, Modal, Form, Input, message } from 'antd';
+import { Card, Space, Button, Modal, Form, Input, message, Tabs, Row, Col } from 'antd';
 import { getData, API } from '../../resources';
 import { PlusOutlined, FormOutlined } from '@ant-design/icons';
 import { NuevaNota } from './nuevaNota';
+import DetalleReceta from './detalleReceta';
+const { TabPane } = Tabs;
 
 export default function DetalleNota(props) {
 
     const [notaData, setNotaData] = useState("");
     const [notaLoading, setnotaLoading] = useState(true);
     const [view, setView] = useState('detalles');
+    const [notaDetail, setNotaDetail] = useState("")
     // Modal
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -65,15 +68,14 @@ export default function DetalleNota(props) {
     // End of Form
 
     useEffect(() => {
-        // console.log('Notas received to detail: ', props.notas)
-        props.notas ?
-            getData(`nota/${props.notas[0]}`).then(rs => { setNotaData(rs); setnotaLoading(false) })
+        // console.log('Paciente received to detailNota: ', props.paciente)
+        props.paciente ?
+            getData(`notas/${props.paciente}`).then(rs => { setNotaData(rs); setnotaLoading(false) })
             :
             finishGet()
-    }, [props.notas])
+    }, [props.paciente])
 
     const finishGet = () => { setNotaData([]); setnotaLoading(false); }
-
 
     const gridStyle = {
         // width: '50%',
@@ -83,6 +85,11 @@ export default function DetalleNota(props) {
         display: 'inline-flex',
         justifyContent: 'center',
         alignItems: 'center'
+    };
+
+    const NotaGridStyle = {
+        width: '25%',
+        textAlign: 'center',
     };
 
     const NotaView = () => {
@@ -111,8 +118,10 @@ export default function DetalleNota(props) {
         }
     }
 
+
+
     return <div>
-        <Card bordered={false}>
+        {/* <Card bordered={false}>
             <Space>
                 <h5>Notas </h5>
                 <Button onClick={() => setView('adding')} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
@@ -122,7 +131,47 @@ export default function DetalleNota(props) {
                 notaLoading ? <h5>Cargando Nota...</h5> :
                     <NotaView />
             }
-        </Card>
+        </Card> */}
+
+        <Tabs tabPosition='top' onTabClick={(k, e) => { console.log('OnTABClickNota', k); setNotaDetail(k) }}>
+
+
+            {notaLoading ? <h5>Cargando Nota...</h5> :
+
+                notaData.map((nota, i) => {
+                    let index = i + 1;
+                    return <TabPane tab={`Nota ${index}`} key={nota._id} style={{ width: '100%' }}>
+                        Nota {index} {nota.temperatura} {nota.observaciones}
+                        Detalles Collapsable:
+                        <Row>
+                            <Col span={12}>
+                                <Card title="Card Title">
+                                    <Card.Grid style={NotaGridStyle}>Edad: {nota.edad}</Card.Grid>
+                                    <Card.Grid hoverable={false} style={NotaGridStyle}>
+                                        Talla: {nota.talla}
+                                    </Card.Grid>
+                                    <Card.Grid style={NotaGridStyle}>Peso: {nota.peso}</Card.Grid>
+                                    <Card.Grid style={NotaGridStyle}>Content</Card.Grid>
+                                    <Card.Grid style={NotaGridStyle}>Content</Card.Grid>
+                                    <Card.Grid style={NotaGridStyle}>Content</Card.Grid>
+                                    <Card.Grid style={NotaGridStyle}>Content</Card.Grid>
+                                </Card>
+                            </Col>
+                            <Col span={12}>
+                                <Card>
+                                    Recetas
+                                    <DetalleReceta recetas={nota.recetas} />
+
+                                </Card>
+                            </Col>
+                        </Row>
+
+
+                    </TabPane>
+                })
+            }
+
+        </Tabs>
 
         <Modal title="Nueva Receta" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
             {/* <p>Nota: {notaData._id}</p> */}

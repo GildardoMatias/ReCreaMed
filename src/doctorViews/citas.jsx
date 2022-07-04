@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Row, Col, Button, Modal, Form, Input, DatePicker, message } from 'antd';
-import { Calendar, Badge } from 'antd';
+import { Calendar, Badge, Switch } from 'antd';
 import { getData } from '../resources';
 import { API, usuario } from '../resources';
 import { Select } from 'antd';
@@ -14,6 +14,7 @@ export function Citas() {
     const [cita, setCita] = useState({})
     const [isDetailVisible, setIsDetailVisible] = useState(false);
     const [misPacientes, setMisPacientes] = useState([])
+    const [isOnline, setIsOnline] = useState(false)
 
     useEffect(() => {
         console.log('Yo : ', usuario);
@@ -103,7 +104,11 @@ export function Citas() {
     const handleChange = (value) => {
         // console.log(`selected ${value}`);
     };
-
+    // Switch
+    const onSwitch = (checked) => {
+        console.log(`switch to ${checked}`);
+        setIsOnline(checked)
+    };
 
     return (
         <div className='mainContainer'>
@@ -140,15 +145,26 @@ export function Citas() {
                     {/* <Form.Item label="Sucursal" name="sucursal" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                         <Input />
                     </Form.Item> */}
+
+                    <Switch defaultChecked={false} onChange={onSwitch} />
+
                     <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]} >
                         <DatePicker showTime onChange={onChange} onOk={onOk} placeholder='Selecciona Fecha y Hora' />
                     </Form.Item>
-                    <Form.Item label="Enlace a la reunion" name="id_reunion" rules={[{ required: true, message: 'Ingresa RFC' }]} >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item label="Contraseña" name="password_reunion" rules={[{ required: true, message: 'Ingresa RFC' }]} >
-                        <Input placeholder='Opcional' />
-                    </Form.Item>
+                    {
+                        isOnline ?
+                            <>
+                                <Form.Item label="Enlace a la reunion" name="id_reunion" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item label="Contraseña" name="password_reunion" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                                    <Input placeholder='Opcional' />
+                                </Form.Item>
+                            </>
+                            :
+                            <></>
+
+                    }
                     <Form.Item label="Comentarios" name="comentarios" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                         <Input />
                     </Form.Item>
