@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Space, Button, Modal, Form, Input, message, Tabs, Row, Col } from 'antd';
+import { Card, Collapse, Button, Modal, Form, Input, message, Tabs, Row, Col } from 'antd';
 import { getData, API } from '../../resources';
 import { PlusOutlined, FormOutlined } from '@ant-design/icons';
 import { NuevaNota } from './nuevaNota';
 import DetalleReceta from './detalleReceta';
 const { TabPane } = Tabs;
+const { Panel } = Collapse;
 
 export default function DetalleNota(props) {
 
@@ -14,7 +15,6 @@ export default function DetalleNota(props) {
     const [notaDetail, setNotaDetail] = useState("")
     // Modal
     const [isModalVisible, setIsModalVisible] = useState(false);
-
     const showModal = () => {
         setIsModalVisible(true);
     };
@@ -70,7 +70,7 @@ export default function DetalleNota(props) {
     useEffect(() => {
         // console.log('Paciente received to detailNota: ', props.paciente)
         props.paciente ?
-            getData(`notas/${props.paciente}`).then(rs => { setNotaData(rs); setnotaLoading(false) })
+            getData(`notas/${props.paciente}`).then(rs => {console.log(rs); setNotaData(rs); setnotaLoading(false) })
             :
             finishGet()
     }, [props.paciente])
@@ -86,11 +86,21 @@ export default function DetalleNota(props) {
         justifyContent: 'center',
         alignItems: 'center'
     };
-
+   
     const NotaGridStyle = {
         width: '25%',
         textAlign: 'center',
+        border: '1px solid rgba(255, 255, 255, 255)'
     };
+     const EstudioGridStyle = {
+        width: '50%',
+        // height: '32',
+        textAlign: 'center',
+        display: 'inline-flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    };
+
 
     const NotaView = () => {
         switch (view) {
@@ -123,15 +133,15 @@ export default function DetalleNota(props) {
     return <div>
         {/* <Card bordered={false}>
             <Space>
-                <h5>Notas </h5>
-                <Button onClick={() => setView('adding')} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
-                <Button onClick={() => setView('editing')} size='small' type="primary" shape="circle" icon={<FormOutlined />} />
+            <Button onClick={() => setView('adding')} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
+            <Button onClick={() => setView('editing')} size='small' type="primary" shape="circle" icon={<FormOutlined />} />
             </Space>
             {
                 notaLoading ? <h5>Cargando Nota...</h5> :
-                    <NotaView />
+                <NotaView />
             }
         </Card> */}
+        <h5>Notas </h5>
 
         <Tabs tabPosition='top' onTabClick={(k, e) => { console.log('OnTABClickNota', k); setNotaDetail(k) }}>
 
@@ -141,28 +151,36 @@ export default function DetalleNota(props) {
                 notaData.map((nota, i) => {
                     let index = i + 1;
                     return <TabPane tab={`Nota ${index}`} key={nota._id} style={{ width: '100%' }}>
-                        Nota {index} {nota.temperatura} {nota.observaciones}
-                        Detalles Collapsable:
                         <Row>
                             <Col span={12}>
-                                <Card title="Card Title">
-                                    <Card.Grid style={NotaGridStyle}>Edad: {nota.edad}</Card.Grid>
-                                    <Card.Grid hoverable={false} style={NotaGridStyle}>
-                                        Talla: {nota.talla}
-                                    </Card.Grid>
-                                    <Card.Grid style={NotaGridStyle}>Peso: {nota.peso}</Card.Grid>
-                                    <Card.Grid style={NotaGridStyle}>Content</Card.Grid>
-                                    <Card.Grid style={NotaGridStyle}>Content</Card.Grid>
-                                    <Card.Grid style={NotaGridStyle}>Content</Card.Grid>
-                                    <Card.Grid style={NotaGridStyle}>Content</Card.Grid>
+                                <Collapse bordered={false}>
+                                    <Panel header="Detalles de la nota" key="1">
+                                        <Card >
+                                            <Card.Grid style={NotaGridStyle}>Edad: {nota.edad}</Card.Grid>
+                                            <Card.Grid style={NotaGridStyle}>Talla: {nota.talla}</Card.Grid>
+                                            <Card.Grid style={NotaGridStyle}>Peso: {nota.peso}</Card.Grid>
+                                            <Card.Grid style={NotaGridStyle}>IMC: {nota.imc}</Card.Grid>
+                                            <Card.Grid style={NotaGridStyle}>Temperatura: {nota.temperatura}</Card.Grid>
+                                            <Card.Grid style={NotaGridStyle}>Presion Arterial : {nota.presion_arterial}</Card.Grid>
+                                            <Card.Grid style={NotaGridStyle}>Frecuencia Cardiaca : {nota.frecuencia_cardiaca}</Card.Grid>
+                                            <Card.Grid style={NotaGridStyle}>Frecuencia Respiratoria : {nota.frecuencia_respiratoria}</Card.Grid>
+                                        </Card>
+                                    </Panel>
+                                </Collapse>
+
+                                <Card title='Observaciones'>
+                                    {nota.Observaciones}
                                 </Card>
+
+                                <Card title='Estudios'>
+                                    {nota.estudios.map((e) => {
+                                        return <Card.Grid style={EstudioGridStyle}>{e}</Card.Grid>
+                                    })}
+                                </Card>
+
                             </Col>
                             <Col span={12}>
-                                <Card>
-                                    Recetas
-                                    <DetalleReceta recetas={nota.recetas} />
-
-                                </Card>
+                                <DetalleReceta recetas={nota.recetas} />
                             </Col>
                         </Row>
 

@@ -2,3 +2,7 @@
     padding: 20px;
     margin: 20px;
 }
+
+.my-select-container .ant-select .ant-select-selector {
+    border-radius: 16px;
+}

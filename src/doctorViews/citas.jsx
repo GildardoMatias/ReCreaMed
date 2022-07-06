@@ -113,12 +113,12 @@ export function Citas() {
     return (
         <div className='mainContainer'>
             <Row>
-                <Col span={8}><h4>CALENDARIO DE CITAS</h4></Col>
-                <Col>
+                <div span={8}><h4>CALENDARIO DE CITAS</h4></div>
+                <div>
                     <Button type="primary" onClick={showModal}>
                         Nueva Cita
                     </Button>
-                </Col>
+                </div>
             </Row>
 
             {/* {isLoading ? <Loading /> : <Table columns={columns} dataSource={citasData} />} */}
@@ -146,7 +146,9 @@ export function Citas() {
                         <Input />
                     </Form.Item> */}
 
-                    <Switch defaultChecked={false} onChange={onSwitch} />
+                    <Col style={{ marginLeft: 64, marginBottom: 12 }}>
+                        Cita en Linea: <Switch style={{ marginLeft: 8 }} defaultChecked={false} onChange={onSwitch} />
+                    </Col>
 
                     <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]} >
                         <DatePicker showTime onChange={onChange} onOk={onOk} placeholder='Selecciona Fecha y Hora' />

@@ -93,10 +93,11 @@ export default function Expedientes(props) {
 
 
 
-    return <div className="mainContainer">
+    return <div>
         <Row>
             {/* <Col span={16} > */}
-            <h4>Expediente {props.paciente}</h4>
+            {/* <h4>Expediente {props.paciente}</h4> */}
+            <h4>Expediente </h4>
             {/* </Col> */}
             {/* <Col>
                 <Button type="primary" onClick={showModal}>
