@@ -1,8 +1,14 @@
-import React from 'react'
-import { Form, Input, Button, message } from 'antd';
+import React, { useEffect } from 'react'
+import { Form, Input, Button, message, Select } from 'antd';
 import { API, usuario } from '../../resources';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { diagnosticos } from '../../assets/diagnosticos2';
+const { Option, OptGroup } = Select;
 
+const handleChange = (value) => {
+    // Select diagnostic
+    console.log(`selected ${value}`);
+};
 
 const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -41,7 +47,44 @@ const formItemLayoutWithOutLabel = {
     },
 };
 
+function SelectDiagnostic() {
+    return <Select
+        showSearch
+        // defaultValue="lucy"
+        style={{
+            width: 400,
+        }}
+        onChange={handleChange}
+    >
+        {/* <OptGroup label="Manager">
+            <Option value="jack">Jack</Option>
+            <Option value="lucy">Lucy</Option>
+        </OptGroup> */}
+        {
+            Object.keys(diagnosticos).map((k) => {
+                return <OptGroup label={k}>
+                    {Object.keys(diagnosticos[k]).map((sk) => {
+                        return <Option value={sk}>{diagnosticos[k][sk]}</Option>
+                    })}
+                </OptGroup>
+
+            })
+        }
+    </Select>
+}
+
 export function NuevaNota(props) {
+
+    useEffect(() => {
+        console.log(diagnosticos)
+        Object.keys(diagnosticos).forEach((k) => {
+            console.log("Title: ", k);
+            Object.keys(diagnosticos[k]).forEach((sk) => {
+                console.log(sk, diagnosticos[k][sk])
+            })
+        })
+    }, [])
+
     // const [pacientesData, setPacientesData] = useState([]);
 
     const onFinish = async (values) => {
@@ -87,11 +130,16 @@ export function NuevaNota(props) {
     return (
         <div>
             <h4 style={{ marginLeft: 20 }}>Detalles de la nota</h4>
-            <p>Expediente received: {props.id_expediente}</p>
+            {/* <p>Expediente received: {props.id_expediente}</p>
             <p>Paciente received: {props.paciente}</p>
             <p>Medico received: {usuario._id}</p>
             <p>prevExpNotas received: {props.prevExpNotas}</p>
-            *La nota lleva el id del medico, obtenido de la sesion
+            *La nota lleva el id del medico, obtenido de la sesion */}
+            {/* <p>Diag [0].clasificacion {diagnosticos[0]['clasificacion']}</p> */}
+            {
+                // diagnosticos[0].data.map((d) => <p>{d}</p>)
+                // Object.keys(diagnosticos).forEach((d) => <p>{d[0]} : {d[0].data[d]}</p>)
+            }
             <br />
             <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 10 }} initialValues={{ remember: true, estudios: [] }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
 
@@ -189,8 +237,12 @@ export function NuevaNota(props) {
                     )}
                 </Form.List>
 
-                <Form.Item label="Observaciones" name="Observaciones" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                <Form.Item label="Observaciones" name="Observaciones" rules={[{ required: true, message: 'Ingresa Observaciones' }]} >
                     <Input />
+                </Form.Item>
+
+                <Form.Item label="Diagnostico" name="Diagnostico" rules={[{ required: true, message: 'Selecciona Diagnostico' }]} >
+                    <SelectDiagnostic />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

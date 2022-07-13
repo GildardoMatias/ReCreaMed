@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Collapse, Button, Tabs, Row, Col } from 'antd';
+import { Card, Collapse, Button, Tabs, Row, Col, Modal, Space } from 'antd';
 import { getData, API } from '../../resources';
 import { PlusOutlined, FormOutlined } from '@ant-design/icons';
 import { NuevaNota } from './nuevaNota';
@@ -13,12 +13,27 @@ export default function DetalleNota(props) {
     const [notaLoading, setnotaLoading] = useState(true);
     const [view, setView] = useState('detalles');
     const [notaDetail, setNotaDetail] = useState("")
+    // Add Nota Modal
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+    // End of Add Nota Modal
 
 
     useEffect(() => {
         // console.log('Paciente received to detailNota: ', props.paciente)
         props.paciente ?
-            getData(`notas/${props.paciente}`).then(rs => { console.log('NotasData: ',rs); setNotaData(rs); setnotaLoading(false) })
+            getData(`notas/${props.paciente}`).then(rs => { console.log('NotasData: ', rs); setNotaData(rs); setnotaLoading(false) })
             :
             finishGet()
     }, [props.paciente])
@@ -88,7 +103,10 @@ export default function DetalleNota(props) {
                 <NotaView />
             }
         </Card> */}
-        <h5>Notas </h5>
+        <Space>
+            <h5>Notas </h5>
+            <Button onClick={showModal} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
+        </Space>
 
         <Tabs tabPosition='top' onTabClick={(k, e) => { console.log('OnTABClickNota', k); setNotaDetail(k) }}>
 
@@ -127,7 +145,7 @@ export default function DetalleNota(props) {
 
                             </Col>
                             <Col span={12}>
-                                <DetalleReceta recetas={props.recetas} id_nota={nota._id} id_expediente={props.id_expediente}/>
+                                <DetalleReceta recetas={props.recetas} id_nota={nota._id} id_expediente={props.id_expediente} />
                             </Col>
                         </Row>
                     </TabPane>
@@ -136,6 +154,11 @@ export default function DetalleNota(props) {
 
         </Tabs>
 
+
+        <Modal title="Nueva Nota" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={680}>
+            <NuevaNota id_expediente={props.id_expediente} paciente={props.paciente} prevExpNotas={props.prevExpNotas} />
+
+        </Modal>
 
     </div>
 }
