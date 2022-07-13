@@ -122,7 +122,7 @@ export default function Expedientes(props) {
 
 
         <DetalleHistoria historia={historia} />
-        <DetalleNota notas={notas} id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={props.paciente} />
+        <DetalleNota notas={notas} id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={props.paciente} recetas={expedientesData.recetas}/>
         
         {/* <Row>
             <Col span={12} >
