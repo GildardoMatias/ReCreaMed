@@ -5,7 +5,6 @@ import { usuario } from '../../resources';
 import Loading from '../../loading';
 import CreateExpedient from './createExpedient';
 import DetalleNota from './detalleNota'
-import DetalleReceta from './detalleReceta';
 import DetalleHistoria from './detalleHistoria';
 
 const { Option } = Select;
@@ -15,25 +14,13 @@ export default function Expedientes(props) {
     const [detailModalVisible, setDetailModalVisible] = useState(false);
     const [expedientesData, setExpedientesData] = useState([]);
     const [expedientesLoading, setExpedientesLoading] = useState(true);
-    const [pacientesData, setPacientesData] = useState([]);
-    const [pacientesLoading, setPacientesLoading] = useState(true);
-    const [pacienteSelected, setPacienteSelected] = useState("Ninguno");
     const [historia, setHistoria] = useState("");
     const [notas, setNotas] = useState("");
-    const [recetas, setRecetas] = useState([]);
 
 
-    function handleChange(value) {
-        setPacienteSelected(value);
-        getExpedientesData(value)
-    }
-    // useEffect(() => {
-    //     console.log('Patient received: ', props.paciente)
-    //     getPacientesData()
-    // }, [])
+ 
 
     useEffect(() => {
-        setPacienteSelected(props.paciente);
         getExpedientesData(props.paciente)
     }, [props.paciente])
 
@@ -45,52 +32,11 @@ export default function Expedientes(props) {
                 // console.log("GetExpData: ", data);
                 setExpedientesData(data);
                 if (typeof data != "undefined") {
-                    setNotas(data.notas); setRecetas(data.recetas); setHistoria(data.historia);
-                } else { setNotas(null); setRecetas(null); setHistoria(null) }
+                    setNotas(data.notas); setHistoria(data.historia);
+                } else { setNotas(null); setHistoria(null) }
             })
             .finally(() => setExpedientesLoading(false))
     }
-
-    // const getPacientesData = () => {
-    //     fetch(API + `mispacientes/${usuario._id}`)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log("Pacientes: ", data); setPacientesData(data);
-    //         })
-    //         .finally(() => setPacientesLoading(false))
-    // }
-
-    const showModal = () => { setIsModalVisible(true); };
-    const showDetailModal = () => { setDetailModalVisible(true); };
-
-
-
-    const columns = [
-        {
-            title: 'Paciente',
-            dataIndex: 'usuario',
-            key: 'Paciente',
-        },
-        {
-            title: 'Historia Clinica',
-            dataIndex: 'historia',
-            key: 'historiaClinica',
-            render: (text, rec) => <Button onClick={setHistoria(rec)}>Detalle Historia</Button>,
-        },
-        {
-            title: 'Notas Medicas',
-            dataIndex: 'nota',
-            key: 'notasMedicas',
-            render: (text, rec) => <Button onClick={() => { setNotas(rec._id); showDetailModal() }}>Detalle Nota</Button>,
-
-        },
-        {
-            title: 'Receta',
-            dataIndex: 'receta',
-            key: 'receta',
-        }
-    ];
-
 
 
     return <div>
@@ -105,35 +51,12 @@ export default function Expedientes(props) {
                 </Button>
             </Col> */}
         </Row>
-        {/* {
-            pacientesLoading ? <Loading /> :
-                <Select
-                    defaultValue={pacientesData && pacientesData[0]._id}
-                    placeholder='Selecciona un paciente'
-                    style={{ width: 200 }}
-                    onChange={handleChange}>
-                    {
-                        pacientesData.map(p => <Option nota={p.nota} value={p._id}>{p.name}</Option>)
-                    }
-                </Select>
-        } */}
-
-        {/* <h5>Paciente: {expedientesData[0] && expedientesData[0].usuario.name}</h5> */}
-
 
         <DetalleHistoria historia={historia} />
-        <DetalleNota notas={notas} id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={props.paciente} recetas={expedientesData.recetas}/>
         
-        {/* <Row>
-            <Col span={12} >
-            </Col>
-            <Col span={12}>
-                <DetalleReceta recetas={recetas} />
-            </Col>
-        </Row> */}
+        <DetalleNota notas={notas} id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={props.paciente} />
 
-
-        <CreateExpedient isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} pacientesData={pacientesData} />
+        <CreateExpedient isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} pacientesData={[]} />
 
     </div>;
 }

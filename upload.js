@@ -1,4 +1,5 @@
-const url = 'http://localhost:4000/api/expedientes/uploadEstudio'
+// const url = 'http://localhost:4000/api/notas/uploadEstudio'
+const url = 'https://api.recreamed.com/api/notas/uploadEstudio'
 const form = document.querySelector('form')
 
 form.addEventListener('submit', (e) => {

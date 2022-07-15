@@ -1,5 +1,6 @@
 export const API = "https://api.recreamed.com/api/"
 export const S_API = "https://api.recreamed.com/session/"
+// export const S_API = "http://localhost:4000/session/"
 
 export const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); localStorage.removeItem('userData'); window.location.href = '/'; }
 
@@ -44,15 +45,6 @@ export async function sendDataValues(values) {
 };
 
 
-const getHospitalesData = () => {
-    fetch(API + 'sucursales')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            // setHospitalesData(data);
-            // setILoading(false);
-        });
-}
 
 
 

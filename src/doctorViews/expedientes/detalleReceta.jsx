@@ -43,8 +43,7 @@ export default function DetalleReceta(props) {
 
     const finifhGet = () => { setRecetaData([]); setRecetaLoading(false); }
 
-
-    // Finish Form of adding receta to expedient
+    // New Receta
     const onFinish = async (values) => {
         values.id_nota = props.id_nota;
         console.log('Success:', values);
@@ -65,8 +64,8 @@ export default function DetalleReceta(props) {
             .catch(error => console.error('Error:', error))
 
 
-        // Update exoedient recetas
-        fetch(API + 'expedientes/updateRecetas/' + props.id_expediente, {
+        // Update nota.recetas
+        fetch(API + 'notas/updateRecetas/' + props.id_nota, {
             method: 'PUT',
             body: JSON.stringify({ "recetas": newReceta.id_receta }),
             headers: { 'Content-Type': 'application/json' }
@@ -105,7 +104,7 @@ export default function DetalleReceta(props) {
                     recetaData.length > 0 ?
 
                         recetaData.map((r) => {
-                            return <><Card.Grid key={r._id} style={gridStyle}> Prescripcion : {r.prescripcion} <Button style={{marginLeft: 8}} onClick={() => setEditing(true)} size='small' type="primary" shape="circle" icon={<FormOutlined />} /></Card.Grid></>
+                            return <><Card.Grid key={r._id} style={gridStyle}> Prescripcion : {r.prescripcion} <Button style={{ marginLeft: 8 }} onClick={() => setEditing(true)} size='small' type="primary" shape="circle" icon={<FormOutlined />} /></Card.Grid></>
                         })
                         :
                         <h6>No hay una receta asignada</h6>

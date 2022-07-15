@@ -93,23 +93,13 @@ export default function DetalleNota(props) {
 
 
     return <div>
-        {/* <Card bordered={false}>
-            <Space>
-            <Button onClick={() => setView('adding')} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
-            <Button onClick={() => setView('editing')} size='small' type="primary" shape="circle" icon={<FormOutlined />} />
-            </Space>
-            {
-                notaLoading ? <h5>Cargando Nota...</h5> :
-                <NotaView />
-            }
-        </Card> */}
+       
         <Space>
             <h5>Notas </h5>
             <Button onClick={showModal} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
         </Space>
 
         <Tabs tabPosition='top' onTabClick={(k, e) => { console.log('OnTABClickNota', k); setNotaDetail(k) }}>
-
 
             {notaLoading ? <h5>Cargando Nota...</h5> :
 
@@ -145,7 +135,7 @@ export default function DetalleNota(props) {
 
                             </Col>
                             <Col span={12}>
-                                <DetalleReceta recetas={props.recetas} id_nota={nota._id} id_expediente={props.id_expediente} />
+                                <DetalleReceta recetas={nota.recetas} id_nota={nota._id}  />
                             </Col>
                         </Row>
                     </TabPane>

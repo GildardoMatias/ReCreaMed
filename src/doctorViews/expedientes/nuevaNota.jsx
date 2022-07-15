@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
-import { Form, Input, Button, message, Select } from 'antd';
+import React, { useState } from 'react'
+import { Form, Input, Button, message, Select, Upload } from 'antd';
 import { API, usuario } from '../../resources';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { MinusCircleOutlined, PlusOutlined, UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import { diagnosticos } from '../../assets/diagnosticos2';
 const { Option, OptGroup } = Select;
+const { Dragger } = Upload;
 
 const handleChange = (value) => {
     // Select diagnostic
@@ -47,51 +48,39 @@ const formItemLayoutWithOutLabel = {
     },
 };
 
-function SelectDiagnostic() {
-    return <Select
-        showSearch
-        // defaultValue="lucy"
-        style={{
-            width: 400,
-        }}
-        onChange={handleChange}
-    >
-        {/* <OptGroup label="Manager">
-            <Option value="jack">Jack</Option>
-            <Option value="lucy">Lucy</Option>
-        </OptGroup> */}
-        {
-            Object.keys(diagnosticos).map((k) => {
-                return <OptGroup label={k}>
-                    {Object.keys(diagnosticos[k]).map((sk) => {
-                        return <Option value={sk}>{diagnosticos[k][sk]}</Option>
-                    })}
-                </OptGroup>
 
-            })
-        }
-    </Select>
-}
 
 export function NuevaNota(props) {
+    const [estudiosFiles, setEstudiosFiles] = useState([])
 
-    useEffect(() => {
-        console.log(diagnosticos)
-        Object.keys(diagnosticos).forEach((k) => {
-            console.log("Title: ", k);
-            Object.keys(diagnosticos[k]).forEach((sk) => {
-                console.log(sk, diagnosticos[k][sk])
-            })
-        })
-    }, [])
+    // useEffect(() => {
+    //     console.log(diagnosticos)
+    //     Object.keys(diagnosticos).forEach((k) => {
+    //         console.log("Title: ", k);
+    //         Object.keys(diagnosticos[k]).forEach((sk) => {
+    //             console.log(sk, diagnosticos[k][sk])
+    //         })
+    //     })
+    // }, [])
 
     // const [pacientesData, setPacientesData] = useState([]);
+    const onFinishTest = (values) => {
+        // Create Nota
+        values.id_medico = usuario._id;
+        values.id_usuario = props.paciente;
+        values.recetas = [];
+        values.estudios = estudiosFiles;
 
+        console.log('Estudios ready to send: ', values.estudios)
+        console.log('ready to send: ', values)
+    }
     const onFinish = async (values) => {
         // Create Nota
         values.id_medico = usuario._id;
         values.id_usuario = props.paciente;
         values.recetas = [];
+        values.estudios = estudiosFiles;
+        console.log('ready To send: ', values)
         const newNota = await fetch(API + 'notas/add', {
             method: 'POST',
             body: JSON.stringify(values),
@@ -99,6 +88,7 @@ export function NuevaNota(props) {
         }).then(res => res.json())
             .then(response => {
                 message.success(response.message || response.error);
+                // response.message && response.message === ''
                 return response;
             })
             .catch(error => console.error('Error:', error))
@@ -118,14 +108,63 @@ export function NuevaNota(props) {
             .catch(error => console.error('Error:', error))
     };
 
-    // function getPacientes() {
-    //     fetch(API + 'mispacientes/' + usuario._id)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log(data);
-    //             setPacientesData(data);
-    //         });
-    // }
+    // Upload File
+    const dragDropProps = {
+        name: 'file',
+        multiple: true,
+        action: API + 'notas/uploadEstudio',
+
+        onChange(info) {
+            const { status } = info.file;
+
+            if (status !== 'uploading') {
+                console.log(info.file, info.fileList);
+            }
+
+            if (status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully.`);
+                console.log('New Files: ', info.file.response.file)
+                setEstudiosFiles([...estudiosFiles, info.file.response.file])
+            } else if (status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+            }
+        },
+
+        onDrop(e) {
+            console.log('Dropped files', e.dataTransfer.files);
+        },
+    };
+    const UploadProps = {
+        name: 'file',
+        action: API + 'notas/uploadEstudio',
+        // headers: {
+        //     authorization: 'authorization-text',
+        // },
+
+        onChange(info) {
+            if (info.file.status !== 'uploading') {
+                console.log(info.file, info.fileList);
+            }
+
+            if (info.file.status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully`);
+                return info.file.response.file;
+            } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+            }
+        }
+
+    };
+
+    // Get value Of upload
+    const getFile = (e) => {
+        console.log('Upload event:', e);
+
+        if (Array.isArray(e)) {
+            return e;
+        }
+        return e && e.file.response.file;
+    };
 
     return (
         <div>
@@ -136,12 +175,18 @@ export function NuevaNota(props) {
             <p>prevExpNotas received: {props.prevExpNotas}</p>
             *La nota lleva el id del medico, obtenido de la sesion */}
             {/* <p>Diag [0].clasificacion {diagnosticos[0]['clasificacion']}</p> */}
-            {
-                // diagnosticos[0].data.map((d) => <p>{d}</p>)
-                // Object.keys(diagnosticos).forEach((d) => <p>{d[0]} : {d[0].data[d]}</p>)
-            }
+
             <br />
-            <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 10 }} initialValues={{ remember: true, estudios: [] }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
+            <Dragger {...dragDropProps}>
+                <p className="ant-upload-drag-icon">
+                    <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">Arrastra los archivos de estudio aquí, o da click para buscar</p>
+                <p className="ant-upload-hint">
+                    Selecciona archivos en pdf o imagen que sean menores a 2 MB para poder subirlos
+                </p>
+            </Dragger>
+            <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 10 }} initialValues={{ remember: true, estudios: [] }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"  style={{marginTop: 12}} >
 
                 <Form.Item label="Edad" name="edad" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                     <Input />
@@ -171,6 +216,8 @@ export function NuevaNota(props) {
                 {/* <Form.Item label="Estudios" name="estudios" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                     <Input />
                 </Form.Item> */}
+
+                {/* 
                 <Form.List
                     name="estudios"
                     rules={[
@@ -191,6 +238,7 @@ export function NuevaNota(props) {
                                     label={index === 0 ? 'Estudio' : ''}
                                     required={false}
                                     key={field.key}
+                                    getValueFromEvent={getFile}
                                 >
                                     <Form.Item
                                         {...field}
@@ -204,10 +252,9 @@ export function NuevaNota(props) {
                                         ]}
                                         noStyle
                                     >
-                                        <Input
-                                            placeholder="Detalles del estudio"
-                                            style={{ width: '60%' }}
-                                        />
+                                        <Upload {...UploadProps}>
+                                            <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                                        </Upload>
                                     </Form.Item>
                                     {fields.length > 1 ? (
                                         <MinusCircleOutlined
@@ -236,13 +283,29 @@ export function NuevaNota(props) {
                         </>
                     )}
                 </Form.List>
+ */}
 
                 <Form.Item label="Observaciones" name="Observaciones" rules={[{ required: true, message: 'Ingresa Observaciones' }]} >
                     <Input />
                 </Form.Item>
 
-                <Form.Item label="Diagnostico" name="Diagnostico" rules={[{ required: true, message: 'Selecciona Diagnostico' }]} >
-                    <SelectDiagnostic />
+                <Form.Item label="Diagnostico" name="diagnostico" rules={[{ required: true, message: 'Selecciona Diagnostico' }]} >
+                    <Select
+                        showSearch
+                        style={{ width: 400 }}
+                        onChange={handleChange}
+                    >
+                        {
+                            Object.keys(diagnosticos).map((k) => {
+                                return <OptGroup label={k}>
+                                    {Object.keys(diagnosticos[k]).map((sk) => {
+                                        return <Option value={sk}>{diagnosticos[k][sk]}</Option>
+                                    })}
+                                </OptGroup>
+
+                            })
+                        }
+                    </Select>
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
