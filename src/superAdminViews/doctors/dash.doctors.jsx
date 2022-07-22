@@ -1,7 +1,8 @@
 import React, { Component, useState, useEffect } from 'react'
-import { Table } from 'antd';
+import { Table, Space } from 'antd';
 import { API } from '../../resources'
 import Loading from '../../loading';
+import { HomeOutlined, ClockCircleOutlined } from '@ant-design/icons'
 
 export default function Dash() {
 
@@ -23,12 +24,6 @@ export default function Dash() {
 
   const columns = [
     {
-      title: 'Rol',
-      dataIndex: 'rol',
-      key: 'rol',
-      onFilter: (value, record) => record.rol === "Medico",
-    },
-    {
       title: 'Nombre',
       dataIndex: 'name',
       key: 'name',
@@ -43,6 +38,16 @@ export default function Dash() {
       dataIndex: 'telefono',
       key: 'telefono',
     },
+    {
+      title: 'Horarios',
+      dataIndex: 'horarios',
+      key: 'horarios',
+      render: (_, record) => (
+
+        <p>{record.horarios.map((h) => { return <Space size='small'><p><HomeOutlined style={{marginTop: -6}}/>{h.sucursal.nombre}</p><p><ClockCircleOutlined />{h.horario}</p></Space> })}</p>
+
+      ),
+    }
   ];
   return (
     <div>

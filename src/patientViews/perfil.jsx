@@ -44,6 +44,7 @@ export default function Perfil() {
                         <Card>
                             <Avatar size={128} icon={<UserOutlined />} />
                             <br />
+                            <Space><div>Nombre:</div><div>{profileData.name}</div></Space>
                             <p>Nombre: {profileData.name} </p>
                             <p>Correo: {profileData.email} </p>
                             <p>Telefono: {profileData.telefono} </p>

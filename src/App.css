@@ -1,8 +1,15 @@
 .mainContainer {
-    padding: 20px;
-    margin: 20px;
+    padding-left: 20px;
+    margin-left: 20px;
+    padding-top: 20px;
 }
 
 .my-select-container .ant-select .ant-select-selector {
     border-radius: 16px;
 }
+
+h3 { color: #5fa1c4; }
+
+h4 { color: #5fa1c4; }
+
+h5 { color: #515a6e; }

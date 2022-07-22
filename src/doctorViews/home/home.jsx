@@ -4,31 +4,31 @@ import { Pie, Line } from '@ant-design/charts';
 import './home.css'
 
 export class Home extends Component {
-    
+
     dataPie = [
         {
-            type: 'Covid',
-            value: 130737,
+            type: 'F01',
+            value: 9,
         },
         {
-            type: 'Colesterol',
-            value: 21468,
+            type: 'F05',
+            value: 4,
         },
         {
-            type: 'Diabetes',
-            value: 18098,
+            type: 'F09',
+            value: 7,
         },
         {
-            type: 'Presion',
-            value: 17912,
+            type: 'F13',
+            value: 2,
         },
         {
-            type: 'Oseo',
-            value: 15282,
+            type: 'F16',
+            value: 12,
         },
         {
-            type: 'Migraña',
-            value: 11650,
+            type: 'F22',
+            value: 3,
         },
     ];
 
@@ -52,11 +52,11 @@ export class Home extends Component {
     };
 
     dataLine = [
-        { mes: 'Junio', consultas: 17945 },
-        { mes: 'Julio', consultas: 24011 },
-        { mes: 'Agosto', consultas: 46493 },
-        { mes: 'Septiembre', consultas: 105293 },
-        { mes: 'Octubre', consultas: 77190 }
+        { mes: 'Junio', consultas: 24 },
+        { mes: 'Julio', consultas: 17 },
+        { mes: 'Agosto', consultas: 22 },
+        { mes: 'Septiembre', consultas: 15 },
+        { mes: 'Octubre', consultas: 18 }
     ];
 
     configLine = {
@@ -86,39 +86,42 @@ export class Home extends Component {
                 <div className="contenedor">
                     <Row gutter={30}>
                         <Col xs={24} sm={12} lg={6}>
-                            {/* <div className="cardsContenedor" > */}
                             <Card className="cardsContenedor" hoverable bordered={false}>
-
-                                <Statistic title="Total Hospitales" value="4" valueStyle={{ color: 'white' }} style={{ backgroundColor: '#4BA6FE' }} className="cardsContenido" />
+                                <Statistic title="Total Hospitales" value="4" valueStyle={{ color: 'white' }} style={{ backgroundColor: '#4BA6FE', borderRadius: 12 }} className="cardsContenido" />
                             </Card>
                         </Col>
                         <Col xs={24} sm={12} lg={6}>
                             <Card className="cardsContenedor" hoverable bordered={false}>
-                                <Statistic title="Total Medicos" value="14" valueStyle={{ color: 'white' }} style={{ backgroundColor: '#FF838A' }} className="cardsContenido" />
+                                <Statistic title="Total Medicos" value="14" valueStyle={{ color: 'white' }} style={{ backgroundColor: '#FF838A', borderRadius: 12 }} className="cardsContenido" />
                             </Card>
                         </Col>
 
                         <Col xs={24} sm={12} lg={6}>
                             <Card className="cardsContenedor" hoverable bordered={false}>
-
-                                <Statistic title="Total Pacientes" value="241" valueStyle={{ color: 'white' }} style={{ backgroundColor: '#18D0C2' }} className="cardsContenido" />
+                                <Statistic title="Total Pacientes" value="241" valueStyle={{ color: 'white' }} style={{ backgroundColor: '#18D0C2', borderRadius: 12 }} className="cardsContenido" />
                             </Card>
                         </Col>
                         <Col xs={24} sm={12} lg={6}>
                             <Card className="cardsContenedor" hoverable bordered={false}>
-
-                                <Statistic title="Citas Hoy" value={47} valueStyle={{ color: 'white' }} style={{ backgroundColor: '#847DFC' }} className="cardsContenido" />
+                                <Statistic title="Citas Hoy" value={47} valueStyle={{ color: 'white' }} style={{ backgroundColor: '#847DFC', borderRadius: 12 }} className="cardsContenido" />
                             </Card>
                         </Col>
                     </Row>
-                    <br />
+                    <Row gutter={20}>
+                        <Col xs={24} md={12} style={{textAlign:'center'}}>
+                            <h5 style={{color: '#1F263C'}}>Diagnosticos</h5>
+                        </Col>
+                        <Col xs={24} md={12} style={{textAlign:'center'}}>
+                            <h5>Citas</h5>
+                        </Col>
+                    </Row>
                     <Row gutter={20}>
                         <Col xs={24} md={12} className="graficaCircular">
-                            <Pie {...this.configPie} style={{ backgroundColor: '#1F263C' }} />
+                            <Pie {...this.configPie} style={{ backgroundColor: '#1F263C', borderRadius: 12 }} />
                         </Col>
 
                         <Col xs={24} md={12}>
-                            <Line {...this.configLine} style={{ backgroundColor: '#1F263C', padding: '20px' }} />
+                            <Line {...this.configLine} style={{ backgroundColor: '#1F263C', padding: '20px', borderRadius: 12 }} />
                         </Col>
                     </Row>
 

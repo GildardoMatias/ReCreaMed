@@ -46,7 +46,8 @@ export default function DetalleReceta(props) {
     // New Receta
     const onFinish = async (values) => {
         values.id_nota = props.id_nota;
-        console.log('Success:', values);
+        console.log('new Receta:', values);
+        console.log('new Recetas:', values);
 
         const newReceta = await fetch(API + 'recetas/add', {
             method: 'POST',
@@ -63,11 +64,13 @@ export default function DetalleReceta(props) {
             })
             .catch(error => console.error('Error:', error))
 
+        props.recetas.push(newReceta.id_receta)
+        console.log('New Recetas: ', props.recetas);
 
         // Update nota.recetas
         fetch(API + 'notas/updateRecetas/' + props.id_nota, {
             method: 'PUT',
-            body: JSON.stringify({ "recetas": newReceta.id_receta }),
+            body: JSON.stringify({ "recetas": props.recetas }),
             headers: { 'Content-Type': 'application/json' }
         }).then(res => res.json())
             .then(response => {
@@ -125,7 +128,7 @@ export default function DetalleReceta(props) {
                 <Form.Item
                     label="Prescripcion"
                     name="prescripcion"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
+                    rules={[{ required: true, message: 'Ingresa la prescripcion' }]}
                 >
                     <Input />
                 </Form.Item>

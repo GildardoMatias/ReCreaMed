@@ -35,9 +35,8 @@ function Navigator() {
               <Nav.Link href="/hospitales">Hospitales</Nav.Link>
               <Nav.Link href="/doctores">Medicos</Nav.Link>
               <Nav.Link href="usuarios">Usuarios</Nav.Link>
-              <Nav.Link href="expedientes">Expedientes</Nav.Link>
-              <Nav.Link href="#">|</Nav.Link>
-
+              {/* <Nav.Link href="expedientes">Expedientes</Nav.Link> */}
+              
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">

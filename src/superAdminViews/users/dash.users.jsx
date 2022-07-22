@@ -33,16 +33,13 @@ export default function Dash() {
       dataIndex: 'name',
       key: 'name',
     },
+    
     {
-      title: 'Rol',
-      dataIndex: 'rol',
-      key: 'rol',
+      title: 'Correo',
+      dataIndex: 'email',
+      key: 'email',
     },
-    {
-      title: 'Sucursal',
-      dataIndex: 'id_sucursal',
-      key: 'address',
-    },
+    
     {
       title: 'Telefono',
       dataIndex: 'telefono',

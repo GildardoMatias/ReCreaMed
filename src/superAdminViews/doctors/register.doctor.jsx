@@ -1,17 +1,55 @@
-import { Form, Input, Button, message } from 'antd'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Form, Input, Button, message, Space } from 'antd'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   InputNumber,
   Select,
   Checkbox,
 } from 'antd';
-import { S_API } from '../../resources'
+import { S_API, getData } from '../../resources'
 const { Option } = Select;
 const estados = ["Michoacan", "Morelos", "Guerrero"];
 
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 6,
+    },
+  },
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 16,
+    },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
 export default function Register() {
 
   const [form] = Form.useForm();
+
+  const [sucursales, setSucursales] = useState([]);
+  const [sucursalesLoading, setSucursalesLoading] = useState(true);
+  useEffect(() => {
+    getData('sucursales').then((rs) => { setSucursales(rs); setSucursalesLoading(false) })
+  }, [])
+
 
   const onFinish = (values) => {
     values.avatar = 'https://';
@@ -19,9 +57,8 @@ export default function Register() {
     values.rol = 'Medico';
     delete values.confirm;
     delete values.prefix;
-    delete values.agreement;
 
-    console.log(values)
+    console.log('ready to send', values)
     fetch(S_API + 'register', {
       method: 'POST',
       body: JSON.stringify(values),
@@ -65,70 +102,20 @@ export default function Register() {
     <div>
       <h1>Registrar doctor</h1>
       <br />
-      {/* <Form name="basic" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
-        <Form.Item label="Hospital" name="Hospital" rules={[{ required: true, message: 'Please input your username!' }]} >
-          <Input />
-        </Form.Item>
-        <Form.Item label="Nombre" name="username" rules={[{ required: true, message: 'Please input your username!' }]} >
-          <Input />
-        </Form.Item>
-        <Form.Item label="Apellido Paterno" name="rfc" rules={[{ required: true, message: 'Ingresa RFC' }]} >
-          <Input />
-        </Form.Item>
-        <Form.Item label="Apellido Materno" name="calle" rules={[{ required: true, message: 'Avenida Madero esquina con Santiago Tapia' }]} >
-          <Input />
-        </Form.Item>
-        <Form.Item label="Cedula" name="nint" rules={[{ required: true, message: '74B' }]} >
-          <Input />
-        </Form.Item>
-        <Form.Item label="Calle" name="next" rules={[{ required: true, message: '12' }]} >
-          <Input />
-        </Form.Item>
-        <Form.Item label="Numero" name="colonia" rules={[{ required: true, message: 'Centro' }]} >
-          <Input />
-        </Form.Item>
-        <Form.Item label="Colonia" name="cp" rules={[{ required: true, message: '58000' }]} >
-          <Input />
-        </Form.Item>
-        <Form.Item label="Telefono" name="ciudad_municipio" rules={[{ required: true, message: 'Ingresa ciudad/municipio' }]} >
-          <Input />
-        </Form.Item>
-        <Form.Item label="Correo" name="estado" rules={[{ required: true, message: 'Ingresa estado' }]} >
-          <Input />
-        </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
-            Guardar
-          </Button>
-        </Form.Item>
-      </Form> */}
       <Form
-        // {...formItemLayout}
-        labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}
+        {...formItemLayout}
         form={form}
         name="register"
         onFinish={onFinish}
         initialValues={{
-          residence: ['zhejiang', 'hangzhou', 'xihu'],
-          prefix: '52',
+          horarios: [{ sucursal: '', horario: '' }],
+          prefix: '+52',
         }}
         scrollToFirstError
       >
-        <Form.Item
-          name="email"
-          label="Correo"
-          rules={[
-            {
-              type: 'email',
-              message: 'The input is not valid E-mail!',
-            },
-            {
-              required: true,
-              message: 'Please input your E-mail!',
-            },
-          ]}
-        >
+
+        <Form.Item name="email" label="Correo" rules={[{ type: 'email', message: 'Ingresa un corrreo electronico valido' }, { required: true, message: 'Please input your E-mail!' }]}>
           <Input />
         </Form.Item>
 
@@ -136,11 +123,7 @@ export default function Register() {
           <Input.Password />
         </Form.Item>
 
-        <Form.Item
-          name="confirm"
-          label="Confirmar contraseña"
-          dependencies={['password']}
-          hasFeedback
+        <Form.Item name="confirm" label="Confirmar contraseña" dependencies={['password']} hasFeedback
           rules={[
             {
               required: true,
@@ -159,121 +142,69 @@ export default function Register() {
           <Input.Password />
         </Form.Item>
 
-        <Form.Item
-          name="telefono"
-          label="Telefono"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your phone number!',
-            },
-          ]}
-        >
-          <Input
-            addonBefore={prefixSelector}
-            style={{
-              width: '100%',
-            }}
-          />
+        <Form.Item name="telefono" label="Telefono" rules={[{ required: true, message: 'Ingresa el numero de telefono correcto', min: 10, max: 10 },]}>
+          <Input addonBefore={prefixSelector} style={{ width: '100%', }} />
         </Form.Item>
 
-        <Form.Item
-          name="id_sucursal"
-          label="Id Sucursal"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa el ID de la sucursal',
-            },
-          ]}
-        >
+        <Form.Item label="horarios" rules={[{ required: true, message: 'Ingresa al menos un horario', },]}>
+          <Form.List name="horarios" label="horarios list"
+          >
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map(({ key, name, ...restField }) => (
+                  <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'sucursal']}
+                      rules={[{ required: true, message: 'Elije Sucursal' }]}
+                    >
+                      <Select placeholder="Elije Sucursal" style={{ width: '180px' }} >
+                        {sucursalesLoading ? "Cargando" :
+                          sucursales.map(s => <Option value={s._id}>{s.nombre}</Option>)
+                        }
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'horario']}
+                      rules={[{ required: true, message: 'Missing last name' }]}
+                    >
+                      <Input placeholder="Horario" />
+                    </Form.Item>
+                    <MinusCircleOutlined onClick={() => remove(name)} />
+                  </Space>
+                ))}
+                <Form.Item>
+                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                    Agregar Horario
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
+        </Form.Item>
+
+        <Form.Item name="name" label="Nombre" rules={[{ required: true, message: 'Ingresa Nombre y apellidos' }]}>
           <Input />
         </Form.Item>
 
-        <Form.Item
-          name="id_medicoasignado"
-          label="Id Medico Asignado"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa el ID del medico ',
-            },
-          ]}
-        >
+        <Form.Item name="cedula" label="Cedula" rules={[{ required: false, message: 'Ingresa cedula' }]}>
           <Input />
         </Form.Item>
 
-        <Form.Item
-          name="name"
-          label="Nombre"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa Nombre y apellidos',
-            },
-          ]}
-        >
+        <Form.Item name="calle" label="Calle" rules={[{ required: true, message: 'Ingresa calle', whitespace: true }]}>
           <Input />
         </Form.Item>
 
-        <Form.Item
-          name="cedula"
-          label="Cedula"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa cedula',
-            },
-          ]}
-        >
+        <Form.Item name="numexterior" label="Num Exterior" rules={[{ required: true, message: 'Ingresa numero exterior' }]}>
           <Input />
         </Form.Item>
 
-        <Form.Item
-          name="calle"
-          label="Calle"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa calle',
-              whitespace: true,
-            },
-          ]}
-        >
+        <Form.Item name="numinterior" label="Num Interior" rules={[{ required: true, message: 'Ingresa numinterior' }]}>
           <Input />
         </Form.Item>
 
-        <Form.Item
-          name="numexterior"
-          label="Num Exterior"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa numero exterior',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="numinterior"
-          label="Num Interior"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa numinterior',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="Colonia"
-          name="colonia"
-          rules={[{ required: true, message: 'Please input your colobnia!' }]}
-        >
+        <Form.Item label="Colonia" name="colonia" rules={[{ required: true, message: 'Please input your colobnia!' }]}            >
           <Input />
         </Form.Item>
 
@@ -282,32 +213,42 @@ export default function Register() {
             {estados.map(e => <Option value={e}>{e}</Option>)}
           </Select>
         </Form.Item>
-        <Form.Item
-          name="municipio"
-          label="Municipio"
-          rules={[{ required: true, message: 'Ingresa tu municipio' }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item name="codigopostal" label="Codigo Postal" rules={[{ required: true, message: 'Ingresa codigopostal', },]}>
-          <InputNumber addonAfter={suffixSelector} style={{ width: '100%', }} />
-        </Form.Item>
-        <Form.Item
-          name="certificacion"
-          label="Certificacion"
-          rules={[{ required: true, message: 'Ingresa tu certificacion' }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="universidad"
-          label="Universidad" rules={[{ required: true, message: 'Ingresa tu universidad' }]} >
+
+        <Form.Item name="municipio" label="Municipio" rules={[{ required: true, message: 'Ingresa tu municipio' }]} >
           <Input />
         </Form.Item>
 
-        <Form.Item >
+        <Form.Item name="codigopostal" label="Codigo Postal" rules={[{ required: true, message: 'Ingresa codigopostal', },]}>
+          <InputNumber addonAfter={suffixSelector} style={{ width: '100%', }} />
+        </Form.Item>
+
+        <Form.Item name="certificacion" label="Certificacion" rules={[{ required: false, message: 'Ingresa tu certificacion' }]}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name="universidad" label="Universidad" rules={[{ required: false, message: 'Ingresa tu universidad' }]} >
+          <Input />
+        </Form.Item>
+
+        {/* <Form.Item
+          name="agreement"
+          valuePropName="checked"
+          rules={[
+            {
+              validator: (_, value) =>
+                value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+            },
+          ]}
+          {...tailFormItemLayout}
+        >
+          <Checkbox>
+            He leído y acepto los <a href="https://recreamed.com">terminos y condiciones</a>
+          </Checkbox>
+        </Form.Item> */}
+
+        <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
-            Registrar
+            Register
           </Button>
         </Form.Item>
       </Form>

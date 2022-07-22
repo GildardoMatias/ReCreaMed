@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Space, Button, Input, Form } from 'antd';
-import { getData } from '../../resources';
+import { Card, Space, Button, Input, Form, message } from 'antd';
+import { getData, API } from '../../resources';
 import { FormOutlined } from '@ant-design/icons';
 
 export default function DetalleHistoria(props) {
@@ -12,12 +12,16 @@ export default function DetalleHistoria(props) {
     useEffect(() => {
         console.log("Props IDHistoria: ", props.historia)
         props.historia ?
-            getData(`historia/${props.historia}`).then(rs => { setHistoriaData(rs); setHistoriaLoading(false) })
+            getHistoriaData()
             :
             finifhGet()
     }, [props.historia])
 
     const finifhGet = () => { setHistoriaData([]); setHistoriaLoading(false); }
+
+    const getHistoriaData = () => {
+        getData(`historia/${props.historia}`).then(rs => { setHistoriaData(rs); setHistoriaLoading(false) })
+    }
 
     const gridStyle = {
         width: '100%',
@@ -29,10 +33,47 @@ export default function DetalleHistoria(props) {
         marginTop: 15
     };
 
+    const updateHistoria = (values) => {
+        setEditing(false)
+        fetch(API + 'historias/update/' + historiaData[0]._id, {
+            method: 'PUT',
+            body: JSON.stringify(values),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(response => {
+                console.log('Success:', response);
+                message.success(response.message || response.error);
+            })
+            .finally(() => {
+                getHistoriaData()
+                setEditing(false)
+            })
+        console.log('New Historia', values);
+    }
+
+
     const HistoriaDetails = () => {
         return <Card.Grid style={gridStyle} >{
             editing ?
-                <><Input defaultValue={historiaData[0].historial} /><br /><Button onClick={() => setEditing(false)}>Guardar</Button></>
+                <>
+                    <Form name='historiaForm' initialValues={{ historial: historiaData[0].historial }} onFinish={updateHistoria}>
+                        <Form.Item name='historial'>
+                            <Input />
+                        </Form.Item>
+                        <Space>
+                            <Form.Item>
+                                <Button type="primary" htmlType="submit">Guardar</Button>
+                            </Form.Item>
+                            <Form.Item>
+                                <Button onClick={() => setEditing(false)}>Cancelar</Button>
+                            </Form.Item>
+                        </Space>
+
+
+                    </Form>
+                </>
                 :
                 historiaData[0].historial
         }</Card.Grid>
@@ -48,10 +89,6 @@ export default function DetalleHistoria(props) {
             {
                 notaLoading ? <h5>Cargando Historia...</h5> :
                     historiaData.length > 0 ?
-
-                        // Object.keys(historiaData[0]).map(k => {
-                        //     return <><Card.Grid key={k} style={gridStyle}>{k}</Card.Grid><Card.Grid style={gridStyle} size='small'>{historiaData[0][k]}</Card.Grid></>
-                        // })
                         <HistoriaDetails />
                         :
                         <h6>No hay una historia asignada</h6>

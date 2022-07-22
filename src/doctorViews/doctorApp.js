@@ -19,13 +19,14 @@ function Navigator() {
   console.log("DoctorApp", usuario.name)
   return <Navbar bg="light" expand="lg">
     <Container>
-      <Navbar.Brand href="#home">
+      <Navbar.Brand href="#home" style={{fontFamily: 'Helvetica', color:'#515a6e'}}>
         <img
           src={icon}
           width="40"
           height="35"
           className="d-inline-block align-top"
           alt="Recreamed logo"
+          style={{marginRight:6}}
         />
         Bienvenido {usuario.name}
       </Navbar.Brand>

@@ -24,26 +24,23 @@ export default function DetallesPaciente(props) {
                 {/* Editando
                 <Button onClick={() => setEditing(false)}>Guardar</Button> */}
             </> :
-            <Card style={{width: '100%'}}>
+            <Card style={{ width: '98%', borderRadius: 12 }}>
+                <Space><h5>Datos del Paciente</h5><Button onClick={() => setEditing(true)} size='small' disabled={!props.paciente} type="primary" shape="circle" icon={<FormOutlined />} /></Space>
                 <Row>
-                    <Col span={8}>
-
-                        <Avatar size={128} icon={<UserOutlined />} />
+                    <Col span={10}>
+                        <Row justify="center"><Col span={12}><Avatar size={128} icon={<UserOutlined />} /></Col></Row>
                         <br />
-                        <br />
-                        <p>Nombre: {pacienteData.name} </p>
-                        <p>Correo: {pacienteData.email} </p>
-                        <p>Telefono: {pacienteData.telefono} </p>
-
+                        <Row><Col span={8}>Nombre:</Col><Col span={10}>{pacienteData.name}</Col></Row>
+                        <Row><Col span={8}>Correo:</Col><Col span={10}>{pacienteData.email}</Col></Row>
+                        <Row><Col span={8}>Telefono:</Col><Col span={10}>{pacienteData.telefono}</Col></Row>
                     </Col>
-                    <Col span={8}>
-
-                        <p>Estado: {pacienteData.estado}</p>
-                        <p>Municipio: {pacienteData.municipio}</p>
-                        <p>Colonia: {pacienteData.colonia}</p>
-                        <p>Calle: {pacienteData.calle}</p>
-                        <p>Codigo Postal:{pacienteData.codigopostal} </p>
-
+                    <Col span={10}>
+                        <Row><Col span={8}>Telefono:</Col><Col span={10}>{pacienteData.telefono}</Col></Row>
+                        <Row><Col span={8}>Estado:</Col><Col span={10}> {pacienteData.estado}</Col></Row>
+                        <Row><Col span={8}>Municipio:</Col><Col span={10}> {pacienteData.municipio}</Col></Row>
+                        <Row><Col span={8}>Colonia:</Col><Col span={10}> {pacienteData.colonia}</Col></Row>
+                        <Row><Col span={8}>Calle:</Col><Col span={10}> {pacienteData.calle}</Col></Row>
+                        <Row><Col span={8}>Codigo Postal:</Col><Col span={10}>{pacienteData.codigopostal}</Col> </Row>
                     </Col>
                 </Row>
             </Card>
@@ -52,10 +49,7 @@ export default function DetallesPaciente(props) {
     return (
         // <div className='mainContainer'>
         <div>
-            <Space>
-                <h4>Datos del Paciente</h4>
-                <Button onClick={() => setEditing(true)} size='small' disabled={!props.paciente} type="primary" shape="circle" icon={<FormOutlined />} />
-            </Space>
+
             {pacienteLoading ? <Loading /> :
                 <Row>
                     <ProfileDetails />

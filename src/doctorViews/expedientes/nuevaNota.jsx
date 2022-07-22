@@ -112,7 +112,7 @@ export function NuevaNota(props) {
     const dragDropProps = {
         name: 'file',
         multiple: true,
-        action: API + 'notas/uploadEstudio',
+        action: API + 'notas/estudios/upload', // Production
 
         onChange(info) {
             const { status } = info.file;
@@ -134,27 +134,7 @@ export function NuevaNota(props) {
             console.log('Dropped files', e.dataTransfer.files);
         },
     };
-    const UploadProps = {
-        name: 'file',
-        action: API + 'notas/uploadEstudio',
-        // headers: {
-        //     authorization: 'authorization-text',
-        // },
-
-        onChange(info) {
-            if (info.file.status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
-
-            if (info.file.status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully`);
-                return info.file.response.file;
-            } else if (info.file.status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
-            }
-        }
-
-    };
+  
 
     // Get value Of upload
     const getFile = (e) => {

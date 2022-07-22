@@ -49,9 +49,8 @@ export default function MainPacientes() {
 
   return (
     <div className='mainContainer'>
-
-      <Space>
-        <h4>Pacientes </h4>
+      <Space size='middle'>
+        <h4 style={{marginTop: 8}}>Pacientes </h4>
         <Button onClick={() => setAdding(!adding)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
         <div className="my-select-container">
             <Select
@@ -69,12 +68,11 @@ export default function MainPacientes() {
           }
         </Select>
         </div>
-      
       </Space>
       {
         isLoading ? <Loading /> :
           adding ? <Register setAdding={setAdding} /> :
-            <Tabs activeKey={activePatient} tabPosition='left' onTabClick={(k, e) => { console.log('OnTABClick', k); setPaciente(k) }}>
+            <Tabs activeKey={activePatient} tabPosition='left' onTabClick={(k, e) => { console.log('OnTABClick', k); setPaciente(k) }} style={{marginTop: 6}}>
               {
                 pacientesData.map((pt) => {
                   return <TabPane tab={pt.name + " " + pt.telefono} key={pt._id} onClick={() => { setPaciente(pt._id) }}>
@@ -84,9 +82,6 @@ export default function MainPacientes() {
               }
             </Tabs>
       }
-
-      <br />
-      <br />
 
       <Expedientes paciente={paciente} />
 

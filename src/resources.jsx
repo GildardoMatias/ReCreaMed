@@ -16,7 +16,7 @@ export async function getData(endpoint) {
 
 export async function sendData(endpoint) {
 
-    return await fetch(S_API + 'endpoint', {
+    return await fetch(S_API + endpoint, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

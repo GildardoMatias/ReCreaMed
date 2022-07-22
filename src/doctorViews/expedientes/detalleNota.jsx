@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Collapse, Button, Tabs, Row, Col, Modal, Space } from 'antd';
 import { getData, API } from '../../resources';
-import { PlusOutlined, FormOutlined } from '@ant-design/icons';
+import { PlusOutlined, ExperimentOutlined, DownloadOutlined } from '@ant-design/icons';
 import { NuevaNota } from './nuevaNota';
 import DetalleReceta from './detalleReceta';
 const { TabPane } = Tabs;
@@ -93,7 +93,7 @@ export default function DetalleNota(props) {
 
 
     return <div>
-       
+
         <Space>
             <h5>Notas </h5>
             <Button onClick={showModal} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
@@ -105,7 +105,7 @@ export default function DetalleNota(props) {
 
                 notaData.map((nota, i) => {
                     let index = i + 1;
-                    return <TabPane tab={`Nota ${index}`} key={nota._id} style={{ width: '100%' }}>
+                    return <TabPane tab={`Nota ${index}`} key={nota._id} style={{ width: '100%'}}>
                         <Row>
                             <Col span={12}>
                                 <Collapse bordered={false}>
@@ -129,13 +129,15 @@ export default function DetalleNota(props) {
 
                                 <Card title='Estudios'>
                                     {nota.estudios.map((e) => {
-                                        return <Card.Grid style={EstudioGridStyle}>{e}</Card.Grid>
+                                        return <Card.Grid style={EstudioGridStyle}>
+                                            <a href={`${API}notas/estudios/download/${e}`}><ExperimentOutlined />{e}<DownloadOutlined /> </a>
+                                        </Card.Grid>
                                     })}
                                 </Card>
 
                             </Col>
                             <Col span={12}>
-                                <DetalleReceta recetas={nota.recetas} id_nota={nota._id}  />
+                                <DetalleReceta recetas={nota.recetas} id_nota={nota._id} />
                             </Col>
                         </Row>
                     </TabPane>
