@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Card, Button, Row, Space, Modal, Form, Input, message } from 'antd';
 import { API } from '../../resources';
 import { PlusOutlined, FormOutlined } from '@ant-design/icons';
-
+const { TextArea } = Input;
 //Los IDS de las recetas son tomados y enviados desde el expediente
 // Estan siendo agregadas y actualizadas directamente al expediente desde el form de detallenota->Agregar Receta
 export default function DetalleReceta(props) {
@@ -130,7 +130,7 @@ export default function DetalleReceta(props) {
                     name="prescripcion"
                     rules={[{ required: true, message: 'Ingresa la prescripcion' }]}
                 >
-                    <Input />
+                    <TextArea rows={4} />
                 </Form.Item>
 
                 <Form.Item

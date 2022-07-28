@@ -126,6 +126,10 @@ export default function DetalleNota(props) {
                                 <Card title='Observaciones'>
                                     {nota.Observaciones}
                                 </Card>
+                               
+                                <Card title='Diagnostico'>
+                                    {nota.diagnostico}
+                                </Card>
 
                                 <Card title='Estudios'>
                                     {nota.estudios.map((e) => {

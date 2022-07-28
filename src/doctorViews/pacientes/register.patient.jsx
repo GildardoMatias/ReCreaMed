@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, message } from 'antd'
+import { Form, Input, Button, message, Space } from 'antd'
 import { InputNumber, Select } from 'antd';
 import { S_API, API } from '../../resources'
 import { usuario } from '../../resources'
@@ -69,19 +69,19 @@ export default function Register(props) {
 
     console.log(values)
     console.log('url: ', url);
-    await fetch(url, {
-      method: props.paciente ? 'PUT' : 'POST',
-      body: JSON.stringify(values),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(res => res.json())
-      .then(response => {
-        console.log('Create User Response:', response);
-        message.success(response.message || response.error);
-        props.paciente ? console.log('Editing, not creating patient') : createPAtientData(response.user_id);
-      })
-      .catch(error => console.error('Error:', error))
+    // await fetch(url, {
+    //   method: props.paciente ? 'PUT' : 'POST',
+    //   body: JSON.stringify(values),
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // }).then(res => res.json())
+    //   .then(response => {
+    //     console.log('Create User Response:', response);
+    //     message.success(response.message || response.error);
+    //     props.paciente ? console.log('Editing, not creating patient') : createPAtientData(response.user_id);
+    //   })
+    //   .catch(error => console.error('Error:', error))
   };
 
   const prefixSelector = (
@@ -126,7 +126,7 @@ export default function Register(props) {
         <Form.Item
           name="email"
           label="Correo"
-          rules={[{type: 'email',message: 'The input is not valid E-mail!'},{required: true,message: 'Please input your E-mail!'}]}>
+          rules={[{ type: 'email', message: 'Ingresa un correo electronico vaido!' }, { required: true, message: 'Please input your E-mail!' }]}>
           <Input />
         </Form.Item>
 
@@ -186,6 +186,34 @@ export default function Register(props) {
         >
           <Input />
         </Form.Item>
+     
+        <Form.Item
+          name="res_name"
+          label="Nombre Responsable"
+          rules={[
+            {
+              required: true,
+              message: 'Ingresa Nombre y apellidos',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+       
+        <Form.Item
+          name="res_phone"
+          label="Telefono Responsable"
+          rules={[
+            {
+              required: true,
+              message: 'Ingresa Nombre y apellidos',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        
 
 
 
@@ -250,7 +278,7 @@ export default function Register(props) {
           <Input />
         </Form.Item>
         <Form.Item name="codigopostal" label="Codigo Postal" rules={[{ required: true, message: 'Ingresa codigopostal', },]}>
-          <InputNumber addonAfter={suffixSelector} style={{ width: '100%', }} />
+          <InputNumber style={{ width: '100%', }} />
         </Form.Item>
         {/* <Form.Item
           name="certificacion"
@@ -265,11 +293,14 @@ export default function Register(props) {
           <Input />
         </Form.Item> */}
 
-        <Form.Item >
-          <Button type="primary" htmlType="submit">
-            Registrar
-          </Button>
-          <Button onClick={() => props.setAdding(false)}>Cancelar</Button>
+        <Form.Item label='*'>
+          <Space>
+            <Button type="primary" htmlType="submit">
+              Registrar
+            </Button>
+            <Button onClick={() => props.setAdding(false)}>Cancelar</Button>
+          </Space>
+
         </Form.Item>
       </Form>
     </div>

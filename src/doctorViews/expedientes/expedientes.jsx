@@ -6,6 +6,8 @@ import Loading from '../../loading';
 import CreateExpedient from './createExpedient';
 import DetalleNota from './detalleNota'
 import DetalleHistoria from './detalleHistoria';
+import html2canvas from 'html2canvas';
+import { jsPDF } from "jspdf";
 
 const { Option } = Select;
 
@@ -18,7 +20,7 @@ export default function Expedientes(props) {
     const [notas, setNotas] = useState("");
 
 
- 
+
 
     useEffect(() => {
         getExpedientesData(props.paciente)
@@ -38,8 +40,21 @@ export default function Expedientes(props) {
             .finally(() => setExpedientesLoading(false))
     }
 
+const printDocument = () => {
+        const input = document.getElementById('expedient-export');
+        html2canvas(input)
+            .then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF();
+                pdf.addImage(imgData, 'JPEG', 0, 0);
+                // pdf.output('dataurlnewwindow');
+                pdf.save("expediente.pdf");
+            })
+            ;
+    }
 
-    return <div>
+
+    return <div id='expedient-export'>
         <Row>
             {/* <Col span={16} > */}
             {/* <h4>Expediente {props.paciente}</h4> */}
@@ -53,10 +68,12 @@ export default function Expedientes(props) {
         </Row>
 
         <DetalleHistoria historia={historia} />
-        
+
         <DetalleNota notas={notas} id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={props.paciente} />
 
         <CreateExpedient isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} pacientesData={[]} />
+
+        <Button onClick={printDocument}>Exportar a pdf</Button>
 
     </div>;
 }
