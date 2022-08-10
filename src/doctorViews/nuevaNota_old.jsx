@@ -92,7 +92,7 @@ export function NuevaNota() {
                 <Form.Item label="Presion Arterial" name="presion_arterial" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                     <Input />
                 </Form.Item>
-                <Form.Item label="Frecuencia Cariaca" name="frecuencia_cardiaca" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                <Form.Item label="Frecuencia Cardiaca" name="frecuencia_cardiaca" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                     <Input />
                 </Form.Item>
                 <Form.Item label="Frecuencia respiratoria" name="frecuencia_respiratoria" rules={[{ required: true, message: 'Ingresa RFC' }]} >

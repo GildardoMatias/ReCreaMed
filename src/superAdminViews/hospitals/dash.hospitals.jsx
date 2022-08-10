@@ -1,31 +1,64 @@
 import React, { useEffect, useState } from 'react'
-import { Table } from 'antd';
-import Loading  from '../../loading'
-import { API } from '../../resources'
-
+import { Table, Space, Button, Modal, Popconfirm } from 'antd';
+import Loading from '../../loading'
+import { API, deleteData } from '../../resources'
+import Register from './register.hospital';
 
 export default function Dash() {
 
   const [isLoading, setILoading] = useState(true);
   const [hospitalesData, setHospitalesData] = useState([]);
+  const [hospitalForEdit, setHospitalForEdit] = useState(null)
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   useEffect(() => {
     getHospitalesData()
   }, [])
+
+  useEffect(() => {
+    getHospitalesData()
+  }, [isModalVisible])
 
   const getHospitalesData = () => {
     fetch(API + 'sucursales')
       .then(response => response.json())
       .then(data => { console.log(data); setHospitalesData(data); setILoading(false); });
   }
+  // Confitmar Borrar
+  const confirm = (e) => {
+    console.log('toDel: ', e);
+    deleteData('sucursales/remove/' + e._id).then(() => getHospitalesData())
+  };
+  const cancel = (e) => {
+    console.log(e);
+  };
+
+  // Edit Hospital
+  const editHospital = async (h) => {
+    await setHospitalForEdit(h)
+    setIsModalVisible(true);
+    console.log('Editar hospital: ', h)
+  }
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   //Start tabla data
   const columns = [
     {
+      title: 'Logo',
+      key: 'logo',
+      render: (_, record) => (
+        <img src={'https://api.recreamed.com/images/' + record.logo} alt="Logo" width={64} />
+      ),
+    },
+    {
       title: 'Sucursal',
-      dataIndex: 'nombre',
-      sorter: (a, b) => a.name.length - b.name.length,
-      sortDirections: ['descend'],
+      dataIndex: 'nombre'
     },
     {
       title: 'Ciudad_municipio',
@@ -45,7 +78,30 @@ export default function Dash() {
       title: 'Telefono',
       dataIndex: 'telefono',
       defaultSortOrder: 'descend',
-    }
+    },
+    {
+      title: 'Opciones',
+      key: 'action',
+      render: (_, record) => (
+        <Space size="middle">
+          <Button size='small' onClick={() => { editHospital(record) }}>
+            Editar
+          </Button>
+          <Popconfirm
+            title="Seguro que quiere borrar esta sucursal?"
+            onConfirm={() => confirm(record)}
+            onCancel={cancel}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button danger size='small'>
+              Borrar
+            </Button>
+          </Popconfirm>
+
+        </Space>
+      ),
+    },
   ];
 
   const onChange = (pagination, filters, sorter, extra) => {
@@ -56,8 +112,12 @@ export default function Dash() {
   return (
     isLoading ? <Loading /> :
       <div>
-        <h1>Todos los hospitales</h1>
+        <h1>Hospitales</h1>
         <Table columns={columns} dataSource={hospitalesData} onChange={onChange} />
+
+        <Modal width='400' title="Editar Hospital 400" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose={true}>
+          <Register hospital={hospitalForEdit} setModalVisible={setIsModalVisible} />
+        </Modal>
       </div>
   )
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, message, Space } from 'antd'
+import { Form, Input, Button, message, Space, Divider } from 'antd'
 import { InputNumber, Select } from 'antd';
 import { S_API, API } from '../../resources'
 import { usuario } from '../../resources'
@@ -62,8 +62,12 @@ export default function Register(props) {
     values.cedula = '';
     values.horarios = [];
     values.medicos_asignados = props.paciente ? props.paciente.medicos_asignados : [usuario._id];
+    values.responsable = props.paciente ? props.paciente.responsable : { nombre: values.res_name, telefono: values.res_phone }
+
 
     delete values.prefix;
+    delete values.res_name;
+    delete values.res_phone;
 
     const url = props.paciente ? API + 'users/updateUser/' + props.paciente._id : S_API + 'register';
 
@@ -159,12 +163,7 @@ export default function Register(props) {
         <Form.Item
           name="telefono"
           label="Telefono"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your phone number!',
-            },
-          ]}
+          rules={[{ required: true, message: 'Please input your phone number!' }]}
         >
           <Input
             addonBefore={prefixSelector}
@@ -177,56 +176,34 @@ export default function Register(props) {
         <Form.Item
           name="name"
           label="Nombre"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa Nombre y apellidos',
-            },
-          ]}
+          rules={[{ required: true, message: 'Ingresa Nombre y apellidos' }]}
         >
           <Input />
         </Form.Item>
-     
+
+        <Divider>Responsable (opcional)</Divider>
         <Form.Item
           name="res_name"
           label="Nombre Responsable"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa Nombre y apellidos',
-            },
-          ]}
+          rules={[{ message: 'Ingresa Nombre y apellidos' }]}
         >
           <Input />
         </Form.Item>
-       
+
         <Form.Item
           name="res_phone"
           label="Telefono Responsable"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa Nombre y apellidos',
-            },
+          rules={[{ message: 'Ingresa Nombre y apellidos' }
           ]}
         >
           <Input />
         </Form.Item>
-
-        
-
-
+        <Divider />
 
         <Form.Item
           name="calle"
           label="Calle"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa calle',
-              whitespace: true,
-            },
-          ]}
+          rules={[{ required: true, message: 'Ingresa calle', whitespace: true }]}
         >
           <Input />
         </Form.Item>
@@ -234,12 +211,7 @@ export default function Register(props) {
         <Form.Item
           name="numexterior"
           label="Num Exterior"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa numero exterior',
-            },
-          ]}
+          rules={[{ required: true, message: 'Ingresa numero exterior' }]}
         >
           <Input />
         </Form.Item>

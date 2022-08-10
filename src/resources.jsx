@@ -1,6 +1,6 @@
+import { message } from 'antd'
 export const API = "https://api.recreamed.com/api/"
 export const S_API = "https://api.recreamed.com/session/"
-// export const S_API = "http://localhost:4000/session/"
 
 export const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); localStorage.removeItem('userData'); window.location.href = '/'; }
 
@@ -16,11 +16,9 @@ export async function getData(endpoint) {
 
 export async function sendData(endpoint) {
 
-    return await fetch(S_API + endpoint, {
+    return await fetch(API + endpoint, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        headers: { 'Content-Type': 'application/json' }
     }).then(res => res.json())
         .then(response => {
             console.log('Success:', response);
@@ -28,18 +26,41 @@ export async function sendData(endpoint) {
         .catch(error => console.error('Error:', error))
 };
 
-export async function sendDataValues(values) {
+export async function deleteData(endpoint) {
 
-    return await fetch(S_API + 'register', {
-        method: 'POST',
-        body: JSON.stringify(values),
-        headers: {
-            'Content-Type': 'application/json'
-        }
+    return await fetch(API + endpoint, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
     }).then(res => res.json())
         .then(response => {
             console.log('Success:', response);
-            // message.success(response.message);
+            message.info(response.message)
+        })
+        .catch(error => console.error('Error:', error))
+};
+
+export async function updateData(endpoint, values) {
+
+    return await fetch(API + endpoint, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values)
+    }).then(res => res.json())
+        .then(response => {
+            console.log('Success:', response);
+            message.success(response.message || response.error);
+        })
+        .catch(error => console.error('Error:', error))
+};
+export async function sendDataBody(endpoint, values) {
+
+    return await fetch(API + endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values)
+    }).then(res => res.json())
+        .then(response => {
+            return response
         })
         .catch(error => console.error('Error:', error))
 };

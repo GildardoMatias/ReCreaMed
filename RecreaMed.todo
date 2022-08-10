@@ -19,12 +19,6 @@ Ajustes visuales en main
 
 Responsable del paciente nombre y telefono
 
-recetas only for notas
-
-Buscador de pacientes
-
-Telefono junto a nombre
-
 Nota desplegable
 
 Contador de notas
@@ -35,3 +29,51 @@ pasar pacientes a otro medico
 el nuevo medico nop puede borrar al paciente que le pasaron
 agregar nuevas notas citas recetas pero no al hisitorial ni al paciente
 Los medicos van agregando hojas pero no pueden modifi
+
+_______________
+FOTOS DE PERFIL Y LOGOS
+SuperAdmin pp
+From session
+-Reducir el tamaño de inputs
+Usuario no id_sucursal
+Usuario register nombre hasta arriba -> no medic campos Obligatorios: Estado municipio y telefono respons no oblig
+On register medico -> add Titulo y agregar en bienvenido
+Quitar terminos y condiciones
+-Borrar expediente de hospital @done
+Regresar a todos los hospitales 
+Verificar correo en hospital por nombre
+Superadmin borrar editar
+La direccion del medico no es necesaria solo para pacientes y hospitales
+Nombre Hasta Arriba
+Gon back to medic list on register patient
+Borrar y editar medics
+Definir formato de horario
+Cita verificar sucursal por horario
+Consulta es nota
+Usuarios editar borrar
+Que diga pacientes en lugar de usuarios
+______________________
+Nota 1, + fecha
+______________________
+Add editar nota for estudios 
+Obligatorios for nota: Edad
+Observaciones text area
+Nombre del estudio manual on upload
+Export: Datos del paciente, historia clinica, nota 1, datos y estudios, recetas
+Validar on client
+Receta guardar no ok. Mas ancho y largo
+    On guardar, imprimir con plantilla
+
+Exportar a pdf -  + imprimir nota - Exportar expediente(incluye todas las notas)
+
+When enter to patient view last card for default. Expand detalles nota for default
+
+Diagnostico-> los que tienen subcategorias add titulo. Add titulo if not
+
+
+Encuestas (docx) lo hace el recepcionista cuando llega, antes de pasr con el doc. Esto es for recepcion
+
+On nota: Separar signos vitales y ponerlos en recepcion
+Recepcion es como medico, solo que no puede ver estudios ni observaciones ni giagnostico, ver y editar el resto
+Tabla de encuestas. Ligada a la nota y puede haber mas de una
+Una puede tener mas de un resultado de encuestas(escalas)

@@ -1,7 +1,7 @@
 import { React, Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Layout, Menu } from 'antd';
-import {  BankOutlined, AppstoreAddOutlined, MenuOutlined } from '@ant-design/icons';
+import { BankOutlined, AppstoreAddOutlined, MenuOutlined } from '@ant-design/icons';
 
 import Register from './register.hospital';
 import Dash from './dash.hospitals';

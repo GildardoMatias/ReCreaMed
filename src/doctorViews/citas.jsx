@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Button, Modal, Form, Input, DatePicker, message } from 'antd';
+import { Row, Col, Button, Modal, Form, Input, DatePicker, message, Space } from 'antd';
 import { Calendar, Badge, Switch } from 'antd';
 import { getData } from '../resources';
 import { API, usuario } from '../resources';
 import { Select } from 'antd';
+import CitaGoogle from './cita_google';
 const { Option } = Select;
 // import { API } from '../resources'
 
@@ -37,7 +38,7 @@ export function Citas() {
 
     const onFinish = (values) => {
         values.medico = usuario._id;
-        values.sucursal = usuario.horarios[0].id_sucursal;
+        values.sucursal = usuario.horarios[0].sucursal;
         console.log('Valores:', values);
         fetch(API + 'citas/add', {
             method: 'POST',
@@ -113,23 +114,21 @@ export function Citas() {
     return (
         <div className='mainContainer'>
             <Row>
-                <div span={8}><h4>CALENDARIO DE CITAS</h4></div>
-                <div>
-                    <Button type="primary" onClick={showModal}>
-                        Nueva Cita
-                    </Button>
-                </div>
+                <h4 style={{ marginRight: 20 }}>CALENDARIO DE CITAS</h4>
+                <Button type="primary" onClick={showModal}>
+                    Nueva Cita
+                </Button>
             </Row>
 
             {/* {isLoading ? <Loading /> : <Table columns={columns} dataSource={citasData} />} */}
 
             <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
 
-
+            <CitaGoogle />
 
             <Modal title="Nuevo expediente" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 <Form name="expediente" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
-                    initialValues={{ id_reunion: 'https://recreamed.zoom.us/my/gildardo/' }}>
+                    initialValues={{ id_reunion: 'https://www.google.com/calendar/event?eid=dXN2dG01NG9oY3E0bzhvczJzZXI5cjhxZDhfMjAyMjA4MDNUMTYwMDAwWiBhbWF0aWFzQHJlYWxpZGFkY3JlYXRpdmEuY29t' }}>
 
                     <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                         <Select
@@ -146,19 +145,24 @@ export function Citas() {
                         <Input />
                     </Form.Item> */}
 
-                    <Col style={{ marginLeft: 64, marginBottom: 12 }}>
-                        Cita en Linea: <Switch style={{ marginLeft: 8 }} defaultChecked={false} onChange={onSwitch} />
-                    </Col>
+
 
                     <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]} >
                         <DatePicker showTime onChange={onChange} onOk={onOk} placeholder='Selecciona Fecha y Hora' />
                     </Form.Item>
+                    <Col style={{ marginLeft: 64, marginBottom: 12 }}>
+                        Cita en Linea: <Switch style={{ marginLeft: 8 }} defaultChecked={false} onChange={onSwitch} />
+                    </Col>
                     {
                         isOnline ?
                             <>
+                                <Col style={{ marginLeft: 64, marginBottom: 12 }}>
+                                    <CitaGoogle />
+                                </Col>
                                 <Form.Item label="Enlace a la reunion" name="id_reunion" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                                     <Input />
                                 </Form.Item>
+
                                 <Form.Item label="Contraseña" name="password_reunion" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                                     <Input placeholder='Opcional' />
                                 </Form.Item>
@@ -167,9 +171,11 @@ export function Citas() {
                             <></>
 
                     }
+
                     <Form.Item label="Comentarios" name="comentarios" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                         <Input />
                     </Form.Item>
+
 
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                         <Button type="primary" htmlType="submit" form='expediente'>
