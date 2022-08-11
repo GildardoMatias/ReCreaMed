@@ -37,12 +37,12 @@ class SideMenu extends Component {
             <div className="logo" />
             <Menu defaultSelectedKeys={['1']} mode="inline">
               <Menu.Item icon={ <UserOutlined /> } key="1">
-                <span>Usuarios</span>
-                <Link to="/usuarios" />
+                <span>Pacientes</span>
+                <Link to="/pacientes" />
               </Menu.Item>
               <Menu.Item icon={ <UserAddOutlined /> } key="2">
-                <span>Registrar Usuario</span>
-                <Link to="/registrar_usuario" />
+                <span>Registrar Paciente</span>
+                <Link to="/registrar_paciente" />
               </Menu.Item>
             </Menu>
           </Sider>
@@ -53,8 +53,8 @@ class SideMenu extends Component {
             </Header>
 
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
-              <Route exact path="/registrar_usuario" component={Register} />
-              <Route path="/usuarios" component={Dash} />
+              <Route exact path="/registrar_paciente" component={Register} />
+              <Route path="/pacientes" component={Dash} />
             </Content>
 
             <Footer style={{ textAlign: 'center' }}>

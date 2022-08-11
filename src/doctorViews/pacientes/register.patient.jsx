@@ -45,9 +45,14 @@ export default function Register(props) {
         'Content-Type': 'application/json'
       }
     }).then(res => res.json())
-      .then(response => { console.log('Success:', response); message.success(response.message || response.error); })
+      .then(response => {
+        console.log('Success:', response);
+        message.success(response.message || response.error);
+        if (response.message && response.message === 'Expediente creado correctamente') {
+          props.setAdding(false)
+        }
+      })
       .catch(error => console.error('Error:', error))
-      .finally(() => { props.setAdding(false) })
   }
 
   const onFinish = async (values) => {
@@ -64,7 +69,6 @@ export default function Register(props) {
     values.medicos_asignados = props.paciente ? props.paciente.medicos_asignados : [usuario._id];
     values.responsable = props.paciente ? props.paciente.responsable : { nombre: values.res_name, telefono: values.res_phone }
 
-
     delete values.prefix;
     delete values.res_name;
     delete values.res_phone;
@@ -73,19 +77,19 @@ export default function Register(props) {
 
     console.log(values)
     console.log('url: ', url);
-    // await fetch(url, {
-    //   method: props.paciente ? 'PUT' : 'POST',
-    //   body: JSON.stringify(values),
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // }).then(res => res.json())
-    //   .then(response => {
-    //     console.log('Create User Response:', response);
-    //     message.success(response.message || response.error);
-    //     props.paciente ? console.log('Editing, not creating patient') : createPAtientData(response.user_id);
-    //   })
-    //   .catch(error => console.error('Error:', error))
+    await fetch(url, {
+      method: props.paciente ? 'PUT' : 'POST',
+      body: JSON.stringify(values),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(response => {
+        console.log('Create User Response:', response);
+        message.success(response.message || response.error);
+        props.paciente ? console.log('Editing, not creating patient') : createPAtientData(response.user_id);
+      })
+      .catch(error => console.error('Error:', error))
   };
 
   const prefixSelector = (
@@ -181,7 +185,7 @@ export default function Register(props) {
           <Input />
         </Form.Item>
 
-        <Divider>Responsable (opcional)</Divider>
+        <Divider>Responsable (opcional) </Divider>
         <Form.Item
           name="res_name"
           label="Nombre Responsable"

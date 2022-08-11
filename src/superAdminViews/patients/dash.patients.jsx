@@ -127,7 +127,7 @@ export default function Dash() {
 
   return (
     <div>
-      <h4>Usuarios</h4>
+      <h4>Pacientes</h4>
       {isLoading ? <Loading /> :
 
         <Table dataSource={pacientesData} columns={columns} />
@@ -137,7 +137,7 @@ export default function Dash() {
       </Modal>
 
       <Modal width={800} title={<h4>Editar Paciente</h4>} visible={isEditModalVisible} onOk={handleOkEdit} onCancel={handleCancelEdit} destroyOnClose={true}>
-        <Register paciente={patientForEdit}/>
+        <Register paciente={patientForEdit} />
       </Modal>
     </div>
   )

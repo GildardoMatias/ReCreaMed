@@ -87,7 +87,11 @@ export function Register() {
         'Content-Type': 'application/json'
       }
     }).then(res => res.json())
-      .then(response => { console.log('Success:', response); response.message ? message.success(response.message) : message.error(response.error); })
+      .then(response => {
+        console.log('Success:', response);
+        response.message ? message.success(response.message) : message.error(response.error);
+        if (response.message && response.message === 'Usuario creado correctamente') window.location.href = '/'
+      })
       .catch(error => console.error('Error:', error))
   };
 
@@ -135,7 +139,7 @@ export function Register() {
             name="register"
             onFinish={onFinish}
             initialValues={{
-              horarios: [{ id_sucursal: '', horario: '' }],
+              horarios: [{ sucursal: '', horario: '' }],
               prefix: '+52',
             }}
             scrollToFirstError
@@ -146,7 +150,7 @@ export function Register() {
                 <Option value="Administrador">Administrador de Hospital</Option>
                 <Option value="Recepcion">Recepcion</Option>
                 <Option value="Medico">Medico</Option>
-                <Option value="Paciente">Paciente</Option>
+                <Option value="Paciente" disabled>Paciente</Option>
               </Select>
             </Form.Item>
 
@@ -200,11 +204,11 @@ export function Register() {
                       <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
                         <Form.Item
                           {...restField}
-                          name={[name, 'id_sucursal']}
+                          name={[name, 'sucursal']}
                           rules={[{ required: true, message: 'Elije Sucursal' }]}
                         >
-                          <Select placeholder="Elije Sucursal" style={{width:'180px'}} >
-                            { sucursalesLoading ? "Cargando" :
+                          <Select placeholder="Elije Sucursal" style={{ width: '180px' }} >
+                            {sucursalesLoading ? "Cargando" :
                               sucursales.map(s => <Option value={s._id}>{s.nombre}</Option>)
                             }
                           </Select>
@@ -229,9 +233,6 @@ export function Register() {
               </Form.List>
             </Form.Item>
 
-            <Form.Item name="id_medicoasignado" label="Id Medico Asignado" rules={[{ required: true, message: 'Ingresa el ID del medico ', },]}>
-              <Input />
-            </Form.Item>
 
             <Form.Item name="name" label="Nombre" rules={[{ required: true, message: 'Ingresa Nombre y apellidos' }]}>
               <Input />

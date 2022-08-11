@@ -174,12 +174,16 @@ export default function Register(props) {
         name="register"
         onFinish={props.medico ? onFinishEdit : onFinish}
         // initialValues={{ horarios: [{ sucursal: '', horario: '' }], prefix: '+52' }}
-        initialValues={props.medico }
+        initialValues={props.medico}
         scrollToFirstError
       >
 
         <Row>
+
           <Col span={11}>
+            <Form.Item name="name" label="Nombre" rules={[{ required: true, message: 'Ingresa Nombre y apellidos' }]}>
+              <Input />
+            </Form.Item>
             <Form.Item name="email" label="Correo" rules={[{ type: 'email', message: 'Ingresa un corrreo electronico valido' }, { required: true, message: 'Please input your E-mail!' }]}>
               <Input />
             </Form.Item>
@@ -211,6 +215,11 @@ export default function Register(props) {
               <Input addonBefore={prefixSelector} style={{ width: '100%', }} />
             </Form.Item>
 
+
+
+
+          </Col>
+          <Col span={12}>
             <Form.Item label="horarios" rules={[{ required: true, message: 'Ingresa al menos un horario', },]}>
               <Form.List name="horarios" label="horarios list"
               >
@@ -249,23 +258,14 @@ export default function Register(props) {
               </Form.List>
             </Form.Item>
 
-            <Form.Item name="name" label="Nombre" rules={[{ required: true, message: 'Ingresa Nombre y apellidos' }]}>
-              <Input />
-            </Form.Item>
-
             <Form.Item name="cedula" label="Cedula" rules={[{ required: false, message: 'Ingresa cedula' }]}>
               <Input />
             </Form.Item>
 
-
-
-          </Col>
-          <Col span={12}>
-
-            <Form.Item name="calle" label="Calle" rules={[{ required: true, message: 'Ingresa calle', whitespace: true }]}>
+            {/* Not Necesary For Medic. He'll be in hospital direction */}
+            {/* <Form.Item name="calle" label="Calle" rules={[{ required: true, message: 'Ingresa calle', whitespace: true }]}>
               <Input />
             </Form.Item>
-
 
             <Form.Item name="numexterior" label="Num Exterior" rules={[{ required: true, message: 'Ingresa numero exterior' }]}>
               <Input />
@@ -291,7 +291,7 @@ export default function Register(props) {
 
             <Form.Item name="codigopostal" label="Codigo Postal" rules={[{ required: true, message: 'Ingresa codigopostal', },]}>
               <InputNumber addonAfter={suffixSelector} style={{ width: '100%', }} />
-            </Form.Item>
+            </Form.Item> */}
 
             <Form.Item name="certificacion" label="Certificacion" rules={[{ required: false, message: 'Ingresa tu certificacion' }]}>
               <Input />
@@ -300,7 +300,11 @@ export default function Register(props) {
             <Form.Item name="universidad" label="Universidad" rules={[{ required: false, message: 'Ingresa tu universidad' }]} >
               <Input />
             </Form.Item>
-
+            <Form.Item {...tailFormItemLayout}>
+              <Button type="primary" htmlType="submit">
+                Register
+              </Button>
+            </Form.Item>
           </Col>
         </Row>
 
@@ -324,11 +328,7 @@ export default function Register(props) {
           </Checkbox>
         </Form.Item> */}
 
-        <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            Register
-          </Button>
-        </Form.Item>
+
       </Form>
     </div>
   )

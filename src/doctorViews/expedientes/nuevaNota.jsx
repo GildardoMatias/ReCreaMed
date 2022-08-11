@@ -5,6 +5,7 @@ import { MinusCircleOutlined, PlusOutlined, UploadOutlined, InboxOutlined } from
 import { diagnosticos } from '../../assets/diagnosticos2';
 const { Option, OptGroup } = Select;
 const { Dragger } = Upload;
+const { TextArea } = Input;
 
 const handleChange = (value) => {
     // Select diagnostic
@@ -134,7 +135,7 @@ export function NuevaNota(props) {
             console.log('Dropped files', e.dataTransfer.files);
         },
     };
-  
+
 
     // Get value Of upload
     const getFile = (e) => {
@@ -166,7 +167,7 @@ export function NuevaNota(props) {
                     Selecciona archivos en pdf o imagen que sean menores a 2 MB para poder subirlos
                 </p>
             </Dragger>
-            <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 10 }} initialValues={{ remember: true, estudios: [] }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"  style={{marginTop: 12}} >
+            <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 14 }} initialValues={{ remember: true, estudios: [] }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" style={{ marginTop: 12 }} >
 
                 <Form.Item label="Edad" name="edad" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                     <Input />
@@ -266,7 +267,7 @@ export function NuevaNota(props) {
  */}
 
                 <Form.Item label="Observaciones" name="Observaciones" rules={[{ required: true, message: 'Ingresa Observaciones' }]} >
-                    <Input />
+                    <TextArea rows={4} />
                 </Form.Item>
 
                 <Form.Item label="Diagnostico" name="diagnostico" rules={[{ required: true, message: 'Selecciona Diagnostico' }]} >
