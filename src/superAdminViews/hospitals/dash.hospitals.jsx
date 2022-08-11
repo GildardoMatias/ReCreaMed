@@ -24,6 +24,13 @@ export default function Dash() {
       .then(response => response.json())
       .then(data => { console.log(data); setHospitalesData(data); setILoading(false); });
   }
+
+  // Edit Hospital
+  const editHospital = async (h) => {
+    await setHospitalForEdit(h)
+    setIsModalVisible(true);
+    console.log('Editar hospital: ', h)
+  }
   // Confitmar Borrar
   const confirm = (e) => {
     console.log('toDel: ', e);
@@ -33,12 +40,6 @@ export default function Dash() {
     console.log(e);
   };
 
-  // Edit Hospital
-  const editHospital = async (h) => {
-    await setHospitalForEdit(h)
-    setIsModalVisible(true);
-    console.log('Editar hospital: ', h)
-  }
   const handleOk = () => {
     setIsModalVisible(false);
   };
@@ -91,7 +92,7 @@ export default function Dash() {
             title="Seguro que quiere borrar esta sucursal?"
             onConfirm={() => confirm(record)}
             onCancel={cancel}
-            okText="Yes"
+            okText="Si"
             cancelText="No"
           >
             <Button danger size='small'>

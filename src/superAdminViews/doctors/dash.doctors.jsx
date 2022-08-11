@@ -9,16 +9,10 @@ export default function Dash() {
 
   const [isLoading, setILoading] = useState(true);
   const [doctoresData, setDoctoresData] = useState([]);
-  const [setDoctorForEdit, setSetDoctorForEdit] = useState(null)
+  const [doctorForEdit, setDoctorForEdit] = useState(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   useEffect(() => { getDoctoresData() }, [])
-
-  const editDoctor = async (h) => {
-    await setSetDoctorForEdit(h)
-    setIsModalVisible(true);
-    console.log('Editar medico: ', h)
-  }
 
   const getDoctoresData = () => {
     fetch(API + 'users_by_rol/Medico')
@@ -27,6 +21,14 @@ export default function Dash() {
         console.log(data); setDoctoresData(data);
       })
       .finally(() => setILoading(false))
+  }
+
+  const editDoctor = async (d) => {
+    d.horarios.forEach((h) => { h.sucursal = h.sucursal._id })
+    console.log('Horarios before edit: ', d.horarios);
+    await setDoctorForEdit(d)
+    setIsModalVisible(true);
+    console.log('Editar medico: ', d)
   }
 
   const deleteDoctor = (doctor) => {
@@ -89,7 +91,7 @@ export default function Dash() {
             title="Seguro que quiere borrar este doctor?"
             onConfirm={() => deleteDoctor(record)}
             // onCancel={cancel}
-            okText="Yes"
+            okText="Si"
             cancelText="No"
           >
             <Button danger size='small'>
@@ -109,7 +111,7 @@ export default function Dash() {
       }
 
       <Modal width='200' title="Editar Hospital 400" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose={true}>
-        <Register />
+        <Register medico={doctorForEdit} />
       </Modal>
     </div>
   )

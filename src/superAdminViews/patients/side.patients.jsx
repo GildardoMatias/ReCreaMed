@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Layout, Menu } from 'antd';
 import { UserOutlined, UserAddOutlined, MenuOutlined } from '@ant-design/icons';
 
-import Register from './register.user';
-import Dash from './dash.users';
+import Register from './register.patient';
+import Dash from './dash.patients';
 
 const { Header, Content, Footer, Sider } = Layout;
 

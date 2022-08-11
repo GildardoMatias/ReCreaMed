@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-// import {Card } from 'antd'
-import SideMenu from './side.users';
+import SideMenu from './side.patients';
 
-export class Users extends Component {
+export class Patients extends Component {
     render() {
         return (
             <div>
@@ -14,4 +13,4 @@ export class Users extends Component {
     }
 }
 
-export default Users
+export default Patients

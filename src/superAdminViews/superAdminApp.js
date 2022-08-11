@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Button } from 'antd'
 import icon from '../assets/Icon.png';
-import Users from "./users/main.users";
+import Patients from "./patients/main.patients";
 import Doctors from "./doctors/main.doctors";
 import { SuperAdminExpedientes } from "./expedientes";
 import { Hospitales } from "./hospitals/main.hospitals";
@@ -34,7 +34,7 @@ function Navigator() {
               <Nav.Link href="#">|</Nav.Link>
               <Nav.Link href="/hospitales">Hospitales</Nav.Link>
               <Nav.Link href="/doctores">Medicos</Nav.Link>
-              <Nav.Link href="usuarios">Usuarios</Nav.Link>
+              <Nav.Link href="pacientes">Pacientes</Nav.Link>
               {/* <Nav.Link href="expedientes">Expedientes</Nav.Link> */}
               
             </Nav>
@@ -63,8 +63,8 @@ export default function SuperAdminApp() {
          <Route path="/expedientes">
            <SuperAdminExpedientes />
          </Route>
-         <Route path="/usuarios">
-           <Users />
+         <Route path="/pacientes">
+           <Patients />
          </Route>
          <Route path="/">
            <Home/>

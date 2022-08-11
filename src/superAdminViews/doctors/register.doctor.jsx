@@ -38,7 +38,7 @@ const tailFormItemLayout = {
     },
   },
 };
-export default function Register() {
+export default function Register(props) {
 
   const [form] = Form.useForm();
 
@@ -74,6 +74,7 @@ export default function Register() {
   };
 
   useEffect(() => {
+    console.log('received Medic: ', props.medico);
     getData('sucursales').then((rs) => { setSucursales(rs); setSucursalesLoading(false) })
   }, [])
 
@@ -96,8 +97,31 @@ export default function Register() {
     }).then(res => res.json())
       .then(response => {
         console.log('Success:', response);
-        message.success(response.message || response.error);
-        window.location.href = 'doctores'
+        response.message && response.message === 'Usuario creado correctamente' ?
+          window.location.href = 'doctores' : message.error(response.error);
+      })
+      .catch(error => console.error('Error:', error))
+  };
+
+  const onFinishEdit = (values) => {
+    // values.avatar = avatar;
+    // values.estatus = '1';
+    // values.rol = 'Medico';
+    // delete values.confirm;
+    // delete values.prefix;
+
+    console.log('ready to send', values)
+    fetch(S_API + 'users/updateUser/' + props.medico._id, {
+      method: 'POST',
+      body: JSON.stringify(values),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(response => {
+        console.log('Success:', response);
+        // response.message && response.message === 'Usuario actualizado correctamente' ?
+        //   window.location.href = 'doctores' : message.error(response.error);
       })
       .catch(error => console.error('Error:', error))
   };
@@ -148,11 +172,9 @@ export default function Register() {
         {...formItemLayout}
         form={form}
         name="register"
-        onFinish={onFinish}
-        initialValues={{
-          horarios: [{ sucursal: '', horario: '' }],
-          prefix: '+52',
-        }}
+        onFinish={props.medico ? onFinishEdit : onFinish}
+        // initialValues={{ horarios: [{ sucursal: '', horario: '' }], prefix: '+52' }}
+        initialValues={props.medico }
         scrollToFirstError
       >
 
