@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Patients from './pacientes/main.patients'
 import { Citas } from './citas'
 import Home from './home/home'
+import Efectos from './efectos';
+import Sintomatologia from './sintomatologia';
 
 const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); window.location.href = '/'; }
 
@@ -29,6 +31,8 @@ function Navigator() {
           <Nav.Link href="/">Farmacia</Nav.Link>
           <Nav.Link href="/pacientes">Pacientes</Nav.Link>
           <Nav.Link href="/citas">Citas</Nav.Link>
+          <Nav.Link href="/efectos">Efectos</Nav.Link>
+          <Nav.Link href="/sintomatologia">Sintomatologia</Nav.Link>
         </Nav>
       </Navbar.Collapse>
       <Navbar.Collapse className="justify-content-end">
@@ -55,6 +59,14 @@ export default function RecepcionApp() {
 
         <Route path="/citas">
           <Citas />
+        </Route>
+        
+        <Route path="/efectos">
+          <Efectos/>
+        </Route>
+      
+        <Route path="/sintomatologia">
+          <Sintomatologia/>
         </Route>
 
         <Route path="/">
