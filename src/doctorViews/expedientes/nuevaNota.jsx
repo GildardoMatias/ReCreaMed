@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Form, Input, Button, message, Select, Upload } from 'antd';
+import { Form, Input, Button, message, Select, Upload, Space } from 'antd';
 import { API, usuario } from '../../resources';
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import { diagnosticos } from '../../assets/diagnosticos2';
@@ -172,25 +172,25 @@ export function NuevaNota(props) {
                 <Form.Item label="Edad" name="edad" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                     <Input />
                 </Form.Item>
-                <Form.Item label="Talla" name="talla" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                <Form.Item label="Talla" name="talla" rules={[{ required: false, message: 'Ingresa RFC' }]} >
                     <Input />
                 </Form.Item>
-                <Form.Item label="Peso" name="peso" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                <Form.Item label="Peso" name="peso" rules={[{ required: false, message: 'Ingresa RFC' }]} >
                     <Input />
                 </Form.Item>
-                <Form.Item label="IMC" name="imc" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                <Form.Item label="IMC" name="imc" rules={[{ required: false, message: 'Ingresa RFC' }]} >
                     <Input />
                 </Form.Item>
-                <Form.Item label="Temperatura" name="temperatura" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                <Form.Item label="Temperatura" name="temperatura" rules={[{ required: false, message: 'Ingresa RFC' }]} >
                     <Input />
                 </Form.Item>
-                <Form.Item label="Presion Arterial" name="presion_arterial" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                <Form.Item label="Presion Arterial" name="presion_arterial" rules={[{ required: false, message: 'Ingresa RFC' }]} >
                     <Input />
                 </Form.Item>
-                <Form.Item label="Frecuencia Cariaca" name="frecuencia_cardiaca" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                <Form.Item label="Frecuencia Cariaca" name="frecuencia_cardiaca" rules={[{ required: false, message: 'Ingresa RFC' }]} >
                     <Input />
                 </Form.Item>
-                <Form.Item label="Frecuencia respiratoria" name="frecuencia_respiratoria" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                <Form.Item label="Frecuencia respiratoria" name="frecuencia_respiratoria" rules={[{ required: false, message: 'Ingresa RFC' }]} >
                     <Input />
                 </Form.Item>
 
@@ -290,9 +290,15 @@ export function NuevaNota(props) {
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type="primary" htmlType="submit">
-                        Guardar
-                    </Button>
+                    <Space>
+                        <Button onClick={() => props.setIsModalVisible(false)}>
+                            Cancelar
+                        </Button>
+                        <Button type="primary" htmlType="submit">
+                            Guardar
+                        </Button>
+                    </Space>
+
                 </Form.Item>
             </Form>
         </div>

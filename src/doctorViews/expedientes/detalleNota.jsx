@@ -105,7 +105,7 @@ export default function DetalleNota(props) {
 
                 notaData.map((nota, i) => {
                     let index = i + 1;
-                    return <TabPane tab={`Nota ${index}`} key={nota._id} style={{ width: '100%'}}>
+                    return <TabPane tab={`Nota ${index}`} key={nota._id} style={{ width: '100%' }}>
                         <Row>
                             <Col span={12}>
                                 <Collapse bordered={false}>
@@ -126,7 +126,7 @@ export default function DetalleNota(props) {
                                 <Card title='Observaciones'>
                                     {nota.Observaciones}
                                 </Card>
-                               
+
                                 <Card title='Diagnostico'>
                                     {nota.diagnostico}
                                 </Card>
@@ -151,9 +151,8 @@ export default function DetalleNota(props) {
         </Tabs>
 
 
-        <Modal title="Nueva Nota" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={680}>
-            <NuevaNota id_expediente={props.id_expediente} paciente={props.paciente} prevExpNotas={props.prevExpNotas} />
-
+        <Modal title="Nueva Nota" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={680} footer={[]} destroyOnClose>
+            <NuevaNota id_expediente={props.id_expediente} paciente={props.paciente} prevExpNotas={props.prevExpNotas} setIsModalVisible={setIsModalVisible} />
         </Modal>
 
     </div>

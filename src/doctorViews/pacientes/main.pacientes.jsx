@@ -6,7 +6,7 @@ import { usuario } from '../../resources'
 import Expedientes from '../expedientes/expedientes'
 import DetallesPaciente from './detalles.paciente'
 import Register from './register.patient'
-import { PlusOutlined, PhoneOutlined,UserOutlined  } from '@ant-design/icons';
+import { PlusOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons';
 const { TabPane } = Tabs;
 const { Option } = Select;
 
@@ -22,6 +22,10 @@ export default function MainPacientes() {
     getPacientesData()
   }, [])
 
+  useEffect(() => {
+    getPacientesData()
+  }, [adding])
+
   const getPacientesData = () => {
     fetch(API + `mispacientes/${usuario._id}`)
       .then(response => response.json())
@@ -30,6 +34,7 @@ export default function MainPacientes() {
           paciente.value = paciente.name;
         });
         console.log(data); setPacientesData(data);
+        if (data.length > 0) setPaciente(data[0]._id)
       })
       .finally(() => setIsLoading(false))
   }
@@ -75,7 +80,7 @@ export default function MainPacientes() {
             <Tabs activeKey={activePatient} tabPosition='left' onTabClick={(k, e) => { console.log('OnTABClick', k); setPaciente(k) }} style={{ marginTop: 6 }}>
               {
                 pacientesData.map((pt) => {
-                  return <TabPane tab={<><UserOutlined />{pt.name} <PhoneOutlined style={{marginBottom: 2}}/>{pt.telefono}</>} key={pt._id} onClick={() => { setPaciente(pt._id) }}>
+                  return <TabPane tab={<><UserOutlined />{pt.name} <PhoneOutlined style={{ marginBottom: 2 }} />{pt.telefono}</>} key={pt._id} onClick={() => { setPaciente(pt._id) }}>
                     <DetallesPaciente paciente={pt._id} />
                   </TabPane>
                 })

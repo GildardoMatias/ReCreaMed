@@ -19,6 +19,10 @@ export default function Perfil() {
         getProfileData()
     }, [])
 
+    useEffect(() => {
+        getProfileData()
+    }, [editing])
+
     const getProfileData = () => {
         fetch(API + 'userByMail/' + usuario.email)
             .then(response => response.json())
@@ -40,7 +44,11 @@ export default function Perfil() {
     const DetailsProfile = () => {
         return <Row>
             <Col span={8}>
-                <Avatar size={128} icon={<UserOutlined />} />
+                {
+                    profileData.avatar.length > 8 ?
+                        <img width={256} src={'https://api.recreamed.com/images/' + profileData.avatar} alt='ProfilePic' /> :
+                        <Avatar size={128} icon={<UserOutlined />} />
+                }
                 <Divider />
                 <p>Nombre: {profileData.name} </p>
                 <p>Correo: {profileData.email} </p>
@@ -84,8 +92,8 @@ export default function Perfil() {
                         editing ?
 
                             <>
-                                <PerfilEdit perfil={profileData} />
-                                <Button  shape="circle" title='Cancelar' />
+                                <PerfilEdit perfil={profileData} setEditing={setEditing} />
+                                <Button shape="circle" title='Cancelar' />
                                 <Button onClick={() => setEditing(false)}>Cancelar</Button>
                             </> :
                             <DetailsProfile />

@@ -89,7 +89,7 @@ export default function Register(props) {
 
     console.log('ready to send', values)
     fetch(S_API + 'register', {
-      method: 'POST',
+      method: 'PUT',
       body: JSON.stringify(values),
       headers: {
         'Content-Type': 'application/json'
@@ -111,7 +111,7 @@ export default function Register(props) {
     // delete values.prefix;
 
     console.log('ready to send', values)
-    fetch(S_API + 'users/updateUser/' + props.medico._id, {
+    fetch(API + 'users/updateUser/' + props.medico._id, {
       method: 'POST',
       body: JSON.stringify(values),
       headers: {
@@ -156,7 +156,10 @@ export default function Register(props) {
   };
   return (
     <div>
-      <h1>Registrar doctor</h1>
+      {
+        props.medico ?
+          <></> : <h1>Registrar doctor</h1>
+      }
       <br />
       <Dragger {...dragDropProps}>
         <p className="ant-upload-drag-icon">
@@ -188,30 +191,35 @@ export default function Register(props) {
               <Input />
             </Form.Item>
 
-            <Form.Item name="password" label="Contraseña" rules={[{ required: true, message: 'Por favor ingrese su contraseña!', },]} hasFeedback >
-              <Input.Password />
-            </Form.Item>
+            {
+              props.medico ? <></> : <>
+                <Form.Item name="password" label="Contraseña" rules={[{ required: true, message: 'Por favor ingrese su contraseña!', },]} hasFeedback >
+                  <Input.Password />
+                </Form.Item>
 
-            <Form.Item name="confirm" label="Confirmar contraseña" dependencies={['password']} hasFeedback
-              rules={[
-                {
-                  required: true,
-                  message: 'Please confirm your password!',
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue('password') === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(new Error('Las contraseñas deben coincidir!'));
-                  },
-                }),
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+                <Form.Item name="confirm" label="Confirmar contraseña" dependencies={['password']} hasFeedback
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please confirm your password!',
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue('password') === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject(new Error('Las contraseñas deben coincidir!'));
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password />
+                </Form.Item>
+              </>
+            }
 
-            <Form.Item name="telefono" label="Telefono" rules={[{ required: true, message: 'Ingresa el numero de telefono correcto', min: 10, max: 10 },]}>
+
+            <Form.Item name="telefono" label="Telefono" rules={[{ required: true, message: 'Ingresa el numero de telefono correcto' },]}>
               <Input addonBefore={prefixSelector} style={{ width: '100%', }} />
             </Form.Item>
 

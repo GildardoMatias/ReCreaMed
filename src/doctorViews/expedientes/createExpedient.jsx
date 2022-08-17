@@ -46,7 +46,11 @@ export default function CreateExpedient(props) {
         console.log('Failed:', errorInfo);
     };
     return (
-        <Modal title="Nuevo expediente" visible={props.isModalVisible} onCancel={handleCancel}>
+        <Modal title="Nuevo expediente" visible={props.isModalVisible} onCancel={handleCancel}
+        footer={[
+            
+        ]}
+        >
             <Form name="expediente" labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
                 <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                     <Select
@@ -111,6 +115,12 @@ export default function CreateExpedient(props) {
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit" form='expediente'>
                         Guardar
+                    </Button>
+                </Form.Item>
+               
+                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                    <Button type="primary" htmlType="submit" form='expediente'>
+                        Cancelar
                     </Button>
                 </Form.Item>
             </Form>

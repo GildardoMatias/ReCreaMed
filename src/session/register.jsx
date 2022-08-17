@@ -242,7 +242,7 @@ export function Register() {
               <Input />
             </Form.Item>
 
-            <Form.Item name="calle" label="Calle" rules={[{ required: true, message: 'Ingresa calle', whitespace: true }]}>
+            {/* <Form.Item name="calle" label="Calle" rules={[{ required: true, message: 'Ingresa calle', whitespace: true }]}>
               <Input />
             </Form.Item>
 
@@ -270,7 +270,7 @@ export function Register() {
 
             <Form.Item name="codigopostal" label="Codigo Postal" rules={[{ required: true, message: 'Ingresa codigopostal', },]}>
               <InputNumber addonAfter={suffixSelector} style={{ width: '100%', }} />
-            </Form.Item>
+            </Form.Item> */}
 
             <Form.Item name="certificacion" label="Certificacion" rules={[{ required: false, message: 'Ingresa tu certificacion' }]}>
               <Input />

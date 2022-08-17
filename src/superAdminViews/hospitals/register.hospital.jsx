@@ -93,7 +93,7 @@ export default function Register(props) {
             <Form.Item label="Numero exterior" name="num_exterior" rules={[{ required: true, message: 'Ingresa numero exterion' }]} >
               <Input />
             </Form.Item>
-            <Form.Item label="Numero Interior" name="num_interior" rules={[{ required: true, message: 'Ingresa numero interior' }]} >
+            <Form.Item label="Numero Interior" name="num_interior" rules={[{ required: false, message: 'Ingresa numero interior' }]} >
               <Input />
             </Form.Item>
             <Form.Item label="Colonia" name="colonia" rules={[{ required: true, message: 'Ingresa nombre de colonia' }]} >
@@ -120,9 +120,7 @@ export default function Register(props) {
             <Form.Item label="Sitio Web" name="sitio_web" rules={[{ required: true, message: 'www.hospital.com' }]} >
               <Input />
             </Form.Item>
-            <Form.Item label="Numero de Expediente" name="no_expediente" rules={[{ required: true, message: 'Ingresa numero de expediente' }]} >
-              <Input />
-            </Form.Item>
+           
           </Col>
         </Row>
 

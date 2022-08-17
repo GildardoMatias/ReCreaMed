@@ -110,7 +110,7 @@ export default function Dash() {
         <Table dataSource={doctoresData} columns={columns} />
       }
 
-      <Modal width='200' title="Editar Hospital 400" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose={true}>
+      <Modal width='200' title="Editar Medico" visible={isModalVisible}  onCancel={handleCancel} destroyOnClose={true}>
         <Register medico={doctorForEdit} />
       </Modal>
     </div>

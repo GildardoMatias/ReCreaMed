@@ -88,6 +88,11 @@ export default function Register(props) {
         console.log('Create User Response:', response);
         message.success(response.message || response.error);
         props.paciente ? console.log('Editing, not creating patient') : createPAtientData(response.user_id);
+        response.message === 'Usuario creado correctamente' ?
+          props.setAdding(false) : console.log(response);
+        response.message === 'Usuario actualizado correctamente' ?
+          props.setAdding(false) : console.log(response);
+
       })
       .catch(error => console.error('Error:', error))
   };
@@ -207,7 +212,7 @@ export default function Register(props) {
         <Form.Item
           name="calle"
           label="Calle"
-          rules={[{ required: true, message: 'Ingresa calle', whitespace: true }]}
+          rules={[{ required: false, message: 'Ingresa calle', whitespace: true }]}
         >
           <Input />
         </Form.Item>
@@ -215,7 +220,7 @@ export default function Register(props) {
         <Form.Item
           name="numexterior"
           label="Num Exterior"
-          rules={[{ required: true, message: 'Ingresa numero exterior' }]}
+          rules={[{ required: false, message: 'Ingresa numero exterior' }]}
         >
           <Input />
         </Form.Item>
@@ -223,12 +228,7 @@ export default function Register(props) {
         <Form.Item
           name="numinterior"
           label="Num Interior"
-          rules={[
-            {
-              required: true,
-              message: 'Ingresa numinterior',
-            },
-          ]}
+          rules={[{ required: false, message: 'Ingresa numinterior' }]}
         >
           <Input />
         </Form.Item>
@@ -236,7 +236,7 @@ export default function Register(props) {
         <Form.Item
           label="Colonia"
           name="colonia"
-          rules={[{ required: true, message: 'Please input your colobnia!' }]}
+          rules={[{ required: false, message: 'Please input your colobnia!' }]}
         >
           <Input />
         </Form.Item>

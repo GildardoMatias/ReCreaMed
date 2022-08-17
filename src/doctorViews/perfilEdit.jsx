@@ -44,7 +44,7 @@ export default function PerfilEdit(props) {
 
   const [sucursales, setSucursales] = useState([]);
   const [sucursalesLoading, setSucursalesLoading] = useState(true);
-  const [avatar, setAvatar] = useState('https://')
+  const [avatar, setAvatar] = useState(props.perfil.avatar)
 
   //Start upload props Upload File
   const dragDropProps = {
@@ -104,15 +104,15 @@ export default function PerfilEdit(props) {
   };
 
   const onFinishEdit = (values) => {
-    // values.avatar = avatar;
+    values.avatar = avatar;
     // values.estatus = '1';
     // values.rol = 'Medico';
     // delete values.confirm;
     // delete values.prefix;
 
     console.log('ready to send', values)
-    fetch(S_API + 'users/updateUser/' + props.perfil._id, {
-      method: 'POST',
+    fetch(API + 'users/updateUser/' + props.perfil._id, {
+      method: 'PUt',
       body: JSON.stringify(values),
       headers: {
         'Content-Type': 'application/json'
@@ -120,8 +120,8 @@ export default function PerfilEdit(props) {
     }).then(res => res.json())
       .then(response => {
         console.log('Success:', response);
-        // response.message && response.message === 'Usuario actualizado correctamente' ?
-        //   window.location.href = 'doctores' : message.error(response.error);
+        response.message && response.message === 'Usuario actualizado correctamente' ?
+          props.setEditing(false) : message.error(response.error);
       })
       .catch(error => console.error('Error:', error))
   };
@@ -156,7 +156,7 @@ export default function PerfilEdit(props) {
   };
   return (
     <div>
-      <h1>Registrar doctor</h1>
+      <h4>Editar perfil</h4>
       <br />
       <Dragger {...dragDropProps}>
         <p className="ant-upload-drag-icon">
@@ -172,7 +172,7 @@ export default function PerfilEdit(props) {
         {...formItemLayout}
         form={form}
         name="register"
-        onFinish={onFinish}
+        onFinish={onFinishEdit}
         // initialValues={{ horarios: [{ sucursal: '', horario: '' }], prefix: '+52' }}
         initialValues={props.perfil}
         scrollToFirstError
@@ -211,7 +211,7 @@ export default function PerfilEdit(props) {
               <Input.Password />
             </Form.Item> */}
 
-            <Form.Item name="telefono" label="Telefono" rules={[{ required: true, message: 'Ingresa el numero de telefono correcto', min: 10, max: 10 },]}>
+            <Form.Item name="telefono" label="Telefono" rules={[{ required: true, message: 'Ingresa el numero de telefono correcto' },]}>
               <Input addonBefore={prefixSelector} style={{ width: '100%', }} />
             </Form.Item>
 
