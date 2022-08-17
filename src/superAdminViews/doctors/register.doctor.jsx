@@ -302,7 +302,7 @@ export default function Register(props) {
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
               <Button type="primary" htmlType="submit">
-                Register
+                Guardar
               </Button>
             </Form.Item>
           </Col>

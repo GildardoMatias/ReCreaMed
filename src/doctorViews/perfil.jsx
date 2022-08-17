@@ -5,12 +5,13 @@ import { UserOutlined } from '@ant-design/icons';
 import { API, usuario } from '.././resources';
 import Loading from '.././loading';
 import { PlusOutlined, FormOutlined } from '@ant-design/icons';
-import { PerfilEdit } from './perfilEdit';
+import PerfilEdit from './perfilEdit';
 
 
 export default function Perfil() {
 
     const [profileData, setProfileData] = useState([]);
+    const [profileForEdit, setProfileForEdit] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [editing, setEditing] = useState(false)
 
@@ -26,6 +27,14 @@ export default function Perfil() {
                 setProfileData(data[0]);
                 setIsLoading(false);
             });
+    }
+
+    const editPerfil = async (p) => {
+        p.horarios.forEach((h) => { h.sucursal = h.sucursal._id })
+        console.log('Horarios before edit profile: ', p.horarios);
+        await setProfileForEdit(p)
+        setEditing(true);
+        console.log('Editar medico: ', p)
     }
 
     const DetailsProfile = () => {
@@ -48,7 +57,7 @@ export default function Perfil() {
                 <p>Horarios</p>
                 {
                     profileData.horarios.map((h) => {
-                        return <div style={{paddingLeft: 12}}>
+                        return <div style={{ paddingLeft: 12 }}>
                             <p>Sucursal: {h.sucursal.nombre}</p>
                             <p>Horario: {h.horario}</p>
                         </div>
@@ -67,7 +76,7 @@ export default function Perfil() {
 
             <Space>
                 <h3>PERFIL</h3>
-                <Button onClick={() => setEditing(true)} type="primary" shape="circle" icon={<FormOutlined />} />
+                <Button onClick={() => editPerfil(profileData)} type="primary" shape="circle" icon={<FormOutlined />} />
             </Space>
             {isLoading ? <Loading /> :
                 <Card>
@@ -75,9 +84,9 @@ export default function Perfil() {
                         editing ?
 
                             <>
-                                <p>Editando</p>
-                                <PerfilEdit perfil={profileData}/>
-                                <Button onClick={() => setEditing(false)} type="primary" shape="circle" icon={<FormOutlined />} title='Cancelar' />
+                                <PerfilEdit perfil={profileData} />
+                                <Button  shape="circle" title='Cancelar' />
+                                <Button onClick={() => setEditing(false)}>Cancelar</Button>
                             </> :
                             <DetailsProfile />
                     }

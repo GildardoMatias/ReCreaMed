@@ -75,7 +75,7 @@ export default function MainPacientes() {
             <Tabs activeKey={activePatient} tabPosition='left' onTabClick={(k, e) => { console.log('OnTABClick', k); setPaciente(k) }} style={{ marginTop: 6 }}>
               {
                 pacientesData.map((pt) => {
-                  return <TabPane tab={<><UserOutlined />{pt.name} <PhoneOutlined />{pt.telefono}</>} key={pt._id} onClick={() => { setPaciente(pt._id) }}>
+                  return <TabPane tab={<><UserOutlined />{pt.name} <PhoneOutlined style={{marginBottom: 2}}/>{pt.telefono}</>} key={pt._id} onClick={() => { setPaciente(pt._id) }}>
                     <DetallesPaciente paciente={pt._id} />
                   </TabPane>
                 })
