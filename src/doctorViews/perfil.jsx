@@ -12,8 +12,8 @@ export default function Perfil() {
 
     const [profileData, setProfileData] = useState([]);
     const [profileForEdit, setProfileForEdit] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [editing, setEditing] = useState(false)
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         getProfileData()
@@ -54,18 +54,18 @@ export default function Perfil() {
                 <p>Correo: {profileData.email} </p>
                 <p>Telefono: {profileData.telefono} </p>
             </Col>
-            <Col span={8}>
+            {/* <Col span={8}>
                 <p>Estado: {profileData.estado}</p>
                 <p>Municipio: {profileData.municipio}</p>
                 <p>Colonia: {profileData.colonia}</p>
                 <p>Calle: {profileData.calle}</p>
                 <p>Codigo Postal:{profileData.codigopostal} </p>
-            </Col>
+            </Col> */}
             <Col span={8}>
                 <p>Horarios</p>
                 {
                     profileData.horarios.map((h) => {
-                        return <div style={{ paddingLeft: 12 }}>
+                        return <div>
                             <p>Sucursal: {h.sucursal.nombre}</p>
                             <p>Horario: {h.horario}</p>
                         </div>
