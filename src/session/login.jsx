@@ -92,7 +92,7 @@ export function Login() {
               </Button>
             </Form.Item>
             <Form.Item>
-              <Row justify="center"> O <a href="register">Registrarse</a></Row>
+              <Row justify="center"> O <a href="register" style={{marginLeft: 4}}>Registrarse</a></Row>
 
             </Form.Item>
           </Form>

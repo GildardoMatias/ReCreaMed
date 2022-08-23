@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, message, Space, Row, Col, Upload } from 'antd'
 import { MinusCircleOutlined, PlusOutlined, InboxOutlined } from '@ant-design/icons';
-import { InputNumber, Select } from 'antd';
+import { Divider, Select } from 'antd';
 import { S_API, getData, API } from '../../resources'
 const { Option } = Select;
 const estados = ["Michoacan", "Morelos", "Guerrero"];
@@ -44,7 +44,7 @@ export default function Register(props) {
 
   const [sucursales, setSucursales] = useState([]);
   const [sucursalesLoading, setSucursalesLoading] = useState(true);
-  const [avatar, setAvatar] = useState('https://')
+  const [avatar, setAvatar] = useState(props.medico ? props.medico.avatar : 'https://')
 
   //Start upload props Upload File
   const dragDropProps = {
@@ -104,7 +104,7 @@ export default function Register(props) {
   };
 
   const onFinishEdit = (values) => {
-    // values.avatar = avatar;
+    values.avatar = avatar;
     // values.estatus = '1';
     // values.rol = 'Medico';
     // delete values.confirm;
@@ -112,7 +112,7 @@ export default function Register(props) {
 
     console.log('ready to send', values)
     fetch(API + 'users/updateUser/' + props.medico._id, {
-      method: 'POST',
+      method: 'PUT',
       body: JSON.stringify(values),
       headers: {
         'Content-Type': 'application/json'
@@ -120,8 +120,8 @@ export default function Register(props) {
     }).then(res => res.json())
       .then(response => {
         console.log('Success:', response);
-        // response.message && response.message === 'Usuario actualizado correctamente' ?
-        //   window.location.href = 'doctores' : message.error(response.error);
+        response.message && response.message === 'Usuario actualizado correctamente' ?
+          props.setIsModalVisible(false) : message.error(response.error);
       })
       .catch(error => console.error('Error:', error))
   };
@@ -227,7 +227,7 @@ export default function Register(props) {
 
 
           </Col>
-          <Col span={12}>
+          <Col span={11}>
             <Form.Item label="horarios" rules={[{ required: true, message: 'Ingresa al menos un horario', },]}>
               <Form.List name="horarios" label="horarios list"
               >
@@ -249,7 +249,7 @@ export default function Register(props) {
                         <Form.Item
                           {...restField}
                           name={[name, 'horario']}
-                          rules={[{ required: true, message: 'Missing last name' }]}
+                          rules={[{ required: false, message: 'Missing last name' }]}
                         >
                           <Input placeholder="Horario" />
                         </Form.Item>
@@ -309,11 +309,17 @@ export default function Register(props) {
               <Input />
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
+              {
+                props.setIsModalVisible && <Button onClick={() => props.setIsModalVisible(false)} style={{ marginRight: 6 }}>
+                  Cancelar
+                </Button>
+              }
               <Button type="primary" htmlType="submit">
                 Guardar
               </Button>
             </Form.Item>
           </Col>
+
         </Row>
 
 

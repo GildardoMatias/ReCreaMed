@@ -93,7 +93,7 @@ export default function DetalleReceta(props) {
         textAlign: 'center',
         display: 'inline-flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     };
 
     return <div>
@@ -107,17 +107,24 @@ export default function DetalleReceta(props) {
                     recetaData.length > 0 ?
 
                         recetaData.map((r) => {
-                            return <><Card.Grid key={r._id} style={gridStyle}> Prescripcion : {r.prescripcion} <Button style={{ marginLeft: 8 }} onClick={() => setEditing(true)} size='small' type="primary" shape="circle" icon={<FormOutlined />} /></Card.Grid></>
+                            return <><Card.Grid key={r._id} style={gridStyle}> <p style={{ whiteSpace: 'pre' }}> Prescripcion : {r.prescripcion} </p> <Button style={{ marginLeft: 8 }} onClick={() => setEditing(true)} size='small' type="primary" shape="circle" icon={<FormOutlined />} /></Card.Grid></>
                         })
                         :
                         <h6>No hay una receta asignada</h6>
             }
         </Card>
 
-        <Modal title="Nueva Receta" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Modal title="Nueva Receta" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}
+            footer={[
+                <Button type="primary" htmlType="submit" form='create_receta_medic'>
+                    Guardar
+                </Button>,
+                <Button onClick={handleCancel}>Cancelar</Button>
+            ]}
+        >
             {/* <p>Nota: {notaData._id}</p> */}
             <Form
-                name="basic"
+                name="create_receta_medic"
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
                 initialValues={{ remember: true }}
@@ -133,13 +140,6 @@ export default function DetalleReceta(props) {
                     <TextArea rows={4} />
                 </Form.Item>
 
-                <Form.Item
-                    wrapperCol={{ offset: 8, span: 16 }}
-                >
-                    <Button type="primary" htmlType="submit">
-                        Guardar
-                    </Button>
-                </Form.Item>
             </Form>
         </Modal>
     </div>

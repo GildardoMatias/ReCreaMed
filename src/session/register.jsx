@@ -73,6 +73,7 @@ export function Register() {
   }
 
   const onFinish = (values) => {
+    values.rol = 'Medico';
     values.avatar = 'https://';
     values.estatus = '1';
     delete values.confirm;
@@ -129,7 +130,7 @@ export function Register() {
           <br />
           <br />
           <Row justify="center">
-            <h3>Registro de Usuario</h3>
+            <h3>Registro de Medico</h3>
           </Row>
           <br />
           <br />
@@ -149,14 +150,14 @@ export function Register() {
               <Input />
             </Form.Item>
 
-            <Form.Item name="rol" label="Rol" rules={[{ required: true, message: 'Elije el rol', },]}>
+            {/* <Form.Item name="rol" label="Rol" rules={[{ required: true, message: 'Elije el rol', },]}>
               <Select placeholder="Elije el tipo de rol">
                 <Option value="Administrador">Administrador de Hospital</Option>
                 <Option value="Recepcion">Recepcion</Option>
                 <Option value="Medico">Medico</Option>
                 <Option value="Paciente" disabled>Paciente</Option>
               </Select>
-            </Form.Item>
+            </Form.Item> */}
 
             <Form.Item name="email" label="Correo" rules={[{ type: 'email', message: 'The input is not valid E-mail!' }, { required: true, message: 'Please input your E-mail!' }]}>
               <Input />
@@ -189,7 +190,7 @@ export function Register() {
               <Input addonBefore={prefixSelector} style={{ width: '100%', }} />
             </Form.Item>
 
-            <Form.Item label="horarios" rules={[{ required: true, message: 'Ingresa al menos un horario', },]}>
+            <Form.Item label="horarios" rules={[{ required: false, message: 'Ingresa al menos un horario', },]}>
               <Form.List name="horarios" label="horarios list"
               // rules={[
               //   {
@@ -220,7 +221,7 @@ export function Register() {
                         <Form.Item
                           {...restField}
                           name={[name, 'horario']}
-                          rules={[{ required: true, message: 'Missing last name' }]}
+                          rules={[{ required: false, message: 'Missing last name' }]}
                         >
                           <Input placeholder="Horario" />
                         </Form.Item>
@@ -287,7 +288,7 @@ export function Register() {
               rules={[
                 {
                   validator: (_, value) =>
-                    value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+                    value ? Promise.resolve() : Promise.reject(new Error('Tienes que aceptar los terminos y condiciones para registrarte')),
                 },
               ]}
               {...tailFormItemLayout}
@@ -299,7 +300,7 @@ export function Register() {
 
             <Form.Item {...tailFormItemLayout}>
               <Button type="primary" htmlType="submit">
-                Register
+                Registrar
               </Button>
             </Form.Item>
           </Form>

@@ -70,15 +70,15 @@ export default function Dash() {
       dataIndex: 'telefono',
       key: 'tel',
     },
-    {
-      title: 'Detalles',
-      key: 'detalles',
-      render: (text, record) => (
-        <Space size="middle">
-          <Button onClick={() => { setUsuario(record); showModal(); }}>Detalles</Button>
-        </Space>
-      )
-    },
+    // {
+    //   title: 'Detalles',
+    //   key: 'detalles',
+    //   render: (text, record) => (
+    //     <Space size="middle">
+    //       <Button onClick={() => { setUsuario(record); showModal(); }}>Detalles</Button>
+    //     </Space>
+    //   )
+    // },
     {
       title: 'Opciones',
       key: 'action',
@@ -136,8 +136,10 @@ export default function Dash() {
         <DetalleUsuario />
       </Modal>
 
-      <Modal width={800} title={<h4>Editar Paciente</h4>} visible={isEditModalVisible} onOk={handleOkEdit} onCancel={handleCancelEdit} destroyOnClose={true}>
-        <Register paciente={patientForEdit} />
+      <Modal width={1000} title={<h4>Editar Paciente</h4>} visible={isEditModalVisible} onOk={handleOkEdit} onCancel={handleCancelEdit} destroyOnClose
+        footer={[]}
+      >
+        <Register paciente={patientForEdit} setIsModalVisible={setIsEditModalVisible}/>
       </Modal>
     </div>
   )

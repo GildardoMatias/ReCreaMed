@@ -371,7 +371,7 @@ export default function Register(props) {
             <Form.Item
               name="numinterior"
               label="Num Interior"
-              rules={[{required: false,message: 'Ingresa numinterior'}]}
+              rules={[{ required: false, message: 'Ingresa numinterior' }]}
             >
               <Input />
             </Form.Item>
@@ -401,7 +401,10 @@ export default function Register(props) {
               <InputNumber style={{ width: '100%', }} />
             </Form.Item>
 
-            <Form.Item >
+            <Form.Item wrapperCol={{span: 12}} labelCol={{span: 2}} >
+              {
+                props.setIsModalVisible && <Button onClick={() => props.setIsModalVisible(false)} style={{ marginRight: 8 }}>Cancelar</Button>
+              }
               <Button type="primary" htmlType="submit">
                 Registrar
               </Button>

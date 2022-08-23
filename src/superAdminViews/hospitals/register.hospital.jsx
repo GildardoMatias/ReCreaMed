@@ -45,8 +45,8 @@ export default function Register(props) {
     console.log("Ready to send:", values)
     sendDataBody('sucursales/add', values).then((rs) => {
       // message.success(rs.message || rs.error);
-      console.log('resp: ',rs);
-      if(rs.message  && rs.message === 'Sucursal creada correctamente') window.location.href = '/hospitales'
+      console.log('resp: ', rs);
+      if (rs.message && rs.message === 'Sucursal creada correctamente') window.location.href = '/hospitales'
       console.log('tosend: ', values);
     })
   };
@@ -65,7 +65,7 @@ export default function Register(props) {
   return (
     <div>
       {props.hospital ? <></> : <h4>Registrar Nuevo Hospital</h4>}
-      
+
       <Dragger {...dragDropProps}>
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
@@ -120,17 +120,20 @@ export default function Register(props) {
             <Form.Item label="Sitio Web" name="sitio_web" rules={[{ required: true, message: 'www.hospital.com' }]} >
               <Input />
             </Form.Item>
-           
+
           </Col>
         </Row>
 
 
 
 
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
+        <Form.Item wrapperCol={{ offset: 9 }}>
+
+
+          <Button type="primary" htmlType="submit" style={{marginRight: 8}}>
             Guardar
           </Button>
+          {props.setModalVisible && <Button onClick={() => props.setModalVisible(false)} >Cancelar</Button>}
         </Form.Item>
       </Form>
     </div >

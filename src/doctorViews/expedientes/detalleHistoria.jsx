@@ -4,13 +4,13 @@ import { getData, API } from '../../resources';
 import { FormOutlined } from '@ant-design/icons';
 
 export default function DetalleHistoria(props) {
-
+    const { TextArea } = Input;
     const [historiaData, setHistoriaData] = useState("")
     const [notaLoading, setHistoriaLoading] = useState(true)
     const [editing, setEditing] = useState(false)
 
     useEffect(() => {
-    //     console.log("Props IDHistoria: ", props.historia)
+        //     console.log("Props IDHistoria: ", props.historia)
         props.historia ?
             getHistoriaData()
             :
@@ -20,7 +20,7 @@ export default function DetalleHistoria(props) {
     const finifhGet = () => { setHistoriaData([]); setHistoriaLoading(false); }
 
     const getHistoriaData = () => {
-        getData(`historia/${props.historia}`).then(rs => { setHistoriaData(rs); setHistoriaLoading(false) })
+        getData(`historia/${props.historia}`).then(rs => { console.log('DetalleHistoria: ', rs); setHistoriaData(rs); setHistoriaLoading(false) })
     }
 
     const gridStyle = {
@@ -60,7 +60,7 @@ export default function DetalleHistoria(props) {
                 <>
                     <Form name='historiaForm' initialValues={{ historial: historiaData[0].historial }} onFinish={updateHistoria}>
                         <Form.Item name='historial'>
-                            <Input />
+                            <TextArea rows={4} />
                         </Form.Item>
                         <Space>
                             <Form.Item>
@@ -75,7 +75,7 @@ export default function DetalleHistoria(props) {
                     </Form>
                 </>
                 :
-                historiaData[0].historial
+                <p style={{ whiteSpace: 'pre' }}>{historiaData[0].historial}</p>
         }</Card.Grid>
     }
 

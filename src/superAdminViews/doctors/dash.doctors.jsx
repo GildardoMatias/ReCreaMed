@@ -13,6 +13,7 @@ export default function Dash() {
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   useEffect(() => { getDoctoresData() }, [])
+  useEffect(() => { getDoctoresData() }, [isModalVisible])
 
   const getDoctoresData = () => {
     fetch(API + 'users_by_rol/Medico')
@@ -23,7 +24,8 @@ export default function Dash() {
       .finally(() => setILoading(false))
   }
 
-  const editDoctor = async (d) => {
+  const editDoctor = async (rd) => {
+    let d = JSON.parse(JSON.stringify(rd));
     d.horarios.forEach((h) => { h.sucursal = h.sucursal._id })
     console.log('Horarios before edit: ', d.horarios);
     await setDoctorForEdit(d)
@@ -110,8 +112,8 @@ export default function Dash() {
         <Table dataSource={doctoresData} columns={columns} />
       }
 
-      <Modal width='200' title="Editar Medico" visible={isModalVisible}  onCancel={handleCancel} destroyOnClose={true}>
-        <Register medico={doctorForEdit} />
+      <Modal width={900} title="Editar Medico" visible={isModalVisible} onCancel={handleCancel} destroyOnClose={true} footer={[]}>
+        <Register medico={doctorForEdit} setIsModalVisible={setIsModalVisible} />
       </Modal>
     </div>
   )

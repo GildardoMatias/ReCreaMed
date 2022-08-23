@@ -128,8 +128,15 @@ export function Citas() {
 
             <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
 
-            <Modal title="Nuevo expediente" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
-                <Form name="expediente" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
+            <Modal title="Nueva Cita" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose
+                footer={[
+                    <Button onClick={handleCancel}>Cancelar</Button>,
+                    <Button type="primary" htmlType="submit" form='nueva_cita_medic'>
+                        Guardar
+                    </Button>
+                ]}
+            >
+                <Form name="nueva_cita_medic" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
                     initialValues={{ id_reunion: 'https://www.google.com/calendar/event?eid=dXN2dG01NG9oY3E0bzhvczJzZXI5cjhxZDhfMjAyMjA4MDNUMTYwMDAwWiBhbWF0aWFzQHJlYWxpZGFkY3JlYXRpdmEuY29t' }}>
 
                     <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Ingresa RFC' }]} >
@@ -174,20 +181,28 @@ export function Citas() {
 
                     }
 
-                    <Form.Item label="Comentarios" name="comentarios" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                    <Form.Item label="Comentarios" name="comentarios" rules={[{ required: false, message: 'Ingresa RFC' }]} >
                         <Input />
                     </Form.Item>
 
 
-                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                        <Button type="primary" htmlType="submit" form='expediente'>
-                            Guardar
-                        </Button>
-                    </Form.Item>
                 </Form>
             </Modal>
 
-            <Modal title="Detalles de la cita" visible={isDetailVisible} onOk={handleDetailOk} onCancel={handleDetailCancel} destroyOnClose>
+            <Modal title="Detalles de la cita" visible={isDetailVisible} onOk={handleDetailOk} onCancel={handleDetailCancel} destroyOnClose
+                footer={[
+                    <Popconfirm
+                        title="Esta seguro de que quiere borrar esta cita?"
+                        onConfirm={confirm}
+                        onCancel={cancel}
+                        okText="Si"
+                        cancelText="No"
+                    >
+                        <Button danger>Borrar Cita</Button>
+                    </Popconfirm>,
+                    <Button type='primary' onClick={handleDetailOk}>Aceptar</Button>
+                ]}
+            >
                 {
                     cita ?
                         <>
@@ -196,15 +211,7 @@ export function Citas() {
                             <p>Sucursal: {cita.sucursal?.nombre}</p>
                             <p>Comentarios: {cita.comentarios}</p>
                             <p> <a href={cita.id_reunion} target='_blank' rel='noreferrer'>ir a la cita </a> </p>
-                            <Popconfirm
-                                title="Esta seguro de que quiere borrar esta cita?"
-                                onConfirm={confirm}
-                                onCancel={cancel}
-                                okText="Si"
-                                cancelText="No"
-                            >
-                                <Button danger>Borrar Cita</Button>
-                            </Popconfirm>
+
                         </>
                         :
                         <p>Sin cita seleccionada</p>
