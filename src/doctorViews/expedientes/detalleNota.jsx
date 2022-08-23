@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Collapse, Button, Tabs, Row, Col, Modal, Space } from 'antd';
 import { getData, API } from '../../resources';
-import { PlusOutlined, ExperimentOutlined, DownloadOutlined } from '@ant-design/icons';
+import { PlusOutlined, ExperimentOutlined, DownloadOutlined, EditOutlined } from '@ant-design/icons';
 import { NuevaNota } from './nuevaNota';
 import DetalleReceta from './detalleReceta';
 const { TabPane } = Tabs;
@@ -12,22 +12,20 @@ export default function DetalleNota(props) {
     const [notaData, setNotaData] = useState("");
     const [notaLoading, setnotaLoading] = useState(true);
     const [view, setView] = useState('detalles');
-    const [notaDetail, setNotaDetail] = useState("")
+    const [notaForEdit, setNotaForEdit] = useState("")
     // Add Nota Modal
     const [isModalVisible, setIsModalVisible] = useState(false);
-
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
+    const showModal = () => { setIsModalVisible(true) };
+    const handleOk = () => { setIsModalVisible(false) };
+    const handleCancel = () => { setIsModalVisible(false) };
     // End of Add Nota Modal
+    // Edit Nota Modal
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    const showEditModal = () => { setIsEditModalVisible(true) };
+    const handleEditOk = () => { setIsEditModalVisible(false) };
+    const handleEditCancel = () => { setIsEditModalVisible(false) };
+    const editarNota = async (n) => { await setNotaForEdit(n); setIsEditModalVisible(true) }
+    // End of Edit Nota Modal
 
 
     useEffect(() => {
@@ -99,7 +97,7 @@ export default function DetalleNota(props) {
             <Button onClick={showModal} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
         </Space>
 
-        <Tabs tabPosition='top' onTabClick={(k, e) => { console.log('OnTABClickNota', k); setNotaDetail(k) }}>
+        <Tabs tabPosition='top' onTabClick={(k, e) => { console.log('OnTABClickNota', k); }}>
 
             {notaLoading ? <h5>Cargando Nota...</h5> :
 
@@ -107,6 +105,7 @@ export default function DetalleNota(props) {
                     let index = i + 1;
                     return <TabPane tab={`Nota ${index}`} key={nota._id} style={{ width: '100%' }}>
                         <Row>
+                            {/* Mitad de la pantalla para NOTA*/}
                             <Col span={12}>
                                 <Collapse bordered={false}>
                                     <Panel header="Detalles de la nota" key="1">
@@ -138,7 +137,7 @@ export default function DetalleNota(props) {
                                         </Card.Grid>
                                     })}
                                 </Card>
-
+                                <Button style={{ float: 'right' }} onClick={() => { editarNota(nota) }} size='small' type="primary" icon={<EditOutlined />} >Editar Nota</Button>
                             </Col>
                             <Col span={12}>
                                 <DetalleReceta recetas={nota.recetas} id_nota={nota._id} />
@@ -153,6 +152,10 @@ export default function DetalleNota(props) {
 
         <Modal title="Nueva Nota" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={680} footer={[]} destroyOnClose>
             <NuevaNota id_expediente={props.id_expediente} paciente={props.paciente} prevExpNotas={props.prevExpNotas} setIsModalVisible={setIsModalVisible} />
+        </Modal>
+
+        <Modal title="Editar Nota" visible={isEditModalVisible} onOk={handleEditOk} onCancel={handleEditCancel} width={680} footer={[]} destroyOnClose>
+            <NuevaNota nota={notaForEdit} setIsModalVisible={setIsEditModalVisible} />
         </Modal>
 
     </div>

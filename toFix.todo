@@ -1,0 +1,2 @@
+when no patients, its breaking on register. DoctorViews -> Patients -> MainPatients -> l 37) if (data.length > 0) setPaciente(data[0]._id)
+    try to register first patient

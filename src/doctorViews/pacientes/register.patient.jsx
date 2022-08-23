@@ -136,6 +136,15 @@ export default function Register(props) {
         initialValues={props.paciente}
         scrollToFirstError
       >
+
+        <Form.Item
+          name="name"
+          label="Nombre"
+          rules={[{ required: true, message: 'Ingresa Nombre y apellidos' }]}
+        >
+          <Input />
+        </Form.Item>
+
         <Form.Item
           name="email"
           label="Correo"
@@ -180,14 +189,6 @@ export default function Register(props) {
               width: '100%',
             }}
           />
-        </Form.Item>
-
-        <Form.Item
-          name="name"
-          label="Nombre"
-          rules={[{ required: true, message: 'Ingresa Nombre y apellidos' }]}
-        >
-          <Input />
         </Form.Item>
 
         <Divider>Responsable (opcional) </Divider>

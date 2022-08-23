@@ -7,7 +7,6 @@ import Loading from '.././loading';
 import { PlusOutlined, FormOutlined } from '@ant-design/icons';
 import PerfilEdit from './perfilEdit';
 
-
 export default function Perfil() {
 
     const [profileData, setProfileData] = useState([]);

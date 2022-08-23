@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Input, Button, message, Select, Upload, Space } from 'antd';
 import { API, usuario } from '../../resources';
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined, InboxOutlined } from '@ant-design/icons';
@@ -54,15 +54,9 @@ const formItemLayoutWithOutLabel = {
 export function NuevaNota(props) {
     const [estudiosFiles, setEstudiosFiles] = useState([])
 
-    // useEffect(() => {
-    //     console.log(diagnosticos)
-    //     Object.keys(diagnosticos).forEach((k) => {
-    //         console.log("Title: ", k);
-    //         Object.keys(diagnosticos[k]).forEach((sk) => {
-    //             console.log(sk, diagnosticos[k][sk])
-    //         })
-    //     })
-    // }, [])
+    useEffect(() => {
+        console.log('Received nota on props: ', props.nota)
+    }, [])
 
     // const [pacientesData, setPacientesData] = useState([]);
     const onFinishTest = (values) => {
@@ -105,6 +99,22 @@ export function NuevaNota(props) {
             .then(response => {
                 console.log('Update Exp:', response);
                 message.success(response.message || response.error);
+            })
+            .catch(error => console.error('Error:', error))
+    };
+
+    const onFinishEdit = (values) => {
+        // Create Nota
+        console.log('ready To send: ', values)
+        fetch(API + 'notas/update/' + props.nota._id, {
+            method: 'PUT',
+            body: JSON.stringify(values),
+            headers: { 'Content-Type': 'application/json' }
+        }).then(res => res.json())
+            .then(response => {
+                message.success(response.message || response.error);
+                if (response.message && response.message === 'Nota Updated') props.setIsModalVisible(false)
+                console.log(response);
             })
             .catch(error => console.error('Error:', error))
     };
@@ -167,7 +177,7 @@ export function NuevaNota(props) {
                     Selecciona archivos en pdf o imagen que sean menores a 2 MB para poder subirlos
                 </p>
             </Dragger>
-            <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 14 }} initialValues={{ remember: true, estudios: [] }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" style={{ marginTop: 12 }} >
+            <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 14 }} initialValues={props.nota ? props.nota : { remember: true, estudios: [] }} onFinish={props.nota ? onFinishEdit : onFinish} onFinishFailed={onFinishFailed} autoComplete="off" style={{ marginTop: 12 }} >
 
                 <Form.Item label="Edad" name="edad" rules={[{ required: true, message: 'Ingresa RFC' }]} >
                     <Input />

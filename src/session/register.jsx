@@ -145,6 +145,10 @@ export function Register() {
             scrollToFirstError
           >
 
+            <Form.Item name="name" label="Nombre" rules={[{ required: true, message: 'Ingresa Nombre y apellidos' }]}>
+              <Input />
+            </Form.Item>
+
             <Form.Item name="rol" label="Rol" rules={[{ required: true, message: 'Elije el rol', },]}>
               <Select placeholder="Elije el tipo de rol">
                 <Option value="Administrador">Administrador de Hospital</Option>
@@ -234,9 +238,6 @@ export function Register() {
             </Form.Item>
 
 
-            <Form.Item name="name" label="Nombre" rules={[{ required: true, message: 'Ingresa Nombre y apellidos' }]}>
-              <Input />
-            </Form.Item>
 
             <Form.Item name="cedula" label="Cedula" rules={[{ required: false, message: 'Ingresa cedula' }]}>
               <Input />

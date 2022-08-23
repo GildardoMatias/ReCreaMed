@@ -10,7 +10,7 @@ export default function DetalleHistoria(props) {
     const [editing, setEditing] = useState(false)
 
     useEffect(() => {
-        console.log("Props IDHistoria: ", props.historia)
+    //     console.log("Props IDHistoria: ", props.historia)
         props.historia ?
             getHistoriaData()
             :

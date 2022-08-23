@@ -88,7 +88,7 @@ export default function Dash() {
             Editar
           </Button>
           <Popconfirm
-            title="Seguro que quiere borrar este doctor?"
+            title="Seguro que quiere borrar este paciente?"
             onConfirm={() => deletePatient(record)}
             // onCancel={cancel}
             okText="Si"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Button, Modal, Form, Input, DatePicker, message, Space } from 'antd';
+import { Row, Col, Button, Modal, Form, Input, DatePicker, message, Popconfirm } from 'antd';
 import { Calendar, Badge, Switch } from 'antd';
-import { getData } from '../resources';
+import { deleteData, getData } from '../resources';
 import { API, usuario } from '../resources';
 import { Select } from 'antd';
 import CitaGoogle from './cita_google';
@@ -24,7 +24,7 @@ export function Citas() {
     }, [])
 
     const getCitasData = () => {
-        getData(`citas/medico/${usuario._id}`).then(rs => { setCitasData(rs); setCitasLoading(false) })
+        getData(`citas/medico/${usuario._id}`).then(rs => { console.log('GetCitas: ', rs); setCitasData(rs); setCitasLoading(false) })
     }
 
 
@@ -105,11 +105,15 @@ export function Citas() {
     const handleChange = (value) => {
         // console.log(`selected ${value}`);
     };
-    // Switch
+    // Switch For online or Presencial
     const onSwitch = (checked) => {
         console.log(`switch to ${checked}`);
         setIsOnline(checked)
     };
+    // Confirmar Borrar
+    const confirm = (e) => { deleteData('citas/remove/' + cita._id).then((rs) => { setIsDetailVisible(false); getCitasData() }) }
+    const cancel = (e) => { console.log(e); };
+    // End of Confirmar Borrar
 
     return (
         <div className='mainContainer'>
@@ -124,9 +128,7 @@ export function Citas() {
 
             <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
 
-            <CitaGoogle />
-
-            <Modal title="Nuevo expediente" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Nuevo expediente" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
                 <Form name="expediente" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
                     initialValues={{ id_reunion: 'https://www.google.com/calendar/event?eid=dXN2dG01NG9oY3E0bzhvczJzZXI5cjhxZDhfMjAyMjA4MDNUMTYwMDAwWiBhbWF0aWFzQHJlYWxpZGFkY3JlYXRpdmEuY29t' }}>
 
@@ -185,7 +187,7 @@ export function Citas() {
                 </Form>
             </Modal>
 
-            <Modal title="Detalles de la cita" visible={isDetailVisible} onOk={handleDetailOk} onCancel={handleDetailCancel}>
+            <Modal title="Detalles de la cita" visible={isDetailVisible} onOk={handleDetailOk} onCancel={handleDetailCancel} destroyOnClose>
                 {
                     cita ?
                         <>
@@ -194,6 +196,15 @@ export function Citas() {
                             <p>Sucursal: {cita.sucursal?.nombre}</p>
                             <p>Comentarios: {cita.comentarios}</p>
                             <p> <a href={cita.id_reunion} target='_blank' rel='noreferrer'>ir a la cita </a> </p>
+                            <Popconfirm
+                                title="Esta seguro de que quiere borrar esta cita?"
+                                onConfirm={confirm}
+                                onCancel={cancel}
+                                okText="Si"
+                                cancelText="No"
+                            >
+                                <Button danger>Borrar Cita</Button>
+                            </Popconfirm>
                         </>
                         :
                         <p>Sin cita seleccionada</p>

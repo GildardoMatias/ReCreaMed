@@ -34,7 +34,7 @@ export default function MainPacientes() {
           paciente.value = paciente.name;
         });
         console.log(data); setPacientesData(data);
-        if (data.length > 0) setPaciente(data[0]._id)
+        if (data && data.length > 0) setPaciente(data[0]._id)
       })
       .finally(() => setIsLoading(false))
   }
