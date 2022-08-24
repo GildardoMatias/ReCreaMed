@@ -1,6 +1,7 @@
 import { message } from 'antd'
 export const API = "https://api.recreamed.com/api/"
 export const S_API = "https://api.recreamed.com/session/"
+export const IMAGE_API = "https://api.recreamed.com/images/"
 
 export const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); localStorage.removeItem('userData'); window.location.href = '/'; }
 
