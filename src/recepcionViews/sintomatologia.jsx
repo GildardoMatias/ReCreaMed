@@ -1,11 +1,17 @@
-import React, { useState } from 'react'
-import { Form, Switch, Button, Radio, Space, Row, Col } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { Form, Switch, Button, Radio, Space, Row, Col, Select } from 'antd'
 import { catalogo_sintomatologia, catalogo_sintomatologia2, disminucion_apetito, perdida_peso, aumento_apetito, aumento_peso } from './sintomatologia_catalog'
 import { Card } from 'react-bootstrap'
+import { getData } from '../resources';
+const { Option } = Select;
 
 export default function Sintomatologia() {
   const [pesoEnabled, setPesoEnabled] = useState(false)
   const [apetitoEnabled, setApetitoEnabled] = useState(false)
+  const [misPacientes, setMisPacientes] = useState([])
+  useEffect(() => {
+    getData(`users_by_rol/Paciente`).then(rs => { setMisPacientes(rs); console.log(rs); })
+  }, [])
   const onFinish = (values) => {
     console.log('Success:', values);
   };
@@ -13,9 +19,13 @@ export default function Sintomatologia() {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+  const handleChange = (value) => {
+    // console.log(`selected ${value}`);
+  };
   return (
-    <div>
+    <div className='mainContainer'>
       <h4>Sintomatologia</h4>
+
       <Form
         name="basic"
         labelCol={{ span: 8 }}
@@ -25,6 +35,18 @@ export default function Sintomatologia() {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
+
+        <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]} >
+          <Select
+            onChange={handleChange}
+          >
+            {
+              misPacientes.map((p) => {
+                return <Option value={p._id}>{p.name}</Option>
+              })
+            }
+          </Select>
+        </Form.Item>
 
         {
           Object.keys(catalogo_sintomatologia).map((sk) => {
@@ -108,7 +130,7 @@ export default function Sintomatologia() {
                 </Radio.Group>
               </Form.Item>
             </Col>
-            
+
             <Col>
               <Form.Item
                 label='Aumento Peso'

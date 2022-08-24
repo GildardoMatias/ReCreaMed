@@ -8,6 +8,8 @@ import { Citas } from './citas'
 import Home from './home/home'
 import Efectos from './efectos';
 import Sintomatologia from './sintomatologia';
+import SintomatologiaResults from './sintomatologiaResults';
+import EfectosResults from './efectosResults';
 
 const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); window.location.href = '/'; }
 
@@ -32,7 +34,9 @@ function Navigator() {
           <Nav.Link href="/pacientes">Pacientes</Nav.Link>
           <Nav.Link href="/citas">Citas</Nav.Link>
           <Nav.Link href="/efectos">Efectos</Nav.Link>
+          <Nav.Link href="/resultados_efectos">Resultados Efectos</Nav.Link>
           <Nav.Link href="/sintomatologia">Sintomatologia</Nav.Link>
+          <Nav.Link href="/resultados_sintomatologia">Resultados Sintomatologia</Nav.Link>
         </Nav>
       </Navbar.Collapse>
       <Navbar.Collapse className="justify-content-end">
@@ -40,7 +44,6 @@ function Navigator() {
       </Navbar.Collapse>
     </Container>
   </Navbar>
-
 }
 
 export default function RecepcionApp() {
@@ -64,9 +67,17 @@ export default function RecepcionApp() {
         <Route path="/efectos">
           <Efectos/>
         </Route>
+        
+        <Route path="/resultados_efectos">
+          <EfectosResults />
+        </Route>
       
         <Route path="/sintomatologia">
           <Sintomatologia/>
+        </Route>
+       
+        <Route path="/resultados_sintomatologia">
+          <SintomatologiaResults/>
         </Route>
 
         <Route path="/">
