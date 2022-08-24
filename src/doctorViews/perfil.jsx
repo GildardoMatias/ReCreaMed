@@ -61,15 +61,19 @@ export default function Perfil() {
                 <p>Codigo Postal:{profileData.codigopostal} </p>
             </Col> */}
             <Col span={8}>
-                <p>Horarios</p>
-                {
-                    profileData.horarios.map((h) => {
-                        return <div>
-                            <p>Sucursal: {h.sucursal.nombre}</p>
-                            <p>Horario: {h.horario}</p>
-                        </div>
-                    })
-                }
+                <Card title='Horarios'>
+                    {
+                        profileData.horarios.map((h) => {
+                            return <Card.Grid style={{ width: '100%' }}>
+                                <Row align="middle">
+                                    <Col span={6} offset={4}><img width={64} src={'https://api.recreamed.com/images/' + h.sucursal.logo} alt="Logo" /></Col>
+                                    <Col span={10}>{h.sucursal.nombre} <br /> {h.horario}</Col>
+                                </Row>
+                            </Card.Grid>
+                        })
+                    }
+                </Card>
+                <br />
                 <p>Universidad: {profileData.universidad} </p>
                 <p>Certificacion: {profileData.certificacion} </p>
                 <p>Cedula: {profileData.cedula} </p>
