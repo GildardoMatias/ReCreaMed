@@ -21,14 +21,18 @@ export default function DetallesPaciente(props) {
         return editing ?
             <>
                 <Register setAdding={setEditing} paciente={pacienteData} />
-                {/* Editando
-                <Button onClick={() => setEditing(false)}>Guardar</Button> */}
             </> :
             <Card style={{ width: '98%', borderRadius: 12 }}>
                 <Space><h5>Datos del Paciente</h5><Button onClick={() => setEditing(true)} size='small' disabled={!props.paciente} type="primary" shape="circle" icon={<FormOutlined />} /></Space>
                 <Row>
                     <Col span={10}>
-                        <Row justify="center"><Col span={12}><Avatar size={128} icon={<UserOutlined />} /></Col></Row>
+                        <Row justify="center"><Col span={12}>
+                            {
+                                pacienteData.avatar.length > 9 ?
+                                    <img width={128} src={'https://api.recreamed.com/images/' + pacienteData.avatar} alt='ProfilePic' /> :
+                                    <Avatar size={128} icon={<UserOutlined />} />
+                            }
+                        </Col></Row>
                         <br />
                         <Row><Col span={8}>Nombre:</Col><Col span={10}>{pacienteData.name}</Col></Row>
                         <Row><Col span={8}>Correo:</Col><Col span={10}>{pacienteData.email}</Col></Row>

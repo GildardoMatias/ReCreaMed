@@ -7,26 +7,27 @@ import { Citas } from './citas'
 import Expedientes from './expedientes/expedientes'
 import Recetas from './recetas'
 import Perfil from './perfil'
-import {DoctorNotas} from './doctorNotas'
+import { DoctorNotas } from './doctorNotas'
 import Home from './home/home'
 import icon from '../assets/Icon.png';
-import { logout } from '../resources'
+import { Footer, logout } from '../resources'
 import { usuario } from '../resources'
 import { Historial } from './historial';
 import MainPacientes from './pacientes/main.pacientes';
+import Escalas from '../escalas/escalas'; 
 
 function Navigator() {
   console.log("DoctorApp", usuario.name)
   return <Navbar bg="light" expand="lg">
     <Container>
-      <Navbar.Brand href="#home" style={{fontFamily: 'Helvetica', color:'#515a6e'}}>
+      <Navbar.Brand href="#home" style={{ fontFamily: 'Arial', color: '#515a6e' }}>
         <img
           src={icon}
           width="40"
           height="35"
           className="d-inline-block align-top"
           alt="Recreamed logo"
-          style={{marginRight:6}}
+          style={{ marginRight: 6 }}
         />
         Bienvenido {usuario.name}
       </Navbar.Brand>
@@ -35,8 +36,9 @@ function Navigator() {
         <Nav className="me-auto">
           <Nav.Link href="/">Inicio</Nav.Link>
           {/* <Nav.Link href="/pacientesdash">PacientesDash</Nav.Link> */}
-          <Nav.Link href="/pacientes">Pacientes</Nav.Link>
+          <Nav.Link href="/pacientes" >Pacientes</Nav.Link>
           <Nav.Link href="/citas">Citas</Nav.Link>
+          <Nav.Link href="/escalas">Escalas</Nav.Link>
           {/* <Nav.Link href="/expedientes">Expedientes</Nav.Link> */}
           {/* <Nav.Link href="/recetas">Recetas</Nav.Link> */}
           {/* <Nav.Link href="/notas">Notas</Nav.Link> */}
@@ -66,7 +68,7 @@ export default function DoctorApp() {
         </Route>
 
         <Route path="/pacientes">
-          <MainPacientes/>
+          <MainPacientes />
         </Route>
 
         <Route path="/citas">
@@ -84,13 +86,18 @@ export default function DoctorApp() {
         <Route path="/perfil">
           <Perfil />
         </Route>
-       
+
         <Route path="/notas">
-          <DoctorNotas/>
+          <DoctorNotas />
+        </Route>
+
+        <Route path="/historial">
+          <Historial />
         </Route>
         
-        <Route path="/historial">
-          <Historial/>
+        <Route path="/escalas">
+          {/* This is taken from recepcion  */}
+          <Escalas/> 
         </Route>
 
         <Route path="/">
@@ -98,6 +105,8 @@ export default function DoctorApp() {
         </Route>
 
       </Switch>
+
+      <Footer />
     </Router>
   )
 }

@@ -1,8 +1,11 @@
-import React from 'react'
-import { Form, Input, Button, message, Space, Divider } from 'antd'
+import React, { useState } from 'react'
+import { Form, Input, Button, message, Space, Divider, Upload } from 'antd'
 import { InputNumber, Select } from 'antd';
 import { S_API, API } from '../../resources'
 import { usuario } from '../../resources'
+import { InboxOutlined, UploadOutlined } from '@ant-design/icons'
+const { Dragger } = Upload;
+
 
 const { Option } = Select;
 const estados = ["Michoacan", "Morelos", "Guerrero"];
@@ -10,6 +13,7 @@ const estados = ["Michoacan", "Morelos", "Guerrero"];
 export default function Register(props) {
 
   const [form] = Form.useForm();
+  const [avatar, setAvatar] = useState(props.paciente ? props.paciente.avatar : 'noimg.jpg')
 
   async function addHistoria() {
     return await fetch(API + 'historias/add', {
@@ -58,7 +62,7 @@ export default function Register(props) {
   const onFinish = async (values) => {
 
     // Register patient
-    values.avatar = 'https://';
+    values.avatar = avatar;
     values.estatus = '1';
     values.rol = 'Paciente';
     values.password = '' + values.telefono;
@@ -120,12 +124,56 @@ export default function Register(props) {
       </Select>
     </Form.Item>
   );
+  //Start upload props Upload File
+  const dragDropProps = {
+    name: 'file',
+    multiple: false,
+    action: API + 'imagenes/upload',
+
+    onChange(info) {
+      const { status } = info.file;
+
+      if (status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
+
+      if (status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully.`);
+        console.log('New Files: ', info.file.response.file)
+        setAvatar(info.file.response.file)
+      } else if (status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+
+    // onDrop(e) {
+    //   console.log('Dropped files', e.dataTransfer.files);
+    // },
+  };
   return (
-    <div style={{ width: '100%' }}>
+    <div
+      style={{ width: '100%' }}
+    >
       {
         props.paciente ? <h4>Editar paciente</h4> : <h4>Registrar Paciente</h4>
       }
 
+      <br />
+      {/* <Dragger {...dragDropProps} style={{ height: 70 }}>
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-upload-text">Arrastra la imagen de perfil o click ara buscar</p>
+        <p className="ant-upload-hint">
+          Selecciona archivos en formato png, jpeg o webp
+        </p>
+      </Dragger> */}
+
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Upload {...dragDropProps}>
+          <Button type="dashed" icon={<UploadOutlined style={{ fontSize: 24, color:'#0d6efd' }} />} style={{ width: 400, height: 80 }} block>Selecciona la foto de perfil</Button>
+        </Upload>
+      </div>
       <br />
       <Form
         // {...formItemLayout}

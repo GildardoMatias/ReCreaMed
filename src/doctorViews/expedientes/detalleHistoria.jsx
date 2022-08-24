@@ -75,7 +75,7 @@ export default function DetalleHistoria(props) {
                     </Form>
                 </>
                 :
-                <p style={{ whiteSpace: 'pre' }}>{historiaData[0].historial}</p>
+                <p style={{ whiteSpace: 'pre', textAlign: 'left' }}>{historiaData[0].historial}</p>
         }</Card.Grid>
     }
 
@@ -83,7 +83,7 @@ export default function DetalleHistoria(props) {
     return <div>
         <Card bordered={false}>
             <Space>
-                <h5>Historia </h5>
+                <h5>Historia Clinica</h5>
                 <Button onClick={() => setEditing(true)} size='small' disabled={!props.historia} type="primary" shape="circle" icon={<FormOutlined />} />
             </Space>
             {

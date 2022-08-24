@@ -65,28 +65,17 @@ export async function sendDataBody(endpoint, values) {
         .catch(error => console.error('Error:', error))
 };
 
+export const Footer = () =>
+    <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 88,
+        backgroundColor: '#3c75ef',
+    }}>
 
+        <p style={{ color: 'white' }}>
+            Desarrollado por <strong> <a href="https://www.realidadcreativa.com" style={{ marginLeft: 6, color: 'white' }}>realidadcreativa.com</a></strong> | © Realidad Creativa - 2022
+        </p>
 
-
-
-const onFinish = (values) => {
-    values.avatar = 'https://';
-    values.estatus = '1';
-    delete values.confirm;
-    delete values.prefix;
-    delete values.agreement;
-
-    console.log(values)
-    fetch(S_API + 'register', {
-        method: 'POST',
-        body: JSON.stringify(values),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(res => res.json())
-        .then(response => {
-            console.log('Success:', response);
-            // message.success(response.message);
-        })
-        .catch(error => console.error('Error:', error))
-};
+    </div>

@@ -12,5 +12,26 @@
         "Errores Reportados": 42,
         "Advertencias": 91,
         "Observaciones": "La mayoria de medicos no tienen amplio conocimiento de informatica y tecnologia en general, simplificar lo mas posible"
+    },
+    "TosEnd": {
+        "usuario": "62fd9982578d2b4669e0e18b",
+        "Ritmo Cardíaco Elevado": false,
+        "Sentimientos de Ansiedad": true,
+        "Debilidad/Mareos ligeros": false,
+        "Sedación/Somnolencia ": false,
+        "Nauseas": false,
+        "Visión Borrosa ": false,
+        "Aumento de la Presión Arterial": false,
+        "Mareos ": false,
+        "Dolor de cabeza": false,
+        "1. ¿Parece que las cosas se mueven en cámara lenta ?": 2,
+        "2. ¿Te parecen irreales las cosas, como si estuvieras en un sueño?": 2,
+        "3. ¿Te sientes desconectado de tu propio cuerpo?": 4,
+        "4. Sientes que ha cambiado el sentido de tu propio cuerpo?: por ejemplo, tu cuerpo se siente inusualmente largo o inusualmente pequeño?": 4,
+        "5. Te has distraído, o has perdido el rastro de alguna manera de lo que esta pasando durante esta experiencia?": 1,
+        "6. Tiene lagunas (vacios) en su memoria?": 3,
+        "ketamina": 0,
+        "ketaminaiv": 2,
+        "ketaminaivb": 0
     }
 }
