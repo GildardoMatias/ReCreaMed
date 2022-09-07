@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { catalogo_efectos, desrealizacion, despersonalizacion, amnesia } from './efects_catalog'
-import { Form, Switch, Button, Radio, Space, Slider, Select } from 'antd'
-import { getData } from '../resources';
+import { Form, Switch, Button, Radio, Space, Slider, Select, message } from 'antd'
+import { getData, sendDataBody } from '../resources';
 const { Option } = Select;
 
 export default function Efectos() {
@@ -11,7 +11,25 @@ export default function Efectos() {
     getData(`users_by_rol/Paciente`).then(rs => { setMisPacientes(rs); console.log(rs); })
   }, [])
   const onFinish = (values) => {
-    console.log('Success:', values);
+    const user = values.usuario;
+    delete values.usuario;
+    Object.keys(values).forEach((k) => {
+      const nk = k.replace(/ /g, "_")
+      values[nk] = values[k];
+      if (k.includes(' ')) delete values[k];
+    })
+
+    const body = {
+      usuario: user,
+      respuestas: values,
+      tipo: 'efectos'
+    }
+
+    console.log('Efectos Form:', values);
+    sendDataBody('encuestas/add', body).then((rs) => {
+      console.log(rs)
+      message.success(rs.message)
+    })
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -25,7 +43,7 @@ export default function Efectos() {
     <div className='mainContainer'>
       <h5>Efectos</h5>
       <Form
-        name="basic"
+        name="efectos_form"
         labelCol={{
           span: 8,
         }}
@@ -50,23 +68,23 @@ export default function Efectos() {
         </Form.Item>
 
         {
-          Object.keys(catalogo_efectos).map((efk) => {
+          Object.keys(catalogo_efectos).map((efk, i) => {
             return <Form.Item
               label={efk}
               name={efk}
-              rules={[{ required: true, message: 'Selecciona una respuesta' }]}
+              rules={[{ required: false, message: 'Selecciona una respuesta' }]}
             >
-              <Switch checkedChildren="Si" unCheckedChildren="No" />
+              <Switch checkedChildren="Si" unCheckedChildren="No" defaultChecked={false} />
             </Form.Item>
           })
         }
 
         <h5>Desrealizacion</h5>
         {
-          Object.keys(desrealizacion).map((pr) => {
+          Object.keys(desrealizacion).map((pr, index) => {
             return <Form.Item
               label={pr}
-              name={pr}
+              name={'desrealizacion_' + index}
               rules={[{ required: true, message: 'Selecciona una respuesta' }]}
             >
               <Radio.Group>
@@ -83,10 +101,10 @@ export default function Efectos() {
 
         <h5>Despersonalizacion</h5>
         {
-          Object.keys(despersonalizacion).map((pr) => {
+          Object.keys(despersonalizacion).map((pr, index) => {
             return <Form.Item
               label={pr}
-              name={pr}
+              name={'despersonalizacion_' + index}
               rules={[{ required: true, message: 'Selecciona una respuesta' }]}
             >
               <Radio.Group>
@@ -102,10 +120,10 @@ export default function Efectos() {
 
         <h5>Amnesia</h5>
         {
-          Object.keys(amnesia).map((pr) => {
+          Object.keys(amnesia).map((pr, i) => {
             return <Form.Item
               label={pr}
-              name={pr}
+              name={'amnesia_' + i}
               rules={[{ required: true, message: 'Selecciona una respuesta' }]}
             >
               <Radio.Group>

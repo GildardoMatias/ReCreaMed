@@ -17,8 +17,8 @@
         "usuario": "62fd9982578d2b4669e0e18b",
         "Ritmo Cardíaco Elevado": false,
         "Sentimientos de Ansiedad": true,
-        "Debilidad/Mareos ligeros": false,
-        "Sedación/Somnolencia ": false,
+        "Debilidad o Mareos ligeros": false,
+        "Sedación o Somnolencia ": false,
         "Nauseas": false,
         "Visión Borrosa ": false,
         "Aumento de la Presión Arterial": false,
@@ -33,5 +33,30 @@
         "ketamina": 0,
         "ketaminaiv": 2,
         "ketaminaivb": 0
+    },
+    "ts2": {
+        "usuario": "62fd9982578d2b4669e0e18b",
+        "Ritmo Cardíaco Elevado": false,
+        "Sentimientos de Ansiedad": true,
+        "Debilidad/Mareos ligeros": true,
+        "Sedación/Somnolencia ": false,
+        "Nauseas": false,
+        "Visión Borrosa ": false,
+        "Aumento de la Presión Arterial": false,
+        "Mareos ": false,
+        "Dolor de cabeza": false,
+        "desrealizacion_0": 3,
+        "desrealizacion_1": 3,
+        "despersonalizacion_0": 2,
+        "despersonalizacion_1": 1,
+        "amnesia_0": 0,
+        "amnesia_1": 3,
+        "ketamina": 0,
+        "ketaminaiv": 0,
+        "ketaminaivb": 0
+    },
+    "tipos": {
+        "sintomatologia": "sintomatologia del cero al 27",
+        "efectos": "Respuestas Varias"
     }
 }

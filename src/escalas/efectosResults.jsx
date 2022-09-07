@@ -1,6 +1,16 @@
-import React from 'react'
-import { Table } from 'antd'
+import React, { useState } from 'react'
+import { useEffect } from 'react';
+import { Table, Tag } from 'antd'
+import { getData } from '../resources';
 export default function EfectosResults() {
+
+  const [efectosData, setEfectosData] = useState(null);
+  useEffect(() => {
+    getData('encuestas/tipo/efectos').then((res) => { setEfectosData(res); console.log(res) })
+
+
+  }, [])
+
   const dataSource = [
     {
       key: '1',
@@ -50,6 +60,28 @@ export default function EfectosResults() {
       dataIndex: 'age',
       key: 'age',
     },
+    // {
+    //   title: 'Tags',
+    //   key: 'tags',
+    //   dataIndex: 'tags',
+    //   render: (_, { tags }) => (
+    //     <>
+    //       {tags.map((tag) => {
+    //         let color = tag.length > 5 ? 'geekblue' : 'green';
+
+    //         if (tag === 'loser') {
+    //           color = 'volcano';
+    //         }
+
+    //         return (
+    //           <Tag color={color} key={tag}>
+    //             {tag.toUpperCase()}
+    //           </Tag>
+    //         );
+    //       })}
+    //     </>
+    //   ),
+    // },
   ];
 
   return (

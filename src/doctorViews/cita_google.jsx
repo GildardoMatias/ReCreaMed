@@ -1,18 +1,29 @@
 import React from 'react'
 import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons';
+import { usuario } from '../resources'
 
-export default function CitaGoogle(props) {
+export const CitaGoogleP = (props) => {
+    console.log('CitaGoogleProps: ', props)
+    const generateCita = () => {
+        return 'GeneratedCita'
+    }
+    return generateCita()
+}
+
+export const CitaGoogle = (props) => {
     var gapi = window.gapi
     /* 
       Update with your own Client Id and Api key 
     */
-    var CLIENT_ID = "304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com"
-    var API_KEY = "AIzaSyA8fRG8GwQ3Gi-4bTk8EO2__sCQUXTKZd4"
+    // var CLIENT_ID = "304555086627-ej94bugbu0cjugpungprg2j0k4je3p9q.apps.googleusercontent.com" //-> AMatias@recrea
+    var CLIENT_ID = "245971086169-jepmkkhrdegtq034l5644n51p5jeh7d5.apps.googleusercontent.com" //-> AMatias@recrea
+    // var API_KEY = "AIzaSyA8fRG8GwQ3Gi-4bTk8EO2__sCQUXTKZd4" //-> AMatias@recrea
+    var API_KEY = "AIzaSyDNI5xyDzbiMaI2qp7j0ou2YL0N61RYkXA" //-> d3clashroyale@gmail
     var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"]
     var SCOPES = "https://www.googleapis.com/auth/calendar.events"
 
-    const handleClick = () => {
+    const generateCita = () => {
         gapi.load('client:auth2', () => {
             console.log('loaded client')
 
@@ -28,22 +39,22 @@ export default function CitaGoogle(props) {
             gapi.auth2.getAuthInstance().signIn()
                 .then(() => {
                     var event = {
-                        'summary': 'Cita 5 con el medico',
+                        'summary': `Cita medica con ${usuario.name}`,
                         'location': 'Morelia Mich',
-                        'description': 'Cita 5 con meet incluido',
+                        'description': `Cita medica con ${usuario.name}`,
                         'start': {
-                            'dateTime': '2022-08-04T09:00:00-07:00',
-                            'timeZone': 'America/Los_Angeles'
+                            'dateTime': props.fecha,
+                            'timeZone': 'Mexico/General'
                         },
                         'end': {
-                            'dateTime': '2022-08-04T17:00:00-07:00',
-                            'timeZone': 'America/Los_Angeles'
+                            'dateTime': props.fecha,
+                            'timeZone': 'Mexico/General'
                         },
                         'recurrence': [
                             'RRULE:FREQ=DAILY;COUNT=2'
                         ],
                         'attendees': [
-                            { 'email': 'lpage@example.com' },
+                            { 'email': usuario.email },
                             { 'email': 'sbrin@example.com' }
                         ],
                         'reminders': {
@@ -77,25 +88,25 @@ export default function CitaGoogle(props) {
                     */
 
                     // get events
-                    gapi.client.calendar.events.list({
-                        'calendarId': 'primary',
-                        'timeMin': (new Date()).toISOString(),
-                        'showDeleted': false,
-                        'singleEvents': true,
-                        'maxResults': 10,
-                        'orderBy': 'startTime'
-                    }).then(response => {
-                        const events = response.result.items
-                        console.log('EVENTS: ', events)
-                    })
+                    // gapi.client.calendar.events.list({
+                    //     'calendarId': 'primary',
+                    //     'timeMin': (new Date()).toISOString(),
+                    //     'showDeleted': false,
+                    //     'singleEvents': true,
+                    //     'maxResults': 10,
+                    //     'orderBy': 'startTime'
+                    // }).then(response => {
+                    //     const events = response.result.items
+                    //     console.log('EVENTS: ', events)
+                    // })
 
 
 
                 })
         })
     }
-
-    return (
-        <Button onClick={handleClick} size='small' type="primary" >Generar Cita</Button>
-    )
+    generateCita()
+    // return (
+    //     <Button onClick={generateCita} size='small' type="primary" >Generar Cita</Button>
+    // )
 }

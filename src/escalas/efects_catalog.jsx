@@ -1,12 +1,12 @@
 export const catalogo_efectos = {
-    "Ritmo Cardíaco Elevado": false,
-    "Sentimientos de Ansiedad": false,
-    "Debilidad/Mareos ligeros": false,
-    "Sedación/Somnolencia ": false,
+    "Ritmo Cardiaco Elevado": false,
+    "Sentimientos de Ansiedad": true,
+    "Debilidad o Mareos ligeros": false,
+    "Sedacion o Somnolencia": false,
     "Nauseas": false,
-    "Visión Borrosa ": false,
+    "Vision Borrosa": false,
     "Aumento de la Presión Arterial": false,
-    "Mareos ": false,
+    "Mareos": false,
     "Dolor de cabeza": false
 }
 

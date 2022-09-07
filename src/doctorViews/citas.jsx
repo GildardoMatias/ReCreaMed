@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Row, Col, Button, Modal, Form, Input, DatePicker, message, Popconfirm } from 'antd';
 import { Calendar, Badge, Switch } from 'antd';
-import { deleteData, getData } from '../resources';
-import { API, usuario } from '../resources';
+import { deleteData, getData, sendDataBody } from '../resources';
+import { usuario } from '../resources';
 import { Select } from 'antd';
-import CitaGoogle from './cita_google';
+import { CitaGoogleP, CitaGoogle } from './cita_google'
 const { Option } = Select;
 // import { API } from '../resources'
 
@@ -16,6 +16,8 @@ export function Citas() {
     const [isDetailVisible, setIsDetailVisible] = useState(false);
     const [misPacientes, setMisPacientes] = useState([])
     const [isOnline, setIsOnline] = useState(false)
+    const [password, setPassword] = useState('');
+    const [fecha_cita, setFecha_cita] = useState(null)
 
     useEffect(() => {
         console.log('Yo : ', usuario);
@@ -39,17 +41,17 @@ export function Citas() {
     const onFinish = (values) => {
         values.medico = usuario._id;
         values.sucursal = usuario.horarios[0].sucursal;
+        values.password_reunion = '';
+
+        values.id_reunion = isOnline ? CitaGoogleP({ usuario: usuario.name, param2: 'param2' }) : '';
         console.log('Valores:', values);
-        fetch(API + 'citas/add', {
-            method: 'POST',
-            body: JSON.stringify(values),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .then(response => { console.log('Success:', response); message.success(response.message || response.error); })
-            .catch(error => console.error('Error:', error))
-            .finally(() => { getCitasData(); setIsModalVisible(false) })
+        console.log('Cita Google: ')
+        CitaGoogle({ fecha: fecha_cita })
+
+        sendDataBody('citas/add', values).then((response) => {
+            console.log('Success:', response); message.success(response.message || response.error);
+            getCitasData(); setIsModalVisible(false)
+        })
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -60,6 +62,7 @@ export function Citas() {
     function onChange(value, dateString) {
         console.log('Selected Time: ', value);
         console.log('Formatted Selected Time: ', dateString);
+        setFecha_cita(value)
     }
     function onOk(value) {
         console.log('onOk: ', value);
@@ -154,33 +157,23 @@ export function Citas() {
                         <Input />
                     </Form.Item> */}
 
-
-
                     <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]} >
                         <DatePicker showTime onChange={onChange} onOk={onOk} placeholder='Selecciona Fecha y Hora' />
                     </Form.Item>
                     <Col style={{ marginLeft: 64, marginBottom: 12 }}>
                         Cita en Linea: <Switch style={{ marginLeft: 8 }} defaultChecked={false} onChange={onSwitch} />
                     </Col>
-                    {
+                    {/*
                         isOnline ?
                             <>
-                                <Col style={{ marginLeft: 64, marginBottom: 12 }}>
-                                    <CitaGoogle />
-                                </Col>
-                                <Form.Item label="Enlace a la reunion" name="id_reunion" rules={[{ required: true, message: 'Ingresa RFC' }]} >
-                                    <Input />
-                                </Form.Item>
-
                                 <Form.Item label="Contraseña" name="password_reunion" rules={[{ required: true, message: 'Ingresa RFC' }]} >
-                                    <Input placeholder='Opcional' />
+                                    <Input placeholder='Opcional' onChange={e => setPassword(e.target.value)} />
                                 </Form.Item>
                             </>
                             :
                             <></>
 
-                    }
-
+                    */}
                     <Form.Item label="Comentarios" name="comentarios" rules={[{ required: false, message: 'Ingresa RFC' }]} >
                         <Input />
                     </Form.Item>
