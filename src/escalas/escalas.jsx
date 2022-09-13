@@ -1,9 +1,10 @@
 import React from 'react';
 import { Tabs } from 'antd';
-import Efectos from './efectos';
+import EfectosEncuesta from './efectosEmcuesta';
 import Sintomatologia from './sintomatologia';
 import SintomatologiaResults from './sintomatologiaResults';
 import EfectosResults from './efectosResults';
+import EfectosCreateLink from './efectosCreateLink';
 const { TabPane } = Tabs;
 
 const onChange = (key) => {
@@ -15,7 +16,7 @@ export default function Escalas() {
         <div>
             <Tabs defaultActiveKey="1" onChange={onChange} tabPosition='left'>
             <TabPane tab="Efectos" key="1">
-                <Efectos />
+                <EfectosCreateLink/>
             </TabPane>
             <TabPane tab="Resultados Efectos" key="2">
                 <EfectosResults />

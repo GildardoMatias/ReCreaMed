@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, {  useState, useEffect } from 'react'
 import { Table, Space, Button, Popconfirm, Modal } from 'antd';
 import { API, deleteData } from '../../resources'
 import Loading from '../../loading';
@@ -40,9 +40,7 @@ export default function Dash() {
     })
   }
 
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
+ 
 
   const handleCancel = () => {
     setIsModalVisible(false);

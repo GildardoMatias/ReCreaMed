@@ -4,15 +4,14 @@ import { Form, Switch, Button, Radio, Space, Slider, Select, message } from 'ant
 import { getData, sendDataBody } from '../resources';
 const { Option } = Select;
 
-export default function Efectos() {
+export default function EfectosEncuesta(props) {
   const [misPacientes, setMisPacientes] = useState([])
 
   useEffect(() => {
     getData(`users_by_rol/Paciente`).then(rs => { setMisPacientes(rs); console.log(rs); })
   }, [])
   const onFinish = (values) => {
-    const user = values.usuario;
-    delete values.usuario;
+    const user = props.idpaciente;
     Object.keys(values).forEach((k) => {
       const nk = k.replace(/ /g, "_")
       values[nk] = values[k];
@@ -36,12 +35,11 @@ export default function Efectos() {
     console.log('Failed:', errorInfo);
   };
   const marks = { 0: '0', 10: '10' };
-  const handleChange = (value) => {
-    // console.log(`selected ${value}`);
-  };
+ 
   return (
     <div className='mainContainer'>
       <h5>Efectos</h5>
+      <h5>paciente: {props.idpaciente} key: {props.token}</h5>
       <Form
         name="efectos_form"
         labelCol={{
@@ -55,17 +53,6 @@ export default function Efectos() {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]} >
-          <Select
-            onChange={handleChange}
-          >
-            {
-              misPacientes.map((p) => {
-                return <Option value={p._id}>{p.name}</Option>
-              })
-            }
-          </Select>
-        </Form.Item>
 
         {
           Object.keys(catalogo_efectos).map((efk, i) => {

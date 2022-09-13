@@ -80,3 +80,5 @@ export const Footer = () =>
         </p>
 
     </div>
+
+export const estados = ["Michoacan", "Morelos", "Guerrero"];

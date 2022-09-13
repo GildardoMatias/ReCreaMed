@@ -3,7 +3,6 @@ import {
   Card,
   Form,
   Input,
-  InputNumber,
   Select,
   Row,
   Col,
@@ -18,7 +17,6 @@ import logo from '../assets/Logo.png';
 import './login.css';
 
 const { Option } = Select;
-const estados = ["Michoacan", "Morelos", "Guerrero"];
 
 const formItemLayout = {
   labelCol: {
@@ -104,18 +102,6 @@ export function Register() {
         }}
       >
         <Option value="+52">+52</Option>
-      </Select>
-    </Form.Item>
-  );
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
       </Select>
     </Form.Item>
   );

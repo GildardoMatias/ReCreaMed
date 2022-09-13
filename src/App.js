@@ -9,6 +9,7 @@ import RecepcionApp from "./recepcionViews/recepcionApp";
 import PatientApp from "./patientViews/patientApp";
 import AdminHospitalApp from "./admHospitalViews/adminHospitalApp";
 import SuperAdminApp from "./superAdminViews/superAdminApp";
+import KetaminaPublic from "./session/ketaminaPublic";
 
 const userType = localStorage.getItem('userType');
 
@@ -22,6 +23,9 @@ export function App() {
     console.log("tok:", localStorage.getItem('sessionToken'));
     return <Router>
       <Switch>
+        <Route path="/escalas_public/:id/:key">
+          <KetaminaPublic/>
+        </Route>
         <Route path="/register">
           <Register />
         </Route>
