@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Row, Col, Button, Modal, Form, Input, DatePicker, message, Popconfirm } from 'antd';
-import { Calendar, Badge, Switch } from 'antd';
+import { Calendar, Badge, Switch, Space } from 'antd';
 import { deleteData, getData, sendDataBody } from '../resources';
 import { usuario } from '../resources';
 import { Select } from 'antd';
-import { CitaGoogleP, CitaGoogle } from './cita_google'
+import { VideoCameraOutlined, NotificationOutlined, CalendarOutlined, UserOutlined, BankOutlined } from '@ant-design/icons';
 const { Option } = Select;
 // import { API } from '../resources'
 
@@ -41,17 +41,12 @@ export function Citas() {
     const onFinish = (values) => {
         values.medico = usuario._id;
         values.sucursal = usuario.horarios[0].sucursal;
-        values.password_reunion = '';
-
-        values.id_reunion = isOnline ? CitaGoogleP({ usuario: usuario.name, param2: 'param2' }) : '';
-        console.log('Valores:', values);
-        console.log('Cita Google: ')
-        CitaGoogle({ fecha: fecha_cita })
 
         sendDataBody('citas/add', values).then((response) => {
             console.log('Success:', response); message.success(response.message || response.error);
             getCitasData(); setIsModalVisible(false)
         })
+
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -140,9 +135,9 @@ export function Citas() {
                 ]}
             >
                 <Form name="nueva_cita_medic" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
-                    initialValues={{ id_reunion: 'https://www.google.com/calendar/event?eid=dXN2dG01NG9oY3E0bzhvczJzZXI5cjhxZDhfMjAyMjA4MDNUMTYwMDAwWiBhbWF0aWFzQHJlYWxpZGFkY3JlYXRpdmEuY29t' }}>
+                    initialValues={{ isOnline: false }}>
 
-                    <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                    <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona Usuario' }]} >
                         <Select
                             onChange={handleChange}
                         >
@@ -153,27 +148,16 @@ export function Citas() {
                             }
                         </Select>
                     </Form.Item>
-                    {/* <Form.Item label="Sucursal" name="sucursal" rules={[{ required: true, message: 'Ingresa RFC' }]} >
-                        <Input />
-                    </Form.Item> */}
+
 
                     <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]} >
                         <DatePicker showTime onChange={onChange} onOk={onOk} placeholder='Selecciona Fecha y Hora' />
                     </Form.Item>
-                    <Col style={{ marginLeft: 64, marginBottom: 12 }}>
-                        Cita en Linea: <Switch style={{ marginLeft: 8 }} defaultChecked={false} onChange={onSwitch} />
-                    </Col>
-                    {/*
-                        isOnline ?
-                            <>
-                                <Form.Item label="Contraseña" name="password_reunion" rules={[{ required: true, message: 'Ingresa RFC' }]} >
-                                    <Input placeholder='Opcional' onChange={e => setPassword(e.target.value)} />
-                                </Form.Item>
-                            </>
-                            :
-                            <></>
 
-                    */}
+                    <Form.Item label="VideoLlada" name="isOnline" >
+                        <Switch onChange={onSwitch} />
+                    </Form.Item>
+
                     <Form.Item label="Comentarios" name="comentarios" rules={[{ required: false, message: 'Ingresa RFC' }]} >
                         <Input />
                     </Form.Item>
@@ -198,14 +182,16 @@ export function Citas() {
             >
                 {
                     cita ?
-                        <>
-                            <p>Paciente: {cita.usuario?.name}</p>
-                            <p>fecha y hora: {cita.fecha_hora}</p>
-                            <p>Sucursal: {cita.sucursal?.nombre}</p>
-                            <p>Comentarios: {cita.comentarios}</p>
-                            <p> <a href={cita.id_reunion} target='_blank' rel='noreferrer'>ir a la cita </a> </p>
+                        <Space direction='vertical'>
+                            <Space align='center'> <UserOutlined /> {cita.usuario?.name}</Space>
+                            <Space align='center'> <CalendarOutlined /> {cita.fecha_hora}</Space>
+                            <Space align='baseline'> <BankOutlined /> {cita.sucursal?.nombre}</Space>
+                            <Space align='baseline'> <NotificationOutlined /> {cita.comentarios}</Space>
+                            {
+                                cita.id_reunion && <Space align='center'> <VideoCameraOutlined style={{ marginBottom: 6, color:'#1890ff' }} /> <a href={cita.id_reunion} target='_blank' rel='noreferrer'> Ir a la cita </a> </Space>
+                            }
 
-                        </>
+                        </Space>
                         :
                         <p>Sin cita seleccionada</p>
                 }
