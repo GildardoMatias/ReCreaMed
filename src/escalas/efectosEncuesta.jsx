@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { catalogo_efectos, desrealizacion, despersonalizacion, amnesia } from './efects_catalog'
 import { Form, Switch, Button, Radio, Space, Slider, Select, message } from 'antd'
 import { getData, sendDataBody } from '../resources';
+import { usuario } from '../resources';
 const { Option } = Select;
 
 export default function EfectosEncuesta(props) {
   const [misPacientes, setMisPacientes] = useState([])
 
   useEffect(() => {
-    getData(`users_by_rol/Paciente`).then(rs => { setMisPacientes(rs); console.log(rs); })
+    getData(`mispacientes/${usuario._id}`).then(rs => { setMisPacientes(rs); console.log(rs); })
   }, [])
   const onFinish = (values) => {
     const user = props.idpaciente;
@@ -35,7 +36,7 @@ export default function EfectosEncuesta(props) {
     console.log('Failed:', errorInfo);
   };
   const marks = { 0: '0', 10: '10' };
- 
+
   return (
     <div className='mainContainer'>
       <h5>Efectos</h5>

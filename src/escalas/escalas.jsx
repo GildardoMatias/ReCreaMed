@@ -1,6 +1,5 @@
 import React from 'react';
 import { Tabs } from 'antd';
-import EfectosEncuesta from './efectosEmcuesta';
 import Sintomatologia from './sintomatologia';
 import SintomatologiaResults from './sintomatologiaResults';
 import EfectosResults from './efectosResults';

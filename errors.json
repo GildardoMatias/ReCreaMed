@@ -58,5 +58,17 @@
     "tipos": {
         "sintomatologia": "sintomatologia del cero al 27",
         "efectos": "Respuestas Varias"
-    }
+    },
+}
+
+{
+    "_id": "629e3bc5f98613d22ae1ac08",
+    "usuario": "625706dc9a6437369f835bd5",
+    "sucursal": "625705929a6437369f835bc7",
+    "medico": "626943e0f8254c72c301779c",
+    "fecha_hora": "2022-06-07T00:00:00.000Z",
+    "id_reunion": "https://",
+    "password_reunion": "abcd1234",
+    "comentarios": "Cita para consulta",
+    "id_movimiento:" "uuid00001"
 }

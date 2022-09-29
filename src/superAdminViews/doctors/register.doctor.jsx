@@ -89,7 +89,7 @@ export default function Register(props) {
 
     console.log('ready to send', values)
     fetch(S_API + 'register', {
-      method: 'PUT',
+      method: 'POST',
       body: JSON.stringify(values),
       headers: {
         'Content-Type': 'application/json'

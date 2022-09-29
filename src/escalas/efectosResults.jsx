@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { Space, Table, Tag, Progress } from 'antd'
-import { getData } from '../resources';
+import { getData, usuario } from '../resources';
+
 export default function EfectosResults() {
 
   const [efectosData, setEfectosData] = useState(null);
   useEffect(() => {
-    getData('encuestas/tipo/efectos').then((res) => {
+    getData(`encuestas/efectos/medico/${usuario._id}`).then((res) => {
       setEfectosData(res);
       console.log(res)
 
@@ -25,33 +26,6 @@ export default function EfectosResults() {
         </>
       ),
     },
-    // {
-    //   title: 'Respuestas',
-    //   key: 'respuestas',
-    //   dataIndex: 'respuestas',
-    //   render: (_, { respuestas }) => (
-    //     <>
-    //       <Space>
-    //         <p>Aumento_de_la_Presión_Arterial:           {respuestas.Aumento_de_la_Presión_Arterial}</p><br />
-    //         <p>Debilidad_o_Mareos_ligeros:           {respuestas.Debilidad_o_Mareos_ligeros}</p><br />
-    //         <p>Dolor_de_cabeza:           {respuestas.Dolor_de_cabeza}</p><br />
-    //         <p>Mareos:           {respuestas.Mareos}</p><br />
-    //         <p>Nauseas:           {respuestas.Nauseas}</p><br />
-    //         <p>Sentimientos_de_Ansiedad:           {respuestas.Sentimientos_de_Ansiedad}</p><br />
-    //         <p>amnesia_0:           {respuestas.amnesia_0}</p><br />
-    //         <p>amnesia_1:           {respuestas.amnesia_1}</p><br />
-    //         <p>despersonalizacion_0:           {respuestas.despersonalizacion_0}</p><br />
-    //         <p>despersonalizacion_1:           {respuestas.despersonalizacion_1}</p><br />
-    //         <p>desrealizacion_0:           {respuestas.desrealizacion_0}</p><br />
-    //         <p>desrealizacion_1:           {respuestas.desrealizacion_1}</p><br />
-    //         <p>ketamina:           {respuestas.ketamina}</p><br />
-    //         <p>ketaminaiv:           {respuestas.ketaminaiv}</p><br />
-    //         <p>ketaminaivb:           {respuestas.ketaminaivb}</p><br />
-    //       </Space>
-
-    //     </>
-    //   ),
-    // },
     {
       title: '¿Parece que las cosas se mueven en cámara lenta ?',
       key: 'desrealizacion_0',

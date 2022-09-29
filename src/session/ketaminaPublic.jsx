@@ -1,5 +1,6 @@
 import React from 'react'
-import EfectosEncuesta from '../escalas/efectosEmcuesta'
+import EfectosEncuesta from '../escalas/efectosEncuesta'
+
 import {
     useParams
 } from "react-router-dom";

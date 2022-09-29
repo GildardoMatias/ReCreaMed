@@ -40,7 +40,7 @@ export default function Expedientes(props) {
             .finally(() => setExpedientesLoading(false))
     }
 
-const printDocument = () => {
+    const printDocument = () => {
         const input = document.getElementById('expedient-export');
         html2canvas(input)
             .then((canvas) => {

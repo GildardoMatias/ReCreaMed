@@ -8,7 +8,7 @@ export const logout = () => { localStorage.removeItem('sessionToken'); localStor
 export const usuario = JSON.parse(localStorage.getItem('userData'));
 
 export async function getData(endpoint) {
-    return await fetch(API + endpoint)
+    return await fetch(API + endpoint, { mode: 'cors' })
         .then(response => response.json())
         .then(data => {
             return data;
