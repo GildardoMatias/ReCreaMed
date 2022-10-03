@@ -9,12 +9,19 @@ export default function EfectosEncuesta(props) {
   const [misPacientes, setMisPacientes] = useState([])
   const [encuestaNotExists, setEncuestaNotExists] = useState(null)
   const [checking, setChecking] = useState(true)
+  const [pacienteData, setPacienteData] = useState({})
+  const [medicoData, setMedicoData] = useState({})
 
   useEffect(() => {
     checkEncuesta()
   }, [])
 
   const checkEncuesta = () => {
+
+    getData('getuser/' + props.idpaciente).then((rs) => { setPacienteData(rs) })
+    getData('getuser/' + props.idmedico).then((rs) => { setMedicoData(rs) })
+
+
     getData(`encuestas/uuid/${props.token}`).then(rs => {
       console.log(rs);
       setEncuestaNotExists(rs.message === 'The survey does not exist')
@@ -60,8 +67,10 @@ export default function EfectosEncuesta(props) {
       encuestaNotExists ?
 
         <div className='mainContainer'>
-          <h5>Efectos</h5>
-          <h5>medico: {props.idmedico} paciente: {props.idpaciente}  key: {props.token}</h5>
+          <h4>Medico: {medicoData.name}</h4>
+          <h4>Paciente: {pacienteData.name}</h4>
+          <br />
+          <h4>Lista de verificación para Efectos Secundarios  </h4>
           <Form
             name="efectos_form"
             labelCol={{
@@ -87,6 +96,7 @@ export default function EfectosEncuesta(props) {
                 </Form.Item>
               })
             }
+            <h4>Escala de 6 elementos simplificada de síntomas disociativos administrada por el médico  (CADSS)</h4>
 
             <h5>Desrealizacion</h5>
             {
