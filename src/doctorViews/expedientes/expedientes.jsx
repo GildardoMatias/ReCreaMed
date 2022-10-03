@@ -20,8 +20,6 @@ export default function Expedientes(props) {
     const [notas, setNotas] = useState("");
 
 
-
-
     useEffect(() => {
         getExpedientesData(props.paciente)
     }, [props.paciente])

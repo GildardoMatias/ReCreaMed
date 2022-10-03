@@ -6,11 +6,11 @@ import {
 } from "react-router-dom";
 
 export default function KetaminaPublic() {
-    let { id, key } = useParams();
+    let { idmedico, idpaciente, key } = useParams();
     console.log(key)
     return (
         <div>
-            <EfectosEncuesta idpaciente={id} token={key} />
+            <EfectosEncuesta idmedico={idmedico} idpaciente={idpaciente} token={key} />
         </div>
     )
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getData, sendDataBody } from '../resources';
 import { Form, Button, Space, Select, message } from 'antd'
+import { usuario } from '../resources';
 const { Option } = Select;
 
 
@@ -12,14 +13,14 @@ export default function EfectosCreateLink() {
 
 
     useEffect(() => {
-        getData(`users_by_rol/Paciente`).then(rs => { setMisPacientes(rs); console.log(rs); })
+        getData(`mispacientes/${usuario._id}`).then(rs => { setMisPacientes(rs); console.log(rs); })
     }, [])
 
     const handleChange = (value) => { setSelectedPatient(value) };
 
     const generateLink = () => {
-        const token = 'gnrtunqtkn'
-        let l = 'https://sistema.recreamed.com/escalas_public/' + selectedPatient + '/' + token
+        // let l = `https://sistema.recreamed.com/escalas_public/${usuario._id}/${selectedPatient}/${Date.now()}`
+        let l = `http://localhost:3000/escalas_public/${usuario._id}/${selectedPatient}/${Date.now()}`
         setLink(l)
     }
     const copyLink = () => {
