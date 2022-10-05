@@ -73,12 +73,8 @@ export default function EfectosEncuesta(props) {
           <h4>Lista de verificación para Efectos Secundarios  </h4>
           <Form
             name="efectos_form"
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
             initialValues={{ ...catalogo_efectos, ketamina: 0, ketaminaiv: 0, ketaminaivb: 0 }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}

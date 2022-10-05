@@ -19,8 +19,8 @@ export default function EfectosCreateLink() {
     const handleChange = (value) => { setSelectedPatient(value) };
 
     const generateLink = () => {
-        // let l = `https://sistema.recreamed.com/escalas_public/${usuario._id}/${selectedPatient}/${Date.now()}`
-        let l = `http://localhost:3000/escalas_public/${usuario._id}/${selectedPatient}/${Date.now()}`
+        let l = `https://sistema.recreamed.com/escalas_public/${usuario._id}/${selectedPatient}/${Date.now()}`
+        // let l = `http://localhost:3000/escalas_public/${usuario._id}/${selectedPatient}/${Date.now()}`
         setLink(l)
     }
     const copyLink = () => {

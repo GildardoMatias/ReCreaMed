@@ -5,8 +5,11 @@ import { deleteData, getData, sendDataBody } from '../resources';
 import { usuario } from '../resources';
 import { Select } from 'antd';
 import { VideoCameraOutlined, NotificationOutlined, CalendarOutlined, UserOutlined, BankOutlined } from '@ant-design/icons';
+import moment from "moment";
+
 const { Option } = Select;
-// import { API } from '../resources'
+
+const format = 'HH:mm';
 
 export function Citas() {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -38,10 +41,21 @@ export function Citas() {
     const handleDetailOk = () => { setIsDetailVisible(false); };
     const handleDetailCancel = () => { setIsDetailVisible(false); };
 
+
+    const MUST_DELETE = {
+        "usuario": "630398a0bd637f93fb6fb0fe",
+        "fecha_hora": "2022-10-07T15:20:00.646Z",
+        "isOnline": false,
+        "comentarios": "No comment",
+        "medico": "62f55bffc59fcc36f37f541f",
+        "sucursal": "62f15933ad98342a3d9d7edb"
+    }
+
     const onFinish = (values) => {
         values.medico = usuario._id;
         values.sucursal = usuario.horarios[0].sucursal;
 
+        console.log('ready to send: ', values);
         sendDataBody('citas/add', values).then((response) => {
             console.log('Success:', response); message.success(response.message || response.error);
             getCitasData(); setIsModalVisible(false)
@@ -86,9 +100,8 @@ export function Citas() {
         return (
             <ul className="events">
                 {citasData.map((cita) => {
-
-                    cita.fecha_hora = cita.fecha_hora.substring(0, 10);
-                    return cita.fecha_hora === hoy ?
+                    let fecha_hora_to_compare = cita.fecha_hora.substring(0, 10);
+                    return fecha_hora_to_compare === hoy ?
                         <li style={{ listStyleType: 'none' }} key={cita._id}>
                             <Badge status='success' text={cita.usuario.name} onClick={() => { setCita(cita); setIsDetailVisible(true); }} />
                         </li>
@@ -151,7 +164,12 @@ export function Citas() {
 
 
                     <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]} >
-                        <DatePicker showTime onChange={onChange} onOk={onOk} placeholder='Selecciona Fecha y Hora' />
+                        <DatePicker onChange={onChange} onOk={onOk} placeholder='Selecciona Fecha y Hora'
+                            format="YYYY-MM-DD HH:mm:ss"
+                            showTime={{
+                                defaultValue: moment("00:00:00", "HH:mm:ss"),
+                                format: "HH:mm"
+                            }} />
                     </Form.Item>
 
                     <Form.Item label="VideoLlada" name="isOnline" >
@@ -187,9 +205,9 @@ export function Citas() {
                             <Space align='center'> <CalendarOutlined /> {cita.fecha_hora}</Space>
                             <Space align='baseline'> <BankOutlined /> {cita.sucursal?.nombre}</Space>
                             <Space align='baseline'> <NotificationOutlined /> {cita.comentarios}</Space>
-                            {
-                                cita.id_reunion && <Space align='center'> <VideoCameraOutlined style={{ marginBottom: 6, color:'#1890ff' }} /> <a href={cita.id_reunion} target='_blank' rel='noreferrer'> Ir a la cita </a> </Space>
-                            }
+                            {cita.id_reunion && <Space align='center'> <VideoCameraOutlined style={{ marginBottom: 6 }} /> ID reunion: {cita.id_reunion.substring(26, 37)} </Space>}
+                            {cita.id_reunion && <Space align='center'> <VideoCameraOutlined style={{ marginBottom: 6 }} /> Contraseña : {cita.password_reunion} </Space>}
+                            {cita.id_reunion && <Space align='center'> <VideoCameraOutlined style={{ marginBottom: 6, color: '#1890ff' }} /> <a href={cita.id_reunion} target='_blank' rel='noreferrer'> Ir a la cita </a> </Space>}
 
                         </Space>
                         :
