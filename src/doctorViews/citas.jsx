@@ -4,7 +4,7 @@ import { Calendar, Badge, Switch, Space } from 'antd';
 import { deleteData, getData, sendDataBody } from '../resources';
 import { usuario } from '../resources';
 import { Select } from 'antd';
-import { VideoCameraOutlined, NotificationOutlined, CalendarOutlined, UserOutlined, BankOutlined } from '@ant-design/icons';
+import { VideoCameraOutlined, NotificationOutlined, CalendarOutlined, UserOutlined, BankOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import moment from "moment";
 
 const { Option } = Select;
@@ -19,8 +19,6 @@ export function Citas() {
     const [isDetailVisible, setIsDetailVisible] = useState(false);
     const [misPacientes, setMisPacientes] = useState([])
     const [isOnline, setIsOnline] = useState(false)
-    const [password, setPassword] = useState('');
-    const [fecha_cita, setFecha_cita] = useState(null)
 
     useEffect(() => {
         console.log('Yo : ', usuario);
@@ -40,16 +38,6 @@ export function Citas() {
     // Details Modal
     const handleDetailOk = () => { setIsDetailVisible(false); };
     const handleDetailCancel = () => { setIsDetailVisible(false); };
-
-
-    const MUST_DELETE = {
-        "usuario": "630398a0bd637f93fb6fb0fe",
-        "fecha_hora": "2022-10-07T15:20:00.646Z",
-        "isOnline": false,
-        "comentarios": "No comment",
-        "medico": "62f55bffc59fcc36f37f541f",
-        "sucursal": "62f15933ad98342a3d9d7edb"
-    }
 
     const onFinish = (values) => {
         values.medico = usuario._id;
@@ -71,7 +59,7 @@ export function Citas() {
     function onChange(value, dateString) {
         console.log('Selected Time: ', value);
         console.log('Formatted Selected Time: ', dateString);
-        setFecha_cita(value)
+
     }
     function onOk(value) {
         console.log('onOk: ', value);
@@ -100,8 +88,9 @@ export function Citas() {
         return (
             <ul className="events">
                 {citasData.map((cita) => {
-                    let fecha_hora_to_compare = cita.fecha_hora.substring(0, 10);
-                    return fecha_hora_to_compare === hoy ?
+                    cita.fecha_cita = cita.fecha_hora.substring(0, 10);
+                    cita.hora_cita = cita.fecha_hora.substring(11, 16);
+                    return cita.fecha_cita === hoy ?
                         <li style={{ listStyleType: 'none' }} key={cita._id}>
                             <Badge status='success' text={cita.usuario.name} onClick={() => { setCita(cita); setIsDetailVisible(true); }} />
                         </li>
@@ -201,8 +190,9 @@ export function Citas() {
                 {
                     cita ?
                         <Space direction='vertical'>
+
                             <Space align='center'> <UserOutlined /> {cita.usuario?.name}</Space>
-                            <Space align='center'> <CalendarOutlined /> {cita.fecha_hora}</Space>
+                            <Space align='center'> <CalendarOutlined /> {cita.fecha_cita} <ClockCircleOutlined style={{ marginBottom: 6 }}/> {cita.hora_cita}</Space>
                             <Space align='baseline'> <BankOutlined /> {cita.sucursal?.nombre}</Space>
                             <Space align='baseline'> <NotificationOutlined /> {cita.comentarios}</Space>
                             {cita.id_reunion && <Space align='center'> <VideoCameraOutlined style={{ marginBottom: 6 }} /> ID reunion: {cita.id_reunion.substring(26, 37)} </Space>}
