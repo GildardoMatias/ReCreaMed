@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Button, Row, Space, Modal, Form, Input, message } from 'antd';
-import { API, sendDataBody, updateData } from '../../resources';
+import { Card, Button, Row, Col, Modal, Form, Input, message } from 'antd';
+import { API, sendDataBody, updateData, usuario } from '../../resources';
 import { PlusOutlined, FormOutlined, PrinterOutlined } from '@ant-design/icons';
 import RecetaDocument from './detalleRecetaForPrint';
 const { TextArea } = Input;
@@ -25,8 +25,11 @@ export default function DetalleReceta(props) {
     const handleEditCancel = () => { setIsEditingModalVisible(false); };
     // Print Receta Modal
     const showPrintModal = () => { setIsPrintingModalVisible(true); };
-    const handlePrintOk = () => { setIsPrintingModalVisible(false); };
-    const handlePrintCancel = () => { setIsPrintingModalVisible(false); };
+    const handlePrintOk = () => { setIsPrintingModalVisible(false); setIsLogoSelected(false)};
+    const handlePrintCancel = () => { setIsPrintingModalVisible(false);setIsLogoSelected(false)};
+    // Select logo for print in receta. Switches the modal view into select logo hospital/pdf recipe for print
+    const [logoHospital, setLogoHospital] = useState(null)
+    const [isLogoSelected, setIsLogoSelected] = useState(false)
 
     useEffect(() => {
         props.recetas ?
@@ -130,12 +133,11 @@ export default function DetalleReceta(props) {
         alignItems: 'center',
     };
 
+
+
     return <div>
         <Card bordered={false} title={<>Recetas <Button onClick={() => setIsModalVisible(true)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} /></>} >
-            {/* <Space>
-                <h5>Recetas </h5>
-                
-            </Space> */}
+            
             {
                 recetaLoading ? <h5>Cargando Receta...</h5> :
                     recetaData.length > 0 ?
@@ -159,7 +161,6 @@ export default function DetalleReceta(props) {
                 </Button>,
                 <Button onClick={handleCancel}>Cancelar</Button>
             ]}>
-            {/* <p>Nota: {notaData._id}</p> */}
             <Form
                 name="create_receta_medic"
                 labelCol={{ span: 8 }}
@@ -213,7 +214,25 @@ export default function DetalleReceta(props) {
         </Modal>
 
         <Modal title="Imprimir Receta" visible={isPrintingModalVisible} onOk={handlePrintOk} onCancel={handlePrintCancel} width={600}>
-            <RecetaDocument receta={recetaForEdit}/>
+            {
+                isLogoSelected ? // Si ya hay logo seleccionado, se pasa a la receta y se muestra en pdf
+                    <RecetaDocument receta={recetaForEdit} logoHospital={logoHospital} />
+                    :
+                    <div>
+                        <Card title='Selecciona un hospital' bordered={false}>
+                            {
+                                usuario.horarios.map((h) => {
+                                    return <Card.Grid style={{ width: '100%' }} onClick={() => {setLogoHospital(h.sucursal.logo); setIsLogoSelected(true)}}>
+                                        <Row align="middle">
+                                            <Col span={6} offset={4}><img width={64} src={'https://api.recreamed.com/images/' + h.sucursal.logo} alt="Logo" /></Col>
+                                            <Col span={10}>{h.sucursal.nombre} <br /> {h.horario}</Col>
+                                        </Row>
+                                    </Card.Grid>
+                                })
+                            }
+                        </Card>
+                    </div>
+            }
         </Modal>
     </div>
 }

@@ -17,6 +17,15 @@ export default function Register(props) {
     multiple: false,
     action: API + 'imagenes/upload', // Production
 
+    beforeUpload: (file) => {
+      const isPNGorJPG = file.type === 'image/png' || file.type === 'image/jpeg';
+
+      if (!isPNGorJPG) {
+        message.error(`${file.name} no es una imagen tipo PNG o JPG`);
+      }
+
+      return isPNGorJPG || Upload.LIST_IGNORE;
+    },
     onChange(info) {
       const { status } = info.file;
 
@@ -130,7 +139,7 @@ export default function Register(props) {
         <Form.Item wrapperCol={{ offset: 9 }}>
 
 
-          <Button type="primary" htmlType="submit" style={{marginRight: 8}}>
+          <Button type="primary" htmlType="submit" style={{ marginRight: 8 }}>
             Guardar
           </Button>
           {props.setModalVisible && <Button onClick={() => props.setModalVisible(false)} >Cancelar</Button>}

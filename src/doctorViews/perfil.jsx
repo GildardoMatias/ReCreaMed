@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Space, Button, Divider } from 'antd';
+import { Row, Col, Space, Button, Divider, Image } from 'antd';
 import { Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { API, usuario } from '.././resources';
@@ -13,6 +13,7 @@ export default function Perfil() {
     const [profileForEdit, setProfileForEdit] = useState([]);
     const [editing, setEditing] = useState(false)
     const [isLoading, setIsLoading] = useState(true);
+    const [visible, setVisible] = useState(false)
 
     useEffect(() => {
         getProfileData()
@@ -44,8 +45,10 @@ export default function Perfil() {
         return <Row>
             <Col span={8}>
                 {
+                    // Profile Pic
                     profileData.avatar.length > 8 ?
-                        <img width={256} src={'https://api.recreamed.com/images/' + profileData.avatar} alt='ProfilePic' /> :
+                        <Image style={{ borderRadius: 12 }} width={256} src={'https://api.recreamed.com/images/' + profileData.avatar} />
+                        :
                         <Avatar size={128} icon={<UserOutlined />} />
                 }
                 <Divider />
@@ -61,10 +64,10 @@ export default function Perfil() {
                 <p>Codigo Postal:{profileData.codigopostal} </p>
             </Col> */}
             <Col span={8}>
-                <Card title='Horarios'>
+                <Card title='Horarios' style={{ borderRadius: 12 }}>
                     {
                         profileData.horarios.map((h) => {
-                            return <Card.Grid style={{ width: '100%' }}>
+                            return <Card.Grid style={{ width: '100%' }} >
                                 <Row align="middle">
                                     <Col span={6} offset={4}><img width={64} src={'https://api.recreamed.com/images/' + h.sucursal.logo} alt="Logo" /></Col>
                                     <Col span={10}>{h.sucursal.nombre} <br /> {h.horario}</Col>
@@ -79,6 +82,8 @@ export default function Perfil() {
                 <p>Cedula: {profileData.cedula} </p>
             </Col>
 
+
+
         </Row>
     }
 
@@ -90,7 +95,7 @@ export default function Perfil() {
                 <Button onClick={() => editPerfil(profileData)} type="primary" shape="circle" icon={<FormOutlined />} />
             </Space>
             {isLoading ? <Loading /> :
-                <Card>
+                <Card style={{ borderRadius: 16 }}>
                     {
                         editing ?
 

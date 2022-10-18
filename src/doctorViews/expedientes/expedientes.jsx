@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Row, Col, Button, message, Select } from 'antd';
+import { Button, Select, Space } from 'antd';
 import { API } from '../../resources';
-import { usuario } from '../../resources';
-import Loading from '../../loading';
 import CreateExpedient from './createExpedient';
 import DetalleNota from './detalleNota'
 import DetalleHistoria from './detalleHistoria';
 import html2canvas from 'html2canvas';
 import { jsPDF } from "jspdf";
 
-const { Option } = Select;
 
 export default function Expedientes(props) {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [detailModalVisible, setDetailModalVisible] = useState(false);
     const [expedientesData, setExpedientesData] = useState([]);
     const [expedientesLoading, setExpedientesLoading] = useState(true);
     const [historia, setHistoria] = useState("");
@@ -52,18 +48,9 @@ export default function Expedientes(props) {
     }
 
 
-    return <div id='expedient-export'>
-        <Row>
-            {/* <Col span={16} > */}
-            {/* <h4>Expediente {props.paciente}</h4> */}
-            <h4>Expediente </h4>
-            {/* </Col> */}
-            {/* <Col>
-                <Button type="primary" onClick={showModal}>
-                    Nuevo expediente
-                </Button>
-            </Col> */}
-        </Row>
+    return <div id='expedient-export' >
+
+        <Space size='middle'><h4>Expediente </h4><h3> </h3></Space>
 
         <DetalleHistoria historia={historia} />
 

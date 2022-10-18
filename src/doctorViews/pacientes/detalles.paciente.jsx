@@ -22,7 +22,7 @@ export default function DetallesPaciente(props) {
             <>
                 <Register setAdding={setEditing} paciente={pacienteData} />
             </> :
-            <Card style={{ width: '98%', borderRadius: 12 }}>
+            <Card style={{ width: '98%', borderRadius: 12 }} bordered={false}>
                 <Space><h5>Datos del Paciente</h5><Button onClick={() => setEditing(true)} size='small' disabled={!props.paciente} type="primary" shape="circle" icon={<FormOutlined />} /></Space>
                 <Row>
                     <Col span={10}>

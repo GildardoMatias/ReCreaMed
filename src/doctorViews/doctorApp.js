@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Patients from './pacientesDash/main.patients'
 import { Citas } from './citas'
 import Expedientes from './expedientes/expedientes'
-import Recetas from './recetas'
+// import Recetas from './recetas'
 import Perfil from './perfil'
 import { DoctorNotas } from './doctorNotas'
 import Home from './home/home'
@@ -79,9 +79,9 @@ export default function DoctorApp() {
           <Expedientes />
         </Route>
 
-        <Route path="/Recetas">
+        {/* <Route path="/Recetas">
           <Recetas />
-        </Route>
+        </Route> */} 
 
         <Route path="/perfil">
           <Perfil />

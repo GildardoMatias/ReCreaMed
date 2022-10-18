@@ -10,6 +10,7 @@ import PatientApp from "./patientViews/patientApp";
 import AdminHospitalApp from "./admHospitalViews/adminHospitalApp";
 import SuperAdminApp from "./superAdminViews/superAdminApp";
 import KetaminaPublic from "./session/ketaminaPublic";
+import DepresionPublic from "./session/depresionPublic";
 
 const userType = localStorage.getItem('userType');
 
@@ -24,7 +25,10 @@ export function App() {
     return <Router>
       <Switch>
         <Route path="/escalas_public/:idmedico/:idpaciente/:key">
-          <KetaminaPublic/>
+          <KetaminaPublic />
+        </Route>
+        <Route path="/depresion_public/:idmedico/:idpaciente/:key">
+          <DepresionPublic />
         </Route>
         <Route path="/register">
           <Register />
@@ -39,13 +43,13 @@ export function App() {
 
   switch (userType) {
     case 'SuperAdministrador':
-      return <SuperAdminApp/>
+      return <SuperAdminApp />
     case 'Administrador':
-      return <AdminHospitalApp/>
+      return <AdminHospitalApp />
     case 'Recepcion':
-      return <RecepcionApp/>
+      return <RecepcionApp />
     case 'Paciente':
-      return <PatientApp/>
+      return <PatientApp />
     case 'Medico':
       return <DoctorApp />
     default:

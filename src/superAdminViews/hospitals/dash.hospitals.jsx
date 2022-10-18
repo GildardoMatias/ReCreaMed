@@ -116,7 +116,7 @@ export default function Dash() {
         <h1>Hospitales</h1>
         <Table columns={columns} dataSource={hospitalesData} onChange={onChange} />
 
-        <Modal width={800} title="Editar Hospital 400" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose={true} footer={[]}>
+        <Modal width={800} title="Editar Hospital" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose={true} footer={[]}>
           <Register hospital={hospitalForEdit} setModalVisible={setIsModalVisible} />
         </Modal>
       </div>
