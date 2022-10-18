@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Form, Input, Button, message, Space, Divider, Upload } from 'antd'
+import { Form, Input, Button, message, Space, Divider, Upload, Switch } from 'antd'
 import { InputNumber, Select } from 'antd';
 import { S_API, API } from '../../resources'
 import { usuario } from '../../resources'
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons'
+import { InboxOutlined, UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
 const { Dragger } = Upload;
 
 
@@ -101,9 +101,14 @@ export default function Register(props) {
       .catch(error => console.error('Error:', error))
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       <Select
+        defaultValue='+52'
         style={{
           width: 70,
         }}
@@ -171,7 +176,7 @@ export default function Register(props) {
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Upload {...dragDropProps}>
-          <Button type="dashed" icon={<UploadOutlined style={{ fontSize: 24, color:'#0d6efd' }} />} style={{ width: 400, height: 80 }} block>Selecciona la foto de perfil</Button>
+          <Button type="dashed" icon={<UploadOutlined style={{ fontSize: 24, color: '#0d6efd' }} />} style={{ width: 400, height: 80 }} block>Selecciona la foto de perfil</Button>
         </Upload>
       </div>
       <br />
@@ -181,6 +186,7 @@ export default function Register(props) {
         form={form}
         name="register"
         onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
         initialValues={props.paciente}
         scrollToFirstError
       >
@@ -196,7 +202,7 @@ export default function Register(props) {
         <Form.Item
           name="email"
           label="Correo"
-          rules={[{ type: 'email', message: 'Ingresa un correo electronico vaido!' }, { required: true, message: 'Please input your E-mail!' }]}>
+          rules={[{ type: 'email', message: 'Ingresa un correo electronico vaido!' }, { required: true, message: 'Ingresa un correo electronico' }]}>
           <Input />
         </Form.Item>
 
@@ -211,7 +217,7 @@ export default function Register(props) {
           rules={[
             {
               required: true,
-              message: 'Please confirm your password!',
+              message: 'Please confirm your password',
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
@@ -229,31 +235,19 @@ export default function Register(props) {
         <Form.Item
           name="telefono"
           label="Telefono"
-          rules={[{ required: true, message: 'Please input your phone number!' }]}
+          rules={[{ required: true, message: 'Ingresa tu numero de telefono' }]}
         >
           <Input
-            addonBefore={prefixSelector}
-            style={{
-              width: '100%',
-            }}
+            // addonBefore={prefixSelector}
+            style={{ width: '100%' }}
           />
         </Form.Item>
 
         <Divider>Responsable (opcional) </Divider>
-        <Form.Item
-          name="res_name"
-          label="Nombre Responsable"
-          rules={[{ message: 'Ingresa Nombre y apellidos' }]}
-        >
+        <Form.Item name="res_name" label="Nombre Responsable" >
           <Input />
         </Form.Item>
-
-        <Form.Item
-          name="res_phone"
-          label="Telefono Responsable"
-          rules={[{ message: 'Ingresa Nombre y apellidos' }
-          ]}
-        >
+        <Form.Item name="res_phone" label="Telefono Responsable">
           <Input />
         </Form.Item>
         <Divider />
@@ -285,12 +279,15 @@ export default function Register(props) {
         <Form.Item
           label="Colonia"
           name="colonia"
-          rules={[{ required: false, message: 'Please input your colobnia!' }]}
+          rules={[{ required: false, message: 'Ingresa ' }]}
         >
           <Input />
         </Form.Item>
 
-        <Form.Item name="estado" label="Estado" rules={[{ required: true, message: 'Apellido materno', },]}>
+        <Form.Item
+          name="estado"
+          label="Estado"
+          rules={[{ required: true, message: 'Apellido materno', },]}>
           <Select placeholder="Elije tu estado">
             {estados.map(e => <Option value={e}>{e}</Option>)}
           </Select>
@@ -302,21 +299,175 @@ export default function Register(props) {
         >
           <Input />
         </Form.Item>
-        <Form.Item name="codigopostal" label="Codigo Postal" rules={[{ required: true, message: 'Ingresa codigopostal', },]}>
+        <Form.Item
+          name="codigopostal"
+          label="Codigo Postal"
+          rules={[{ required: true, message: 'Ingresa codigopostal', },]}>
           <InputNumber style={{ width: '100%', }} />
         </Form.Item>
-        {/* <Form.Item
-          name="certificacion"
-          label="Certificacion"
-          rules={[{ required: true, message: 'Ingresa tu certificacion' }]}
-        >
+
+        <Form.Item name="sexo" label="sexo" rules={[{ required: true, message: 'Selecciona una opcion' }]}>
+          <Select placeholder="Elije el sexo" >
+            <Option value="H">H</Option>
+            <Option value="M">M</Option>
+            <Option value="Otro">Otro</Option>
+          </Select>
+        </Form.Item>
+
+        <Form.Item name="edad" label="Edad" rules={[{ required: true, message: 'Ingresa edad' }]} >
+          <InputNumber min={1} max={120} />
+        </Form.Item>
+
+        <Form.Item name="diagnostico" label="Diagnostico" rules={[{ required: true, message: 'Ingresa el diagnostico' }]} >
           <Input />
-        </Form.Item> */}
-        {/* <Form.Item
-          name="universidad"
-          label="Universidad" rules={[{ required: true, message: 'Ingresa tu universidad' }]} >
+        </Form.Item>
+
+        <Form.Item name="peso" label="Peso" rules={[{ required: true, message: 'Ingresa el peso' }]} >
+          <InputNumber min={1} max={200} />
+        </Form.Item>
+
+        <Form.Item name="talla" label="Talla" rules={[{ required: true, message: 'Ingresa la talla' }]} >
+          <InputNumber min={1} max={200} />
+        </Form.Item>
+
+        <Form.Item name="ocupacion" label="Ocupacion" rules={[{ required: true, message: 'Ingresa ocupacion' }]} >
           <Input />
-        </Form.Item> */}
+        </Form.Item>
+
+        <Form.Item name="estado_civil" label="Estado Civil" rules={[{ required: true, message: 'Ingresa estado civil' }]} >
+          <Input />
+        </Form.Item>
+
+        <Form.Item name="escolaridad" label="Escolaridad" rules={[{ required: true, message: 'Ingresa escolaridad' }]} >
+          <Input />
+        </Form.Item>
+
+        <Form.Item name="lugar_de_nacimiento" label="Lugar De Nacimiento" rules={[{ required: true, message: 'Ingresa el lugar de nacimiento' }]} >
+          <Input />
+        </Form.Item>
+
+        <Form.Item name="ciudad" label="Ciudad" rules={[{ required: true, message: 'Ingresa ciudad' }]} >
+          <Input />
+        </Form.Item>
+
+        <Form.Item name="fuma" label="Fuma" rules={[{ required: false, message: 'Ingresa tu universidad' }]} >
+          <Switch defaultChecked={false} />
+        </Form.Item>
+
+        <Form.Item name="alcohol" label="Alcohol" rules={[{ required: false, message: 'Ingresa tu universidad' }]} >
+          <Switch defaultChecked={false} />
+        </Form.Item>
+
+        <Form.Item name="drogas" label="Drogas" rules={[{ required: true, message: 'Selecciona una opcion' }]} >
+          <Select placeholder="Elije una opcion" >
+            <Option value="Antes">Antes</Option>
+            <Option value="Ahora">Ahora</Option>
+            <Option value="Nunca">Nunca</Option>
+          </Select>
+        </Form.Item>
+
+        <Form.Item name="cuales_drogas" label="Cuales Drogas" rules={[{ required: false, message: 'Selecciona una opcion' }]} >
+          <Input />
+        </Form.Item>
+
+        <Form.Item name="enfermedades_familiares" label="Enfermedades Familiares" rules={[{ required: false, message: 'Ingresa tu universidad' }]} >
+          <Form.List name="enfermedades_familiares" >
+            {(fields, { add, remove }, { errors }) => (
+              <>
+                {fields.map((field, index) => (
+                  <Form.Item label='' required={false} key={field.key}>
+                    <Form.Item {...field} noStyle
+                      validateTrigger={['onChange', 'onBlur']}
+                      rules={[{ required: true, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
+                    >
+                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }} />
+                    </Form.Item>
+                    {fields.length > 1 ? (
+                      <MinusCircleOutlined
+                        className="dynamic-delete-button"
+                        onClick={() => remove(field.name)}
+                      />
+                    ) : null}
+                  </Form.Item>
+                ))}
+                <Form.Item>
+                  <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
+                    Add field
+                  </Button>
+
+                  <Form.ErrorList errors={errors} />
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
+        </Form.Item>
+
+        <Form.Item name="enfermedades_medicas" label="Enfermedades Medicas" rules={[{ required: false, message: 'Ingresa tu universidad' }]} >
+          <Form.List name="enfermedades_medicas">
+            {(fields, { add, remove }, { errors }) => (
+              <>
+                {fields.map((field, index) => (
+                  <Form.Item label='' required={false} key={field.key}>
+                    <Form.Item {...field} noStyle
+                      validateTrigger={['onChange', 'onBlur']}
+                      rules={[{ required: true, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
+                    >
+                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }}/>
+                    </Form.Item>
+                    {fields.length > 1 ? (
+                      <MinusCircleOutlined
+                        className="dynamic-delete-button"
+                        onClick={() => remove(field.name)}
+                      />
+                    ) : null}
+                  </Form.Item>
+                ))}
+                <Form.Item>
+                  <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
+                    Add field
+                  </Button>
+
+                  <Form.ErrorList errors={errors} />
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
+        </Form.Item>
+
+        <Form.Item name="tratamiento_actual" label="Tratamiento actual" rules={[{ required: false, message: 'Ingresa tu universidad' }]} >
+          <Form.List name="tratamiento_actual" >
+            {(fields, { add, remove }, { errors }) => (
+              <>
+                {fields.map((field, index) => (
+                  <Form.Item
+                    // label={`Tratamiento ${index + 1}`} 
+                    label=''
+                    required={false} key={field.key}>
+                    <Form.Item {...field} noStyle
+                      validateTrigger={['onChange', 'onBlur']}
+                      rules={[{ required: true, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
+                    >
+                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }}/>
+                    </Form.Item>
+                    {fields.length > 1 ? (
+                      <MinusCircleOutlined
+                        className="dynamic-delete-button"
+                        onClick={() => remove(field.name)}
+                      />
+                    ) : null}
+                  </Form.Item>
+                ))}
+                <Form.Item>
+                  <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
+                    Add field
+                  </Button>
+
+                  <Form.ErrorList errors={errors} />
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
+        </Form.Item>
 
         <Form.Item label='*'>
           <Space>

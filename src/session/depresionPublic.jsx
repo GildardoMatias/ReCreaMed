@@ -1,5 +1,5 @@
 import React from 'react'
-import Sintomatologia from '../escalas/sintomatologia'
+import DepresionEncuesta from '../escalas/depresionEncuesta'
 
 import {
     useParams
@@ -10,7 +10,7 @@ export default function DepresionPublic() {
     console.log(key)
     return (
         <div>
-            <Sintomatologia idmedico={idmedico} idpaciente={idpaciente} token={key} />
+            <DepresionEncuesta idmedico={idmedico} idpaciente={idpaciente} token={key} />
         </div>
     )
 }

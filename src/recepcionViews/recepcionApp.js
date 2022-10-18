@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Patients from './pacientes/main.patients'
 import { Citas } from './citas'
 import Home from './home/home'
-import Escalas from '../escalas/escalas';
+import Escalas from '../escalas/escalasMenu';
 
 const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); window.location.href = '/'; }
 

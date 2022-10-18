@@ -1,19 +1,55 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Switch, Button, Radio, Space, Row, Col, Select } from 'antd'
-import { catalogo_sintomatologia, catalogo_sintomatologia2, disminucion_apetito, perdida_peso, aumento_apetito, aumento_peso } from './sintomatologia_catalog'
+import { Form, Switch, Button, Radio, Space, Row, Col, Select, message } from 'antd'
+import { catalogo_sintomatologia, catalogo_sintomatologia2, disminucion_apetito, perdida_peso, aumento_apetito, aumento_peso } from './depresion_catalog'
 import { Card } from 'react-bootstrap'
-import { getData } from '../resources';
+import { getData, sendDataBody } from '../resources';
+import logo from "../assets/Logo.png";
 const { Option } = Select;
 
-export default function Sintomatologia() {
+export default function DepresionEncuesta(props) {
   const [pesoEnabled, setPesoEnabled] = useState(false)
   const [apetitoEnabled, setApetitoEnabled] = useState(false)
-  const [misPacientes, setMisPacientes] = useState([])
+  // For check if the encuesta existts on db
+  const [encuestaNotExists, setEncuestaNotExists] = useState(null)
+  const [checking, setChecking] = useState(true)
+  const [pacienteData, setPacienteData] = useState({})
+  const [medicoData, setMedicoData] = useState({})
+
+
+
   useEffect(() => {
-    getData(`users_by_rol/Paciente`).then(rs => { setMisPacientes(rs); console.log(rs); })
+    checkEncuesta()
   }, [])
+
+  const checkEncuesta = () => {
+
+    getData('getuser/' + props.idpaciente).then((rs) => { setPacienteData(rs) })
+    getData('getuser/' + props.idmedico).then((rs) => { setMedicoData(rs) })
+
+
+    getData(`encuestas/uuid/${props.token}`).then(rs => {
+      console.log(rs);
+      setEncuestaNotExists(rs.message === 'The survey does not exist')
+    }).then(() => { setChecking(false); console.log('Not exists: ', encuestaNotExists); })
+  }
+
   const onFinish = (values) => {
+    let score = 0;
     console.log('Sintomatologia:', values);
+
+    const body = {
+      usuario: props.idpaciente,
+      medico: props.idmedico,
+      score: score,
+      tipo: 'depresion',
+      uuid: props.token
+    }
+
+    console.log('Efectos body:', body);
+    // sendDataBody('encuestas/add', body).then((rs) => {
+    //   console.log(rs)
+    //   message.success(rs.message)
+    // }).then(() => checkEncuesta())
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -22,9 +58,28 @@ export default function Sintomatologia() {
   const handleChange = (value) => {
     // console.log(`selected ${value}`);
   };
+
+  // Loading state
+  if (checking) return <div style={{ paddingTop: 180 }}>
+    <div style={{ margin: 'auto', width: '40%', textAlign: 'center' }}>
+      <h3 >Cargando</h3>
+    </div>
+  </div>
+
+  if (!encuestaNotExists) return <div style={{ paddingTop: 180 }}>
+    <div style={{ margin: 'auto', width: '40%', textAlign: 'center' }}>
+      <h3 >Gracias por contestar la encuesta</h3>
+      <img width={256} src={logo} alt="recreamedLogo" style={{ margin: 'auto' }} />
+    </div>
+  </div>
+
   return (
     <div className='mainContainer'>
-      <h4>Sintomatologia</h4>
+      <h4>Sintomatologia de Depresion</h4>
+      <br />
+      <h5>Medico: {medicoData.name}</h5>
+      <h5>Paciente: {pacienteData.name}</h5>
+      <br />
 
       <Form
         name="basic"
@@ -36,18 +91,6 @@ export default function Sintomatologia() {
         autoComplete="off"
       >
 
-        <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]} >
-          <Select
-            onChange={handleChange}
-          >
-            {
-              misPacientes.map((p) => {
-                return <Option value={p._id}>{p.name}</Option>
-              })
-            }
-          </Select>
-        </Form.Item>
-
         {
           Object.keys(catalogo_sintomatologia).map((sk) => {
             return <Form.Item
@@ -58,7 +101,7 @@ export default function Sintomatologia() {
               <Radio.Group>
                 <Space direction="vertical">
                   {
-                    catalogo_sintomatologia[sk].map((s) => <Radio value={s}> {s} </Radio>)
+                    catalogo_sintomatologia[sk].map((s,i) => <Radio value={i}> {s} </Radio>)
                   }
                 </Space>
               </Radio.Group>
@@ -81,7 +124,7 @@ export default function Sintomatologia() {
                 <Radio.Group disabled={apetitoEnabled}>
                   <Space direction="vertical">
                     {
-                      disminucion_apetito.map((s) => <Radio value={s}> {s} </Radio>)
+                      disminucion_apetito.map((s,i) => <Radio value={i}> {s} </Radio>)
                     }
                   </Space>
                 </Radio.Group>
@@ -98,7 +141,7 @@ export default function Sintomatologia() {
                 <Radio.Group disabled={!apetitoEnabled}>
                   <Space direction="vertical">
                     {
-                      aumento_apetito.map((s) => <Radio value={s}> {s} </Radio>)
+                      aumento_apetito.map((s,i) => <Radio value={i}> {s} </Radio>)
                     }
                   </Space>
                 </Radio.Group>
@@ -124,7 +167,7 @@ export default function Sintomatologia() {
                 <Radio.Group disabled={pesoEnabled}>
                   <Space direction="vertical">
                     {
-                      perdida_peso.map((s) => <Radio value={s}> {s} </Radio>)
+                      perdida_peso.map((s,i) => <Radio value={i}> {s} </Radio>)
                     }
                   </Space>
                 </Radio.Group>
@@ -141,7 +184,7 @@ export default function Sintomatologia() {
                 <Radio.Group disabled={!pesoEnabled}>
                   <Space direction="vertical">
                     {
-                      aumento_peso.map((s) => <Radio value={s}> {s} </Radio>)
+                      aumento_peso.map((s,i) => <Radio value={i}> {s} </Radio>)
                     }
                   </Space>
                 </Radio.Group>
@@ -164,7 +207,7 @@ export default function Sintomatologia() {
               <Radio.Group>
                 <Space direction="vertical">
                   {
-                    catalogo_sintomatologia2[sk].map((s) => <Radio value={s}> {s} </Radio>)
+                    catalogo_sintomatologia2[sk].map((s,i) => <Radio value={i}> {s} </Radio>)
                   }
                 </Space>
               </Radio.Group>

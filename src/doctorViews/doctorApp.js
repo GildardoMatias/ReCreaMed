@@ -14,7 +14,8 @@ import { Footer, logout } from '../resources'
 import { usuario } from '../resources'
 import { Historial } from './historial';
 import MainPacientes from './pacientes/main.pacientes';
-import Escalas from '../escalas/escalas'; 
+import Escalas from '../escalas/escalasMenu';
+import Balances from './balances';
 
 function Navigator() {
   console.log("DoctorApp", usuario.name)
@@ -39,6 +40,7 @@ function Navigator() {
           <Nav.Link href="/pacientes" >Pacientes</Nav.Link>
           <Nav.Link href="/citas">Citas</Nav.Link>
           <Nav.Link href="/escalas">Escalas</Nav.Link>
+          <Nav.Link href="/balances">Ingresos</Nav.Link>
           {/* <Nav.Link href="/expedientes">Expedientes</Nav.Link> */}
           {/* <Nav.Link href="/recetas">Recetas</Nav.Link> */}
           {/* <Nav.Link href="/notas">Notas</Nav.Link> */}
@@ -81,7 +83,7 @@ export default function DoctorApp() {
 
         {/* <Route path="/Recetas">
           <Recetas />
-        </Route> */} 
+        </Route> */}
 
         <Route path="/perfil">
           <Perfil />
@@ -94,10 +96,14 @@ export default function DoctorApp() {
         <Route path="/historial">
           <Historial />
         </Route>
-        
+      
+        <Route path="/balances">
+          <Balances/>
+        </Route>
+
         <Route path="/escalas">
-          {/* This is taken from recepcion  */}
-          <Escalas/> 
+          {/* This is taken from escalas directory*/}
+          <Escalas />
         </Route>
 
         <Route path="/">

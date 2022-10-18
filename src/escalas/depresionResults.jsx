@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'antd'
 
-export default function SintomatologiaResults() {
+export default function DepresionResults() {
 
     const dataSource = [
         {
