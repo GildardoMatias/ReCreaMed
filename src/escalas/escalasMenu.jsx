@@ -4,6 +4,7 @@ import DepresionCreateLink from './depresionCreateLink';
 import DepresionResults from './depresionResults';
 import EfectosResults from './efectosResults';
 import EfectosCreateLink from './efectosCreateLink';
+import DolorEncuesta from './dolorEncuesta';
 const { TabPane } = Tabs;
 
 const onChange = (key) => {
@@ -14,10 +15,10 @@ export default function Escalas() {
     return (
         <div>
             <Tabs defaultActiveKey="1" onChange={onChange} tabPosition='left'>
-                <TabPane tab="Efectos" key="1">
+                <TabPane tab="Ketamina" key="1">
                     <EfectosCreateLink />
                 </TabPane>
-                <TabPane tab="Resultados Efectos" key="2">
+                <TabPane tab="Resultados Ketamina" key="2">
                     <EfectosResults />
                 </TabPane>
                 <TabPane tab="Depresion" key="3">
@@ -25,6 +26,9 @@ export default function Escalas() {
                 </TabPane>
                 <TabPane tab="Resultados Depresion" key="4">
                     <DepresionResults />
+                </TabPane>
+                <TabPane tab="Encuesta de Dolor" key="5">
+                    <DolorEncuesta />
                 </TabPane>
             </Tabs>
         </div>
