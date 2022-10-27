@@ -1,10 +1,11 @@
 import React from 'react';
 import { Tabs } from 'antd';
-import DepresionCreateLink from './depresionCreateLink';
-import DepresionResults from './depresionResults';
-import EfectosResults from './efectosResults';
-import EfectosCreateLink from './efectosCreateLink';
-import DolorEncuesta from './dolorEncuesta';
+import DepresionCreateLink from './depresion/depresionCreateLink';
+import DepresionResults from './depresion/depresionResults';
+import EfectosResults from './ketamina/efectosResults';
+import EfectosCreateLink from './ketamina/efectosCreateLink';
+import DolorEncuesta from './dolor/dolorEncuesta';
+import DolorCreateLink from './dolor/dolorCreateLink';
 const { TabPane } = Tabs;
 
 const onChange = (key) => {
@@ -29,6 +30,9 @@ export default function Escalas() {
                 </TabPane>
                 <TabPane tab="Encuesta de Dolor" key="5">
                     <DolorEncuesta />
+                </TabPane>
+                <TabPane tab="Dolor" key="6">
+                    <DolorCreateLink/>
                 </TabPane>
             </Tabs>
         </div>
