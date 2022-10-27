@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from 'react'
 import { Table } from 'antd';
-import { API } from '../../resources'
+import { API, usuario } from '../../resources'
 import Loading from '../../loading';
 
 export default function Dash() {
@@ -12,11 +12,21 @@ export default function Dash() {
     getDoctoresData()
   }, [])
 
+  const findMyDoctors = (arr) => {
+    let dl = [];
+    arr.forEach((d) => {
+      if (usuario.medicos_asignados.includes(d._id)) dl.push(d)
+    })
+    return dl;
+  }
+
   const getDoctoresData = () => {
     fetch(API + 'users_by_rol/Medico')
       .then(response => response.json())
       .then(data => {
-        console.log(data); setDoctoresData(data);
+
+        console.log(data);
+        setDoctoresData(findMyDoctors(data));
       })
       .finally(() => setILoading(false))
   }

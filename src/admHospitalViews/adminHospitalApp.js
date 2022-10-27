@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Button } from 'antd'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import {Citas} from './citas/citas'
+import { Citas } from './citas/citas'
 import Users from './users/main.users';
 import Doctors from './doctors/main.doctors'
 import Sucursal from './sucursal'
@@ -31,14 +31,14 @@ function Navigator() {
 
           <Nav.Link href="/">Inicio</Nav.Link>
           {/* <Nav.Link href="/">Landing</Nav.Link> */}
-          <Nav.Link href="farmacia">Farmacia</Nav.Link>
-          <Nav.Link href="#">|</Nav.Link>
+          {/* <Nav.Link href="farmacia">Farmacia</Nav.Link> */}
+          {/* <Nav.Link href="#">|</Nav.Link> */}
           <Nav.Link href="doctores">Medicos</Nav.Link>
-          <Nav.Link href="administrador">perfil del administrador</Nav.Link>
+          <Nav.Link href="administrador">Perfil</Nav.Link>
           <Nav.Link href="pacientes">Pacientes</Nav.Link>
           <Nav.Link href="citas">Citas</Nav.Link>
-          <Nav.Link href="sucursal">Sucursal</Nav.Link>
-          <Nav.Link href="#">|</Nav.Link>
+          {/* <Nav.Link href="sucursal">Sucursal</Nav.Link> */}
+          {/* <Nav.Link href="#">|</Nav.Link> */}
 
         </Nav>
       </Navbar.Collapse>
@@ -55,19 +55,19 @@ export default function AdminHospitalApp() {
       <Navigator />
       <Switch>
         <Route path="/sucursal">
-          <Sucursal/>
+          <Sucursal />
         </Route>
         <Route path="/doctores">
           <Doctors />
-        </Route>
-        <Route path="/administrador">
-          <PerfilAdministrador />
         </Route>
         <Route path="/citas">
           <Citas />
         </Route>
         <Route path="/pacientes">
           <Users />
+        </Route>
+        <Route path="/administrador">
+          <PerfilAdministrador />
         </Route>
         <Route path="/">
           <Home />

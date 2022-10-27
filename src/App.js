@@ -11,6 +11,7 @@ import AdminHospitalApp from "./admHospitalViews/adminHospitalApp";
 import SuperAdminApp from "./superAdminViews/superAdminApp";
 import KetaminaPublic from "./session/ketaminaPublic";
 import DepresionPublic from "./session/depresionPublic";
+import HeadachePublic from "./session/dolorPublic";
 
 const userType = localStorage.getItem('userType');
 
@@ -29,6 +30,9 @@ export function App() {
         </Route>
         <Route path="/depresion_public/:idmedico/:idpaciente/:key">
           <DepresionPublic />
+        </Route>
+        <Route path="/dolor_public/:idmedico/:idpaciente/:key">
+          <HeadachePublic />
         </Route>
         <Route path="/register">
           <Register />

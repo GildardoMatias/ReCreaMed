@@ -70,5 +70,53 @@
     "id_reunion": "https://",
     "password_reunion": "abcd1234",
     "comentarios": "Cita para consulta",
-    "id_movimiento:" "uuid00001"
+    "id_movimiento:""uuid00001"
+}
+// headache result on success with array of strings
+{
+    "1": [
+        "Detras Izquierda"
+    ],
+    "2": 4,
+    "3": 3,
+    "4": 3,
+    "5": 4,
+    "6": "gsdfg",
+    "7": "gfds",
+    "8": "sdfg",
+    "9": 3,
+    "10": 4,
+    "11": [
+        "A. Los efectos del tratamiento (p. ej., medicación, operación, radiación, prótesis)",
+        "B. Mi enfermedad principal (la enfermedad que actualmente se está tratando y evaluando)",
+        "C.  Una situación no relacionada con mi enfermedad principal (p. ej., artrosis)"
+    ],
+    "12": [
+        "Palpitante",
+        "Fatigoso (pesado)",
+        "Penetrante",
+        "Entumecido (adormecido)"
+    ],
+    "14": 0,
+    "15": 1,
+    "16": 1,
+    "17": 0,
+    "18": 1,
+    "19": 1,
+    "20": 1,
+    "21": [
+        "Distracción",
+        "Compresas frías"
+    ],
+    "22": "sdfgsdfg",
+    "13_A": 2,
+    "13_B": 3,
+    "13_C": 1,
+    "13_D": 3,
+    "13_E": 4,
+    "13_F": 1,
+    "13_G": 2,
+    "18_B": "18b",
+    "19_B": "19b",
+    "21_B": "sdfg"
 }
