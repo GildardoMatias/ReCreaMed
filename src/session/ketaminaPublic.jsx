@@ -1,5 +1,5 @@
 import React from 'react'
-import EfectosEncuesta from '../escalas/efectosEncuesta'
+import EfectosEncuesta from '../escalas/ketamina/efectosEncuesta'
 
 import {
     useParams

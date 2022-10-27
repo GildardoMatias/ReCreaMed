@@ -1,5 +1,5 @@
 import React from 'react'
-import DepresionEncuesta from '../escalas/depresionEncuesta'
+import DepresionEncuesta from '../escalas/depresion/depresionEncuesta'
 
 import {
     useParams

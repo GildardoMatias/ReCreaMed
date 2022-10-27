@@ -13,9 +13,8 @@ Balance del dia y mes
 
 
 
-Efectos -> ketamina
 On patient Generar Concentimmiento con link y el paciente debe aceptar
-Escalas only my patients
+
 En cuanto se cumpla la cita se genera un registro de movimiento
 Tabla de balances por colorses pagados y debiendo
 prioridad vista tabla de balances medico
@@ -24,9 +23,9 @@ Logo del hospital en receta
 Nombre del paciente hasta rriba de la receta
 Viñeta en cada prescripcion de recetas
 Exportar expediente con los datos del mwedico en ppie de pagina
--------------- TODAY 
-4.1 Mostrar título escalas y nombre del paciente
-4.2 Que se muestre únicamente los pacientes del médico correspondiente, en resultados y al generar los enlaces
-4.3 Enlaces de escalas sólo se pueden usar una vez
-4.4 Agregar nueva escala
-4.5 Mostrar resultados de escalas por medico
+
+______ faq ________
+When generate link on reception, relate to reception or medic ?
+We need a medicos_gestionados array into reception profile
+we need a post endpoint that receives an array of medics and response all patients of them 
+after that, do we show medicos asignados ?
