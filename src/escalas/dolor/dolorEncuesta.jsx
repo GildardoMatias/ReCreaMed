@@ -1,25 +1,77 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { dolor_catalog } from './dolor_catalog';
-import { Form, Input, Button, Slider, Checkbox, Radio } from 'antd';
+import { Form, Input, Button, Slider, Checkbox, Radio, message } from 'antd';
+import { getData, sendDataBody } from '../../resources';
+import logo from "../../assets/Logo.png";
 
-export default function DolorEncuesta() {
+export default function DolorEncuesta(props) {
+    // For check if the encuesta existts on db
+    const [encuestaNotExists, setEncuestaNotExists] = useState(null)
+    const [checking, setChecking] = useState(true)
+    const [pacienteData, setPacienteData] = useState({})
+    const [medicoData, setMedicoData] = useState({})
 
-    const plainOptions = ['Apple', 'Pear', 'Orange'];
+    useEffect(() => {
+        checkEncuesta()
+    }, [])
+
+
+    const checkEncuesta = () => {
+
+        getData('getuser/' + props.idpaciente).then((rs) => { setPacienteData(rs) })
+        getData('getuser/' + props.idmedico).then((rs) => { setMedicoData(rs) })
+
+
+        getData(`encuestas/uuid/${props.token}`).then(rs => {
+            console.log(rs);
+            setEncuestaNotExists(rs.message === 'The survey does not exist')
+        }).then(() => { setChecking(false); console.log('Not exists: ', encuestaNotExists); })
+    }
 
     const onFinish = (values) => {
-        console.log('Success:', values);
+        const body = {
+            usuario: props.idpaciente,
+            medico: props.idmedico,
+            respuestas_dolor: values,
+            tipo: 'dolor',
+            uuid: props.token
+        }
+        console.log('Body:', body);
+        sendDataBody('encuestas/add', body).then((rs) => {
+            console.log('add enc resp', rs)
+            message.success(rs.message)
+        }).then(() => checkEncuesta())
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
+        errorInfo.errorFields.map((p) => {
+            message.error('Conteste la pregunta ' + p.name)
+        })
     };
     const onChange = (checkedValues) => {
         console.log('checked = ', checkedValues);
     };
 
+    // Loading state
+    if (checking) return <div style={{ paddingTop: 180 }}>
+        <div style={{ margin: 'auto', width: '40%', textAlign: 'center' }}>
+            <h3 >Cargando</h3>
+        </div>
+    </div>
+
+    if (!encuestaNotExists) return <div style={{ paddingTop: 180 }}>
+        <div style={{ margin: 'auto', width: '40%', textAlign: 'center' }}>
+            <h3 >Gracias por contestar la encuesta</h3>
+            <img width={256} src={logo} alt="recreamedLogo" style={{ margin: 'auto' }} />
+        </div>
+    </div>
     return (
         <div className='mainContainer'>
             <h4>Encuesta de Dolor</h4>
-
+            <br />
+            <h5>Medico: {medicoData.name}</h5>
+            <h5>Paciente: {pacienteData.name}</h5>
+            <br />
             <Form
                 name="basic"
                 labelCol={{ span: 24 }}
@@ -44,9 +96,6 @@ export default function DolorEncuesta() {
                                     {p.respuestas.map((r, i) => { return <Radio value={i}>{r}</Radio> })}
                                 </Radio.Group>;
                                 break;
-                            case 'seleccion_boleana':
-                                input = <Checkbox.Group options={p.respuestas} defaultValue={['Apple']} onChange={onChange} />
-                                break;
                             case 'texto':
                                 input = < Input />;
                                 break;
@@ -55,6 +104,7 @@ export default function DolorEncuesta() {
                         }
 
                         return p.tipo !== 'titulo' ? <Form.Item
+                            key={p.n}
                             label={p.n + '. ' + p.pregunta}
                             name={p.n}
                             rules={[{ required: true, message: 'Conteste correctamente' }]}

@@ -39,8 +39,8 @@ export default function EfectosEncuesta(props) {
     const body = {
       usuario: props.idpaciente,
       medico: props.idmedico,
-      respuestas: values,
-      tipo: 'efectos',
+      respuestas_ketamina: values,
+      tipo: 'ketamina',
       uuid: props.token
     }
 

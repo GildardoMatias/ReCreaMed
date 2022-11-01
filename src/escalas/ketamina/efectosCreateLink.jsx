@@ -12,46 +12,38 @@ export default function EfectosCreateLink() {
     const [misPacientes, setMisPacientes] = useState([])
     const [selectedPatient, setSelectedPatient] = useState(null)
     const [link, setLink] = useState('')
+    // Used to add a medico _id when the user is admin
+    const [medicosData, setMedicosData] = useState([])
+    const [medico, setMedico] = useState(null)
 
     const imageRef = useRef(null);
 
+
+    const getPacientesOfDoctor = (_id) => { //Para el caso que la sesion sea de Medico
+        getData(`mispacientes/${_id}`).then(rs => { setSelectedPatient(null); setMisPacientes(rs); console.log(`patients of ${_id}`, rs); })
+    }
+
+    const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
+        const body = { ids: usuario.medicos_asignados }
+        sendDataBody(`users/getMany`, body).then(rs => { setMedicosData(rs); console.log('medicosData: ', rs); })
+    }
+
     useEffect(() => {
-        getData(`mispacientes/${usuario._id}`).then(rs => { setMisPacientes(rs); console.log(rs); })
+        usuario.rol === 'Medico' ? getPacientesOfDoctor(usuario._id) : getDoctorsData()
     }, [])
 
-    const handleChange = (value) => { setSelectedPatient(value) };
+    const handleDoctorChange = (value) => { setMedico(value); getPacientesOfDoctor(value) };
+    const handleChange = (value) => { setLink(null); setSelectedPatient(value) };
 
     const generateLink = () => {
-        let l = `https://sistema.recreamed.com/escalas_public/${usuario._id}/${selectedPatient}/${Date.now()}`
-        // let l = `http://localhost:3000/escalas_public/${usuario._id}/${selectedPatient}/${Date.now()}`
+        let usr = usuario.rol === 'Administrador' ? medico : usuario._id;
+        // let l = `https://sistema.recreamed.com/escalas_public/${usr}/${selectedPatient}/${Date.now()}`
+        let l = `http://localhost:3000/escalas_public/${usr}/${selectedPatient}/${Date.now()}`
         setLink(l)
     }
     const copyLink = () => {
         navigator.clipboard.writeText(link)
         message.success('Enlace Copiado al Portapapeles!')
-    }
-
-    const handleShare = async () => {
-        console.log('trying to share')
-        const newFile = await toBlob(imageRef.current);
-        const data = {
-            files: [
-                new File([newFile], 'image.png', {
-                    type: newFile.type,
-                }),
-            ],
-            title: 'Image',
-            text: 'image',
-        };
-
-        try {
-            if (!navigator.canShare(data)) {
-                console.error("Can't share");
-            }
-            await navigator.share(data);
-        } catch (err) {
-            console.error(err);
-        }
     }
 
     const handleDownload = async () => {
@@ -89,12 +81,31 @@ export default function EfectosCreateLink() {
             <h5>Generar enlace para encuesta de Ketamina</h5>
             <br />
             <Space >
+                {
+                    usuario.rol === 'Administrador' &&
+                    <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                        style={{ alignItems: 'center', paddingTop: 20 }}>
+                        <Select
+                            style={{ width: 260, }}
+                            onChange={handleDoctorChange}
+                            placeholder='Selecciona un medico'
+                        >
+                            {
+                                medicosData.map((p) => {
+                                    return <Option value={p._id}>{p.name}</Option>
+                                })
+                            }
+                        </Select>
+                    </Form.Item>
+                }
+
                 <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
                     style={{ alignItems: 'center', paddingTop: 20 }}>
                     <Select
                         style={{ width: 260, }}
                         onChange={handleChange}
                         placeholder='Selecciona un paciente'
+                        value={selectedPatient}
                     >
                         {
                             misPacientes.map((p) => {
@@ -105,7 +116,9 @@ export default function EfectosCreateLink() {
                 </Form.Item>
                 <Button onClick={generateLink} disabled={!selectedPatient} >Generar Enlace</Button>
             </Space>
+
             <br />
+
             {
                 selectedPatient && link ? <div>
                     <Space align='center'>

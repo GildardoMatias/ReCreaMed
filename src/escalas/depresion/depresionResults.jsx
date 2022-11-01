@@ -1,41 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table } from 'antd'
+import { Form, Select } from 'antd';
+import { getData, usuario, sendDataBody } from '../../resources';
+const { Option } = Select;
 
 export default function DepresionResults() {
+    const [encuestasData, setEncuestasData] = useState([])
+    const [medicosData, setMedicosData] = useState([])
+    const [medico, setMedico] = useState(null)
+    useEffect(() => {
+        usuario.rol === 'Administrador' ? getDoctorsData() : getEncuestasData(usuario._id)
+    }, [])
+    const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
+        const body = { ids: usuario.medicos_asignados }
+        sendDataBody(`users/getMany`, body).then(rs => { setMedicosData(rs); console.log('medicosData: ', rs); })
+    }
+    const getEncuestasData = (medico) => {
+        getData(`encuestas/depresion/medico/${medico}`).then((rs) => {
+            console.log(rs);
+            setEncuestasData(rs)
+        })
+    }
 
-    const dataSource = [
-        {
-            key: '1',
-            name: '625706dc9a6437369f835bd5',
-            score: 20,
-        },
-        {
-            key: '1',
-            name: '62fd9367578d2b4669e0e0aa',
-            score: 7,
-        },
-        {
-            key: '1',
-            name: '62fd9982578d2b4669e0e18b',
-            score: 14,
-        },
-        {
-            key: '1',
-            name: '630398a0bd637f93fb6fb0fe',
-            score: 22,
-        },
-        {
-            key: '1',
-            name: '63039acabd637f93fb6fb11b',
-            score: 18,
-        },
-    ];
 
     const columns = [
         {
             title: 'Paciente',
-            dataIndex: 'name',
+            dataIndex: 'usuario',
             key: 'name',
+            render: (_, { usuario }) => <>{usuario.name}</>
         },
         {
             title: 'Puntaje',
@@ -48,7 +41,25 @@ export default function DepresionResults() {
         <div className='mainContainer'>
             <h4>Resultados de encuestas de sintomatologia depresiva</h4>
             <br />
-            <Table dataSource={dataSource} columns={columns} />
+            {
+                usuario.rol === 'Administrador' && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                    style={{ alignItems: 'center', paddingTop: 20 }}>
+                    <Select
+                        style={{ width: 260, }}
+                        onChange={getEncuestasData}
+                        placeholder='Selecciona un medico'
+                    >
+                        {
+                            medicosData.map((p) => {
+                                return <Option key={p._id} value={p._id}>{p.name}</Option>
+                            })
+                        }
+                    </Select>
+                </Form.Item>
+            }
+
+            <br />
+            <Table dataSource={encuestasData} columns={columns} />
         </div>
     )
 }

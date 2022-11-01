@@ -6,6 +6,7 @@ import EfectosResults from './ketamina/efectosResults';
 import EfectosCreateLink from './ketamina/efectosCreateLink';
 import DolorEncuesta from './dolor/dolorEncuesta';
 import DolorCreateLink from './dolor/dolorCreateLink';
+import DolorResults from './dolor/dolorResults';
 const { TabPane } = Tabs;
 
 const onChange = (key) => {
@@ -28,11 +29,11 @@ export default function Escalas() {
                 <TabPane tab="Resultados Depresion" key="4">
                     <DepresionResults />
                 </TabPane>
-                <TabPane tab="Encuesta de Dolor" key="5">
-                    <DolorEncuesta />
+                <TabPane tab="Dolor" key="5">
+                    <DolorCreateLink />
                 </TabPane>
-                <TabPane tab="Dolor" key="6">
-                    <DolorCreateLink/>
+                <TabPane tab="Resultados Dolor" key="6">
+                    <DolorResults />
                 </TabPane>
             </Tabs>
         </div>

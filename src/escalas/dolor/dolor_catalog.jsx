@@ -53,13 +53,13 @@ export const dolor_catalog = [
     },
     {
         'n': 11,
-        'tipo': 'seleccion_boleana',
+        'tipo': 'multiple',
         'pregunta': 'Marque con una cruz la casilla que considere adecuada para cada una de las respuestas.',
         'respuestas': ['A. Los efectos del tratamiento (p. ej., medicación, operación, radiación, prótesis)', 'B. Mi enfermedad principal (la enfermedad que actualmente se está tratando y evaluando)', 'C.  Una situación no relacionada con mi enfermedad principal (p. ej., artrosis)']
     },
     {
         'n': 12,
-        'tipo': 'seleccion_boleana',
+        'tipo': 'multiple',
         'pregunta': 'Para cada una de las siguientes palabras, marque con una cruz «sí» o «no» si ese adjetivo se aplica a su dolor.',
         'respuestas': ['Dolorido/continuo', 'Palpitante', 'Irradiante', 'Punzante', 'Fatigoso (pesado)', 'Penetrante', 'Persistente', 'Mortificante (calambre)', 'Agudo', 'Sensible', 'Quemante', 'Agotador', 'Entumecido (adormecido)', 'Penoso', 'Insoportable']
     },
@@ -69,37 +69,37 @@ export const dolor_catalog = [
         'pregunta': 'Rodee con un círculo el número que mejor describa hasta qué punto el dolor le ha afectado en los siguientes aspectos de la vida, durante la última semana.',
     },
     {
-        'n': '13_A',
+        'n': 'A13',
         'tipo': 'metrica',
         'pregunta': '13 A. Actividades en general',
     },
     {
-        'n': '13_B',
+        'n': 'B13',
         'tipo': 'metrica',
         'pregunta': '13 B. Estado de ánimo',
     },
     {
-        'n': '13_C',
+        'n': 'C13',
         'tipo': 'metrica',
         'pregunta': '13 C. Capacidad de caminar',
     },
     {
-        'n': '13_D',
+        'n': 'D13',
         'tipo': 'metrica',
         'pregunta': '13 D. Trabajo habitual (incluye tanto el trabajo fuera de casa como las tareas domésticas)',
     },
     {
-        'n': '13_E',
+        'n': 'E13',
         'tipo': 'metrica',
         'pregunta': '13 E. Relaciones con otras personas',
     },
     {
-        'n': '13_F',
+        'n': 'F13',
         'tipo': 'metrica',
         'pregunta': '13 F. Sueño',
     },
     {
-        'n': '13_G',
+        'n': 'G13',
         'tipo': 'metrica',
         'pregunta': '13 G. Disfrutar de la vida',
     },
@@ -134,7 +134,7 @@ export const dolor_catalog = [
         'respuestas': ['Si', 'No', 'No lo sé']
     },
     {
-        'n': '18_B',
+        'n': 'B18',
         'tipo': 'texto',
         'pregunta': '18 B.Si la respuesta es «sí», ¿por qué?'
     },
@@ -145,7 +145,7 @@ export const dolor_catalog = [
         'respuestas': ['Si', 'No']
     },
     {
-        'n': '19_B',
+        'n': 'B19',
         'tipo': 'texto',
         'pregunta': '19 B.¿Qué efectos secundarios?'
     },
@@ -162,7 +162,7 @@ export const dolor_catalog = [
         'respuestas': ['Compresas calientes', 'Distracción', 'Compresas frías', 'Biofeedback', 'Técnicas de relajación', 'Hipnosis']
     },
     {
-        'n': '21_B',
+        'n': 'B21',
         'tipo': 'texto',
         'pregunta': '21 B.Si su respuesta es otros, por favor, especifique'
     },
