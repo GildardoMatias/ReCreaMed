@@ -1,26 +1,41 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Space, Row, Col, Button, Modal, Form, Input, message, DatePicker } from 'antd';
-import { API } from '../../resources';
+import { Calendar, Space, Row, Col, Button, Modal, Form, Input, message, DatePicker, Badge, Select, Switch } from 'antd';
+import { API, getData, usuario, sendDataBody } from '../../resources';
 import Loading from '../../loading'
-// import { API } from '../resources'
+import moment from "moment";
+const { Option } = Select;
 
 export function Citas() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [citasData, setCitasData] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [cita, setCita] = useState({})
+    const [isDetailVisible, setIsDetailVisible] = useState(false);
+    const [medicosData, setMedicosData] = useState([])
+    // Select patient for cerate cita
+    const [misPacientes, setMisPacientes] = useState([])
+    const [selectedPatient, setSelectedPatient] = useState(null)
+    // Body of cita
+    const [isOnline, setIsOnline] = useState(false)
+    const [medico, setMedico] = useState(null)
+
+
 
     useEffect(() => {
-        getCitasData()
+        getDoctorsData()
     }, [])
 
-    const getCitasData = () => {
-        fetch(API + 'citas')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data); setCitasData(data);
-            })
-            .finally(() => setIsLoading(false))
+    const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
+        const body = { ids: usuario.medicos_asignados }
+        sendDataBody(`users/getMany`, body).then(rs => { setMedicosData(rs); console.log('medicosData: ', rs); })
     }
+
+    // Get patients for populate select
+    const getPacientesOfDoctor = (_id) => { //Para el caso que la sesion sea de Medico
+        getData(`mispacientes/${_id}`).then(rs => { setSelectedPatient(null); setMisPacientes(rs); console.log(`patients of ${_id}`, rs); })
+    }
+    const handleChange = (value) => { setSelectedPatient(value) };
+
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -33,57 +48,35 @@ export function Citas() {
     const handleCancel = () => {
         setIsModalVisible(false);
     };
-    const columns = [
-        {
-            title: 'Fecha y Hora',
-            dataIndex: 'fecha_hora',
-            key: 'fecha_hora',
-            render: text => <a>{text}</a>,
-        },
-        {
-            title: 'Paciente',
-            dataIndex: 'id_usuario',
-            key: 'id_usuario',
-        },
-        {
-            title: 'Sucursal',
-            dataIndex: 'id_sucursal',
-            key: 'v',
-        },
-        {
-            title: 'Comentarios',
-            dataIndex: 'comentarios',
-            key: 'comentarios',
-        },
-        {
-            title: 'Detalles',
-            key: 'detalles',
-            render: (text, record) => (
-                <Space size="middle">
-                    {/* <a href>Enlace</a> */}
-                    <Button>Enlace</Button>
-                </Space>
-            ),
-        },
-    ];
 
     const onFinish = (values) => {
-        console.log('Valores:', values);
-        fetch(API + 'expedientes/add', {
-            method: 'POST',
-            body: JSON.stringify(values),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .then(response => { console.log('Success:', response); message.success(response.message || response.error); })
-            .catch(error => console.error('Error:', error))
-            .finally(() => { getCitasData(); setIsModalVisible(false) })
+        values.medico = medico;
+        const hospital = medicosData.find((m) => m._id === medico)
+        values.sucursal = hospital.horarios[0].sucursal._id;
+        // console.log('Found', hospital.horarios[0].sucursal._id);
+        console.log('ready to send: ', values);
+
+        sendDataBody('citas/add', values).then((response) => {
+            console.log('Success:', response); message.success(response.message || response.error);
+            getCitasData(medico); setIsModalVisible(false)
+        })
+
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
+
+    // Get citas on select medico Change
+    const getCitasData = (medico) => {
+        getData(`citas/medico/${medico}`).then((rs) => {
+            console.log(rs);
+            setCitasData(rs);
+            setIsLoading(false)
+        })
+    }
+
+    const handleDoctorChange = (value) => { setMedico(value); getCitasData(value); getPacientesOfDoctor(value) };
 
     // DatePicker
     function onChange(value, dateString) {
@@ -94,50 +87,118 @@ export function Citas() {
         console.log('onOk: ', value);
     }
 
+    //Calendar Functions
+    const getMonthData = (value) => {
+        if (value.month() === 8) {
+            return 1394;
+        }
+    };
+    const dateCellRender = (value) => {
+        // const hoy = value.format('L');
+        let hoy = value.format();
+        hoy = hoy.substring(0, 10)
+        return (
+            <ul className="events">
+                {citasData.map((cita) => {
+                    cita.fecha_cita = cita.fecha_hora.substring(0, 10);
+                    cita.hora_cita = cita.fecha_hora.substring(11, 16);
+                    return cita.fecha_cita === hoy ?
+                        <li style={{ listStyleType: 'none' }} key={cita._id}>
+                            <Badge status='success' text={cita.usuario.name} onClick={() => { setCita(cita); setIsDetailVisible(true); }} />
+                        </li>
+                        : <></>
+
+                })
+                }
+            </ul >
+        );
+    };
+    const monthCellRender = (value) => {
+        const num = getMonthData(value);
+        return num ? (
+            <div className="notes-month">
+                <section>{num}</section>
+                <span>Backlog number</span>
+            </div>
+        ) : null;
+    };
+    const onSwitch = (checked) => {
+        console.log(`switch to ${checked}`);
+        setIsOnline(checked)
+    };
     return (
         <div className='mainContainer'>
             <Row>
                 <Col span={8}><h4>Citas de todos los pacientes</h4></Col>
                 <Col>
-                    <Button type="primary" onClick={showModal}>
+                    <Button type="primary" onClick={showModal} disabled={!medico}>
                         Nueva Cita
                     </Button>
                 </Col>
             </Row>
 
-            {isLoading ? <Loading /> : <Table columns={columns} dataSource={citasData} />}
+            <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                style={{ alignItems: 'center', paddingTop: 20 }}>
+                <Select
+                    style={{ width: 260, }}
+                    onChange={handleDoctorChange}
+                    placeholder='Selecciona un medico'
+                >
+                    {
+                        medicosData.map((p) => {
+                            return <Option key={p._id} value={p._id}>{p.name}</Option>
+                        })
+                    }
+                </Select>
+            </Form.Item>
+
+            {isLoading ? <Loading /> : <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />}
 
 
 
-            <Modal title="Nuevo expediente" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <Form name="expediente" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
+            <Modal title="Nueva Cita" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose
+                footer={[
+                    <Button onClick={handleCancel}>Cancelar</Button>,
+                    <Button type="primary" htmlType="submit" form='nueva_cita_admin'>
+                        Guardar
+                    </Button>
+                ]}
+            >
+                <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
+                    initialValues={{ isOnline: false }}>
 
-                    <Form.Item label="Paciente" name="id_usuario" rules={[{ required: true, message: 'Ingresa RFC' }]} >
+                    <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona Usuario' }]} >
+                        <Select onChange={handleChange}>
+                            {
+                                misPacientes.map((p) => {
+                                    return <Option value={p._id}>{p.name}</Option>
+                                })
+                            }
+                        </Select>
+                    </Form.Item>
+
+
+                    <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]} >
+                        <DatePicker onChange={onChange} onOk={onOk} placeholder='Selecciona Fecha y Hora'
+                            format="YYYY-MM-DD HH:mm:ss"
+                            showTime={{
+                                defaultValue: moment("00:00:00", "HH:mm:ss"),
+                                format: "HH:mm"
+                            }} />
+                    </Form.Item>
+
+                    <Form.Item label="VideoLlada" name="isOnline" >
+                        <Switch onChange={onSwitch} />
+                    </Form.Item>
+
+                    <Form.Item label="Comentarios" name="comentarios" rules={[{ required: false, message: 'Ingresa RFC' }]} >
                         <Input />
                     </Form.Item>
-                    <Form.Item label="Sucursal" name="id_sucursal" rules={[{ required: true, message: 'Ingresa RFC' }]} >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item label="Fecha y Hora" name="id_nota" rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]} >
-                        <DatePicker showTime onChange={onChange} onOk={onOk} placeholder='Selecciona Fecha y Hora' />
-                    </Form.Item>
-                    <Form.Item label="Enlace a la reunion" name="id_reunion" rules={[{ required: true, message: 'Ingresa RFC' }]} >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item label="Contraseña" name="password_reunion" rules={[{ required: true, message: 'Ingresa RFC' }]} >
-                        <Input placeholder='Opcional' />
-                    </Form.Item>
-                    <Form.Item label="Comentarios" name="comentarios" rules={[{ required: true, message: 'Ingresa RFC' }]} >
-                        <Input />
-                    </Form.Item>
 
-                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                        <Button type="primary" htmlType="submit" form='expediente'>
-                            Guardar
-                        </Button>
-                    </Form.Item>
+
                 </Form>
             </Modal>
+
         </div>
     )
 }
