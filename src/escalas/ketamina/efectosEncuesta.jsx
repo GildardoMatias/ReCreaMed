@@ -77,9 +77,10 @@ export default function EfectosEncuesta(props) {
       <h5>Paciente: {pacienteData.name}</h5>
       <br />
       <Form
+        layout='vertical'
         name="efectos_form"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
+        // labelCol={{ span: 8 }}
+        // wrapperCol={{ span: 16 }}
         initialValues={{ ...catalogo_efectos, ketamina: 0, ketaminaiv: 0, ketaminaivb: 0 }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}

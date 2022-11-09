@@ -22,6 +22,29 @@ export default function DepresionResults() {
         })
     }
 
+    const counterColumns = [
+        {
+            title: 'Usuario',
+            key: 'usuario',
+            dataIndex: 'usuario',
+            render: (_, { usuario }) => (
+                <>
+                    {usuario.name}
+                </>
+            ),
+        },
+        {
+            title: 'Encuestas esta semana',
+            key: 'semana',
+            dataIndex: 'semana',
+        },
+        {
+            title: 'Total encuestas',
+            key: 'total',
+            dataIndex: 'total'
+        }
+    ];
+
 
     const columns = [
         {
@@ -57,9 +80,12 @@ export default function DepresionResults() {
                     </Select>
                 </Form.Item>
             }
-
             <br />
-            <Table dataSource={encuestasData} columns={columns} />
+            <Table dataSource={encuestasData} columns={counterColumns} bordered />
+            <br />
+            <h4>Detalles de encuestas</h4>
+            <br />
+            <Table dataSource={encuestasData} columns={columns} bordered />
         </div>
     )
 }

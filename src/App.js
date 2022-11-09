@@ -25,7 +25,7 @@ export function App() {
     console.log("tok:", localStorage.getItem('sessionToken'));
     return <Router>
       <Switch>
-        <Route path="/escalas_public/:idmedico/:idpaciente/:key">
+        <Route path="/ketamina_public/:idmedico/:idpaciente/:key">
           <KetaminaPublic />
         </Route>
         <Route path="/depresion_public/:idmedico/:idpaciente/:key">

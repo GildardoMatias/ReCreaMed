@@ -37,8 +37,8 @@ export default function EfectosCreateLink() {
 
     const generateLink = () => {
         let usr = usuario.rol === 'Administrador' ? medico : usuario._id;
-        // let l = `https://sistema.recreamed.com/escalas_public/${usr}/${selectedPatient}/${Date.now()}`
-        let l = `http://localhost:3000/escalas_public/${usr}/${selectedPatient}/${Date.now()}`
+        let l = `https://sistema.recreamed.com/ketamina_public/${usr}/${selectedPatient}/${Date.now()}`
+        // let l = `http://localhost:3000/ketamina_public/${usr}/${selectedPatient}/${Date.now()}`
         setLink(l)
     }
     const copyLink = () => {
@@ -92,7 +92,7 @@ export default function EfectosCreateLink() {
                         >
                             {
                                 medicosData.map((p) => {
-                                    return <Option value={p._id}>{p.name}</Option>
+                                    return <Option key={p._id} value={p._id}>{p.name}</Option>
                                 })
                             }
                         </Select>
@@ -109,7 +109,7 @@ export default function EfectosCreateLink() {
                     >
                         {
                             misPacientes.map((p) => {
-                                return <Option value={p._id}>{p.name}</Option>
+                                return <Option key={p._id} value={p._id}>{p.name}</Option>
                             })
                         }
                     </Select>

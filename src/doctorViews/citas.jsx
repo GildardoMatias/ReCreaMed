@@ -41,7 +41,7 @@ export function Citas() {
 
     const onFinish = (values) => {
         values.medico = usuario._id;
-        values.sucursal = usuario.horarios[0].sucursal;
+        values.sucursal = usuario.horarios[0].sucursal._id;
 
         console.log('ready to send: ', values);
         sendDataBody('citas/add', values).then((response) => {
@@ -192,7 +192,7 @@ export function Citas() {
                         <Space direction='vertical'>
 
                             <Space align='center'> <UserOutlined /> {cita.usuario?.name}</Space>
-                            <Space align='center'> <CalendarOutlined /> {cita.fecha_cita} <ClockCircleOutlined style={{ marginBottom: 6 }}/> {cita.hora_cita}</Space>
+                            <Space align='center'> <CalendarOutlined /> {cita.fecha_cita} <ClockCircleOutlined style={{ marginBottom: 6 }} /> {cita.hora_cita}</Space>
                             <Space align='baseline'> <BankOutlined /> {cita.sucursal?.nombre}</Space>
                             <Space align='baseline'> <NotificationOutlined /> {cita.comentarios}</Space>
                             {cita.id_reunion && <Space align='center'> <VideoCameraOutlined style={{ marginBottom: 6 }} /> ID reunion: {cita.id_reunion.substring(26, 37)} </Space>}

@@ -107,8 +107,9 @@ export default function DepresionEncuesta(props) {
 
       <Form
         name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
+        layout='vertical'
+        // labelCol={{ span: 8 }}
+        // wrapperCol={{ span: 16 }}
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -136,11 +137,13 @@ export default function DepresionEncuesta(props) {
 
         {/*Apetito*/}
         <Card>
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }} >
+          <Form.Item
+          // wrapperCol={{ offset: 8, span: 16 }} 
+          >
             Disminucion apetito <Switch onChange={() => setApetitoEnabled(!apetitoEnabled)} /> Aumento Apetito
           </Form.Item>
           <Row>
-            <Col span={10}>
+            <Col md={10}>
               <Form.Item
                 label='Disminucion Apetito'
                 name='6'
@@ -179,11 +182,13 @@ export default function DepresionEncuesta(props) {
 
         {/* Peso */}
         <Card>
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }} >
+          <Form.Item
+          // wrapperCol={{ offset: 8, span: 16 }} 
+          >
             Disminucion de Peso <Switch onChange={() => setPesoEnabled(!pesoEnabled)} /> Aumento de Peso
           </Form.Item>
           <Row>
-            <Col span={10}>
+            <Col md={10}>
               <Form.Item
                 label='Perdida de Peso'
                 name='8'

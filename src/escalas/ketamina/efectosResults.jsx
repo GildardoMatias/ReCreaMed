@@ -3,47 +3,128 @@ import { useEffect } from 'react';
 import { Space, Table, Tag, Progress } from 'antd'
 import { Form, Select } from 'antd';
 import { getData, usuario, sendDataBody } from '../../resources';
+import moment from 'moment'
 const { Option } = Select;
 
 export default function EfectosResults() {
 
   const [efectosData, setEfectosData] = useState(null);
   const [medicosData, setMedicosData] = useState([])
+  const [countersData, setCountersData] = useState([])
+  const [loadingCounters, setLoadingCounters] = useState(true)
 
-
-  // useEffect(() => {
-  //   const url = `encuestas/ketamina/medico/${usuario._id}`
-  //   console.log(url);
-  //   getData(url).then((res) => {
-  //     setEfectosData(res);
-  //     console.log(res)
-  //   })
-  // }, [])
+  const dummyCount = [
+    {
+      "paciente": "Jorge Suarez Torres",
+      "total": 3,
+      "semana": 9
+    },
+    {
+      "paciente": "Ignacio Lopez",
+      "total": 1,
+      "semana": 9
+    },
+    {
+      "paciente": "Paciente CIDERALT",
+      "total": 0,
+      "semana": 9
+    },
+    {
+      "paciente": "Arturo",
+      "total": 1,
+      "semana": 9
+    },
+    {
+      "paciente": "Azalia Cortés",
+      "total": 0,
+      "semana": 9
+    },
+    {
+      "paciente": "Romina Cortés",
+      "total": 0,
+      "semana": 9
+    }
+  ]
 
   useEffect(() => {
     usuario.rol === 'Administrador' ? getDoctorsData() : getEncuestasData(usuario._id)
   }, [])
+
   const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
     const body = { ids: usuario.medicos_asignados }
     sendDataBody(`users/getMany`, body).then(rs => { setMedicosData(rs); console.log('medicosData: ', rs); })
   }
+
   const getEncuestasData = (medico) => {
     getData(`encuestas/ketamina/medico/${medico}`).then((rs) => {
-      console.log(rs);
+      console.log('Encuestas ', rs);
+      getCounters(rs, medico);
       setEfectosData(rs)
     })
   }
+
+  const getCounters = (data, medico) => {
+    const allEncuestas = [...data];
+    const results = []
+    getData(`mispacientes/${medico}`).then(rs => {
+      rs.forEach(pac => {
+
+        // var isThisWeek = (now.isoWeek() == input.isoWeek())
+
+        const aprs = allEncuestas.filter(enc => enc.usuario._id === pac._id).length
+        const week = allEncuestas.filter(enc => {
+          var now = moment();
+          var input = moment(enc.createdAt);
+          return enc.usuario._id === pac._id && now.isoWeek() == input.isoWeek()
+        }).length
+        console.log(`Paciente ${pac.name} appears:`, aprs);
+        results.push({
+          'paciente': pac.name,
+          'total': aprs,
+          'semana': week
+        })
+      });
+      console.log(results)
+    }).finally(() => { setCountersData(results); setLoadingCounters(false) });
+  }
+
+  const counterColumns = [
+    {
+      title: 'Paciente',
+      key: 'paciente',
+      dataIndex: 'paciente',
+      // render: (_, { usuario: paciente }) => (
+      //   <>
+      //     {paciente.name}
+      //   </>
+      // ),
+    },
+    {
+      title: 'Encuestas esta semana',
+      key: 'semana',
+      dataIndex: 'semana',
+    },
+    {
+      title: 'Total encuestas',
+      key: 'total',
+      dataIndex: 'total'
+    }
+  ];
   const columns = [
 
     {
       title: 'Usuario',
       key: 'usuario',
       dataIndex: 'usuario',
-      render: (_, { usuario }) => (
-        <>
-          {usuario.name}
-        </>
-      ),
+      render: (_, { usuario }) => (<>{usuario.name}</>),
+      sorter: true,
+    },
+    {
+      title: 'Fecha',
+      key: 'fecha',
+      dataIndex: 'createdAt',
+      render: (fecha) => (<>{fecha.substring(0, 10)}</>),
+      width: '9%'
     },
     {
       title: '¿Parece que las cosas se mueven en cámara lenta ?',
@@ -128,8 +209,9 @@ export default function EfectosResults() {
       <br />
       <h4>Resultados de listas de verificacion para efectos secundarios</h4>
       <br />
+
       {
-        usuario.rol === 'Administrador' && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+        usuario.rol === 'Administrador' && <Form.Item label="Selecciona un Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
           style={{ alignItems: 'center', paddingTop: 20 }}>
           <Select
             style={{ width: 260, }}
@@ -145,8 +227,12 @@ export default function EfectosResults() {
         </Form.Item>
       }
       <br />
-      <Table dataSource={efectosData} columns={columns} scroll={{ x: 1300 }} />
 
+      <Table dataSource={countersData} columns={counterColumns} loading={loadingCounters} bordered />
+      <br />
+      <h4>Detalles de encuestas</h4>
+      <br />
+      <Table dataSource={efectosData} columns={columns} scroll={{ x: 1300 }} bordered />
     </div>
   )
 }

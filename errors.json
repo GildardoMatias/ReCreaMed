@@ -1,122 +1,345 @@
-{
-    "Adriana Guerrero": {
-        "Errores Criticos": 7,
-        "Errores de Bajo Nivel": 31,
-        "Errores Reportados": 38,
-        "Advertencias": 147,
-        "Observaciones": "A los medicos y usuarios se les dificulta el lenguaje tecnico utilizado en la plataforma en general"
+[
+    {
+        "_id": "629e3bc5f98613d22ae1ac08",
+        "usuario": "625706dc9a6437369f835bd5",
+        "sucursal": "625705929a6437369f835bc7",
+        "medico": "626943e0f8254c72c301779c",
+        "fecha_hora": "2022-06-07T00:00:00.000Z",
+        "id_reunion": "https://",
+        "password_reunion": "abcd1234",
+        "comentarios": "Cita para consulta",
+        "id_movimiento:": "uuid00001"
     },
-    "Edgar Eguia": {
-        "Errores Criticos": 4,
-        "Errores de Bajo Nivel": 38,
-        "Errores Reportados": 42,
-        "Advertencias": 91,
-        "Observaciones": "La mayoria de medicos no tienen amplio conocimiento de informatica y tecnologia en general, simplificar lo mas posible"
-    },
-    "TosEnd": {
-        "usuario": "62fd9982578d2b4669e0e18b",
-        "Ritmo Cardíaco Elevado": false,
-        "Sentimientos de Ansiedad": true,
-        "Debilidad o Mareos ligeros": false,
-        "Sedación o Somnolencia ": false,
-        "Nauseas": false,
-        "Visión Borrosa ": false,
-        "Aumento de la Presión Arterial": false,
-        "Mareos ": false,
-        "Dolor de cabeza": false,
-        "1. ¿Parece que las cosas se mueven en cámara lenta ?": 2,
-        "2. ¿Te parecen irreales las cosas, como si estuvieras en un sueño?": 2,
-        "3. ¿Te sientes desconectado de tu propio cuerpo?": 4,
-        "4. Sientes que ha cambiado el sentido de tu propio cuerpo?: por ejemplo, tu cuerpo se siente inusualmente largo o inusualmente pequeño?": 4,
-        "5. Te has distraído, o has perdido el rastro de alguna manera de lo que esta pasando durante esta experiencia?": 1,
-        "6. Tiene lagunas (vacios) en su memoria?": 3,
-        "ketamina": 0,
-        "ketaminaiv": 2,
-        "ketaminaivb": 0
-    },
-    "ts2": {
-        "usuario": "62fd9982578d2b4669e0e18b",
-        "Ritmo Cardíaco Elevado": false,
-        "Sentimientos de Ansiedad": true,
-        "Debilidad/Mareos ligeros": true,
-        "Sedación/Somnolencia ": false,
-        "Nauseas": false,
-        "Visión Borrosa ": false,
-        "Aumento de la Presión Arterial": false,
-        "Mareos ": false,
-        "Dolor de cabeza": false,
-        "desrealizacion_0": 3,
-        "desrealizacion_1": 3,
-        "despersonalizacion_0": 2,
-        "despersonalizacion_1": 1,
-        "amnesia_0": 0,
-        "amnesia_1": 3,
-        "ketamina": 0,
-        "ketaminaiv": 0,
-        "ketaminaivb": 0
-    },
-    "tipos": {
-        "sintomatologia": "sintomatologia del cero al 27",
-        "efectos": "Respuestas Varias"
-    },
-}
-
-{
-    "_id": "629e3bc5f98613d22ae1ac08",
-    "usuario": "625706dc9a6437369f835bd5",
-    "sucursal": "625705929a6437369f835bc7",
-    "medico": "626943e0f8254c72c301779c",
-    "fecha_hora": "2022-06-07T00:00:00.000Z",
-    "id_reunion": "https://",
-    "password_reunion": "abcd1234",
-    "comentarios": "Cita para consulta",
-    "id_movimiento:""uuid00001"
-}
-// headache result on success with array of strings
-{
-    "1": [
-        "Detras Izquierda"
-    ],
-    "2": 4,
-    "3": 3,
-    "4": 3,
-    "5": 4,
-    "6": "gsdfg",
-    "7": "gfds",
-    "8": "sdfg",
-    "9": 3,
-    "10": 4,
-    "11": [
-        "A. Los efectos del tratamiento (p. ej., medicación, operación, radiación, prótesis)",
-        "B. Mi enfermedad principal (la enfermedad que actualmente se está tratando y evaluando)",
-        "C.  Una situación no relacionada con mi enfermedad principal (p. ej., artrosis)"
-    ],
-    "12": [
-        "Palpitante",
-        "Fatigoso (pesado)",
-        "Penetrante",
-        "Entumecido (adormecido)"
-    ],
-    "14": 0,
-    "15": 1,
-    "16": 1,
-    "17": 0,
-    "18": 1,
-    "19": 1,
-    "20": 1,
-    "21": [
-        "Distracción",
-        "Compresas frías"
-    ],
-    "22": "sdfgsdfg",
-    "13_A": 2,
-    "13_B": 3,
+    {
+        "1": [
+            "Detras Izquierda"
+        ],
+        "2": 4,
+        "3": 3,
+        "4": 3,
+        "5": 4,
+        "6": "gsdfg",
+        "7": "gfds",
+        "8": "sdfg",
+        "9": 3,
+        "10": 4,
+        "11": [
+            "A. Los efectos del tratamiento (p. ej., medicación, operación, radiación, prótesis)",
+            "B. Mi enfermedad principal (la enfermedad que actualmente se está tratando y evaluando)",
+            "C.  Una situación no relacionada con mi enfermedad principal (p. ej., artrosis)"
+        ],
+        "12": [
+            "Palpitante",
+            "Fatigoso (pesado)",
+            "Penetrante",
+            "Entumecido (adormecido)"
+        ],
+        "14": 0,
+        "15": 1,
+        "16": 1,
+        "17": 0,
+        "18": 1,
+        "19": 1,
+        "20": 1,
+        "21": [
+            "Distracción",
+            "Compresas frías"
+        ],
+        "22": "sdfgsdfg",
+        "13_A": 2, -> Change for A13
+    "13_B": 3, -> B13
     "13_C": 1,
-    "13_D": 3,
-    "13_E": 4,
-    "13_F": 1,
-    "13_G": 2,
-    "18_B": "18b",
-    "19_B": "19b",
-    "21_B": "sdfg"
-}
+        "13_D": 3,
+        "13_E": 4,
+        "13_F": 1,
+        "13_G": 2,
+        "18_B": "18b",
+        "19_B": "19b",
+        "21_B": "sdfg"
+    },
+    [
+        {
+            "paciente": {
+                "tratamiento_actual": [],
+                "enfermedades_familiares": [],
+                "enfermedades_medicas": [],
+                "_id": "630398a0bd637f93fb6fb0fe",
+                "rol": "Paciente",
+                "horarios": [],
+                "medicos_asignados": [
+                    "62f55bffc59fcc36f37f541f"
+                ],
+                "name": "Jorge Suarez Torres",
+                "responsable": {
+                    "_id": "630398a0bd637f93fb6fb0ff"
+                },
+                "email": "jorge@gmail.com",
+                "password": "$2b$10$aKKE.bZh5U/PxddmCgIuk.8EFYzsC8ZeIwg/iBlvO8/Jj8W1dA7ci",
+                "avatar": "66490e91-7d64-412f-9786-c5e05f2da756.png",
+                "telefono": 1234567890,
+                "cedula": "",
+                "calle": "San Juan",
+                "municipio": "Chilppancingo",
+                "estado": "Guerrero",
+                "codigopostal": 38000,
+                "estatus": 1,
+                "certificacion": "",
+                "universidad": "",
+                "createdAt": "2022-08-22T14:54:24.465Z",
+                "updatedAt": "2022-08-24T18:45:30.294Z",
+                "__v": 0
+            },
+            "total": 3,
+            "semana": 9
+        },
+        {
+            "paciente": {
+                "tratamiento_actual": [],
+                "enfermedades_familiares": [],
+                "enfermedades_medicas": [],
+                "_id": "63039acabd637f93fb6fb11b",
+                "rol": "Paciente",
+                "horarios": [],
+                "medicos_asignados": [
+                    "62f55bffc59fcc36f37f541f"
+                ],
+                "name": "Ignacio Lopez",
+                "responsable": {
+                    "_id": "63039acabd637f93fb6fb11c"
+                },
+                "email": "Ignacio@gmail.com",
+                "password": "$2b$10$4KyoHR70GMlqbhlIPrkDB.IUDAHZnQf3GfO58I7TDaf0DGKhj6C9m",
+                "avatar": "6ff2ed37-f6bb-4b0a-9979-649eea9af3af.jpg",
+                "telefono": 1234567890,
+                "cedula": "",
+                "municipio": "Morelos",
+                "estado": "Morelos",
+                "codigopostal": 38000,
+                "estatus": 1,
+                "certificacion": "",
+                "universidad": "",
+                "createdAt": "2022-08-22T15:03:38.563Z",
+                "updatedAt": "2022-08-24T22:17:47.004Z",
+                "__v": 0
+            },
+            "total": 1,
+            "semana": 9
+        },
+        {
+            "paciente": {
+                "_id": "634da959f43ee52aa1ce20d4",
+                "rol": "Paciente",
+                "horarios": [],
+                "medicos_asignados": [
+                    "62f55bffc59fcc36f37f541f"
+                ],
+                "name": "Paciente CIDERALT",
+                "responsable": {
+                    "nombre": "respname",
+                    "telefono": 1234567890,
+                    "_id": "634da959f43ee52aa1ce20d5"
+                },
+                "email": "paciente@cideralt.com",
+                "password": "$2b$10$g/7sNoDS.Kmtaw0ij2pDzeXJPMlIV3rqVXZbP2O7F0uIKan6PqeQa",
+                "avatar": "afa75efb-a3cf-475e-945e-f6b8ffabeb32.png",
+                "telefono": 1236547890,
+                "cedula": "",
+                "municipio": "Morelia",
+                "estado": "Morelos",
+                "codigopostal": 30597,
+                "estatus": 1,
+                "certificacion": "",
+                "universidad": "",
+                "sexo": "H",
+                "edad": 20,
+                "diagnostico": "Sin diagnostico",
+                "peso": 32,
+                "talla": 28,
+                "ocupacion": "Empresario",
+                "estado_civil": "Viudo",
+                "escolaridad": "Primaria trunca",
+                "ciudad": "Patzcuaro",
+                "lugar_de_nacimiento": "Las trojes",
+                "cuales_drogas": "Ninguna",
+                "tratamiento_actual": [],
+                "enfermedades_familiares": [],
+                "enfermedades_medicas": [
+                    "Enfermedad 1"
+                ],
+                "createdAt": "2022-10-17T19:13:29.453Z",
+                "updatedAt": "2022-10-17T19:13:29.453Z",
+                "__v": 0
+            },
+            "total": 0,
+            "semana": 9
+        },
+        {
+            "paciente": {
+                "_id": "634f0989f43ee52aa1ce2236",
+                "rol": "Paciente",
+                "horarios": [],
+                "medicos_asignados": [
+                    "62f55bffc59fcc36f37f541f"
+                ],
+                "name": "Arturo",
+                "responsable": {
+                    "_id": "634f0989f43ee52aa1ce2237"
+                },
+                "email": "arturo@realidadcreativa.com",
+                "password": "$2b$10$A2N95LUd/3U9MQJbSqdg8.dXPkG26VRw5RTBzva5RjraLgfkaw1lS",
+                "avatar": "2dbb5b2d-94e9-48df-886c-fc46c6f053bc.png",
+                "telefono": 1234567890,
+                "cedula": "",
+                "numinterior": "4",
+                "numexterior": "234",
+                "calle": "San Juan",
+                "colonia": "Encinos",
+                "municipio": "Maravatio",
+                "estado": "Michoacan",
+                "codigopostal": 56000,
+                "estatus": 1,
+                "certificacion": "",
+                "universidad": "",
+                "sexo": "H",
+                "edad": 35,
+                "diagnostico": "Sin diagnostico",
+                "peso": 68,
+                "talla": 32,
+                "ocupacion": "Comerciante",
+                "estado_civil": "Casado",
+                "escolaridad": "Primaria",
+                "ciudad": "Maravatio",
+                "lugar_de_nacimiento": "Maravatio",
+                "fuma": true,
+                "alcohol": true,
+                "drogas": "Antes",
+                "cuales_drogas": "Cocaina",
+                "tratamiento_actual": [
+                    "insulina",
+                    "Oeprasol",
+                    "Levonogestrel"
+                ],
+                "enfermedades_familiares": [
+                    "Diabetes",
+                    "Hipertension",
+                    "Colesterol alto"
+                ],
+                "enfermedades_medicas": [
+                    "Gastritis",
+                    "Colitis"
+                ],
+                "createdAt": "2022-10-18T20:16:09.700Z",
+                "updatedAt": "2022-10-18T20:18:35.463Z",
+                "__v": 0
+            },
+            "total": 1,
+            "semana": 9
+        },
+        {
+            "paciente": {
+                "_id": "636bdd659a3c0025d9f5c51d",
+                "rol": "Paciente",
+                "horarios": [],
+                "medicos_asignados": [
+                    "62f55bffc59fcc36f37f541f"
+                ],
+                "name": "Azalia Cortés",
+                "responsable": {
+                    "_id": "636bdd659a3c0025d9f5c51e"
+                },
+                "email": "azalia@realidadcreativa.com",
+                "password": "$2b$10$Q6wORmMw6wcGr/Z.3RwKwuvP0Pwr1p17A3RQBu0EynIlpJ0vUsRqq",
+                "avatar": "f78d434f-94e8-4b12-bed1-905ec660ff05.webp",
+                "telefono": 1111111110,
+                "cedula": "",
+                "municipio": "Maravatio",
+                "estado": "Michoacan",
+                "codigopostal": 58900,
+                "estatus": 1,
+                "certificacion": "",
+                "universidad": "",
+                "sexo": "M",
+                "edad": 23,
+                "diagnostico": "Sin diagnostico",
+                "peso": 60,
+                "talla": 32,
+                "ocupacion": "Comerciante",
+                "estado_civil": "Casada",
+                "escolaridad": "Doctorado",
+                "ciudad": "Maravatio",
+                "lugar_de_nacimiento": "Maravatio",
+                "drogas": "Nunca",
+                "tratamiento_actual": [],
+                "enfermedades_familiares": [],
+                "enfermedades_medicas": [],
+                "createdAt": "2022-11-09T17:03:33.870Z",
+                "updatedAt": "2022-11-09T17:03:33.870Z",
+                "__v": 0
+            },
+            "total": 0,
+            "semana": 9
+        },
+        {
+            "paciente": {
+                "_id": "636bde279a3c0025d9f5c53e",
+                "rol": "Paciente",
+                "horarios": [],
+                "medicos_asignados": [
+                    "62f55bffc59fcc36f37f541f"
+                ],
+                "name": "Romina Cortés",
+                "responsable": {
+                    "nombre": "Jorge Suarez",
+                    "telefono": 1111111110,
+                    "_id": "636bde279a3c0025d9f5c53f"
+                },
+                "email": "romina@realidadcreativa.com",
+                "password": "$2b$10$BK1gmzEFE1kaamhHULONuuKvOPsRso6CzR225YvFDE73bsRoVTS8q",
+                "avatar": "9804d5f3-de22-4cf0-ad32-b94e4a9f26f1.webp",
+                "telefono": 1111111111,
+                "cedula": "",
+                "numinterior": "2",
+                "numexterior": "231",
+                "calle": "San Juan",
+                "colonia": "Prados Verdes",
+                "municipio": "Chilppancingo",
+                "estado": "Guerrero",
+                "codigopostal": 35000,
+                "estatus": 1,
+                "certificacion": "",
+                "universidad": "",
+                "sexo": "H",
+                "edad": 42,
+                "diagnostico": "Sin diagnostico",
+                "peso": 70,
+                "talla": 29,
+                "ocupacion": "Comerciante",
+                "estado_civil": "Casado",
+                "escolaridad": "Primaria",
+                "ciudad": "Chilpancingo",
+                "lugar_de_nacimiento": "Chilpancingo",
+                "fuma": true,
+                "alcohol": true,
+                "drogas": "Antes",
+                "cuales_drogas": "Cristal",
+                "tratamiento_actual": [
+                    "insulina",
+                    "Omeprasol"
+                ],
+                "enfermedades_familiares": [
+                    "Diabetes",
+                    "Colesterol alto"
+                ],
+                "enfermedades_medicas": [
+                    "Gastritis",
+                    "Esofagitis"
+                ],
+                "createdAt": "2022-11-09T17:06:47.524Z",
+                "updatedAt": "2022-11-09T17:06:47.524Z",
+                "__v": 0
+            },
+            "total": 0,
+            "semana": 9
+        }
+    ]
+]

@@ -36,8 +36,8 @@ export default function DolorCreateLink() {
 
     const generateLink = () => {
         let usr = usuario.rol === 'Administrador' ? medico : usuario._id;
-        // let l = `https://sistema.recreamed.com/dolor_public/${usr}/${selectedPatient}/${Date.now()}`
-        let l = `http://localhost:3000/dolor_public/${usr}/${selectedPatient}/${Date.now()}`
+        let l = `https://sistema.recreamed.com/dolor_public/${usr}/${selectedPatient}/${Date.now()}`
+        // let l = `http://localhost:3000/dolor_public/${usr}/${selectedPatient}/${Date.now()}`
         setLink(l)
     }
     const copyLink = () => {

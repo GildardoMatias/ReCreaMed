@@ -63,7 +63,7 @@ export default function DetallesPaciente(props) {
                         <Row><Col span={10}>Diagnostico:</Col><Col span={10}>{pacienteData.peso}</Col> </Row>
                         <Row><Col span={10}>Enfermedades familiares:</Col><Col span={10}>{pacienteData.enfermedades_familiares.map((e) => <p>{e}</p>)}</Col> </Row>
                         <Row><Col span={10}>Enfermedades Medicas:</Col><Col span={10}>{pacienteData.enfermedades_medicas.map((e) => <p>{e}</p>)}</Col> </Row>
-                        <Row><Col span={10}>Tratamiento Actual:</Col><Col span={10}>{pacienteData.tratamiento_actual.map((t) => <p>{toString}</p>)}</Col> </Row>
+                        <Row><Col span={10}>Tratamiento Actual:</Col><Col span={10}>{pacienteData.tratamiento_actual.map((t) => <p>{t}</p>)}</Col> </Row>
                     </Col>
                 </Row>
             </Card>

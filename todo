@@ -1,5 +1,6 @@
 PRIORITY
-Ajustar los datos del paciente
+On register patient, get id and insert into admin's medicos_asignados
+on superadmin, create a view to add admins and assing medics
 
 fecha encuesta
 filstrar encuestas

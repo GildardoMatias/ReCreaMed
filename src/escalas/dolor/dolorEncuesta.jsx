@@ -73,9 +73,10 @@ export default function DolorEncuesta(props) {
             <h5>Paciente: {pacienteData.name}</h5>
             <br />
             <Form
+                layout='vertical'
                 name="basic"
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
+                // labelCol={{ span: 24 }}
+                // wrapperCol={{ span: 24 }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
