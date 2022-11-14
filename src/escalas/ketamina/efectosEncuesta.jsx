@@ -71,7 +71,7 @@ export default function EfectosEncuesta(props) {
 
   return (
     <div className='mainContainer'>
-      <h4>Lista de verificación para Efectos Secundarios  </h4>
+      <h4>Lista de verificación para Efectos Secundarios de Ketamina</h4>
       <br />
       <h5>Medico: {medicoData.name}</h5>
       <h5>Paciente: {pacienteData.name}</h5>

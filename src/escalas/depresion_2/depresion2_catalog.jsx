@@ -1,4 +1,4 @@
-const depresion2_catalog = [
+export const depresion2_catalog = [
     {
         "n": 1,
         "pregunta": ". Humor deprimido (tristeza, depresión, desamparo, inutilidad)",
@@ -136,7 +136,7 @@ const depresion2_catalog = [
     },
     {
         "n": 16, "pregunta": "16. Pérdida de peso, según manifestaciones del paciente (primera evaluación)",
-        "respuestas": [
+        respuestas: [
             "0. No hay pérdida de peso",
             "1. Probable pérdida de peso asociada con la enfermedad actual",
             "2. Pérdida de peso definida(según el enfermo)",
@@ -160,3 +160,155 @@ const depresion2_catalog = [
     },
 
 ]
+
+export const catalog2 = [
+    {
+        n: 1, pregunta: "1. Tristeza observada",
+        descripcion: "Representa el abatimiento, la melancolía y la desesperación (algo más que una simple tristeza normal y pasajera) que se refleja en la manera de hablar, la expresión facial y la postura. Evalúe el grado de incapacidad para animarse.",
+        respuestas: [
+            "0. Sin tristeza",
+            "1.",
+            "2. Parece decaído/a pero se anima sin dificultad",
+            "3.",
+            "4. Parece triste y desgraciado/a la mayor parte del tiempo",
+            "5.",
+            "6. Parece siempre desgraciado/a. Extremadamente abatido/a",
+        ]
+    },
+    {
+        n: 2, pregunta: "2. Tristeza declarada por el paciente",
+        descripcion: "Representa un estado de ánimo depresivoque se siente, sin tener en cuenta si se refleja en la apariencia o no.Incluye tristeza,abatimiento o el sentimiento de que no hayesperanza y nada ni nadie puede ayudarle.Evalúe de acuerdo con la intensidad, la duración y la medida en que el estado de ánimo se ve influido por los acontecimientos.",
+        respuestas: [
+            "0. Tristeza esporádica según las circunstancias",
+            "1.",
+            "2. Triste o decaído / a, pero se anima sin dificultad",
+            "3.",
+            "4. Sentimientos generalizados de tristeza o melancolía.El estado",
+            "de ánimo todavía se ve influido por circunstancias externas",
+            "5.",
+            "6. Abatimiento, desdicha o tristeza continuada o invariable",
+        ]
+    },
+    {
+        n: 3, pregunta: "3. Tensión interna",
+        descripcion: "Representa sentimientos de malestar mal definido, irritabilidad, confusión interna y tensión mental hasta llegar al pánico, terror o angustia.Evalúe de acuerdo con la intensidad, frecuencia, duración y la medida en que se busca consuelo.",
+        respuestas: [
+            "0. Apacible.Sólo tensión interna pasajera",
+            "1.",
+            "2. Sentimientos ocasionales de nerviosismo y malestar indefinido",
+            "3.",
+            "4. Sentimientos continuados de tensión interna o pánico intermitente que el sujeto sólo puede dominar con alguna dificultad",
+            "5.",
+            "6. Terror o angustia tenaz.Pánico irresistible",
+        ]
+    },
+    {
+        n: 4,
+        pregunta: "4. Sueño reducido", descripcion: "Representa la reducción de la duración o profundidad del sueño comparada con las pautas normales del sujeto cuando se encuentra bien.",
+        respuestas: [
+            "0. Duerme como siempre",
+            "1.",
+            "2. Ligera dificultad para dormirse o sueño ligeramente reducido, sueño ligero o perturbado",
+            "3.",
+            "4. Sueño reducido o interrumpido durante al menos 2 h",
+            "5.",
+            "6. Menos de 2 o 3 h de sueño",
+        ]
+    },
+    {
+        n: 5,
+        pregunta: "5. Apetito reducido", descripcion: "Representa la sensación de pérdida de apetito comparada con el que tiene cuando se encuentra bien.Evalúe según la pérdida del deseo por la comida o la necesidad de forzarse a sí mismo/a para comer.",
+        respuestas: [
+            "0. Apetito normal o aumentado",
+            "1.",
+            "2. Apetito ligeramente reducido",
+            "3.",
+            "4. Sin apetito.La comida es insípida",
+            "5.",
+            "6. Necesita persuasión para comer algo ",
+        ]
+    },
+    {
+        n: 9,
+        pregunta: "6. Dificultades para concentrarse",
+        descripcion: "Representa las dificultades para centrar los pensamientos en algo hasta llegar a la falta de concentración incapacitante.Evalúe según la intensidad, frecuencia y grado de incapacidad resultante.",
+        respuestas: [
+            "0. Ninguna dificultad para concentrarse",
+            "1.",
+            "2. Dificultades ocasionales para centrar los pensamientos",
+            "3.",
+            "4. Dificultades para concentrarse y seguir una idea que reduce la",
+            "capacidad de leer o mantener una conversación",
+            "5.",
+            "6. Incapaz de leer o mantener una conversación si no es con gran dificultad",
+        ]
+    },
+    {
+        n: 7, pregunta: "7. Lasitud", descripcion: "Representa la dificultad para empezar algo o la lentitud para iniciar y realizar las actividades diarias.",
+        respuestas: [
+            "0. Casi sin dificultad para empezar algo.Sin apatía",
+            "1.",
+            "2. Dificultades para empezar actividades",
+            "3.",
+            "4. Dificultades para empezar actividades rutinarias sencillas que",
+            "se llevan a cabo con esfuerzo",
+            "5.",
+            "6. Lasitud total.Incapaz de hacer nada sin ayuda",
+        ]
+    },
+    {
+        n: 8, pregunta: "8. Incapacidad para sentir", descripcion: "Representa la experiencia subjetiva de un menor interés por el entorno o por actividades que habitualmente dan placer.La capacidad para reaccionar con la emoción adecuada a las circunstancias o personas se ve reducida.",
+        respuestas: [
+            "0. Interés normal por el entorno y por otras personas",
+            "1.",
+            "2. Menor capacidad para disfrutar de las cosas que normalmente le interesan",
+            "3.",
+            "4. Pérdida de interés por el entorno.Pérdida de sentimientos",
+            "respecto a los amigos y conocidos",
+            "5.",
+            "6. La experiencia de estar emocionalmente paralizado, incapacidad para sentir enfado, pena o placer y una total o incluso dolorosa falta de sentimientos hacia los parientes próximos y amigos",
+        ]
+    },
+    {
+        n: 9, pregunta: "9. Pensamientos pesimistas", descripcion: "Representa los pensamientos de culpabilidad, inferioridad, autorreproche, pecado, remordimiento y ruina.",
+        respuestas: [
+            "0. Sin pensamientos pesimistas",
+            "1.",
+            "2. Ideas variables de fracaso, autorreproche o autodesprecio",
+            "3.",
+            "4. Autoacusaciones persistentes o ideas definidas, pero aún",
+            "racionales, de culpabilidad o pecado.Cada vez más pesimista",
+            "respecto al futuro",
+            "5.",
+            "6. Alucinaciones de ruina, remordimiento o pecado irredimible. Autoacusaciones que son absurdas e inquebrantables",
+        ]
+    },
+    {
+        n: 10, pregunta: "10. Pensamientos suicidas", descripcion: "Representa el sentimiento de que no vale la pena vivir, que desearía que le llegara una muerte natural, pensamientos suicidas y preparativos para el suicidio.Los intentos de suicidio en sí no deberían influir en la evaluación.",
+        respuestas: [
+            "0. Disfruta de la vida o la acepta tal como viene",
+            "1.",
+            "2. Cansado de vivir.Sólo pensamientos suicidas pasajeros",
+            "3.",
+            "4. Probablemente estaría mejor muerto / a.Los pensamientos",
+            "suicidas son habituales, y se considera el suicidio como una posible solución, pero sin ninguna intención o plan específico",
+            "5.",
+            "6. Planes explícitos de suicidio cuando se presente una oportunidad.Preparativos activos para el suicidio",
+        ]
+    }
+]
+
+export const catalog3 = [
+    "Tener poco interés o disfrutar poco haciendo las cosas",
+    "Sentirse desanimado/a, deprimido/a o sin esperanza",
+    "Tener problemas para dormir o para mantenerse dormido, o dormir demasiado",
+    "Sentirse cansado/a o tener poca energía",
+    "Tener poco apetito o comer en exceso",
+    "Sentirse mal consigo mismo/a-o sentirse fracasado/a, o pensar que se ha decepcionado a sí mismo o a los que le rodean",
+    "Tener dificultades para concentrarse en cosas tales como leer el periódico o ver la televisión",
+    "Moverse o hablar tan lentamente que los demás lo han notado. O bien al contrario, estar tan agitado/a o inquieto/a que se mueve mucho más de lo habitual",
+    "Tener pensamientos sobre estar muerto/a o sobre hacerse daño a sí mismo de alguna manera",
+   
+]
+
+export const preg10 = "Si usted se identificó con cualquier problema en este cuestionario, ¿le ha sido difícil cumplir con su trabajo, atender su casa, o relacionarse con otras personas debido a estos problemas?"

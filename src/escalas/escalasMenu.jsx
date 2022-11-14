@@ -7,6 +7,8 @@ import EfectosCreateLink from './ketamina/efectosCreateLink';
 import DolorEncuesta from './dolor/dolorEncuesta';
 import DolorCreateLink from './dolor/dolorCreateLink';
 import DolorResults from './dolor/dolorResults';
+import Depresion2Encuesta from './depresion_2/depresion2_encuesta';
+import PostTraumaticoEncuesta from './post_traumatico/post_traumatico_encuesta';
 const { TabPane } = Tabs;
 
 const onChange = (key) => {
@@ -28,6 +30,12 @@ export default function Escalas() {
                 </TabPane>
                 <TabPane tab="Resultados Depresion" key="4">
                     <DepresionResults />
+                </TabPane>
+                <TabPane tab="Depresion 2" key="41">
+                    <Depresion2Encuesta />
+                </TabPane>
+                <TabPane tab="Estres Post Traumatico" key="42">
+                    <PostTraumaticoEncuesta />
                 </TabPane>
                 <TabPane tab="Dolor" key="5">
                     <DolorCreateLink />
