@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
-import { Space, Table, Tag, Progress } from 'antd'
+import { Space, Table, Tag, Progress, Button,Modal } from 'antd'
 import { Form, Select } from 'antd';
 import { getData, usuario, sendDataBody } from '../../resources';
 import moment from 'moment'
+import EfectosCreateLink from './efectosCreateLink';
 const { Option } = Select;
 
 export default function EfectosResults() {
@@ -12,43 +13,16 @@ export default function EfectosResults() {
   const [medicosData, setMedicosData] = useState([])
   const [countersData, setCountersData] = useState([])
   const [loadingCounters, setLoadingCounters] = useState(true)
-
-  const dummyCount = [
-    {
-      "paciente": "Jorge Suarez Torres",
-      "total": 3,
-      "semana": 9
-    },
-    {
-      "paciente": "Ignacio Lopez",
-      "total": 1,
-      "semana": 9
-    },
-    {
-      "paciente": "Paciente CIDERALT",
-      "total": 0,
-      "semana": 9
-    },
-    {
-      "paciente": "Arturo",
-      "total": 1,
-      "semana": 9
-    },
-    {
-      "paciente": "Azalia Cortés",
-      "total": 0,
-      "semana": 9
-    },
-    {
-      "paciente": "Romina Cortés",
-      "total": 0,
-      "semana": 9
-    }
-  ]
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     usuario.rol === 'Administrador' ? getDoctorsData() : getEncuestasData(usuario._id)
   }, [])
+
+  // Modal For Create Link
+  const showModal = () => { setIsModalOpen(true) };
+  const handleOk = () => { setIsModalOpen(false) };
+  const handleCancel = () => { setIsModalOpen(false) };
 
   const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
     const body = { ids: usuario.medicos_asignados }
@@ -209,6 +183,10 @@ export default function EfectosResults() {
       <br />
       <h4>Resultados de listas de verificacion para efectos secundarios</h4>
       <br />
+      <Button type="primary" onClick={showModal}>
+        Crear Link Ketamina
+      </Button>
+      <br />
 
       {
         usuario.rol === 'Administrador' && <Form.Item label="Selecciona un Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
@@ -233,6 +211,10 @@ export default function EfectosResults() {
       <h4>Detalles de encuestas</h4>
       <br />
       <Table dataSource={efectosData} columns={columns} scroll={{ x: 1300 }} bordered />
+
+      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <EfectosCreateLink/>
+      </Modal>
     </div>
   )
 }

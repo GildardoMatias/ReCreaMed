@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Form, Switch, Button, Radio, Space, Row, Col, Select, message, Divider } from 'antd'
 import { depresion_catalog, depresion_catalog2, disminucion_apetito, perdida_peso, aumento_apetito, aumento_peso } from './depresion_catalog'
 import { Card } from 'react-bootstrap'
-import { getData, sendDataBody } from '../../resources';
-import logo from "../../assets/Logo.png";
-const { Option } = Select;
+import { getData, sendDataBody } from '../../../resources';
+import logo from "../../../assets/Logo.png";
 
 export default function DepresionEncuesta(props) {
   const [pesoEnabled, setPesoEnabled] = useState(false)

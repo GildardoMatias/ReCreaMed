@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Table } from 'antd'
 import { Form, Select } from 'antd';
-import { getData, usuario, sendDataBody } from '../../resources';
+import { getData, usuario, sendDataBody } from '../../../resources';
 const { Option } = Select;
 
-export default function DepresionResults() {
+export default function Depresion2Results() {
     const [encuestasData, setEncuestasData] = useState([])
     const [medicosData, setMedicosData] = useState([])
     const [medico, setMedico] = useState(null)

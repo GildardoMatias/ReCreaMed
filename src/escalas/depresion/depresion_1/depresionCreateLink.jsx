@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { getData, sendDataBody } from '../../resources';
 import { Form, Button, Space, Select, message } from 'antd'
-import { usuario } from '../../resources';
+import { usuario, getData, sendDataBody } from '../../../resources';
 import QRCode from "react-qr-code";
 import { toBlob, toPng } from 'html-to-image';
 const { Option } = Select;

@@ -122,18 +122,15 @@ export default function EfectosCreateLink() {
             {
                 selectedPatient && link ? <div>
                     <Space align='center'>
-                        <p style={{ paddingTop: 16, color: '#1890ff' }} >{link}</p>
-                        <Button onClick={copyLink}>Copiar Link</Button>
                     </Space>
+                    <p style={{ paddingTop: 16, color: '#1890ff' }} >{link}</p>
+                    <Button onClick={copyLink}>Copiar Link</Button>
                     <br />
                     <div ref={imageRef} style={{ background: 'white', padding: '16px' }}> <QRCode value={link} /> </div>
                     <Button onClick={handleDownload}>Descargar Codigo</Button>
                     <Button onClick={handleCopy} style={{ marginLeft: 12 }}>Copiar Codigo</Button>
                 </div> : <></>
             }
-
-
-            <div style={{ height: 350 }}></div>
 
         </div >
     )

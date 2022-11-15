@@ -129,6 +129,13 @@ export default function DetalleNota(props) {
                                 <Card title='Diagnostico'>
                                     {nota.diagnostico}
                                 </Card>
+                                
+                                <Card title='Entradas'>
+                                    
+                                </Card>
+                                <Card title='Tratamiento'>
+                                    
+                                </Card>
 
                                 <Card title='Estudios'>
                                     {nota.estudios.map((e) => {
