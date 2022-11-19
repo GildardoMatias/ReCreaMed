@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { getData, sendDataBody } from '../../resources';
+import { getData, sendDataBody } from '../resources';
 import { Form, Button, Space, Select, message } from 'antd'
-import { usuario } from '../../resources';
+import { usuario } from '../resources';
 import QRCode from "react-qr-code";
 import { toBlob, toPng } from 'html-to-image';
 const { Option } = Select;
 
 
-export default function EfectosCreateLink() {
+export default function EscalasCreateGeneralLink(props) {
 
     const [misPacientes, setMisPacientes] = useState([])
     const [selectedPatient, setSelectedPatient] = useState(null)
@@ -37,8 +37,8 @@ export default function EfectosCreateLink() {
 
     const generateLink = () => {
         let usr = usuario.rol === 'Administrador' ? medico : usuario._id;
-        let l = `https://sistema.recreamed.com/ketamina_public/${usr}/${selectedPatient}/${Date.now()}`
-        // let l = `http://localhost:3000/ketamina_public/${usr}/${selectedPatient}/${Date.now()}`
+        // let l = `https://sistema.recreamed.com/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}`
+        let l = `http://localhost:3000/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}`
         setLink(l)
     }
     const copyLink = () => {
@@ -78,8 +78,6 @@ export default function EfectosCreateLink() {
 
     return (
         <div>
-            <h5>Generar enlace para encuesta de Ketamina</h5>
-            <br />
             <Space >
                 {
                     usuario.rol === 'Administrador' &&

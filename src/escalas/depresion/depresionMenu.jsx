@@ -11,7 +11,7 @@ export default function DepresionMenu() {
   return (
     <div>
       <h4>DepresionMenu</h4>
-      <Tabs items={items} />
+      <Tabs items={items} type="card"/>
     </div>
   )
 }

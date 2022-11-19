@@ -11,6 +11,7 @@ export const post_catalog = [
     "7.He estado evitando hacer cosas o estar en situaciones que me recordaran el acontecimiento. ",
     "8.He sido incapaz de recordar partes importantes del acontecimiento. ",
     "9.He tenido dificultad para disfrutar de las cosas. 10.Me  he sentido distante o alejado de la gente. ",
+    "10.Me  he sentido distante o alejado de la gente.",
     "11.He sido incapaz de tener sentimientos de tristeza o de afecto.",
     "12.He tenido dificultad para imaginar una vida larga y cumplir mis objetivos.",
     "13.He tenido dificultad para iniciar o mantener el sueño.",

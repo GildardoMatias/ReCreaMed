@@ -1,6 +1,6 @@
 import React from 'react'
-import EfectosResults from './efectosResults';
+import KetaminaResults from './ketaminaResults';
 
 export default function KetaminaMenu() {
-  return (<EfectosResults />)
+  return (<KetaminaResults />)
 }

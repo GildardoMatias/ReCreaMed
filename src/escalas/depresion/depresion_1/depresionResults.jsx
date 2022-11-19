@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { Table } from 'antd'
+import { Table, Button, Modal } from 'antd'
 import { Form, Select } from 'antd';
 import { getData, usuario, sendDataBody } from '../../../resources';
+import EscalasCreateGeneralLink from '../../escalasCreateGeneralLink';
 const { Option } = Select;
 
 export default function DepresionResults() {
     const [encuestasData, setEncuestasData] = useState([])
     const [medicosData, setMedicosData] = useState([])
     const [medico, setMedico] = useState(null)
+    // For Modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => { setIsModalOpen(true) };
+    const handleOk = () => { setIsModalOpen(false) };
+    const handleCancel = () => { setIsModalOpen(false) };
+
     useEffect(() => {
         usuario.rol === 'Administrador' ? getDoctorsData() : getEncuestasData(usuario._id)
     }, [])
@@ -62,7 +69,11 @@ export default function DepresionResults() {
 
     return (
         <div className='mainContainer'>
-            <h4>Resultados de encuestas de sintomatologia depresiva</h4>
+            <h5>Resultados de encuestas de sintomatologia depresiva QUIDS (QUICK INVENTORY OF DEPRESSIVE SYMPTOMATOLOGY)</h5>
+            <br />
+            <Button type="primary" onClick={showModal}>
+                Crear Link Depresion 1
+            </Button>
             <br />
             {
                 usuario.rol === 'Administrador' && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
@@ -86,6 +97,10 @@ export default function DepresionResults() {
             <h4>Detalles de encuestas</h4>
             <br />
             <Table dataSource={encuestasData} columns={columns} bordered />
+
+            <Modal title="Crear encuesta de Depresion QUIDS" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <EscalasCreateGeneralLink tipo='depresion_quids' />
+            </Modal>
         </div>
     )
 }

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { catalogo_efectos, desrealizacion, despersonalizacion, amnesia } from './efects_catalog'
+import { catalogo_efectos, desrealizacion, despersonalizacion, amnesia } from './ketamina_catalog'
 import { Form, Switch, Button, Radio, Space, Slider, Select, message } from 'antd'
 import { getData, sendDataBody } from '../../resources';
 import logo from "../../assets/Logo.png";
 const { Option } = Select;
 
-export default function EfectosEncuesta(props) {
+export default function KetaminaEncuesta(props) {
   // For check if the encuesta existts on db
   const [encuestaNotExists, setEncuestaNotExists] = useState(null)
   const [checking, setChecking] = useState(true)

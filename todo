@@ -2,20 +2,14 @@ PRIORITY
 On register patient, get id and insert into admin's medicos_asignados
 on superadmin, create a view to add admins and assing medics
 
-fecha encuesta
 filstrar encuestas
 ordenar
 
 Cita on click daycalendario por semana
 
-
 notas entradas : tratamientos seran varios divididos
 
 catalogo tratamiento, abajo de diagnosico
-
-notas no modal add fields
-
-notas order reverse
 
 reference patients
 
@@ -30,7 +24,6 @@ catalogs on su8peradmin
 balance con nota
 
 Balance del dia y mes
-
 
 
 On patient Generar Concentimmiento con link y el paciente debe aceptar
@@ -49,3 +42,7 @@ When generate link on reception, relate to reception or medic ?
 We need a medicos_gestionados array into reception profile
 we need a post endpoint that receives an array of medics and response all patients of them 
 after that, do we show medicos asignados ?
+
+-notas no modal add fields @done
+-notas order reverse @done
+-fecha encuesta @done

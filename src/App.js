@@ -12,6 +12,7 @@ import SuperAdminApp from "./superAdminViews/superAdminApp";
 import KetaminaPublic from "./session/ketaminaPublic";
 import DepresionPublic from "./session/depresionPublic";
 import HeadachePublic from "./session/dolorPublic";
+import PostTraumaticoPublic from "./session/postTraumaticoPublic";
 
 const userType = localStorage.getItem('userType');
 
@@ -21,6 +22,7 @@ export function App() {
 
   const token = localStorage.getItem('sessionToken');
 
+  // Public Routes
   if (!token) {
     console.log("tok:", localStorage.getItem('sessionToken'));
     return <Router>
@@ -34,6 +36,10 @@ export function App() {
         <Route path="/dolor_public/:idmedico/:idpaciente/:key">
           <HeadachePublic />
         </Route>
+        <Route path="/post_traumatico_public/:idmedico/:idpaciente/:key">
+          <PostTraumaticoPublic />
+        </Route>
+
         <Route path="/register">
           <Register />
         </Route>

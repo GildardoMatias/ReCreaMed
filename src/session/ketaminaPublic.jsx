@@ -1,5 +1,5 @@
 import React from 'react'
-import EfectosEncuesta from '../escalas/ketamina/efectosEncuesta'
+import KetaminaEncuesta from '../escalas/ketamina/ketaminaEncuesta'
 
 import {
     useParams
@@ -10,7 +10,7 @@ export default function KetaminaPublic() {
     console.log(key)
     return (
         <div>
-            <EfectosEncuesta idmedico={idmedico} idpaciente={idpaciente} token={key} />
+            <KetaminaEncuesta idmedico={idmedico} idpaciente={idpaciente} token={key} />
         </div>
     )
 }

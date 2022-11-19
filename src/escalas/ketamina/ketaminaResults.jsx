@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
-import { Space, Table, Tag, Progress, Button,Modal } from 'antd'
+import { Space, Table, Tag, Progress, Button, Modal } from 'antd'
 import { Form, Select } from 'antd';
 import { getData, usuario, sendDataBody } from '../../resources';
-import moment from 'moment'
-import EfectosCreateLink from './efectosCreateLink';
+import KetaminaCreateLink from './ketaminaCreateLink';
 const { Option } = Select;
 
-export default function EfectosResults() {
+export default function KetaminaResults() {
 
   const [efectosData, setEfectosData] = useState(null);
   const [medicosData, setMedicosData] = useState([])
@@ -42,20 +41,12 @@ export default function EfectosResults() {
     const results = []
     getData(`mispacientes/${medico}`).then(rs => {
       rs.forEach(pac => {
-
-        // var isThisWeek = (now.isoWeek() == input.isoWeek())
-
-        const aprs = allEncuestas.filter(enc => enc.usuario._id === pac._id).length
-        const week = allEncuestas.filter(enc => {
-          var now = moment();
-          var input = moment(enc.createdAt);
-          return enc.usuario._id === pac._id && now.isoWeek() == input.isoWeek()
-        }).length
-        console.log(`Paciente ${pac.name} appears:`, aprs);
+        const aprs = allEncuestas.filter(enc => enc.usuario._id === pac._id)
+        const latest = aprs.at(-1)
         results.push({
           'paciente': pac.name,
-          'total': aprs,
-          'semana': week
+          'total': aprs.length,
+          'semana': latest?.createdAt.substring(0, 10)
         })
       });
       console.log(results)
@@ -67,14 +58,9 @@ export default function EfectosResults() {
       title: 'Paciente',
       key: 'paciente',
       dataIndex: 'paciente',
-      // render: (_, { usuario: paciente }) => (
-      //   <>
-      //     {paciente.name}
-      //   </>
-      // ),
     },
     {
-      title: 'Encuestas esta semana',
+      title: 'Fecha ultima encuesta',
       key: 'semana',
       dataIndex: 'semana',
     },
@@ -213,7 +199,7 @@ export default function EfectosResults() {
       <Table dataSource={efectosData} columns={columns} scroll={{ x: 1300 }} bordered />
 
       <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <EfectosCreateLink/>
+        <KetaminaCreateLink />
       </Modal>
     </div>
   )

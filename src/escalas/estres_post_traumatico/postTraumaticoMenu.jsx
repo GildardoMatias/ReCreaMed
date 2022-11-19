@@ -12,7 +12,7 @@ export default function PostTraumaticoMenu() {
   ]
   return (
     <div>
-      <Tabs items={items} />
+      <Tabs items={items} type="card"/>
     </div>
   )
 }
