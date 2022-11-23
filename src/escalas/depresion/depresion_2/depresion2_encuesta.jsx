@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Switch, Button, Radio, Space, Row, Col, Select, message, Divider } from 'antd'
 import { Card } from 'react-bootstrap'
-import { getData, sendDataBody } from '../../resources';
-import logo from "../../assets/Logo.png";
+import { getData, sendDataBody } from '../../../resources';
+import logo from "../../../assets/Logo.png";
 import { depresion2_catalog, catalog2 } from './depresion2_catalog'
 const { Option } = Select;
 

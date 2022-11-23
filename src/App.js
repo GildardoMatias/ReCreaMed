@@ -12,7 +12,7 @@ import SuperAdminApp from "./superAdminViews/superAdminApp";
 import KetaminaPublic from "./session/ketaminaPublic";
 import DepresionPublic from "./session/depresionPublic";
 import HeadachePublic from "./session/dolorPublic";
-import PostTraumaticoPublic from "./session/postTraumaticoPublic";
+import { DepresionQidsPublic, DepresionEspanolPublic, PostTraumaticoPublic, PostTraumaticoClinicoPublic } from './session/public_escalas_routes';
 
 const userType = localStorage.getItem('userType');
 
@@ -36,8 +36,20 @@ export function App() {
         <Route path="/dolor_public/:idmedico/:idpaciente/:key">
           <HeadachePublic />
         </Route>
+        <Route path="/depresion_qids_public/:idmedico/:idpaciente/:key">
+          <DepresionQidsPublic />
+        </Route>
+        <Route path="/depresion_gpc_public/:idmedico/:idpaciente/:key">
+          <DepresionEspanolPublic />
+        </Route>
         <Route path="/post_traumatico_public/:idmedico/:idpaciente/:key">
           <PostTraumaticoPublic />
+        </Route>
+        <Route path="/post_traumatico_clinico_public/:idmedico/:idpaciente/:key">
+          <PostTraumaticoClinicoPublic />
+        </Route>
+        <Route path="/post_traumatico_mx/:idmedico/:idpaciente/:key">
+          <PostTraumaticoClinicoPublic />
         </Route>
 
         <Route path="/register">

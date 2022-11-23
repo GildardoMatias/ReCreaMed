@@ -6,6 +6,8 @@ import { getData, sendDataBody } from '../../../resources';
 import logo from "../../../assets/Logo.png";
 
 export default function DepresionEncuesta(props) {
+
+
   const [pesoEnabled, setPesoEnabled] = useState(false)
   const [apetitoEnabled, setApetitoEnabled] = useState(false)
   // For check if the encuesta existts on db
@@ -98,7 +100,7 @@ export default function DepresionEncuesta(props) {
 
   return (
     <div className='mainContainer'>
-      <h4>Sintomatologia de Depresion</h4>
+      <h4>Sintomatologia depresiva QUIDS (QUICK INVENTORY OF DEPRESSIVE SYMPTOMATOLOGY)</h4>
       <br />
       <h5>Medico: {medicoData.name}</h5>
       <h5>Paciente: {pacienteData.name}</h5>

@@ -94,25 +94,6 @@ export default function PostTraumaticoEncuesta(props) {
                 autoComplete="off"
             >
 
-                {/* {
-                    post_catalog.map((p, i) => {
-                        return <Form.Item
-                            label={p}
-                            name={i}
-                            rules={[{ required: true, message: `Selecciona una opcion` }]}
-                        >
-                            <Radio.Group>
-                                <Space direction="vertical">
-                                    <Radio value={0}> Nunca </Radio>
-                                    <Radio value={1}> A veces </Radio>
-                                    <Radio value={2}> 2-3 veces </Radio>
-                                    <Radio value={3}> Nunca </Radio>
-                                    <Radio value={4}> Nunca </Radio>
-                                </Space>
-                            </Radio.Group>
-                        </Form.Item>
-                    })
-                } */}
 
                 {
                     post_catalog.map((p, i) => {
@@ -125,15 +106,20 @@ export default function PostTraumaticoEncuesta(props) {
                                     rules={[{ required: true, message: 'Selecciona Frecuencia' },
                                     ]}
                                 >
-                                    <Radio.Group>
-                                        <Space direction="vertical">
-                                            <Radio value={0}> Nunca </Radio>
-                                            <Radio value={1}> A Veces </Radio>
-                                            <Radio value={2}> 2-3 Veces </Radio>
-                                            <Radio value={3}> 4-6 Veces </Radio>
-                                            <Radio value={4}> A diario </Radio>
-                                        </Space>
-                                    </Radio.Group>
+                                    <Space direction="vertical">
+                                        <Card style={{ padding: 6 }}>
+                                            <p style={{color: "#5fa1c4"}}>Frecuencia: </p>
+                                            <Radio.Group>
+                                                <Space direction="vertical">
+                                                    <Radio value={0}> Nunca </Radio>
+                                                    <Radio value={1}> A Veces </Radio>
+                                                    <Radio value={2}> 2-3 Veces </Radio>
+                                                    <Radio value={3}> 4-6 Veces </Radio>
+                                                    <Radio value={4}> A diario </Radio>
+                                                </Space>
+                                            </Radio.Group>
+                                        </Card>
+                                    </Space>
                                 </Form.Item>
                                 <Form.Item
                                     label='Gravedad'
@@ -141,15 +127,20 @@ export default function PostTraumaticoEncuesta(props) {
                                     noStyle
                                     rules={[{ required: true, message: 'Selecciona Gravedad' }]}
                                 >
-                                    <Radio.Group>
-                                        <Space direction="vertical">
-                                            <Radio value={0}> Nada </Radio>
-                                            <Radio value={1}> Leve </Radio>
-                                            <Radio value={2}> Moderada </Radio>
-                                            <Radio value={3}> Marcada </Radio>
-                                            <Radio value={4}> Extrema </Radio>
-                                        </Space>
-                                    </Radio.Group>
+                                    <Space direction="vertical">
+                                        <Card style={{ padding: 6 }}>
+                                            <p style={{color: "#5fa1c4"}}>Gravedad: </p>
+                                            <Radio.Group >
+                                                <Space direction="vertical">
+                                                    <Radio value={0}> Nada </Radio>
+                                                    <Radio value={1}> Leve </Radio>
+                                                    <Radio value={2}> Moderada </Radio>
+                                                    <Radio value={3}> Marcada </Radio>
+                                                    <Radio value={4}> Extrema </Radio>
+                                                </Space>
+                                            </Radio.Group>
+                                        </Card>
+                                    </Space>
                                 </Form.Item>
                             </Input.Group>
                         </Form.Item>

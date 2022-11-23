@@ -16,7 +16,7 @@ export default function PostTraumaticoResults() {
             </Button>
             <br />
 
-            <Modal title="Crear Encuesta de Ketamina" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Crear Encuesta de Estres Post Traumatico" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <EscalasCreateGeneralLink tipo='post_traumatico' />
             </Modal>
         </div>

@@ -1,0 +1,12 @@
+{
+    "tipos": {
+        "Ketamina": ["Encuesta","Save","Results"],
+        "depresion_qids": ["Si encuesta","No save","Si Results"],
+        "depresion_gpc": ["Si encuesta","No save","No results"],
+        "dolor": ["Si encuesta","Save","Results"],
+        "EPT 1 Davidson parrafo gde" : ["Si Encuesta","No save","No results"],
+        "EPT 2 Clinico Hoja Verde" : ["No encuesta","No save","No results"],
+        "EPT 3 Mexicana" : ["","No save","No results"]
+    },
+    "Must" : "Quitar public jsxs para moverlos a general pyubic routes"
+}

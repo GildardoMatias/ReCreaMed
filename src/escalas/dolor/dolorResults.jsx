@@ -8,6 +8,9 @@ export default function DolorResults() {
     const [encuestasData, setEncuestasData] = useState([])
     const [medicosData, setMedicosData] = useState([])
     const [medico, setMedico] = useState(null)
+    const [countersData, setCountersData] = useState([])
+    const [loadingCounters, setLoadingCounters] = useState(true)
+
     useEffect(() => {
         usuario.rol === 'Administrador' ? getDoctorsData() : getEncuestasData(usuario._id)
     }, [])
@@ -17,24 +20,37 @@ export default function DolorResults() {
     }
     const getEncuestasData = (medico) => {
         getData(`encuestas/dolor/medico/${medico}`).then((rs) => {
+            getCounters(rs, medico);
             console.log(rs);
             setEncuestasData(rs)
         })
     }
 
+    const getCounters = (data, medico) => {
+        const allEncuestas = [...data];
+        const results = []
+        getData(`mispacientes/${medico}`).then(rs => {
+            rs.forEach(pac => {
+                const aprs = allEncuestas.filter(enc => enc.usuario._id === pac._id)
+                const latest = aprs.at(-1)
+                results.push({
+                    'paciente': pac.name,
+                    'total': aprs.length,
+                    'semana': latest?.createdAt.substring(0, 10)
+                })
+            });
+            console.log(results)
+        }).finally(() => { setCountersData(results); setLoadingCounters(false) });
+    }
+
     const counterColumns = [
         {
-            title: 'Usuario',
-            key: 'usuario',
-            dataIndex: 'usuario',
-            render: (_, { usuario }) => (
-                <>
-                    {usuario.name}
-                </>
-            ),
+            title: 'Paciente',
+            key: 'paciente',
+            dataIndex: 'paciente',
         },
         {
-            title: 'Encuestas esta semana',
+            title: 'Fecha ultima encuesta',
             key: 'semana',
             dataIndex: 'semana',
         },
@@ -242,7 +258,7 @@ export default function DolorResults() {
                 </Form.Item>
             }
             <br />
-            <Table dataSource={encuestasData} columns={counterColumns} bordered />
+            <Table dataSource={countersData} columns={counterColumns} bordered />
             <br />
             <h4>Detalles de encuestas</h4>
             <br />

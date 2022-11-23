@@ -78,42 +78,41 @@ export default function EscalasCreateGeneralLink(props) {
 
     return (
         <div>
-            <Space >
-                {
-                    usuario.rol === 'Administrador' &&
-                    <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
-                        style={{ alignItems: 'center', paddingTop: 20 }}>
-                        <Select
-                            style={{ width: 260, }}
-                            onChange={handleDoctorChange}
-                            placeholder='Selecciona un medico'
-                        >
-                            {
-                                medicosData.map((p) => {
-                                    return <Option key={p._id} value={p._id}>{p.name}</Option>
-                                })
-                            }
-                        </Select>
-                    </Form.Item>
-                }
-
-                <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+            {
+                usuario.rol === 'Administrador' &&
+                <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
                     style={{ alignItems: 'center', paddingTop: 20 }}>
                     <Select
                         style={{ width: 260, }}
-                        onChange={handleChange}
-                        placeholder='Selecciona un paciente'
-                        value={selectedPatient}
+                        onChange={handleDoctorChange}
+                        placeholder='Selecciona un medico'
                     >
                         {
-                            misPacientes.map((p) => {
+                            medicosData.map((p) => {
                                 return <Option key={p._id} value={p._id}>{p.name}</Option>
                             })
                         }
                     </Select>
                 </Form.Item>
-                <Button onClick={generateLink} disabled={!selectedPatient} >Generar Enlace</Button>
-            </Space>
+            }
+
+            <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                style={{ alignItems: 'center', paddingTop: 20 }}>
+                <Select
+                    style={{ width: 260, }}
+                    onChange={handleChange}
+                    placeholder='Selecciona un paciente'
+                    value={selectedPatient}
+                >
+                    {
+                        misPacientes.map((p) => {
+                            return <Option key={p._id} value={p._id}>{p.name}</Option>
+                        })
+                    }
+                </Select>
+            </Form.Item>
+            <Button onClick={generateLink} disabled={!selectedPatient} >Generar Enlace</Button>
+
 
             <br />
 

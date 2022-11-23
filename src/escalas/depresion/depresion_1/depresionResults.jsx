@@ -9,6 +9,9 @@ export default function DepresionResults() {
     const [encuestasData, setEncuestasData] = useState([])
     const [medicosData, setMedicosData] = useState([])
     const [medico, setMedico] = useState(null)
+    const [countersData, setCountersData] = useState([])
+    const [loadingCounters, setLoadingCounters] = useState(true)
+
     // For Modal
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => { setIsModalOpen(true) };
@@ -24,33 +27,45 @@ export default function DepresionResults() {
     }
     const getEncuestasData = (medico) => {
         getData(`encuestas/depresion/medico/${medico}`).then((rs) => {
+            getCounters(rs, medico);
             console.log(rs);
             setEncuestasData(rs)
         })
     }
 
+    const getCounters = (data, medico) => {
+        const allEncuestas = [...data];
+        const results = []
+        getData(`mispacientes/${medico}`).then(rs => {
+            rs.forEach(pac => {
+                const aprs = allEncuestas.filter(enc => enc.usuario._id === pac._id)
+                const latest = aprs.at(-1)
+                results.push({
+                    'paciente': pac.name,
+                    'total': aprs.length,
+                    'semana': latest?.createdAt.substring(0, 10)
+                })
+            });
+            console.log(results)
+        }).finally(() => { setCountersData(results); setLoadingCounters(false) });
+    }
     const counterColumns = [
         {
-            title: 'Usuario',
-            key: 'usuario',
-            dataIndex: 'usuario',
-            render: (_, { usuario }) => (
-                <>
-                    {usuario.name}
-                </>
-            ),
+          title: 'Paciente',
+          key: 'paciente',
+          dataIndex: 'paciente',
         },
         {
-            title: 'Encuestas esta semana',
-            key: 'semana',
-            dataIndex: 'semana',
+          title: 'Fecha ultima encuesta',
+          key: 'semana',
+          dataIndex: 'semana',
         },
         {
-            title: 'Total encuestas',
-            key: 'total',
-            dataIndex: 'total'
+          title: 'Total encuestas',
+          key: 'total',
+          dataIndex: 'total'
         }
-    ];
+      ];
 
 
     const columns = [
@@ -92,14 +107,14 @@ export default function DepresionResults() {
                 </Form.Item>
             }
             <br />
-            <Table dataSource={encuestasData} columns={counterColumns} bordered />
+            <Table dataSource={countersData} columns={counterColumns} bordered />
             <br />
             <h4>Detalles de encuestas</h4>
             <br />
             <Table dataSource={encuestasData} columns={columns} bordered />
 
             <Modal title="Crear encuesta de Depresion QUIDS" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                <EscalasCreateGeneralLink tipo='depresion_quids' />
+                <EscalasCreateGeneralLink tipo='depresion_qids' />
             </Modal>
         </div>
     )
