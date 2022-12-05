@@ -3,7 +3,7 @@ import { Form, Switch, Button, Radio, Space, Row, Col, Select, message, Divider 
 import { Card } from 'react-bootstrap'
 import { getData, sendDataBody } from '../../../resources';
 import logo from "../../../assets/Logo.png";
-import { depresion2_catalog, catalog2 } from './depresion2_catalog'
+import { depresion2_catalog, catalog2, catalog3, preg10 } from './depresion2_catalog'
 const { Option } = Select;
 
 export default function Depresion2Encuesta(props) {
@@ -34,43 +34,42 @@ export default function Depresion2Encuesta(props) {
     }
 
     const onFinish = (values) => {
-        let _score = 0;
-        let high1_4 = 0;
-        let high6_9 = 0;
-        console.log('Sintomatologia:', values);
-        // El mayor de la 1 a la 4
-        for (var i = 1; i < 5; i++) {
-            if (values[i] > high1_4) high1_4 = values[i]
-        }
-        // El mayor de la 6 a la 9
-        for (var i = 6; i < 10; i++) {
-            if (values[i] > high6_9) high6_9 = values[i]
-        }
-        // console.log('6-9', high6_9)
-        // Suma de la 10 a la 14
-        for (var i = 10; i < 15; i++) {
-            _score += values[i]
-        }
-        // Suma el mayor enre 15 y 16 y sumarlo
-        values[15] > values[16] ? _score += values[15] : _score += values[16];
+        let primeros = 0, segundos = 0, terceros = 0;
+        console.log('Sintomatologia gpc:', values);
 
-        // Sumar la 5 y el resto
-        _score = _score + high1_4 + values[5] + high6_9;
+        for (let i = 1; i < 17; i++) { primeros += values[i] }
 
-        console.log('score: ', _score);
+        for (let i = 1; i < 11; i++) {
+            const pos = `2_${i}`
+            segundos += values[pos]
+        }
+        for (let i = 1; i < 10; i++) {
+            const pos = `3_${i}`
+            terceros += values[pos]
+        }
+
+
+        const respuestas = {
+            hrsd: primeros,
+            madrs: segundos,
+            phq: terceros
+        }
+
+
+        console.log('repuestas: ', respuestas);
         const body = {
             usuario: props.idpaciente,
             medico: props.idmedico,
-            score: _score,
-            tipo: 'depresion',
+            respuestas_depresion2_gpc: respuestas,
+            tipo: 'depresion_gpc',
             uuid: props.token
         }
 
         console.log('Efectos body:', body);
-        // sendDataBody('encuestas/add', body).then((rs) => {
-        //   console.log(rs)
-        //   message.success(rs.message)
-        // }).then(() => checkEncuesta())
+        sendDataBody('encuestas/add', body).then((rs) => {
+          console.log(rs)
+          message.success(rs.message)
+        }).then(() => checkEncuesta())
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -97,9 +96,10 @@ export default function Depresion2Encuesta(props) {
         </div>
     </div>
 
+    // Depreison GPC
     return (
         <div className='mainContainer'>
-            <h4>Anexo 2. Versiones validadas en español de las escalas HRSD, MADRS y PHQ-9</h4>
+            <h4>Encuesta de las versiones validadas en español de las escalas HRSD, MADRS y PHQ-9</h4>
             <br />
             <h5>Medico: {medicoData.name}</h5>
             <h5>Paciente: {pacienteData.name}</h5>
@@ -120,7 +120,8 @@ export default function Depresion2Encuesta(props) {
                 {
                     depresion2_catalog.map((p) => {
                         return <Form.Item
-                            label={p.n + '. ' + p.pregunta}
+                            key={p.n}
+                            label={p.pregunta}
                             name={p.n}
                             rules={[{ required: true, message: `Selecciona una opcion` }]}
                         >
@@ -138,8 +139,9 @@ export default function Depresion2Encuesta(props) {
                 {
                     catalog2.map((p) => {
                         return <Form.Item
-                            label={p.n + '. ' + p.pregunta}
-                            name={p.n}
+                            key={p.n}
+                            label={p.pregunta}
+                            name={'2_' + p.n}
                             rules={[{ required: true, message: `Selecciona una opcion` }]}
                         >
                             <Radio.Group>
@@ -152,15 +154,42 @@ export default function Depresion2Encuesta(props) {
                         </Form.Item>
                     })
                 }
+                <h4>Cuestionario sobre la Salud del Paciente (PHQ-9)108 ©1999 Pfizer Inc.</h4>
+                <h5>Durante  las  últimas  2  semanas,  ¿con  qué  frecuencia  le  han  molestado  cada  uno  de  los  siguientes problemas?</h5>
+                {
+                    catalog3.map((p, i) => {
+                        return <Form.Item
+                            key={i}
+                            label={p}
+                            name={'3_' + (i + 1)}
+                            rules={[{ required: true, message: `Selecciona una opcion` }]}
+                        >
+                            <Radio.Group>
+                                <Space direction="vertical">
+                                    <Radio value={0}> Nunca </Radio>
+                                    <Radio value={1}> Varios Dias </Radio>
+                                    <Radio value={2}> Más de la mitad de los días </Radio>
+                                    <Radio value={3}> Todos o casi todos los días </Radio>
+                                </Space>
+                            </Radio.Group>
+                        </Form.Item>
+                    })
+                }
 
-
-
-
-
-
-
-
-
+                <Form.Item
+                    label={preg10}
+                    name='4_1'
+                    rules={[{ required: true, message: `Selecciona una opcion` }]}
+                >
+                    <Radio.Group>
+                        <Space direction="vertical">
+                            <Radio value="0"> Nada en absoluto </Radio>
+                            <Radio value="1"> Algo difícil </Radio>
+                            <Radio value="2"> Muy difícil </Radio>
+                            <Radio value="3"> Extremadamente difícil </Radio>
+                        </Space>
+                    </Radio.Group>
+                </Form.Item>
 
                 <Form.Item
                     wrapperCol={{ offset: 8, span: 16 }}
@@ -171,6 +200,6 @@ export default function Depresion2Encuesta(props) {
                 </Form.Item>
             </Form>
 
-        </div>
+        </div >
     )
 }

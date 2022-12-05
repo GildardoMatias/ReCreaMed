@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Switch, Button, Radio, Space, Row, Col, Select, message, Input } from 'antd'
-import { Card } from 'react-bootstrap'
+import { Card } from 'antd'
 import { getData, sendDataBody } from '../../../resources';
 import logo from "../../../assets/Logo.png";
 import { post_catalog } from './p_t_catalog'
@@ -34,21 +34,30 @@ export default function PostTraumaticoEncuesta(props) {
     }
 
     const onFinish = (values) => {
-        Object.keys(values).map(k => values[k] = Object.values(values[k]))
+        // console.log('OriginalsF: ', values);
+        Object.keys(values).map(k => {
+            // values[k] = Object.values(values[k]);
+            let newArr = [];
+            Object.values(values[k]).forEach(str => {
+                newArr.push(Number(str));
+            })
+            values[k] = newArr;
+        }
+        )
         console.log('Values: ', values);
         const body = {
             usuario: props.idpaciente,
             medico: props.idmedico,
-            score: values,
+            respuestas_ept1_davidson: values,
             tipo: 'post_traumatico',
             uuid: props.token
         }
 
         console.log('Post Traum Body:', body);
-        // sendDataBody('encuestas/add', body).then((rs) => {
-        //   console.log(rs)
-        //   message.success(rs.message)
-        // }).then(() => checkEncuesta())
+        sendDataBody('encuestas/add', body).then((rs) => {
+          console.log(rs)
+          message.success(rs.message)
+        }).then(() => checkEncuesta())
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -108,7 +117,7 @@ export default function PostTraumaticoEncuesta(props) {
                                 >
                                     <Space direction="vertical">
                                         <Card style={{ padding: 6 }}>
-                                            <p style={{color: "#5fa1c4"}}>Frecuencia: </p>
+                                            <p style={{ color: "#5fa1c4" }}>Frecuencia: </p>
                                             <Radio.Group>
                                                 <Space direction="vertical">
                                                     <Radio value={0}> Nunca </Radio>
@@ -129,7 +138,7 @@ export default function PostTraumaticoEncuesta(props) {
                                 >
                                     <Space direction="vertical">
                                         <Card style={{ padding: 6 }}>
-                                            <p style={{color: "#5fa1c4"}}>Gravedad: </p>
+                                            <p style={{ color: "#5fa1c4" }}>Gravedad: </p>
                                             <Radio.Group >
                                                 <Space direction="vertical">
                                                     <Radio value={0}> Nada </Radio>

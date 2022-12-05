@@ -100,7 +100,7 @@ export default function DepresionEncuesta(props) {
 
   return (
     <div className='mainContainer'>
-      <h4>Sintomatologia depresiva QUIDS (QUICK INVENTORY OF DEPRESSIVE SYMPTOMATOLOGY)</h4>
+      <h4>Encuesta de sintomatologia depresiva QUIDS (QUICK INVENTORY OF DEPRESSIVE SYMPTOMATOLOGY)</h4>
       <br />
       <h5>Medico: {medicoData.name}</h5>
       <h5>Paciente: {pacienteData.name}</h5>

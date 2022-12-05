@@ -9,6 +9,9 @@ export default function Depresion2Results() {
     const [encuestasData, setEncuestasData] = useState([])
     const [medicosData, setMedicosData] = useState([])
     const [medico, setMedico] = useState(null)
+    const [countersData, setCountersData] = useState([])
+    const [loadingCounters, setLoadingCounters] = useState(true)
+
     // For Modal
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => { setIsModalOpen(true) };
@@ -23,25 +26,39 @@ export default function Depresion2Results() {
         sendDataBody(`users/getMany`, body).then(rs => { setMedicosData(rs); console.log('medicosData: ', rs); })
     }
     const getEncuestasData = (medico) => {
-        getData(`encuestas/depresion/medico/${medico}`).then((rs) => {
+        getData(`encuestas/byDoctorAndTipo/${medico}/depresion_gpc/`).then((rs) => {
+            getCounters(rs, medico);
             console.log(rs);
             setEncuestasData(rs)
         })
     }
 
+    const getCounters = (data, medico) => {
+        const allEncuestas = [...data];
+        const results = []
+        getData(`mispacientes/${medico}`).then(rs => {
+            console.log('MisPacientes depresiod2: ', rs);
+            rs.forEach(pac => {
+                const aprs = allEncuestas.filter(enc => enc.usuario._id === pac._id)
+                const latest = aprs.at(-1)
+                results.push({
+                    'paciente': pac.name,
+                    'total': aprs.length,
+                    'semana': latest?.createdAt.substring(0, 10)
+                })
+            });
+            console.log(results)
+        }).finally(() => { setCountersData(results); setLoadingCounters(false) });
+    }
+
     const counterColumns = [
         {
-            title: 'Usuario',
-            key: 'usuario',
-            dataIndex: 'usuario',
-            render: (_, { usuario }) => (
-                <>
-                    {usuario.name}
-                </>
-            ),
+            title: 'Paciente',
+            key: 'paciente',
+            dataIndex: 'paciente'
         },
         {
-            title: 'Encuestas esta semana',
+            title: 'Fecha ultima encuesta',
             key: 'semana',
             dataIndex: 'semana',
         },
@@ -61,9 +78,34 @@ export default function Depresion2Results() {
             render: (_, { usuario }) => <>{usuario.name}</>
         },
         {
-            title: 'Puntaje',
-            dataIndex: 'score',
-            key: 'age',
+            title: 'Puntaje HRSD',
+            dataIndex: 'respuestas_depresion2_gpc',
+            key: 'hrsd',
+            render: (_, { respuestas_depresion2_gpc }) => (
+                <>
+                    {respuestas_depresion2_gpc.hrsd}
+                </>
+            ),
+        },
+        {
+            title: 'Puntaje MADRS',
+            dataIndex: 'respuestas_depresion2_gpc',
+            key: 'madrs',
+            render: (_, { respuestas_depresion2_gpc }) => (
+                <>
+                    {respuestas_depresion2_gpc.madrs}
+                </>
+            ),
+        },
+        {
+            title: 'Puntaje PHQ',
+            dataIndex: 'respuestas_depresion2_gpc',
+            key: 'phq',
+            render: (_, { respuestas_depresion2_gpc }) => (
+                <>
+                    {respuestas_depresion2_gpc.phq}
+                </>
+            ),
         }
     ];
 
@@ -92,7 +134,7 @@ export default function Depresion2Results() {
                 </Form.Item>
             }
             <br />
-            <Table dataSource={encuestasData} columns={counterColumns} bordered />
+            <Table dataSource={countersData} columns={counterColumns} bordered />
             <br />
             <h4>Detalles de encuestas</h4>
             <br />

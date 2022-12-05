@@ -1,20 +1,38 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Input, Button, message, Space, Divider, Upload, Switch } from 'antd'
 import { InputNumber, Select } from 'antd';
-import { S_API, API } from '../../resources'
+import { S_API, API, getData } from '../../resources'
 import { usuario } from '../../resources'
-import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
-// const { Dragger } = Upload;
+import { InboxOutlined, UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
+const { Dragger } = Upload;
 
 
 const { Option } = Select;
 const estados = ["Michoacan", "Morelos", "Guerrero"];
 
 export default function Register(props) {
+
   const [form] = Form.useForm();
   const [avatar, setAvatar] = useState(props.paciente ? props.paciente.avatar : 'noimg.jpg')
-
-
+  const [medicosData, setMedicosData] = useState([])
+  useEffect(() => {
+    getData('users_by_rol/Medico').then((rs) => {
+      rs.forEach(md => {
+        md.label = md.name;
+        md.value = md._id;
+      });
+      setMedicosData(rs)
+    })
+  }, [])
+  useEffect(() => {
+    getData('users_by_rol/Medico').then((rs) => {
+      rs.forEach(md => {
+        md.label = md.name;
+        md.value = md._id;
+      });
+      setMedicosData(rs)
+    })
+  }, [])
   async function addHistoria() {
     return await fetch(API + 'historias/add', {
       method: 'POST',
@@ -52,9 +70,9 @@ export default function Register(props) {
       .then(response => {
         console.log('Success:', response);
         message.success(response.message || response.error);
-        if (response.message && response.message === 'Expediente creado correctamente') {
-          props.setAdding(false)
-        }
+        // if (response.message && response.message === 'Expediente creado correctamente') {
+        //   props.setAdding(false)
+        // }
       })
       .catch(error => console.error('Error:', error))
   }
@@ -70,7 +88,7 @@ export default function Register(props) {
     values.certificacion = '';
     values.cedula = '';
     values.horarios = [];
-    values.medicos_asignados = props.paciente ? props.paciente.medicos_asignados : [usuario._id];
+    // values.medicos_asignados = props.paciente ? props.paciente.medicos_asignados : [usuario._id];
     values.responsable = props.paciente ? props.paciente.responsable : { nombre: values.res_name, telefono: values.res_phone }
 
     delete values.prefix;
@@ -81,6 +99,7 @@ export default function Register(props) {
 
     console.log(values)
     console.log('url: ', url);
+
     await fetch(url, {
       method: props.paciente ? 'PUT' : 'POST',
       body: JSON.stringify(values),
@@ -156,9 +175,7 @@ export default function Register(props) {
     // },
   };
   return (
-    <div
-      style={{ width: '100%' }}
-    >
+    <div className='mainContainer'>
       {
         props.paciente ? <h4>Editar paciente</h4> : <h4>Registrar Paciente</h4>
       }
@@ -198,7 +215,7 @@ export default function Register(props) {
           <Input />
         </Form.Item>
 
-      
+       
         <Form.Item
           name="telefono"
           label="Telefono"
@@ -209,6 +226,40 @@ export default function Register(props) {
             style={{ width: '100%' }}
           />
         </Form.Item>
+
+        {/* Start Adding Medicos ASignados */}
+        <Form.Item name="medicos_asignados" label="Medicos Asignados" rules={[{ required: false, message: 'Ingresa tu universidad' }]} >
+          <Form.List name="medicos_asignados" >
+            {(fields, { add, remove }, { errors }) => (
+              <>
+                {fields.map((field, index) => (
+                  <Form.Item label='' required={false} key={field.key}>
+                    <Form.Item {...field} noStyle
+                      validateTrigger={['onChange', 'onBlur']}
+                      rules={[{ required: true, whitespace: true, message: "Selecciona un Medico o elimina este campo" }]}
+                    >
+                      <Select options={medicosData} placeholder="Selecciona Medico" style={{ width: fields.length > 1 ? '94%' : '100%' }} />
+                    </Form.Item>
+                    {fields.length > 1 ? (
+                      <MinusCircleOutlined
+                        className="dynamic-delete-button"
+                        onClick={() => remove(field.name)}
+                      />
+                    ) : null}
+                  </Form.Item>
+                ))}
+                <Form.Item>
+                  <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
+                    Agregar Medico
+                  </Button>
+
+                  <Form.ErrorList errors={errors} />
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
+        </Form.Item>
+        {/* End of Adding Medicos ASignados */}
 
         <Divider>Responsable (opcional) </Divider>
         <Form.Item name="res_name" label="Nombre Responsable" >
@@ -254,7 +305,7 @@ export default function Register(props) {
         <Form.Item
           name="estado"
           label="Estado"
-          rules={[{ required: true, message: 'Apellido materno', },]}>
+          rules={[{ required: false, message: 'Apellido materno', },]}>
           <Select placeholder="Elije tu estado">
             {estados.map(e => <Option value={e}>{e}</Option>)}
           </Select>
@@ -262,18 +313,18 @@ export default function Register(props) {
         <Form.Item
           name="municipio"
           label="Municipio"
-          rules={[{ required: true, message: 'Ingresa tu municipio' }]}
+          rules={[{ required: false, message: 'Ingresa tu municipio' }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="codigopostal"
           label="Codigo Postal"
-          rules={[{ required: true, message: 'Ingresa codigopostal', },]}>
+          rules={[{ required: false, message: 'Ingresa codigopostal', },]}>
           <InputNumber style={{ width: '100%', }} />
         </Form.Item>
 
-        <Form.Item name="sexo" label="sexo" rules={[{ required: true, message: 'Selecciona una opcion' }]}>
+        <Form.Item name="sexo" label="sexo" rules={[{ required: false, message: 'Selecciona una opcion' }]}>
           <Select placeholder="Elije el sexo" >
             <Option value="H">H</Option>
             <Option value="M">M</Option>
@@ -281,7 +332,7 @@ export default function Register(props) {
           </Select>
         </Form.Item>
 
-        <Form.Item name="edad" label="Edad" rules={[{ required: true, message: 'Ingresa edad' }]} >
+        <Form.Item name="edad" label="Edad" rules={[{ required: false, message: 'Ingresa edad' }]} >
           <InputNumber min={1} max={120} />
         </Form.Item>
 
@@ -289,19 +340,19 @@ export default function Register(props) {
           <Input />
         </Form.Item>
 
-        <Form.Item name="peso" label="Peso" rules={[{ required: true, message: 'Ingresa el peso' }]} >
+        <Form.Item name="peso" label="Peso" rules={[{ required: false, message: 'Ingresa el peso' }]} >
           <InputNumber min={1} max={200} />
         </Form.Item>
 
-        <Form.Item name="talla" label="Talla" rules={[{ required: true, message: 'Ingresa la talla' }]} >
+        <Form.Item name="talla" label="Talla" rules={[{ required: false, message: 'Ingresa la talla' }]} >
           <InputNumber min={1} max={200} />
         </Form.Item>
 
-        <Form.Item name="ocupacion" label="Ocupacion" rules={[{ required: true, message: 'Ingresa ocupacion' }]} >
+        <Form.Item name="ocupacion" label="Ocupacion" rules={[{ required: false, message: 'Ingresa ocupacion' }]} >
           <Input />
         </Form.Item>
 
-        <Form.Item name="estado_civil" label="Estado Civil" rules={[{ required: true, message: 'Ingresa estado civil' }]} >
+        <Form.Item name="estado_civil" label="Estado Civil" rules={[{ required: false, message: 'Ingresa estado civil' }]} >
           <Select placeholder="Elije el estado civil" >
             <Option value="Soltero">Soltero</Option>
             <Option value="Casado">Casado</Option>
@@ -312,7 +363,7 @@ export default function Register(props) {
           </Select>
         </Form.Item>
 
-        <Form.Item name="escolaridad" label="Escolaridad" rules={[{ required: true, message: 'Ingresa escolaridad' }]} >
+        <Form.Item name="escolaridad" label="Escolaridad" rules={[{ required: false, message: 'Ingresa escolaridad' }]} >
           <Select placeholder="Elije escolaridad" >
             <Option value="Ninguno">Ninguno</Option>
             <Option value="Preescolar">Preescolar</Option>
@@ -324,11 +375,11 @@ export default function Register(props) {
           </Select>
         </Form.Item>
 
-        <Form.Item name="lugar_de_nacimiento" label="Lugar De Nacimiento" rules={[{ required: true, message: 'Ingresa el lugar de nacimiento' }]} >
+        <Form.Item name="lugar_de_nacimiento" label="Lugar De Nacimiento" rules={[{ required: false, message: 'Ingresa el lugar de nacimiento' }]} >
           <Input />
         </Form.Item>
 
-        <Form.Item name="ciudad" label="Ciudad de residencia" rules={[{ required: true, message: 'Ingresa ciudad' }]} >
+        <Form.Item name="ciudad" label="Ciudad de residencia" rules={[{ required: false, message: 'Ingresa ciudad' }]} >
           <Input />
         </Form.Item>
 
@@ -340,7 +391,7 @@ export default function Register(props) {
           <Switch defaultChecked={false} />
         </Form.Item>
 
-        <Form.Item name="drogas" label="Drogas" rules={[{ required: true, message: 'Selecciona una opcion' }]} >
+        <Form.Item name="drogas" label="Drogas" rules={[{ required: false, message: 'Selecciona una opcion' }]} >
           <Select placeholder="Elije una opcion" >
             <Option value="Antes">Antes</Option>
             <Option value="Ahora">Ahora</Option>
@@ -362,7 +413,7 @@ export default function Register(props) {
                       validateTrigger={['onChange', 'onBlur']}
                       rules={[{ required: true, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
                     >
-                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }} />
+                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '92%' : '100%' }} />
                     </Form.Item>
                     {fields.length > 1 ? (
                       <MinusCircleOutlined
@@ -374,7 +425,7 @@ export default function Register(props) {
                 ))}
                 <Form.Item>
                   <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
-                    Agregar Enfermedad  Familiar
+                    Agregar Enfermedad Familiar
                   </Button>
 
                   <Form.ErrorList errors={errors} />
@@ -394,7 +445,7 @@ export default function Register(props) {
                       validateTrigger={['onChange', 'onBlur']}
                       rules={[{ required: true, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
                     >
-                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }} />
+                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '94%' : '100%' }} />
                     </Form.Item>
                     {fields.length > 1 ? (
                       <MinusCircleOutlined
@@ -441,7 +492,7 @@ export default function Register(props) {
                 ))}
                 <Form.Item>
                   <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
-                    Agegar Tratamiento
+                    Agregar Tratamiento
                   </Button>
 
                   <Form.ErrorList errors={errors} />

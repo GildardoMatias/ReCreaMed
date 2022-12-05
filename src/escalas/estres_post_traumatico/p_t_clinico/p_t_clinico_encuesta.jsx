@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Switch, Button, Radio, Space, Row, Col, Select, message, Input } from 'antd'
-import { Card } from 'react-bootstrap'
+import { Card } from 'antd'
 import { getData, sendDataBody } from '../../../resources';
+import { p_t_clinico_catalog } from './p_t_clinico_catalog'
 import logo from "../../../assets/Logo.png";
-
+const { TextArea } = Input;
 export default function PTClinicoEncuesta(props) {
     const [pesoEnabled, setPesoEnabled] = useState(false)
     const [apetitoEnabled, setApetitoEnabled] = useState(false)
@@ -74,9 +75,67 @@ export default function PTClinicoEncuesta(props) {
         </div>
     </div>
 
+    const Radios = (props) => {
+        const l = props.letra;
+        const n = props.numero;
+        return <div>
+
+            <h6>A(1)</h6>
+
+            <Form.Item label='¿Amenaza vital?' name={`Ac${n}_A1_1`} rules={[{ required: true, message: `Selecciona una opcion` }]} >
+                <Radio.Group name={props.nombre} key={props.nombre} >
+                    <Radio value="No">No</Radio>
+                    <Radio value="Si">Si</Radio>
+                    <Radio value="Sujeto">Sujeto</Radio>
+                    <Radio value="Otro">Otro</Radio>
+                </Radio.Group>
+            </Form.Item>
+
+            <Form.Item label='¿Lesion Grave?' name={`Ac${n}_A1_2`} rules={[{ required: true, message: `Selecciona una opcion` }]} >
+                <Radio.Group name={props.nombre} key={props.nombre} >
+                    <Radio value="No">No</Radio>
+                    <Radio value="Si">Si</Radio>
+                    <Radio value="Sujeto">Sujeto</Radio>
+                    <Radio value="Otro">Otro</Radio>
+                </Radio.Group>
+            </Form.Item>
+
+            <Form.Item label='¿Amenaza de la integridad física?' name={`Ac${props.n}_A2`} rules={[{ required: true, message: `Selecciona una opcion` }]} >
+                <Radio.Group name={props.nombre} key={props.nombre} >
+                    <Radio value="No">No</Radio>
+                    <Radio value="Si">Si</Radio>
+                    <Radio value="Sujeto">Sujeto</Radio>
+                    <Radio value="Otro">Otro</Radio>
+                </Radio.Group>
+            </Form.Item>
+
+            <h6>{l}(2)</h6>
+            <Form.Item label='¿Miedo intenso/indefensión/horror?' name={`Ac${props.n}_CritA`} rules={[{ required: true, message: `Selecciona una opcion` }]} >
+                <Radio.Group name={props.nombre} key={props.nombre} >
+                    <Radio value="No">No</Radio>
+                    <Radio value="Si">Si</Radio>
+                    <Radio value="Durante">Durante</Radio>
+                    <Radio value="Despues">Despues</Radio>
+                </Radio.Group>
+            </Form.Item>
+
+            <h6>Criterio A</h6>
+            <Form.Item label='¿Se cumple?' name={`Ac${props.n}_A1_3`} rules={[{ required: true, message: `Selecciona una opcion` }]} >
+                <Radio.Group name={props.nombre} key={props.nombre} >
+                    <Radio value="No">No</Radio>
+                    <Radio value="Probable">Probable</Radio>
+                    <Radio value="Si">Si</Radio>
+                </Radio.Group>
+            </Form.Item>
+
+        </div>
+
+
+    }
+
     return (
         <div className='mainContainer'>
-            <h4>Post Traumatico Clinico Encuesta</h4>
+            <h4>Escala para el Trastorno por Estrés Postraumático Administradapor el Clínico (Clinician Administered PTSD Scale, CAPS)</h4>
             <br />
             <h5>Medico: {medicoData.name}</h5>
             <h5>Paciente: {pacienteData.name}</h5>
@@ -93,22 +152,34 @@ export default function PTClinicoEncuesta(props) {
                 autoComplete="off"
             >
 
+                {
+                    p_t_clinico_catalog.map((p) => {
+                        return <div>
 
-               <Form.Item
-                    label="¿Ha estado especialmente alerta o vigilante, auncuando no había necesidad real? ¿Se ha sentidocomo si estuviese constantemente en guardia? ¿Porqué?  ¿Cuánto  tiempo  durante  el  último  mes?¿Cuándo comenzó a actuar así? (Después delacon-tecimiento?)0.  Nunca1.  Muy poco (menos del 10 %)2.  Algo (aproximadamente el 20-30 %)3.  Mucho tiempo (aproximadamente el 50-60 %)4.  Todo o casi todo el tiempo (más del 60 %) Descripción/Ejemplos:"
-                    name="Name"
-                    rules={[{ required: true, message: `Selecciona una opcion` }]}
-                >
-                    <Input />
-                </Form.Item>
+                            <h5>{p.n}</h5>
+                            <Row>
+                                <Col span={12} style={{ padding: 6 }}>
+                                    <Form.Item
+                                        label={p.pregunta}
+                                        name="Ac1"
+                                        rules={[{ required: true, message: `Selecciona una opcion` }]}
+                                    >
+                                        <TextArea />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12}>
+                                    <Card>
+                                        <Radios letra={p.criterio} />
+                                    </Card>
+                                </Col>
 
 
+                            </Row>
+                        </div>
+                    })
+                }
 
-
-
-                <Form.Item
-                    wrapperCol={{ offset: 8, span: 16 }}
-                >
+                <Form.Item wrapperCol={{ offset: 8, span: 16 }} >
                     <Button type="primary" htmlType="submit">
                         Guardar
                     </Button>

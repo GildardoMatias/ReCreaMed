@@ -7,7 +7,7 @@ import PostTraumaticoMexicanaResults from './p_t_mexicana/p_t_mexicana_results';
 export default function PostTraumaticoMenu() {
   const items = [
     { label: 'EPT 1', key: 'item-1', children: <PostTraumaticoResults/> }, 
-    { label: 'EPT 2', key: 'item-2', children: <PostTraumaticoClinicoResults/> },
+    // { label: 'EPT 2', key: 'item-2', children: <PostTraumaticoClinicoResults/> },
     { label: 'EPT 3', key: 'item-3', children: <PostTraumaticoMexicanaResults/>},
   ]
   return (

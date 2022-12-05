@@ -229,7 +229,7 @@ export const catalog2 = [
         ]
     },
     {
-        n: 9,
+        n: 6,
         pregunta: "6. Dificultades para concentrarse",
         descripcion: "Representa las dificultades para centrar los pensamientos en algo hasta llegar a la falta de concentración incapacitante.Evalúe según la intensidad, frecuencia y grado de incapacidad resultante.",
         respuestas: [
@@ -308,7 +308,7 @@ export const catalog3 = [
     "Tener dificultades para concentrarse en cosas tales como leer el periódico o ver la televisión",
     "Moverse o hablar tan lentamente que los demás lo han notado. O bien al contrario, estar tan agitado/a o inquieto/a que se mueve mucho más de lo habitual",
     "Tener pensamientos sobre estar muerto/a o sobre hacerse daño a sí mismo de alguna manera",
-   
+
 ]
 
 export const preg10 = "Si usted se identificó con cualquier problema en este cuestionario, ¿le ha sido difícil cumplir con su trabajo, atender su casa, o relacionarse con otras personas debido a estos problemas?"

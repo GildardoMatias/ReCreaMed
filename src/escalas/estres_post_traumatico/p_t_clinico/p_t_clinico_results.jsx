@@ -20,7 +20,6 @@ export default function PostTraumaticoClinicoResults() {
       <Modal title="Crear Encuesta de TEPT 2" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <EscalasCreateGeneralLink tipo='post_traumatico_clinico' />
       </Modal>
-      {/* <PTClinicoEncuesta /> */}
     </div>
   )
 }

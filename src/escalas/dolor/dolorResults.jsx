@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { usuario, getData, sendDataBody } from '../../resources'
-import { Form, Select, Space, Tag, Table } from 'antd';
+import { Form, Select, Space, Button, Table, Modal } from 'antd';
+import EscalasCreateGeneralLink from '../escalasCreateGeneralLink';
 const { Option } = Select;
 
 export default function DolorResults() {
@@ -10,6 +11,11 @@ export default function DolorResults() {
     const [medico, setMedico] = useState(null)
     const [countersData, setCountersData] = useState([])
     const [loadingCounters, setLoadingCounters] = useState(true)
+    // For Modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => { setIsModalOpen(true) };
+    const handleOk = () => { setIsModalOpen(false) };
+    const handleCancel = () => { setIsModalOpen(false) };
 
     useEffect(() => {
         usuario.rol === 'Administrador' ? getDoctorsData() : getEncuestasData(usuario._id)
@@ -142,10 +148,10 @@ export default function DolorResults() {
             render: (_, { respuestas_dolor }) => <p>{respuestas_dolor[12]}</p>
         },
         {
-            title: 'Pretgunta 13',
+            title: 'Pretgunta 13 A-G',
             dataIndex: 'respuestas_dolor',
             key: 'usuario',
-            render: (_, { respuestas_dolor }) => <p>{respuestas_dolor[13]}</p>
+            render: (_, { respuestas_dolor }) => <p>{respuestas_dolor['A13']}</p>
         },
         {
             title: 'Pretgunta 14',
@@ -241,6 +247,11 @@ export default function DolorResults() {
     return (
         <div>
             <h4>Resultados de encuestas de dolor</h4>
+            <br />
+            <Button type="primary" onClick={showModal}>
+                Crear Link Encuesta de Dolor
+            </Button>
+            <br />
             {
                 usuario.rol === 'Administrador' && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
                     style={{ alignItems: 'center', paddingTop: 20 }}>
@@ -264,6 +275,9 @@ export default function DolorResults() {
             <br />
             <Table columns={columns} dataSource={encuestasData} scroll={{ x: '200vw' }} bordered />
 
+            <Modal title="Crear Encuesta de depresion GPC" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <EscalasCreateGeneralLink tipo='dolor' />
+            </Modal>
         </div>
     )
 }

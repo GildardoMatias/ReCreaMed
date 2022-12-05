@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Switch, Button, Radio, Space, Row, Col, Select, message, Divider } from 'antd'
-import { depresion_catalog, depresion_catalog2, disminucion_apetito, perdida_peso, aumento_apetito, aumento_peso } from './depresion_catalog'
-import { Card } from 'react-bootstrap'
 import { getData, sendDataBody } from '../../../resources';
 import logo from "../../../assets/Logo.png";
+import { catalog_ept_mexicana } from './p_t_mexicana_catalog';
 
 export default function PTMexicanaEncuesta(props) {
-
 
     const [pesoEnabled, setPesoEnabled] = useState(false)
     const [apetitoEnabled, setApetitoEnabled] = useState(false)
@@ -39,16 +37,14 @@ export default function PTMexicanaEncuesta(props) {
         const body = {
             usuario: props.idpaciente,
             medico: props.idmedico,
-            score: "_score",
-            tipo: 'depresion',
+            respuestas_ept_3mx: values,
+            tipo: 'post_traumatico_mx',
             uuid: props.token
         }
-
-        console.log('Depre MX:', body);
-        // sendDataBody('encuestas/add', body).then((rs) => {
-        //     console.log(rs)
-        //     message.success(rs.message)
-        // }).then(() => checkEncuesta())
+        sendDataBody('encuestas/add', body).then((rs) => {
+            console.log(rs)
+            message.success(rs.message)
+        }).then(() => checkEncuesta())
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -77,14 +73,14 @@ export default function PTMexicanaEncuesta(props) {
 
     return (
         <div className='mainContainer'>
-            <h4>Sintomatologia depresiva QUIDS (QUICK INVENTORY OF DEPRESSIVE SYMPTOMATOLOGY)</h4>
+            <h4>Validación mexicana de la Escala de Estrés Traumático Secundario  </h4>
             <br />
             <h5>Medico: {medicoData.name}</h5>
             <h5>Paciente: {pacienteData.name}</h5>
             <br />
 
             <Form
-                name="basic"
+                name="p_t_mx"
                 layout='vertical'
                 // labelCol={{ span: 8 }}
                 // wrapperCol={{ span: 16 }}
@@ -94,134 +90,27 @@ export default function PTMexicanaEncuesta(props) {
                 autoComplete="off"
             >
 
-
                 {
-                    depresion_catalog.map((p) => {
+                    catalog_ept_mexicana.map((p, i) => {
                         return <Form.Item
-                            label={p.n + '. ' + p.pregunta}
-                            name={p.n}
+                            key={i}
+                            label={p}
+                            name={i + 1}
                             rules={[{ required: true, message: `Selecciona una opcion` }]}
                         >
                             <Radio.Group>
                                 <Space direction="vertical">
-                                    {
-                                        p.respuestas.map((r, i) => <Radio value={i}> {r} </Radio>)
-                                    }
+                                    <Radio value={1}>Totalmente en desacuerdo.</Radio>
+                                    <Radio value={2}>En desacuerdo. </Radio>
+                                    <Radio value={3}>De acuerdo. </Radio>
+                                    <Radio value={4}>Totalmente de acuerdo. </Radio>
                                 </Space>
                             </Radio.Group>
                         </Form.Item>
                     })
                 }
-
-                {/*Apetito*/}
-                <Card>
-                    <Form.Item
-                    // wrapperCol={{ offset: 8, span: 16 }} 
-                    >
-                        Disminucion apetito <Switch onChange={() => setApetitoEnabled(!apetitoEnabled)} /> Aumento Apetito
-                    </Form.Item>
-                    <Row>
-                        <Col md={10}>
-                            <Form.Item
-                                label='Disminucion Apetito'
-                                name='6'
-                                rules={[{ required: !apetitoEnabled, message: `Selecciona una opcion` }]}
-                            >
-                                <Radio.Group disabled={apetitoEnabled}>
-                                    <Space direction="vertical">
-                                        {
-                                            disminucion_apetito.map((s, i) => <Radio value={i}> {s} </Radio>)
-                                        }
-                                    </Space>
-                                </Radio.Group>
-                            </Form.Item>
-                        </Col>
-
-                        <Col>
-                            <Form.Item
-                                label='Aumento Apetito'
-                                name='6'
-                                rules={[{ required: apetitoEnabled, message: `Selecciona una opcion` }]}
-                            >
-
-                                <Radio.Group disabled={!apetitoEnabled}>
-                                    <Space direction="vertical">
-                                        {
-                                            aumento_apetito.map((s, i) => <Radio value={i}> {s} </Radio>)
-                                        }
-                                    </Space>
-                                </Radio.Group>
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                </Card>
-
-
-
-                {/* Peso */}
-                <Card>
-                    <Form.Item
-                    // wrapperCol={{ offset: 8, span: 16 }} 
-                    >
-                        Disminucion de Peso <Switch onChange={() => setPesoEnabled(!pesoEnabled)} /> Aumento de Peso
-                    </Form.Item>
-                    <Row>
-                        <Col md={10}>
-                            <Form.Item
-                                label='Perdida de Peso'
-                                name='8'
-                                rules={[{ required: !pesoEnabled, message: `Selecciona una opcion` }]}
-                            >
-                                <Radio.Group disabled={pesoEnabled}>
-                                    <Space direction="vertical">
-                                        {
-                                            perdida_peso.map((s, i) => <Radio value={i}> {s} </Radio>)
-                                        }
-                                    </Space>
-                                </Radio.Group>
-                            </Form.Item>
-                        </Col>
-
-                        <Col>
-                            <Form.Item
-                                label='Aumento Peso'
-                                name='8'
-                                rules={[{ required: pesoEnabled, message: `Selecciona una opcion` }]}
-                            >
-
-                                <Radio.Group disabled={!pesoEnabled}>
-                                    <Space direction="vertical">
-                                        {
-                                            aumento_peso.map((s, i) => <Radio value={i}> {s} </Radio>)
-                                        }
-                                    </Space>
-                                </Radio.Group>
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                </Card>
 
                 <br />
-
-                {
-                    depresion_catalog2.map((p) => {
-                        return <Form.Item
-                            label={p.n + '. ' + p.pregunta}
-                            name={p.n}
-                            rules={[{ required: true, message: `Selecciona una opcion` }]}
-                        >
-                            <Radio.Group>
-                                <Space direction="vertical">
-                                    {
-                                        p.respuestas.map((r, i) => <Radio value={i}> {r} </Radio>)
-                                    }
-                                </Space>
-                            </Radio.Group>
-                        </Form.Item>
-                    })
-                }
-
-
 
                 <Form.Item
                     wrapperCol={{ offset: 8, span: 16 }}

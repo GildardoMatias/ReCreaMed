@@ -92,6 +92,20 @@ const data = [
         FormaDePago: ['tarjeta'],
         Estado: ['sin pagar'],
     },
+    {
+        key: '4',
+        Paciente: 'Jorge Suarez',
+        Pago: 32,
+        FormaDePago: ['tarjeta'],
+        Estado: ['pagado'],
+    },
+    {
+        key: '4',
+        Paciente: 'Jorge Suarez',
+        Pago: 32,
+        FormaDePago: ['tarjeta'],
+        Estado: ['sin pagar'],
+    },
 ];
 export default function Balances() {
     return (

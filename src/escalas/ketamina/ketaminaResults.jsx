@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Space, Table, Tag, Progress, Button, Modal } from 'antd'
 import { Form, Select } from 'antd';
 import { getData, usuario, sendDataBody } from '../../resources';
-import KetaminaCreateLink from './ketaminaCreateLink';
+import EscalasCreateGeneralLink from '../escalasCreateGeneralLink';
 const { Option } = Select;
 
 export default function KetaminaResults() {
@@ -199,7 +199,8 @@ export default function KetaminaResults() {
       <Table dataSource={efectosData} columns={columns} scroll={{ x: 1300 }} bordered />
 
       <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <KetaminaCreateLink />
+        {/* <KetaminaCreateLink /> */}
+        <EscalasCreateGeneralLink tipo="ketamina"/>
       </Modal>
     </div>
   )

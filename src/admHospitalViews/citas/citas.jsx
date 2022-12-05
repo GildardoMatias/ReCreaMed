@@ -128,17 +128,10 @@ export function Citas() {
     };
     return (
         <div className='mainContainer'>
-            <Row>
-                <Col span={8}><h4>Citas de todos los pacientes</h4></Col>
-                <Col>
-                    <Button type="primary" onClick={showModal} disabled={!medico}>
-                        Nueva Cita
-                    </Button>
-                </Col>
-            </Row>
+            <h4>Citas de todos los pacientes</h4>
 
-            <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
-                style={{ alignItems: 'center', paddingTop: 20 }}>
+            <br />
+            <Space size='large'>
                 <Select
                     style={{ width: 260, }}
                     onChange={handleDoctorChange}
@@ -150,12 +143,16 @@ export function Citas() {
                         })
                     }
                 </Select>
-            </Form.Item>
+                <Button type="primary" onClick={showModal} disabled={!medico}>
+                    Crear cita para este medico
+                </Button>
+            </Space>
+
 
             {isLoading ? <Loading /> : <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />}
 
 
-
+            {/* Create Cita */}
             <Modal title="Nueva Cita" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose
                 footer={[
                     <Button onClick={handleCancel}>Cancelar</Button>,

@@ -1,6 +1,5 @@
 PRIORITY
 On register patient, get id and insert into admin's medicos_asignados
-on superadmin, create a view to add admins and assing medics
 
 filstrar encuestas
 ordenar
@@ -11,10 +10,8 @@ notas entradas : tratamientos seran varios divididos
 
 catalogo tratamiento, abajo de diagnosico
 
-reference patients
+add medico select into admin patient's register
 
-Escolaridad -> catalogo
-Estado civil-> catalog
 Estado de nacimiento ->
 Nacionalidad->
 Divisor de nacimiento
@@ -46,3 +43,5 @@ after that, do we show medicos asignados ?
 -notas no modal add fields @done
 -notas order reverse @done
 -fecha encuesta @done
+-reference patients @done
+-on superadmin, create a view to add admins and assing medics @done
