@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Collapse, Button, Tabs, Row, Col, Modal, Space, Typography, message } from 'antd';
+import { Card, Collapse, Button, Tabs, Row, Col, Modal, Space, Typography, message, Upload, Input, Select, Form } from 'antd';
 import { getData, API, updateData, usuario } from '../../resources';
-import { PlusOutlined, ExperimentOutlined, DownloadOutlined, EditOutlined } from '@ant-design/icons';
+import { PlusOutlined, ExperimentOutlined, DownloadOutlined, EditOutlined, InboxOutlined } from '@ant-design/icons';
 import { NuevaNota } from './nuevaNota';
 import DetalleReceta from './detalleReceta';
 const { Panel } = Collapse;
 const { Paragraph } = Typography;
+const { TextArea } = Input;
+const { Dragger } = Upload;
+
 
 export default function DetalleNota(props) {
 
@@ -26,7 +29,6 @@ export default function DetalleNota(props) {
     const handleEditCancel = () => { setIsEditModalVisible(false) };
     const editarNota = async (n) => { await setNotaForEdit(n); setIsEditModalVisible(true) }
     // End of Edit Nota Modal
-
 
     useEffect(() => {
         // console.log('Paciente received to detailNota: ', props.paciente)
@@ -122,6 +124,40 @@ export default function DetalleNota(props) {
         console.log(originalNota)
         updateData(`notas/update/${originalNota._id}`, originalNota).then((rs) => { getNotasData() })
     }
+    const onEntryFinish = (values) => {
+        console.log(values)
+    }
+    const onEntryFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
+
+    // Upload File For Estudios
+    const dragDropProps = {
+        name: 'file',
+        multiple: true,
+        action: API + 'notas/estudios/upload', // Production
+
+        onChange(info) {
+            const { status } = info.file;
+
+            if (status !== 'uploading') {
+                console.log(info.file, info.fileList);
+            }
+
+            if (status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully.`);
+                console.log('New Files: ', info.file.response.file)
+                // setEstudiosFiles([...estudiosFiles, info.file.response.file])
+            } else if (status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+            }
+        },
+
+        onDrop(e) {
+            console.log('Dropped files', e.dataTransfer.files);
+        },
+    };
+
     const items = notaData.map((nota, i) => {
         return {
             label: `Nota ${i + 1}`,
@@ -155,10 +191,53 @@ export default function DetalleNota(props) {
                     </Card>
 
                     <Card title='Entradas'>
-
+                        <Form
+                            name="add_entry_form"
+                            // labelCol={{ span: 8 }}
+                            // wrapperCol={{ span: 16 }}
+                            onFinish={onEntryFinish}
+                            onFinishFailed={onEntryFinishFailed}
+                            autoComplete="off"
+                        >
+                            <Space>
+                                <Form.Item
+                                    // label="Nueva entrada"
+                                    name="nueva_entrada"
+                                    rules={[{ required: true, message: 'Please input your username!' }]}
+                                >
+                                    <TextArea rows={2} placeholder="Ingresa los detalles" />
+                                </Form.Item>
+                                <Form.Item
+                                // wrapperCol={{ offset: 8, span: 16 }}
+                                >
+                                    <Button type="primary" htmlType="submit">
+                                        Guardar
+                                    </Button>
+                                </Form.Item>
+                            </Space>
+                        </Form>
                     </Card>
-                    <Card title='Tratamiento'>
 
+                    <Card title='Tratamiento'>
+                        <Select
+                            defaultValue="Tratamiento 1"
+                            style={{ width: 120 }}
+                            // onChange={handleChange}
+                            options={[
+                                {
+                                    value: 'jack',
+                                    label: 'Tratamiento 1',
+                                },
+                                {
+                                    value: 'lucy',
+                                    label: 'Tratamiento 2',
+                                },
+                                {
+                                    value: 'Yiminghe',
+                                    label: 'Tratamiento 3',
+                                },
+                            ]}
+                        />
                     </Card>
 
                     <Card title='Estudios'>
@@ -167,6 +246,16 @@ export default function DetalleNota(props) {
                                 <a href={`${API}notas/estudios/download/${e}`}><ExperimentOutlined />{e}<DownloadOutlined /> </a>
                             </Card.Grid>
                         })}
+
+                        <Dragger {...dragDropProps}>
+                            <p className="ant-upload-drag-icon">
+                                <InboxOutlined />
+                            </p>
+                            <p className="ant-upload-text">Arrastra los archivos de estudio aquí, o da click para buscar</p>
+                            <p className="ant-upload-hint">
+                                Selecciona archivos en pdf o imagen que sean menores a 2 MB para poder subirlos
+                            </p>
+                        </Dragger>
                     </Card>
                     <Button style={{ float: 'right' }} onClick={() => { editarNota(nota) }} size='small' type="primary" icon={<EditOutlined />} >Editar Nota</Button>
                 </Col>
@@ -193,9 +282,11 @@ export default function DetalleNota(props) {
             <NuevaNota id_expediente={props.id_expediente} paciente={props.paciente} prevExpNotas={props.prevExpNotas} setIsModalVisible={setIsModalVisible} />
         </Modal>
 
-        <Modal title="Editar Nota" visible={isEditModalVisible} onOk={handleEditOk} onCancel={handleEditCancel} width={680} footer={[]} destroyOnClose>
+        <Modal title="Editar Nota" open={isEditModalVisible} onOk={handleEditOk} onCancel={handleEditCancel} width={680} footer={[]} destroyOnClose>
             <NuevaNota nota={notaForEdit} setIsModalVisible={setIsEditModalVisible} />
         </Modal>
+
+
 
     </div>
 

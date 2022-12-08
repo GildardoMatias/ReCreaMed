@@ -254,7 +254,7 @@ export default function Register(props) {
         <Form.Item
           name="estado"
           label="Estado"
-          rules={[{ required: true, message: 'Apellido materno', },]}>
+          rules={[{ required: false, message: 'Apellido materno', },]}>
           <Select placeholder="Elije tu estado">
             {estados.map(e => <Option value={e}>{e}</Option>)}
           </Select>
@@ -262,18 +262,18 @@ export default function Register(props) {
         <Form.Item
           name="municipio"
           label="Municipio"
-          rules={[{ required: true, message: 'Ingresa tu municipio' }]}
+          rules={[{ required: false, message: 'Ingresa tu municipio' }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="codigopostal"
           label="Codigo Postal"
-          rules={[{ required: true, message: 'Ingresa codigopostal', },]}>
+          rules={[{ required: false, message: 'Ingresa codigopostal', },]}>
           <InputNumber style={{ width: '100%', }} />
         </Form.Item>
 
-        <Form.Item name="sexo" label="sexo" rules={[{ required: true, message: 'Selecciona una opcion' }]}>
+        <Form.Item name="sexo" label="sexo" rules={[{ required: false, message: 'Selecciona una opcion' }]}>
           <Select placeholder="Elije el sexo" >
             <Option value="H">H</Option>
             <Option value="M">M</Option>
@@ -281,7 +281,7 @@ export default function Register(props) {
           </Select>
         </Form.Item>
 
-        <Form.Item name="edad" label="Edad" rules={[{ required: true, message: 'Ingresa edad' }]} >
+        <Form.Item name="edad" label="Edad" rules={[{ required: false, message: 'Ingresa edad' }]} >
           <InputNumber min={1} max={120} />
         </Form.Item>
 
@@ -289,19 +289,19 @@ export default function Register(props) {
           <Input />
         </Form.Item>
 
-        <Form.Item name="peso" label="Peso" rules={[{ required: true, message: 'Ingresa el peso' }]} >
+        <Form.Item name="peso" label="Peso" rules={[{ required: false, message: 'Ingresa el peso' }]} >
           <InputNumber min={1} max={200} />
         </Form.Item>
 
-        <Form.Item name="talla" label="Talla" rules={[{ required: true, message: 'Ingresa la talla' }]} >
+        <Form.Item name="talla" label="Talla" rules={[{ required: false, message: 'Ingresa la talla' }]} >
           <InputNumber min={1} max={200} />
         </Form.Item>
 
-        <Form.Item name="ocupacion" label="Ocupacion" rules={[{ required: true, message: 'Ingresa ocupacion' }]} >
+        <Form.Item name="ocupacion" label="Ocupacion" rules={[{ required: false, message: 'Ingresa ocupacion' }]} >
           <Input />
         </Form.Item>
 
-        <Form.Item name="estado_civil" label="Estado Civil" rules={[{ required: true, message: 'Ingresa estado civil' }]} >
+        <Form.Item name="estado_civil" label="Estado Civil" rules={[{ required: false, message: 'Ingresa estado civil' }]} >
           <Select placeholder="Elije el estado civil" >
             <Option value="Soltero">Soltero</Option>
             <Option value="Casado">Casado</Option>
@@ -312,7 +312,7 @@ export default function Register(props) {
           </Select>
         </Form.Item>
 
-        <Form.Item name="escolaridad" label="Escolaridad" rules={[{ required: true, message: 'Ingresa escolaridad' }]} >
+        <Form.Item name="escolaridad" label="Escolaridad" rules={[{ required: false, message: 'Ingresa escolaridad' }]} >
           <Select placeholder="Elije escolaridad" >
             <Option value="Ninguno">Ninguno</Option>
             <Option value="Preescolar">Preescolar</Option>
@@ -324,11 +324,11 @@ export default function Register(props) {
           </Select>
         </Form.Item>
 
-        <Form.Item name="lugar_de_nacimiento" label="Lugar De Nacimiento" rules={[{ required: true, message: 'Ingresa el lugar de nacimiento' }]} >
+        <Form.Item name="lugar_de_nacimiento" label="Lugar De Nacimiento" rules={[{ required: false, message: 'Ingresa el lugar de nacimiento' }]} >
           <Input />
         </Form.Item>
 
-        <Form.Item name="ciudad" label="Ciudad de residencia" rules={[{ required: true, message: 'Ingresa ciudad' }]} >
+        <Form.Item name="ciudad" label="Ciudad de residencia" rules={[{ required: false, message: 'Ingresa ciudad' }]} >
           <Input />
         </Form.Item>
 
@@ -340,7 +340,7 @@ export default function Register(props) {
           <Switch defaultChecked={false} />
         </Form.Item>
 
-        <Form.Item name="drogas" label="Drogas" rules={[{ required: true, message: 'Selecciona una opcion' }]} >
+        <Form.Item name="drogas" label="Drogas" rules={[{ required: false, message: 'Selecciona una opcion' }]} >
           <Select placeholder="Elije una opcion" >
             <Option value="Antes">Antes</Option>
             <Option value="Ahora">Ahora</Option>
@@ -360,7 +360,7 @@ export default function Register(props) {
                   <Form.Item label='' required={false} key={field.key}>
                     <Form.Item {...field} noStyle
                       validateTrigger={['onChange', 'onBlur']}
-                      rules={[{ required: true, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
+                      rules={[{ required: false, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
                     >
                       <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }} />
                     </Form.Item>
@@ -392,7 +392,7 @@ export default function Register(props) {
                   <Form.Item label='' required={false} key={field.key}>
                     <Form.Item {...field} noStyle
                       validateTrigger={['onChange', 'onBlur']}
-                      rules={[{ required: true, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
+                      rules={[{ required: false, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
                     >
                       <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }} />
                     </Form.Item>
@@ -427,7 +427,7 @@ export default function Register(props) {
                     required={false} key={field.key}>
                     <Form.Item {...field} noStyle
                       validateTrigger={['onChange', 'onBlur']}
-                      rules={[{ required: true, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
+                      rules={[{ required: false, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
                     >
                       <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }} />
                     </Form.Item>

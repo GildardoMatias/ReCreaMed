@@ -1,116 +1,62 @@
-import { Space, Table, Tag } from 'antd';
-import React from 'react';
-const columns = [
-    {
-        title: 'Paciente',
-        dataIndex: 'Paciente',
-        key: 'Paciente',
-        render: (text) => <a>{text}</a>,
-    },
-    {
-        title: 'Pago',
-        dataIndex: 'Pago',
-        key: 'Pago',
-    },
-    {
-        title: 'Forma de pago',
-        key: 'FormaDePago',
-        dataIndex: 'FormaDePago',
-        render: (_, { FormaDePago }) => (
-            <>
-                {FormaDePago.map((tag) => {
-                    let color = tag === 'efectivo' ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
-    },
-    {
-        title: 'Estado',
-        key: 'Estado',
-        dataIndex: 'Estado',
-        render: (_, { Estado }) => (
-            <>
-                {Estado.map((tag) => {
-                    let color = tag === 'pagado' ? 'geekblue' : 'green';
-                    if (tag === 'sin pagar') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
-    },
-    {
-        title: 'Cita',
-        key: 'Cita',
-        render: (_, record) => (
-            <Space size="middle">
-                {/* <a>Invite {record.name}</a> */}
-                <a href='#'>Ir a la cita</a>
-            </Space>
-        ),
-    },
-];
-const data = [
-    {
-        key: '1',
-        Paciente: 'Jorge Suarez',
-        Pago: 32,
-        FormaDePago: ['efectivo'],
-        Estado: ['pagado'],
-    },
-    {
-        key: '2',
-        Paciente: 'Jorge Suarez',
-        Pago: 42,
-        FormaDePago: ['tarjeta'],
-        Estado: ['por liberar'],
-    },
-    {
-        key: '3',
-        Paciente: 'Ignacio Lopez',
-        Pago: 32,
-        FormaDePago: ['efectivo'],
-        Estado: ['pagado'],
-    },
-    {
-        key: '4',
-        Paciente: 'Jorge Suarez',
-        Pago: 32,
-        FormaDePago: ['tarjeta'],
-        Estado: ['sin pagar'],
-    },
-    {
-        key: '4',
-        Paciente: 'Jorge Suarez',
-        Pago: 32,
-        FormaDePago: ['tarjeta'],
-        Estado: ['pagado'],
-    },
-    {
-        key: '4',
-        Paciente: 'Jorge Suarez',
-        Pago: 32,
-        FormaDePago: ['tarjeta'],
-        Estado: ['sin pagar'],
-    },
-];
+import React, { useState, useEffect } from 'react';
+import { Space, Table, Tag, Button } from 'antd';
+import { getData, usuario } from '../resources';
+
+
 export default function Balances() {
+    const [balancesData, setBalancesData] = useState([])
+    
+    useEffect(() => { getBalancesData() }, [])
+
+    const getBalancesData = () => { getData(`balances/${usuario._id}`).then((rs) => setBalancesData(rs)) }
+
+    const columns = [
+        {
+            title: 'Monto',
+            dataIndex: 'monto',
+            key: 'monto',
+        },
+        {
+            title: 'Forma de pago',
+            key: 'forma_de_pago',
+            dataIndex: 'forma_de_pago',
+            render: (_, { forma_de_pago }) => {
+                let color = forma_de_pago === 'efectivo' ? 'geekblue' : 'green';
+                return <Tag color={color} >{forma_de_pago.toUpperCase()}</Tag>
+            },
+        },
+        {
+            title: 'Estado',
+            key: 'Estado',
+            dataIndex: 'estado',
+            render: (_, { estado }) => {
+
+                let color = estado === 'pagado' ? 'geekblue' : 'green';
+                if (estado === 'pendiente' || estado === 'sin pagar') color = 'volcano';
+
+                return <Tag color={color}> {estado.toUpperCase()} </Tag>
+            }
+
+        },
+        {
+            title: 'Cita',
+            key: 'Cita',
+            render: (_, record) => <a href='#'>Ir a la cita</a>
+        },
+        {
+            title: 'Editar',
+            key: 'Editar',
+            render: (_, record) => <Button onClick={() => console.log(record)}>Editar</Button>
+        },
+    ];
+
+    const editBalance = () => {
+        
+    }
+
     return (
         <div className='mainContainer'>
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={balancesData} />
             <div style={{ height: 200 }}></div>
         </div>
     )

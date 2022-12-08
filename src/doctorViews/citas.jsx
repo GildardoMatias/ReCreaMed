@@ -39,6 +39,7 @@ export function Citas() {
     const handleDetailOk = () => { setIsDetailVisible(false); };
     const handleDetailCancel = () => { setIsDetailVisible(false); };
 
+    // Create cita
     const onFinish = (values) => {
         values.medico = usuario._id;
         values.sucursal = usuario.horarios[0].sucursal._id;
@@ -46,10 +47,22 @@ export function Citas() {
         console.log('ready to send: ', values);
         sendDataBody('citas/add', values).then((response) => {
             console.log('Success:', response); message.success(response.message || response.error);
+            createBalance(response.id_nueva_cita)
             getCitasData(); setIsModalVisible(false)
         })
 
     };
+    // Create the respective balance for cita
+    const createBalance = (_cita) => {
+        const balanceBody = {
+            medico: usuario._id,
+            cita: _cita,
+            monto: 0,
+            forma_de_pago: 'efectivo',
+            estado: 'pendiente',
+        }
+        sendDataBody('balances/add', balanceBody).then((rs) => console.log(rs))
+    }
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -145,7 +158,7 @@ export function Citas() {
                         >
                             {
                                 misPacientes.map((p) => {
-                                    return <Option value={p._id}>{p.name}</Option>
+                                    return <Option value={p._id} key={p._id}>{p.name}</Option>
                                 })
                             }
                         </Select>
