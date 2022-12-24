@@ -362,7 +362,7 @@ export default function Register(props) {
                       validateTrigger={['onChange', 'onBlur']}
                       rules={[{ required: false, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
                     >
-                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }} />
+                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '93%' : '100%' }} />
                     </Form.Item>
                     {fields.length > 1 ? (
                       <MinusCircleOutlined
@@ -394,7 +394,7 @@ export default function Register(props) {
                       validateTrigger={['onChange', 'onBlur']}
                       rules={[{ required: false, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
                     >
-                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }} />
+                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '93%' : '100%' }} />
                     </Form.Item>
                     {fields.length > 1 ? (
                       <MinusCircleOutlined
@@ -429,7 +429,7 @@ export default function Register(props) {
                       validateTrigger={['onChange', 'onBlur']}
                       rules={[{ required: false, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
                     >
-                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }} />
+                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '93%' : '100%' }} />
                     </Form.Item>
                     {fields.length > 1 ? (
                       <MinusCircleOutlined

@@ -13,16 +13,17 @@ const logout = () => { localStorage.removeItem('sessionToken'); localStorage.rem
 
 function Navigator() {
 
-  return <Navbar bg="light" expand="lg">
+  return <Navbar bg="primary" variant="dark" expand="lg">
     <Container>
-      <Navbar.Brand href="#home">
-        <img
-          src={icon}
-          width="40"
-          height="35"
-          className="d-inline-block align-top"
-          alt="Recreamed logo"
-        />
+      <img
+        src={icon}
+        width="40"
+        height="35"
+        className="d-inline-block align-top"
+        alt="Recreamed logo"
+        style={{ marginRight: 6 }}
+      />
+      <Navbar.Brand href="#home" style={{ fontFamily: 'Poppins', color: 'White' }}>
         Bienvenido {usuario.name}
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -35,7 +36,7 @@ function Navigator() {
         </Nav>
       </Navbar.Collapse>
       <Navbar.Collapse className="justify-content-end">
-        <Button onClick={logout} >Cerrar Sesion</Button>
+        <Button onClick={logout} ghost>Cerrar Sesion</Button>
       </Navbar.Collapse>
     </Container>
   </Navbar>;

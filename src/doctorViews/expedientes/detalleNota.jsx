@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Collapse, Button, Tabs, Row, Col, Modal, Space, Typography, message, Upload, Input, Select, Form } from 'antd';
 import { getData, API, updateData, usuario } from '../../resources';
-import { PlusOutlined, ExperimentOutlined, DownloadOutlined, EditOutlined, InboxOutlined } from '@ant-design/icons';
+import { PlusOutlined, ExperimentOutlined, DownloadOutlined, EditOutlined, InboxOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
 import { NuevaNota } from './nuevaNota';
 import DetalleReceta from './detalleReceta';
 const { Panel } = Collapse;
@@ -29,6 +29,8 @@ export default function DetalleNota(props) {
     const handleEditCancel = () => { setIsEditModalVisible(false) };
     const editarNota = async (n) => { await setNotaForEdit(n); setIsEditModalVisible(true) }
     // End of Edit Nota Modal
+    // Edit Nota fields
+    const [editingEntradas, setEditingEntradas] = useState(false)
 
     useEffect(() => {
         // console.log('Paciente received to detailNota: ', props.paciente)
@@ -124,9 +126,17 @@ export default function DetalleNota(props) {
         console.log(originalNota)
         updateData(`notas/update/${originalNota._id}`, originalNota).then((rs) => { getNotasData() })
     }
-    const onEntryFinish = (values) => {
+    const onEntryFinish = (nota, values) => {
         console.log(values)
+        console.log('Before:', nota)
+        nota.entradas = [...nota.entradas, values];
+        console.log('After:', nota)
+        updateData(`notas/update/${nota._id}`, nota).then((rs) => {
+            getNotasData()
+            setEditingEntradas(false)
+        })
     }
+
     const onEntryFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
@@ -191,31 +201,42 @@ export default function DetalleNota(props) {
                     </Card>
 
                     <Card title='Entradas'>
-                        <Form
-                            name="add_entry_form"
-                            // labelCol={{ span: 8 }}
-                            // wrapperCol={{ span: 16 }}
-                            onFinish={onEntryFinish}
-                            onFinishFailed={onEntryFinishFailed}
-                            autoComplete="off"
-                        >
-                            <Space>
-                                <Form.Item
-                                    // label="Nueva entrada"
-                                    name="nueva_entrada"
-                                    rules={[{ required: true, message: 'Please input your username!' }]}
-                                >
-                                    <TextArea rows={2} placeholder="Ingresa los detalles" />
-                                </Form.Item>
-                                <Form.Item
-                                // wrapperCol={{ offset: 8, span: 16 }}
-                                >
-                                    <Button type="primary" htmlType="submit">
-                                        Guardar
-                                    </Button>
-                                </Form.Item>
-                            </Space>
-                        </Form>
+                        {
+                            editingEntradas ? <Form
+                                name="add_entry_form"
+                                // labelCol={{ span: 8 }}
+                                // wrapperCol={{ span: 16 }}
+                                onFinish={(vals) => onEntryFinish(nota, vals)}
+                                onFinishFailed={onEntryFinishFailed}
+                                autoComplete="off"
+                            >
+                                <Space>
+                                    <Form.Item
+                                        // label="Nueva entrada"
+                                        name="descripcion"
+                                        rules={[{ required: true, message: 'Ingresa la descripcion' }]}
+                                    >
+                                        <TextArea rows={2} placeholder="Ingresa los detalles" />
+                                    </Form.Item>
+                                    <Form.Item
+                                    // wrapperCol={{ offset: 8, span: 16 }}
+                                    >
+                                        <div className='fila'>
+                                            <Button className='btnIconCentered' type="primary" shape="circle" size='small' htmlType="submit" icon={<SaveOutlined />} />
+                                            <Button className='btnIconCentered' type="primary" shape="circle" size='small' onClick={() => setEditingEntradas(false)} icon={<CloseOutlined />} />
+                                        </div>
+                                    </Form.Item>
+                                </Space>
+                            </Form> : <div className='fila'>
+                                <ul>
+                                    {
+                                        nota.entradas.map((e) => <li key={e._id}>{e.createdAt.substring(0, 10)} - {e.descripcion}</li>)
+                                    }
+                                </ul>
+                                <Button className='btnIconCentered' type="primary" shape="circle" ghost onClick={() => { setEditingEntradas(true) }} size='small' icon={<PlusOutlined />} />
+                            </div>
+                        }
+
                     </Card>
 
                     <Card title='Tratamiento'>
@@ -271,7 +292,7 @@ export default function DetalleNota(props) {
 
         <Space>
             <h5>Notas </h5>
-            <Button onClick={createNota} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
+            <Button className='btnIconCentered' onClick={createNota} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
         </Space>
 
         {

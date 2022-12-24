@@ -25,8 +25,8 @@ export default function DetalleReceta(props) {
     const handleEditCancel = () => { setIsEditingModalVisible(false); };
     // Print Receta Modal
     const showPrintModal = () => { setIsPrintingModalVisible(true); };
-    const handlePrintOk = () => { setIsPrintingModalVisible(false); setIsLogoSelected(false)};
-    const handlePrintCancel = () => { setIsPrintingModalVisible(false);setIsLogoSelected(false)};
+    const handlePrintOk = () => { setIsPrintingModalVisible(false); setIsLogoSelected(false) };
+    const handlePrintCancel = () => { setIsPrintingModalVisible(false); setIsLogoSelected(false) };
     // Select logo for print in receta. Switches the modal view into select logo hospital/pdf recipe for print
     const [logoHospital, setLogoHospital] = useState(null)
     const [isLogoSelected, setIsLogoSelected] = useState(false)
@@ -136,8 +136,8 @@ export default function DetalleReceta(props) {
 
 
     return <div>
-        <Card bordered={false} title={<>Recetas <Button onClick={() => setIsModalVisible(true)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} /></>} >
-            
+        <Card bordered={false} title={<>Recetas <Button className='btnIconCentered' onClick={() => setIsModalVisible(true)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} /></>} >
+
             {
                 recetaLoading ? <h5>Cargando Receta...</h5> :
                     recetaData.length > 0 ?
@@ -190,7 +190,7 @@ export default function DetalleReceta(props) {
             ]}>
             {
                 Object.keys(recetaForEdit).map((k) => {
-                    return <p>{k} : {recetaForEdit[k]}</p>
+                    return <p key={k}>{k} : {recetaForEdit[k]}</p>
                 })
             }
             <Form
@@ -222,7 +222,7 @@ export default function DetalleReceta(props) {
                         <Card title='Selecciona un hospital' bordered={false}>
                             {
                                 usuario.horarios.map((h) => {
-                                    return <Card.Grid style={{ width: '100%' }} onClick={() => {setLogoHospital(h.sucursal.logo); setIsLogoSelected(true)}}>
+                                    return <Card.Grid style={{ width: '100%' }} onClick={() => { setLogoHospital(h.sucursal.logo); setIsLogoSelected(true) }} key={h._id}>
                                         <Row align="middle">
                                             <Col span={6} offset={4}><img width={64} src={'https://api.recreamed.com/images/' + h.sucursal.logo} alt="Logo" /></Col>
                                             <Col span={10}>{h.sucursal.nombre} <br /> {h.horario}</Col>

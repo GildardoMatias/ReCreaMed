@@ -42,19 +42,20 @@ export default function Perfil() {
     }
 
     const DetailsProfile = () => {
+        // Two columns of 8 spaces with 4 spaces around
         return <Row>
-            <Col span={8}>
+            <Col span={8} offset={4}>
                 {
                     // Profile Pic
                     profileData.avatar.length > 8 ?
                         <Image style={{ borderRadius: 12 }} width={256} src={'https://api.recreamed.com/images/' + profileData.avatar} />
                         :
-                        <Avatar size={128} icon={<UserOutlined />} />
+                        <Avatar size={128} icon={<UserOutlined />} className='btnIconCentered' />
                 }
                 <Divider />
-                <p>Nombre: {profileData.name} </p>
-                <p>Correo: {profileData.email} </p>
-                <p>Telefono: {profileData.telefono} </p>
+                <p className='nombre'>{profileData.name} </p>
+                <p className='datos'>{profileData.email} </p>
+                <p className='datos'>{profileData.telefono} </p>
             </Col>
             {/* <Col span={8}>
                 <p>Estado: {profileData.estado}</p>
@@ -77,9 +78,9 @@ export default function Perfil() {
                     }
                 </Card>
                 <br />
-                <p>Universidad: {profileData.universidad} </p>
-                <p>Certificacion: {profileData.certificacion} </p>
-                <p>Cedula: {profileData.cedula} </p>
+                <p><span className='desc'>Universidad:</span> {profileData.universidad} </p>
+                <p><span className='desc'>Certificacion:</span> {profileData.certificacion} </p>
+                <p><span className='desc'>Cedula:</span> {profileData.cedula} </p>
             </Col>
 
 

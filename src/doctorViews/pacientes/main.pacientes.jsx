@@ -56,7 +56,7 @@ export default function MainPacientes() {
     <div className='mainContainer'>
       <Row justify="start">
         <Col ><h4 >Pacientes</h4> </Col>
-        <Col style={{ marginLeft: 12 }}><Button style={{ marginTop: 4}} onClick={() => setAdding(!adding)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} /> </Col>
+        <Col style={{ marginLeft: 12 }}><Button className='btnIconCentered' style={{ marginTop: 4 }} onClick={() => setAdding(!adding)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} /> </Col>
         <Col style={{ marginLeft: 16 }}>
           <div className="my-select-container">
             <Select
@@ -76,7 +76,7 @@ export default function MainPacientes() {
             </Select>
           </div>
         </Col>
-      </Row>
+      </Row> <div style={{ height: '16px' }}></div>
       {
         isLoading ? <Loading /> :
           adding ? <Register setAdding={setAdding} /> :
