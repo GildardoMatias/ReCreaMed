@@ -84,7 +84,7 @@ export default function DetalleHistoria(props) {
         <Card bordered={false}>
             <Space>
                 <h5>Historia Clinica</h5>
-                <Button onClick={() => setEditing(true)} size='small' disabled={!props.historia} type="primary" shape="circle" icon={<FormOutlined />} />
+                <Button className='btnIconCentered' onClick={() => setEditing(true)} size='small' disabled={!props.historia} type="primary" shape="circle" icon={<FormOutlined className='sizedIcon' />} />
             </Space>
             {
                 notaLoading ? <h5>Cargando Historia...</h5> :

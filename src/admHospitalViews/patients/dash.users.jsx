@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Space, Button, Card, Modal } from 'antd'
+import { Table, Space, Button, Card, Modal, Avatar } from 'antd'
 import { API } from '../../resources';
 import Loading from '../../loading';
-
+import { UserOutlined } from '@ant-design/icons'
 
 export default function Dash() {
 
@@ -29,19 +29,27 @@ export default function Dash() {
 
   const columns = [
     {
+      title: 'Avatar',
+      dataIndex: 'avatar',
+      key: 'avatar',
+      render: (_, { avatar }) => {
+        return avatar.length > 9 ?
+          <img width={64} src={'https://api.recreamed.com/images/' + avatar} alt='ProfilePic' /> :
+          <Avatar size={64} icon={<UserOutlined />} />
+      }
+    },
+    {
       title: 'Nombre',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Rol',
-      dataIndex: 'rol',
-      key: 'rol',
-    },
-    {
-      title: 'Sucursal',
-      dataIndex: 'id_sucursal',
-      key: 'address',
+      title: 'Medicos Asignados',
+      dataIndex: 'medicos_asignados',
+      key: 'medicos_asignados',
+      render: (_, { medicos_asignados }) => <Space direction='vertical'>{
+        medicos_asignados.map((m) => <div key={m}>{m}</div>)
+      }</Space>
     },
     {
       title: 'Telefono',
@@ -81,7 +89,7 @@ export default function Dash() {
   }
 
   return (
-    <div>
+    <div className='mainContainer'>
       <h4>Usuarios</h4>
       {isLoading ? <Loading /> :
 

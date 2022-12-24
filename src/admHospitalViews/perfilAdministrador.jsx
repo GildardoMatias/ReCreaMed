@@ -15,9 +15,7 @@ export default function PerfilAdministrador() {
   const [isLoading, setIsLoading] = useState(true);
   const [visible, setVisible] = useState(false)
 
-  useEffect(() => {
-    getProfileData()
-  }, [])
+  useEffect(() => { getProfileData() }, [])
 
   useEffect(() => {
     getProfileData()
@@ -42,19 +40,20 @@ export default function PerfilAdministrador() {
   }
 
   const DetailsProfile = () => {
+    // Two Columns of 8 spaces with space of 4 around
     return <Row>
-      <Col span={8}>
+      <Col span={8} offset={4}>
         {
           // Profile Pic
           profileData.avatar.length > 8 ?
             <Image style={{ borderRadius: 12 }} width={256} src={'https://api.recreamed.com/images/' + profileData.avatar} />
             :
-            <Avatar size={128} icon={<UserOutlined />} style={{ marginLeft: 80 }} />
+            <Avatar size={128} icon={<UserOutlined />} style={{ marginLeft: 80 }} className='btnIconCentered' />
         }
-        <br /><br />
-        <p>Nombre: {profileData.name} </p>
-        <p>Correo: {profileData.email} </p>
-        <p>Telefono: {profileData.telefono} </p>
+        <br /><br /><br />
+        <p className='nombre'> {profileData.name} </p>
+        <p className='datos'>Correo: {profileData.email} </p>
+        <p className='datos'>Telefono: {profileData.telefono} </p>
       </Col>
       {/* <Col span={8}>
                 <p>Estado: {profileData.estado}</p>
@@ -63,7 +62,7 @@ export default function PerfilAdministrador() {
                 <p>Calle: {profileData.calle}</p>
                 <p>Codigo Postal:{profileData.codigopostal} </p>
             </Col> */}
-      <Col span={8}>
+      <Col span={7} offset={1}>
         <Card title='Horarios' style={{ borderRadius: 12 }}>
           {
             profileData.horarios.map((h) => {
@@ -92,14 +91,13 @@ export default function PerfilAdministrador() {
         <h3>PERFIL</h3>
         <Button onClick={() => editPerfil(profileData)} type="primary" shape="circle" icon={<FormOutlined />} />
       </Space>
+      <br /><br />
       {isLoading ? <Loading /> :
         <Card style={{ borderRadius: 16 }}>
           {
             editing ?
-
               <>
                 <PerfilEdit perfil={profileData} setEditing={setEditing} />
-                <Button shape="circle" title='Cancelar' />
                 <Button onClick={() => setEditing(false)}>Cancelar</Button>
               </> :
               <DetailsProfile />

@@ -76,7 +76,7 @@ export const Footer = () =>
     }}>
 
         <p style={{ color: 'white' }}>
-            Desarrollado por <strong> <a href="https://www.realidadcreativa.com" style={{ marginLeft: 6, color: 'white' }}>realidadcreativa.com</a></strong> | © Realidad Creativa - 2022
+            Desarrollado por <strong> <a href="https://www.realidadcreativa.com" style={{ marginLeft: 6, color: 'white' }}>realidadcreativa.com</a></strong> | © Realidad Creativa - 2023
         </p>
 
     </div>

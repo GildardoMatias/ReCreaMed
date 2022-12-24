@@ -15,27 +15,27 @@ import { usuario } from '../resources'
 import { Historial } from './historial';
 import MainPacientes from './pacientes/main.pacientes';
 import Escalas from '../escalas/escalasMenu';
-import Balances from './balances';
+import Balances from './balances/balances';
 
 function Navigator() {
   console.log("DoctorApp", usuario.name)
-  return <Navbar bg="light" expand="lg">
+  return <Navbar bg="primary" variant="dark" expand="lg">
     <Container>
-      <Navbar.Brand href="#home" style={{ fontFamily: 'Arial', color: '#515a6e' }}>
-        <img
-          src={icon}
-          width="40"
-          height="35"
-          className="d-inline-block align-top"
-          alt="Recreamed logo"
-          style={{ marginRight: 6 }}
-        />
+      <img
+        src={icon}
+        width="40"
+        height="35"
+        className="d-inline-block align-top"
+        alt="Recreamed logo"
+        style={{ marginRight: 6 }}
+      />
+      <Navbar.Brand href="#home" style={{ fontFamily: 'Poppins', color: 'White' }}>
         Bienvenido {usuario.name}
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
-          <Nav.Link href="/">Inicio</Nav.Link>
+          {/* <Nav.Link href="/">Inicio</Nav.Link> */}
           {/* <Nav.Link href="/pacientesdash">PacientesDash</Nav.Link> */}
           <Nav.Link href="/pacientes" >Pacientes</Nav.Link>
           <Nav.Link href="/citas">Citas</Nav.Link>
@@ -48,9 +48,11 @@ function Navigator() {
           <Nav.Link href="/perfil">Mi Perfil</Nav.Link>
         </Nav>
       </Navbar.Collapse>
-      <Navbar.Collapse className="justify-content-end">
-        <Button onClick={logout} >Cerrar Sesion</Button>
-      </Navbar.Collapse>
+
+      <Navbar.Brand href="#home" className="justify-content-end">
+        <Button ghost onClick={logout} style={{ marginLeft: 10 }}>Cerrar Sesion</Button>
+      </Navbar.Brand>
+
     </Container>
   </Navbar>
 
@@ -96,9 +98,9 @@ export default function DoctorApp() {
         <Route path="/historial">
           <Historial />
         </Route>
-      
+
         <Route path="/balances">
-          <Balances/>
+          <Balances />
         </Route>
 
         <Route path="/escalas">

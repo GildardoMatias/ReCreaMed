@@ -10,21 +10,23 @@ import PerfilAdministrador from './perfilAdministrador'
 import Home from './home/home'
 import icon from '../assets/Icon.png';
 import Escalas from '../escalas/escalasMenu';
+import { usuario } from '../resources'
 
 const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); window.location.href = '/'; }
 
 function Navigator() {
-  return <Navbar bg="light" expand="lg">
+  return <Navbar bg="primary" variant="dark" expand="lg">
     <Container>
-      <Navbar.Brand href="#home">
-        <img
-          src={icon}
-          width="40"
-          height="35"
-          className="d-inline-block align-top"
-          alt="Recreamed logo"
-        />
-        Bienvenido Administrador
+      <img
+        src={icon}
+        width="40"
+        height="35"
+        className="d-inline-block align-top"
+        alt="Recreamed logo"
+        style={{ marginRight: 6 }}
+      />
+      <Navbar.Brand href="#home" style={{ fontFamily: 'Poppins', color: 'White' }}>
+        Bienvenido {usuario.name}
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
@@ -40,7 +42,7 @@ function Navigator() {
         </Nav>
       </Navbar.Collapse>
       <Navbar.Collapse className="justify-content-end">
-        <Button onClick={logout} >Cerrar Sesion</Button>
+        <Button onClick={logout} ghost>Cerrar Sesion</Button>
       </Navbar.Collapse>
     </Container>
   </Navbar>;
@@ -64,7 +66,7 @@ export default function AdminHospitalApp() {
           <Users />
         </Route>
         <Route path="/escalas">
-          <Escalas/>
+          <Escalas />
         </Route>
         <Route path="/administrador">
           <PerfilAdministrador />
