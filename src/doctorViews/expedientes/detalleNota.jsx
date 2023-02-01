@@ -4,6 +4,7 @@ import { getData, API, updateData, usuario } from '../../resources';
 import { PlusOutlined, ExperimentOutlined, DownloadOutlined, EditOutlined, InboxOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
 import { NuevaNota } from './nuevaNota';
 import DetalleReceta from './detalleReceta';
+import LastCita from './lastCita'
 const { Panel } = Collapse;
 const { Paragraph } = Typography;
 const { TextArea } = Input;
@@ -133,8 +134,7 @@ export default function DetalleNota(props) {
         console.log('After:', nota)
         updateData(`notas/update/${nota._id}`, nota).then((rs) => {
             getNotasData()
-            setEditingEntradas(false)
-        })
+        }).finally(() => setEditingEntradas(false))
     }
 
     const onEntryFinishFailed = (errorInfo) => {
@@ -230,7 +230,7 @@ export default function DetalleNota(props) {
                             </Form> : <div className='fila'>
                                 <ul>
                                     {
-                                        nota.entradas.map((e) => <li key={e._id}>{e.createdAt.substring(0, 10)} - {e.descripcion}</li>)
+                                        nota.entradas && nota.entradas.map((e) => <li key={e._id}>{e.createdAt?.substring(0, 10)} - {e.descripcion}</li>)
                                     }
                                 </ul>
                                 <Button className='btnIconCentered' type="primary" shape="circle" ghost onClick={() => { setEditingEntradas(true) }} size='small' icon={<PlusOutlined />} />
@@ -283,6 +283,9 @@ export default function DetalleNota(props) {
                 <Col span={12}>
                     {/* La otra mitad de la pantalla para receta */}
                     <DetalleReceta recetas={nota.recetas} id_nota={nota._id} />
+
+                    {/* Debajo de la receta esta la ultima cita */}
+                    <LastCita paciente={props.paciente} />
                 </Col>
             </Row>
         }

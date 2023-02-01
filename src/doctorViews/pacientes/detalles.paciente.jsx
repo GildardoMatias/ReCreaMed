@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { getData } from '../../resources';
 import { Row, Col } from 'antd';
 import { Avatar, Card, Divider, Button } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
 import Loading from '../../loading';
-import { FormOutlined } from '@ant-design/icons';
+import { FormOutlined, UserOutlined, MailOutlined, MobileOutlined } from '@ant-design/icons';
 import Register from './register.patient';
 
 
@@ -36,9 +35,9 @@ export default function DetallesPaciente(props) {
 
                         <br />
                         <br />
-                        <p className='nombre'>{pacienteData.name}</p>
-                        <p className='datos'>{pacienteData.email}</p>
-                        <p className='datos'>{pacienteData.telefono}</p>
+                        <p className='nombre'><UserOutlined style={{marginRight: 10}} /> {pacienteData.name}</p>
+                        <p className='datos'><MailOutlined style={{marginRight: 10}} /> {pacienteData.email}</p>
+                        <p className='datos'><MobileOutlined style={{marginRight: 10}} /> {pacienteData.telefono}</p>
                     </Col>
                     <Col span={8} className='columnWithDescriptions'>
                         <Row><Col span={10}><span className='desc'>Sexo:</span></Col><Col span={10}>{pacienteData.sexo}</Col> </Row>

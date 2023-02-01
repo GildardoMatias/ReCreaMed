@@ -2,20 +2,17 @@ import React from 'react'
 import { Button } from 'antd'
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Patients from './pacientesDash/main.patients'
-import { Citas } from './citas'
+import { Citas } from './citas/citas'
 import Expedientes from './expedientes/expedientes'
-// import Recetas from './recetas'
-import Perfil from './perfil'
-import { DoctorNotas } from './doctorNotas'
+import Perfil from './perfil/perfil'
 import Home from './home/home'
 import icon from '../assets/Icon.png';
 import { Footer, logout } from '../resources'
 import { usuario } from '../resources'
-import { Historial } from './historial';
 import MainPacientes from './pacientes/main.pacientes';
 import Escalas from '../escalas/escalasMenu';
 import Balances from './balances/balances';
+import Stripe from './stripe/stripe';
 
 function Navigator() {
   console.log("DoctorApp", usuario.name)
@@ -46,6 +43,7 @@ function Navigator() {
           {/* <Nav.Link href="/notas">Notas</Nav.Link> */}
           {/* <Nav.Link href="/historial">Historiales</Nav.Link> */}
           <Nav.Link href="/perfil">Mi Perfil</Nav.Link>
+          <Nav.Link href="/stripe">Stripe</Nav.Link>
         </Nav>
       </Navbar.Collapse>
 
@@ -62,14 +60,8 @@ export default function DoctorApp() {
 
   return (
     <Router>
-
       <Navigator />
-
       <Switch>
-
-        <Route path="/pacientesdash">
-          <Patients />
-        </Route>
 
         <Route path="/pacientes">
           <MainPacientes />
@@ -91,16 +83,13 @@ export default function DoctorApp() {
           <Perfil />
         </Route>
 
-        <Route path="/notas">
-          <DoctorNotas />
-        </Route>
-
-        <Route path="/historial">
-          <Historial />
-        </Route>
-
         <Route path="/balances">
           <Balances />
+        </Route>
+        
+        {/* Teporaty stripe */}
+        <Route path="/stripe">
+          <Stripe/>
         </Route>
 
         <Route path="/escalas">

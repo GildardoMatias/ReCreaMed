@@ -43,17 +43,6 @@ export default function DetalleReceta(props) {
             setRecetaData(response);
             setRecetaLoading(false)
         })
-        // fetch(API + 'recetas/getMany', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ 'ids': props.recetas })
-        // }).then(res => res.json())
-        //     .then(response => {
-        //         // console.log('Recetas Received:', response);
-        //         setRecetaData(response);
-        //         setRecetaLoading(false)
-        //     })
-        //     .catch(error => console.error('Error:', error))
     }
 
     const finifhGet = () => { setRecetaData([]); setRecetaLoading(false); }
@@ -154,7 +143,7 @@ export default function DetalleReceta(props) {
             }
         </Card>
 
-        <Modal title="Nueva Receta" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}
+        <Modal title="Nueva Receta" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}
             footer={[
                 <Button type="primary" htmlType="submit" form='create_receta_medic'>
                     Guardar

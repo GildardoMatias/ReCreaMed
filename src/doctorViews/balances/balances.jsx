@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Space, Table, Tag, Button, Modal, Form, Input, Select } from 'antd';
+import { Table, Tag, Button, Modal, Form, Input, Select, Typography } from 'antd';
 import { getData, updateData, usuario } from '../../resources';
 
+const { Text } = Typography;
 
 export default function Balances() {
     const [balancesData, setBalancesData] = useState([])
     const [balanceForEdit, setBalanceForEdit] = useState({})
+    const [pacientesData, setPacientesData] = useState({})
 
     // Modal For Edit Balance
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,11 +15,26 @@ export default function Balances() {
     const handleOk = () => { setIsModalOpen(false) };
     const handleCancel = () => { setIsModalOpen(false) };
 
-    useEffect(() => { getBalancesData() }, [])
+    useEffect(() => { getPacientesData() }, [])
 
-    const getBalancesData = () => { getData(`balances/${usuario._id}`).then((rs) => setBalancesData(rs)) }
+    const getPacientesData = () => { getData(`users_by_rol/Paciente`).then((rs) => { setPacientesData(rs); getBalancesData(); console.log('pacientes', rs); }) }
+    const getBalancesData = () => { getData(`balances/${usuario._id}`).then((rs) => { setBalancesData(rs); console.log('balances', rs); }) }
+
+    const MatchPatient = ({ paciente }) => {
+
+        const patient = pacientesData.find((p) => paciente === p._id)
+        // console.log('Receivd:_ ', paciente);
+        // console.log('Found:_ ', patient);
+        return <div>{patient ? patient.name : <Text disabled>Usuario no encontrado</Text>}</div>
+    }
 
     const columns = [
+        {
+            title: 'Fecha',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            render: (_, { createdAt }) => { return <>{createdAt.substring(0, 10)}</> }
+        },
         {
             title: 'Monto',
             dataIndex: 'monto',
@@ -30,6 +47,14 @@ export default function Balances() {
             render: (_, { forma_de_pago }) => {
                 let color = forma_de_pago === 'efectivo' ? 'geekblue' : 'green';
                 return <Tag color={color} >{forma_de_pago.toUpperCase()}</Tag>
+            },
+        },
+        {
+            title: 'Paciente',
+            key: 'cita.paciente',
+            dataIndex: 'cita',
+            render: (_, { cita }) => {
+                return cita ? <MatchPatient paciente={cita.usuario} /> : <Text disabled>Cita y usuario no existente</Text>
             },
         },
         {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Select, Space } from 'antd';
 import { API } from '../../resources';
-import CreateExpedient from './createExpedient';
 import DetalleNota from './detalleNota'
 import DetalleHistoria from './detalleHistoria';
 import html2canvas from 'html2canvas';
@@ -9,7 +8,6 @@ import { jsPDF } from "jspdf";
 
 
 export default function Expedientes(props) {
-    const [isModalVisible, setIsModalVisible] = useState(false);
     const [expedientesData, setExpedientesData] = useState([]);
     const [expedientesLoading, setExpedientesLoading] = useState(true);
     const [historia, setHistoria] = useState("");
@@ -55,10 +53,8 @@ export default function Expedientes(props) {
         <DetalleHistoria historia={historia} />
 
         <DetalleNota notas={notas} id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={props.paciente} />
-
-        <CreateExpedient isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} pacientesData={[]} />
-
-        <Button onClick={printDocument}>Exportar a pdf</Button>
+        
+        {/* <Button onClick={printDocument}>Exportar a pdf</Button> */}
 
     </div>;
 }
