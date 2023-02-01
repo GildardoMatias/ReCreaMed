@@ -6,7 +6,7 @@ import { usuario } from '../../resources'
 import Expedientes from '../expedientes/expedientes'
 import DetallesPaciente from './detalles.paciente'
 import Register from './register.patient'
-import { PlusOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons';
+import { PlusOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
 const { TabPane } = Tabs;
 const { Option } = Select;
 
@@ -32,6 +32,9 @@ export default function MainPacientes() {
       .then(data => {
         data.forEach(paciente => {
           paciente.value = paciente.name;
+          paciente.key = paciente._id; // For new Tabs mode
+          paciente.label = <TabLabel name={paciente.name} telefono={paciente.telefono} />
+          paciente.children = <DetallesPaciente paciente={paciente._id} />
         });
         console.log(data); setPacientesData(data);
         if (data && data.length > 0) setPaciente(data[0]._id)
@@ -39,10 +42,12 @@ export default function MainPacientes() {
       .finally(() => setIsLoading(false))
   }
 
-  const onSelect = (data) => {
-    console.log('onSelect', data);
-  };
-
+  const TabLabel = ({ name, telefono }) => {
+    return <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', margin: -6 }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}><UserOutlined />{name}</div>
+      <div style={{ fontSize: 10, display: 'flex', alignItems: 'center' }}><MobileOutlined />{telefono}</div>
+    </div>
+  }
   const onChange = (data) => {
     console.log('onchangeSearchInput', data)
     setActivePatient(data)
@@ -51,6 +56,7 @@ export default function MainPacientes() {
   const onSearch = (value) => {
     console.log('search:', value);
   };
+
 
   return (
     <div className='mainContainer'>
@@ -81,15 +87,9 @@ export default function MainPacientes() {
         isLoading ? <Loading /> :
           adding ? <Register setAdding={setAdding} /> :
             <div style={{ border: '1px solid #D6D6D6', borderRadius: 12, padding: 12 }}>
-              <Tabs activeKey={activePatient} tabPosition='left' onTabClick={(k, e) => { console.log('OnTABClick', k); setPaciente(k) }} style={{ marginTop: 6 }}>
-                {
-                  pacientesData.map((pt) => {
-                    return <TabPane tab={<><UserOutlined />{pt.name} <PhoneOutlined style={{ marginBottom: 2 }} />{pt.telefono}</>} key={pt._id} onClick={() => { setPaciente(pt._id) }}>
-                      <DetallesPaciente paciente={pt._id} />
-                    </TabPane>
-                  })
-                }
-              </Tabs>
+
+              <Tabs items={pacientesData} activeKey={activePatient} tabPosition='left' onTabClick={(k, e) => { console.log('OnTABClick', k); setPaciente(k) }} style={{ marginTop: 6 }} />
+
             </div>
       }
       <br />

@@ -2,37 +2,44 @@ import React, { useState, useEffect } from 'react'
 import { Form, Input, Button, message, Space, Divider, Upload, Switch } from 'antd'
 import { InputNumber, Select } from 'antd';
 import { S_API, API, getData } from '../../resources'
-import { usuario } from '../../resources'
+import { usuario, estados } from '../../resources'
 import { InboxOutlined, UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
 const { Dragger } = Upload;
 
 
 const { Option } = Select;
-const estados = ["Michoacan", "Morelos", "Guerrero"];
+
+const id_sucursales = usuario && usuario.horarios.map(function (item) {
+  return item['sucursal']['_id'];
+})
 
 export default function Register(props) {
 
   const [form] = Form.useForm();
   const [avatar, setAvatar] = useState(props.paciente ? props.paciente.avatar : 'noimg.jpg')
   const [medicosData, setMedicosData] = useState([])
+
   useEffect(() => {
     getData('users_by_rol/Medico').then((rs) => {
-      rs.forEach(md => {
-        md.label = md.name;
-        md.value = md._id;
-      });
-      setMedicosData(rs)
+      setMedicosData(findMyDoctors(rs))
     })
   }, [])
-  useEffect(() => {
-    getData('users_by_rol/Medico').then((rs) => {
-      rs.forEach(md => {
-        md.label = md.name;
-        md.value = md._id;
-      });
-      setMedicosData(rs)
+
+  // EScoger solo los medicos que compartan siucursal y darlse formato pára el select
+  const findMyDoctors = (arr) => {
+    let doctorsFound = [];
+    arr.forEach((doctor) => {
+      doctor.horarios.forEach(h => {
+        if (id_sucursales.includes(h.sucursal._id) && !doctorsFound.includes(doctor)) {
+          doctor.label = doctor.name;
+          doctor.value = doctor._id;
+          doctorsFound.push(doctor)
+        }
+      })
     })
-  }, [])
+    return doctorsFound;
+  }
+
   async function addHistoria() {
     return await fetch(API + 'historias/add', {
       method: 'POST',
@@ -108,11 +115,11 @@ export default function Register(props) {
       }
     }).then(res => res.json())
       .then(response => {
-        console.log('Create User Response:', response);
         message.success(response.message || response.error);
         props.paciente ? console.log('Editing, not creating patient') : createPAtientData(response.user_id);
         response.message === 'Usuario creado correctamente' ?
-          props.setAdding(false) : console.log(response);
+          window.location.reload(false) : console.log(response)
+        // props.setAdding(false) : console.log(response);
         response.message === 'Usuario actualizado correctamente' ?
           props.setAdding(false) : console.log(response);
 
@@ -122,6 +129,9 @@ export default function Register(props) {
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
+    errorInfo.errorFields.map((p) => {
+      message.error('Ingrese el campo ' + p.name)
+    })
   };
 
   const prefixSelector = (
@@ -181,7 +191,7 @@ export default function Register(props) {
       }
 
       <br />
-    
+
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Upload {...dragDropProps}>
@@ -215,7 +225,7 @@ export default function Register(props) {
           <Input />
         </Form.Item>
 
-       
+
         <Form.Item
           name="telefono"
           label="Telefono"
@@ -228,7 +238,7 @@ export default function Register(props) {
         </Form.Item>
 
         {/* Start Adding Medicos ASignados */}
-        <Form.Item name="medicos_asignados" label="Medicos Asignados" rules={[{ required: false, message: 'Ingresa tu universidad' }]} >
+        <Form.Item name="medicos_asignados" label="Medicos Asignados" rules={[{ required: true, message: 'Agrega al mennos un medico' }]} >
           <Form.List name="medicos_asignados" >
             {(fields, { add, remove }, { errors }) => (
               <>
@@ -238,7 +248,7 @@ export default function Register(props) {
                       validateTrigger={['onChange', 'onBlur']}
                       rules={[{ required: true, whitespace: true, message: "Selecciona un Medico o elimina este campo" }]}
                     >
-                      <Select options={medicosData} placeholder="Selecciona Medico" style={{ width: fields.length > 1 ? '94%' : '100%' }} />
+                      <Select options={medicosData} placeholder="Selecciona Medico" style={{ width: fields.length > 1 ? '90%' : '100%' }} />
                     </Form.Item>
                     {fields.length > 1 ? (
                       <MinusCircleOutlined
@@ -413,7 +423,7 @@ export default function Register(props) {
                       validateTrigger={['onChange', 'onBlur']}
                       rules={[{ required: true, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
                     >
-                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '92%' : '100%' }} />
+                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '90%' : '100%' }} />
                     </Form.Item>
                     {fields.length > 1 ? (
                       <MinusCircleOutlined
@@ -445,7 +455,7 @@ export default function Register(props) {
                       validateTrigger={['onChange', 'onBlur']}
                       rules={[{ required: true, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
                     >
-                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '94%' : '100%' }} />
+                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '90%' : '100%' }} />
                     </Form.Item>
                     {fields.length > 1 ? (
                       <MinusCircleOutlined
@@ -480,7 +490,7 @@ export default function Register(props) {
                       validateTrigger={['onChange', 'onBlur']}
                       rules={[{ required: true, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
                     >
-                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }} />
+                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '90%' : '100%' }} />
                     </Form.Item>
                     {fields.length > 1 ? (
                       <MinusCircleOutlined
@@ -502,12 +512,14 @@ export default function Register(props) {
           </Form.List>
         </Form.Item>
 
-        <Form.Item label='*'>
+        <Form.Item labelCol={{ span: 6 }} wrapperCol={{ offset: 6, span: 16 }}>
           <Space>
             <Button type="primary" htmlType="submit">
-              Registrar
+              {props.paciente ? 'Guardar' : 'Registrar'}
             </Button>
-            <Button onClick={() => props.setAdding(false)}>Cancelar</Button>
+            {
+              props.setAdding && <Button onClick={() => props.setAdding(false)}>Cancelar</Button>
+            }
           </Space>
 
         </Form.Item>
