@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Calendar, Space, Row, Col, Button, Modal, Form, Input, message, DatePicker, Badge, Select, Switch } from 'antd';
-import { API, getData, usuario, sendDataBody } from '../../resources';
-import Loading from '../../loading'
+import { Calendar, Space,  Button, Modal, Form, Input, message, DatePicker, Badge, Select, Switch } from 'antd';
+import { getData, usuario, sendDataBody } from '../../resources';
+// import Loading from '../../loading'
 import moment from "moment";
 const { Option } = Select;
 
@@ -133,6 +133,7 @@ export function Citas() {
             <br />
             <Space size='large'>
                 <Select
+                    bordered
                     style={{ width: 260, }}
                     onChange={handleDoctorChange}
                     placeholder='Selecciona un medico'
@@ -143,17 +144,24 @@ export function Citas() {
                         })
                     }
                 </Select>
+
                 <Button type="primary" onClick={showModal} disabled={!medico}>
                     Crear cita para este medico
                 </Button>
             </Space>
 
 
-            {isLoading ? <Loading /> : <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />}
+            {
+                isLoading ?
+                    // <Loading />
+                    <div style={{ width: '100%', marginTop: 46, textAlign: 'center' }}><h5>Elije un medico para ver sus citas</h5></div>
+                    :
+                    <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
+            }
 
 
             {/* Create Cita */}
-            <Modal title="Nueva Cita" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose
+            <Modal title="Nueva Cita" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose
                 footer={[
                     <Button onClick={handleCancel}>Cancelar</Button>,
                     <Button type="primary" htmlType="submit" form='nueva_cita_admin'>

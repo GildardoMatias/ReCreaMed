@@ -13,7 +13,6 @@ export default function PerfilAdministrador() {
   const [profileForEdit, setProfileForEdit] = useState([]);
   const [editing, setEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(true);
-  const [visible, setVisible] = useState(false)
 
   useEffect(() => { getProfileData() }, [])
 

@@ -83,8 +83,6 @@ export const estados = ["Michoacan", "Morelos", "Guerrero"];
 
 // Only use for Doctors
 export const myHospitals = usuario.horarios.map(function (item) {
-    // item['sucursal']['key'] = item['sucursal']['_id'];
-    // item['sucursal']['label'] = item['sucursal']['nombre'];
     return item['sucursal'];
 })
 export const ids_hospitales = usuario.horarios.map(function (item) {

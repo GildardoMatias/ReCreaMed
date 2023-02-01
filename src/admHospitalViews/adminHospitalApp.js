@@ -37,7 +37,7 @@ function Navigator() {
           <Nav.Link href="doctores">Medicos</Nav.Link>
           <Nav.Link href="citas">Citas</Nav.Link>
           <Nav.Link href="escalas">Escalas</Nav.Link>
-          <Nav.Link href="administrador">Perfil</Nav.Link>
+          <Nav.Link href="perfil">Perfil</Nav.Link>
 
         </Nav>
       </Navbar.Collapse>
@@ -68,7 +68,7 @@ export default function AdminHospitalApp() {
         <Route path="/escalas">
           <Escalas />
         </Route>
-        <Route path="/administrador">
+        <Route path="/perfil">
           <PerfilAdministrador />
         </Route>
         <Route path="/">

@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 import { Select, Space, Form, Button, message } from 'antd'
-import { getData, updateData } from '../../resources';
+import { getData, updateData, usuario } from '../../resources';
 import { useState } from 'react';
-
+const id_sucursales = usuario && usuario.horarios.map(function (item) {
+    return item['sucursal']['_id'];
+})
 export default function AssignPatients() {
     const [pacientesData, setPacientesData] = useState([])
     const [medicosData, setMedicosData] = useState([])
@@ -26,15 +28,24 @@ export default function AssignPatients() {
 
     const getMedicosData = () => {
         getData('users_by_rol/Medico').then((rs) => {
-            rs.forEach(p => {
-                p.value = p._id;
-                p.label = p.name;
-                p.key = p._id;
-            });
-            setMedicosData(rs)
+            setMedicosData(findMyDoctors(rs))
         })
     }
-
+    // EScoger solo los medicos que compartan siucursal y darlse formato pára el select
+    const findMyDoctors = (arr) => {
+        let doctorsFound = [];
+        arr.forEach((doctor) => {
+            doctor.horarios.forEach(h => {
+                if (id_sucursales.includes(h.sucursal._id) && !doctorsFound.includes(doctor)) {
+                    doctor.value = doctor._id;
+                    doctor.label = doctor.name;
+                    doctor.key = doctor._id;
+                    doctorsFound.push(doctor)
+                }
+            })
+        })
+        return doctorsFound;
+    }
 
     const onFinish = (values) => {
         // find patient into patients data

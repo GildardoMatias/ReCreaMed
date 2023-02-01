@@ -62,7 +62,7 @@ export default function Register() {
     console.log('Failed:', errorInfo);
   };
   return (
-    <div>
+    <div className='mainContainer'>
       <h1>Registrar doctor</h1>
       <br />
       {/* <Form name="basic" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
@@ -305,7 +305,7 @@ export default function Register() {
           <Input />
         </Form.Item>
 
-        <Form.Item >
+        <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
           <Button type="primary" htmlType="submit">
             Registrar
           </Button>

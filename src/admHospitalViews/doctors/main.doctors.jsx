@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
-// import {Card } from 'antd'
-import SideMenu from './side.doctors';
+import { Tabs } from 'antd'
+import { TeamOutlined, UserAddOutlined, MenuOutlined } from '@ant-design/icons';
+import Register from './register.doctor';
+import Dash from './dash.doctors';
 
-export class Doctors extends Component {
-    render() {
-        return (
-            <div>
-                <div>
-                            <SideMenu />
-                </div>
-            </div>
-        )
-    }
+const items = [
+    { key: '1', label: <><TeamOutlined /> Medicos</>, children: <Dash /> },
+    { key: '2', label: <><UserAddOutlined /> Registrar Medico</>, children: <Register /> },
+];
+const onChange = (key) => { console.log(key) }
+
+export default function Doctors() {
+    return (
+        <div>
+            <Tabs defaultActiveKey="1" items={items} onChange={onChange} tabPosition='left' />
+        </div>
+    )
 }
-
-export default Doctors

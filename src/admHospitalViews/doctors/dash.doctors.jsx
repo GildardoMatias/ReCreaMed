@@ -1,65 +1,79 @@
-import React, { Component, useState, useEffect } from 'react'
-import { Table } from 'antd';
-import { API, usuario } from '../../resources'
-import Loading from '../../loading';
+import React, { useEffect, useState } from 'react'
+import { Table, Tabs } from 'antd'
+import { API, usuario, myHospitals, getData } from '../../resources'
+import Loading from '../../loading'
+
+
 
 export default function Dash() {
 
-  const [isLoading, setILoading] = useState(true);
-  const [doctoresData, setDoctoresData] = useState([]);
+    const [doctorsData, setDoctorsData] = useState([])
+    const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    getDoctoresData()
-  }, [])
+    // Before all, get DoctorsData
+    useEffect(() => { getDoctorsData() }, [])
+    const getDoctorsData = () => {
+        getData('users_by_rol/Medico').then((rs) => { setDoctorsData(rs) }).finally(() => setLoading(false))
+    }
 
-  const findMyDoctors = (arr) => {
-    let dl = [];
-    arr.forEach((d) => {
-      if (usuario.medicos_asignados.includes(d._id)) dl.push(d)
-    })
-    return dl;
-  }
+    // Create items for TABS
+    myHospitals.forEach(h => {
+        h.label = h.nombre;
+        h.key = h._id;
+        h.children = <HospitalTab hospital={h.nombre} id_hospital={h._id} />
+    });
 
-  const getDoctoresData = () => {
-    fetch(API + 'users_by_rol/Medico')
-      .then(response => response.json())
-      .then(data => {
+    // Create children item for each tab, inside tabs, goes the list of doctors
+    function HospitalTab(props) {
+        const columns = [
+            {
+                title: 'Rol',
+                dataIndex: 'rol',
+                key: 'rol',
+                onFilter: (value, record) => record.rol === "Medico",
+            },
+            {
+                title: 'Nombre',
+                dataIndex: 'name',
+                key: 'name',
+            },
+            {
+                title: 'Correo',
+                dataIndex: 'email',
+                key: 'email',
+            },
+            {
+                title: 'Telefono',
+                dataIndex: 'telefono',
+                key: 'telefono',
+            },
+        ];
+        const doctoresData = myDoctors(props.id_hospital); // Get medicos data before render TAble
+        return <div>
+            <h6>Doctors of {props.hospital}</h6>
+            <Table dataSource={doctoresData} columns={columns} />
+        </div>
 
-        console.log(data);
-        setDoctoresData(findMyDoctors(data));
-      })
-      .finally(() => setILoading(false))
-  }
+    }
 
-  const columns = [
-    {
-      title: 'Rol',
-      dataIndex: 'rol',
-      key: 'rol',
-      onFilter: (value, record) => record.rol === "Medico",
-    },
-    {
-      title: 'Nombre',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Correo',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: 'Telefono',
-      dataIndex: 'telefono',
-      key: 'telefono',
-    },
-  ];
-  return (
-    <div>
-      <h1>Doctores</h1>
-      {isLoading ? <Loading /> :
-        <Table dataSource={doctoresData} columns={columns} />
-      }
-    </div>
-  )
+    // Filter doctors of each hospital
+    const myDoctors = (id_hospital) => {
+        let doctorsFound = [];
+        doctorsData.forEach(doctor => {
+            doctor.horarios.forEach(horario => {
+                if (!doctorsFound.includes(doctor) && horario.sucursal._id === id_hospital) doctorsFound.push(doctor)
+            });
+        });
+        console.log(`Founds for ${id_hospital}: `, doctorsFound)
+        return doctorsFound;
+    }
+
+    if (loading) return <Loading />
+
+    return (
+        <div>
+            <h6>Doctores de los diferentes hospitales</h6>
+            <Tabs defaultActiveKey="1" items={myHospitals} />
+        </div>
+    )
 }
