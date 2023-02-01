@@ -33,7 +33,7 @@ export function Login() {
 
   return (
     <Row>
-      <Col span={8} offset={8}>
+      <Col lg={{span: 8,offset: 8}} md={{span: 10,offset: 7}} sm={{span: 16,offset: 4}} xs={{span: 16,offset: 4}}>
         <br />
         <br />
         <Card hoverable>

@@ -10,9 +10,7 @@ export const usuario = JSON.parse(localStorage.getItem('userData'));
 export async function getData(endpoint) {
     return await fetch(API + endpoint, { mode: 'cors' })
         .then(response => response.json())
-        .then(data => {
-            return data;
-        });
+        .then(data => { return data })
 }
 
 export async function sendData(endpoint) {
@@ -21,8 +19,8 @@ export async function sendData(endpoint) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
     }).then(res => res.json())
-        .then(response => {
-            console.log('Success:', response);
+        .then((response) => {
+            return response;
         })
         .catch(error => console.error('Error:', error))
 };
@@ -82,3 +80,13 @@ export const Footer = () =>
     </div>
 
 export const estados = ["Michoacan", "Morelos", "Guerrero"];
+
+// Only use for Doctors
+export const myHospitals = usuario.horarios.map(function (item) {
+    // item['sucursal']['key'] = item['sucursal']['_id'];
+    // item['sucursal']['label'] = item['sucursal']['nombre'];
+    return item['sucursal'];
+})
+export const ids_hospitales = usuario.horarios.map(function (item) {
+    return item['sucursal']['_id'];
+})

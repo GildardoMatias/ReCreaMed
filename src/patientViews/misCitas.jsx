@@ -5,6 +5,7 @@ import { API, getData } from '../resources';
 import { usuario } from '../resources';
 import Loading from '../loading'
 // import { API } from '../resources'
+import Stripe from './stripe/stripe';
 
 export default function MisCitas() {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -27,7 +28,7 @@ export default function MisCitas() {
             })
             .finally(() => setIsLoading(false))
     }
-    
+
     // Add Modal
     const showModal = () => { setIsModalVisible(true) };
     const handleOk = () => { setIsModalVisible(false) };
@@ -194,6 +195,7 @@ export default function MisCitas() {
                         :
                         <p>Sin cita seleccionada</p>
                 }
+                <Stripe />
             </Modal>
         </div>
     )
