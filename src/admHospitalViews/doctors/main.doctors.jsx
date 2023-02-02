@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Tabs } from 'antd'
 import { TeamOutlined, UserAddOutlined, MenuOutlined } from '@ant-design/icons';
 import Register from './register.doctor';
-import Dash from './dash.doctors';
+import Dash from './dash.doctors.main';
 
 const items = [
     { key: '1', label: <><TeamOutlined /> Medicos</>, children: <Dash /> },

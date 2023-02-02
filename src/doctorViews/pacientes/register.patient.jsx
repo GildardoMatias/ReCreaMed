@@ -164,7 +164,7 @@ export default function Register(props) {
       }
 
       <br />
-    
+
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Upload {...dragDropProps}>
@@ -198,13 +198,13 @@ export default function Register(props) {
           <Input />
         </Form.Item>
 
-      
+
         <Form.Item
           name="telefono"
           label="Telefono"
-          rules={[{ required: true, message: 'Ingresa tu numero de telefono' }]}
+          rules={[{ required: true, message: 'Ingresa tu numero de telefono', whitespace: false }]}
         >
-          <Input
+          <InputNumber
             // addonBefore={prefixSelector}
             style={{ width: '100%' }}
           />

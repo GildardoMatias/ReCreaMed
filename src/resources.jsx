@@ -82,9 +82,9 @@ export const Footer = () =>
 export const estados = ["Michoacan", "Morelos", "Guerrero"];
 
 // Only use for Doctors
-export const myHospitals = usuario.horarios.map(function (item) {
+export const myHospitals = usuario && usuario.horarios && usuario.horarios.map(function (item) {
     return item['sucursal'];
 })
-export const ids_hospitales = usuario.horarios.map(function (item) {
+export const ids_hospitales = usuario && usuario.horarios && usuario.horarios.map(function (item) {
     return item['sucursal']['_id'];
 })
