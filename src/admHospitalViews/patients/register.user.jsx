@@ -3,8 +3,7 @@ import { Form, Input, Button, message, Space, Divider, Upload, Switch } from 'an
 import { InputNumber, Select } from 'antd';
 import { S_API, API, getData } from '../../resources'
 import { usuario, estados } from '../../resources'
-import { InboxOutlined, UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
-const { Dragger } = Upload;
+import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
 
 
 const { Option } = Select;
@@ -129,35 +128,12 @@ export default function Register(props) {
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
-    errorInfo.errorFields.map((p) => {
+    errorInfo.errorFields.forEach((p) => {
       message.error('Ingrese el campo ' + p.name)
     })
   };
 
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select
-        defaultValue='+52'
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="+52">+52</Option>
-      </Select>
-    </Form.Item>
-  );
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
-      </Select>
-    </Form.Item>
-  );
+
   //Start upload props Upload File
   const dragDropProps = {
     name: 'file',

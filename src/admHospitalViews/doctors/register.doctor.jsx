@@ -1,10 +1,6 @@
+import React from 'react';
 import { Form, Input, Button, message } from 'antd'
-import React, { useState } from 'react';
-import {
-  InputNumber,
-  Select,
-  Checkbox,
-} from 'antd';
+import { InputNumber, Select } from 'antd';
 import { S_API } from '../../resources'
 const { Option } = Select;
 const estados = ["Michoacan", "Morelos", "Guerrero"];
@@ -58,9 +54,7 @@ export default function Register() {
   );
 
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  
   return (
     <div className='mainContainer'>
       <h1>Registrar doctor</h1>

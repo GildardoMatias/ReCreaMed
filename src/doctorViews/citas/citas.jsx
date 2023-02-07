@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Button, Modal, Form, Input, DatePicker, message, Popconfirm } from 'antd';
+import { Row, Button, Modal, Form, Input, DatePicker, message, Popconfirm } from 'antd';
 import { Calendar, Badge, Switch, Space } from 'antd';
 import { deleteData, getData, sendDataBody } from '../../resources';
 import { usuario } from '../../resources';
@@ -9,16 +9,13 @@ import moment from "moment";
 
 const { Option } = Select;
 
-const format = 'HH:mm';
 
 export function Citas() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [citasData, setCitasData] = useState([])
-    const [citasLoading, setCitasLoading] = useState(true)
     const [cita, setCita] = useState({})
     const [isDetailVisible, setIsDetailVisible] = useState(false);
     const [misPacientes, setMisPacientes] = useState([])
-    const [isOnline, setIsOnline] = useState(false)
 
     useEffect(() => {
         console.log('Yo : ', usuario);
@@ -27,7 +24,7 @@ export function Citas() {
     }, [])
 
     const getCitasData = () => {
-        getData(`citas/medico/${usuario._id}`).then(rs => { console.log('GetCitas: ', rs); setCitasData(rs); setCitasLoading(false) })
+        getData(`citas/medico/${usuario._id}`).then(rs => { console.log('GetCitas: ', rs); setCitasData(rs); })
     }
 
 
@@ -124,7 +121,7 @@ export function Citas() {
     // Switch For online or Presencial
     const onSwitch = (checked) => {
         console.log(`switch to ${checked}`);
-        setIsOnline(checked)
+        // setIsOnline(checked)
     };
     // Confirmar Borrar
     const confirm = (e) => { deleteData('citas/remove/' + cita._id).then((rs) => { setIsDetailVisible(false); getCitasData() }) }

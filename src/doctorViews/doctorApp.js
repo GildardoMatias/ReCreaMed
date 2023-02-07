@@ -43,7 +43,7 @@ function Navigator() {
           {/* <Nav.Link href="/notas">Notas</Nav.Link> */}
           {/* <Nav.Link href="/historial">Historiales</Nav.Link> */}
           <Nav.Link href="/perfil">Mi Perfil</Nav.Link>
-          <Nav.Link href="/stripe">Stripe</Nav.Link>
+          {/* <Nav.Link href="/stripe">Stripe</Nav.Link> */}
         </Nav>
       </Navbar.Collapse>
 
@@ -88,9 +88,9 @@ export default function DoctorApp() {
         </Route>
         
         {/* Teporaty stripe */}
-        <Route path="/stripe">
+        {/* <Route path="/stripe">
           <Stripe/>
-        </Route>
+        </Route> */}
 
         <Route path="/escalas">
           {/* This is taken from escalas directory*/}

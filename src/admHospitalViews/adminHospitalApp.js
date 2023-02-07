@@ -2,11 +2,11 @@ import React from 'react'
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Button } from 'antd'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Citas  from './citas/citas'
+import Citas  from './citas/main.citas'
 import Users from './patients/main.users';
 import Doctors from './doctors/main.doctors'
 import Sucursal from './sucursal'
-import PerfilAdministrador from './perfilAdministrador'
+import PerfilAdministrador from './perfil.administrador'
 import Home from './home/home'
 import icon from '../assets/Icon.png';
 import Escalas from '../escalas/escalasMenu';

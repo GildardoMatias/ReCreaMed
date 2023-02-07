@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Tabs } from 'antd'
-import { TeamOutlined, UserAddOutlined, MenuOutlined } from '@ant-design/icons';
+import { TeamOutlined, UserAddOutlined } from '@ant-design/icons';
 import Register from './register.doctor';
 import Dash from './dash.doctors.main';
 
