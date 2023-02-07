@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Input, Button, message, Select, Upload, Space } from 'antd';
 import { API, usuario } from '../../resources';
-import { MinusCircleOutlined, PlusOutlined, UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined } from '@ant-design/icons';
 import { diagnosticos } from '../../assets/diagnosticos2';
 const { Option, OptGroup } = Select;
 const { Dragger } = Upload;
@@ -18,36 +18,36 @@ const onFinishFailed = (errorInfo) => {
 
 
 //List of Estudios styles
-const formItemLayout = {
-    labelCol: {
-        xs: {
-            span: 24,
-        },
-        sm: {
-            span: 4,
-        },
-    },
-    wrapperCol: {
-        xs: {
-            span: 24,
-        },
-        sm: {
-            span: 20,
-        },
-    },
-};
-const formItemLayoutWithOutLabel = {
-    wrapperCol: {
-        xs: {
-            span: 24,
-            offset: 0,
-        },
-        sm: {
-            span: 20,
-            offset: 4,
-        },
-    },
-};
+// const formItemLayout = {
+//     labelCol: {
+//         xs: {
+//             span: 24,
+//         },
+//         sm: {
+//             span: 4,
+//         },
+//     },
+//     wrapperCol: {
+//         xs: {
+//             span: 24,
+//         },
+//         sm: {
+//             span: 20,
+//         },
+//     },
+// };
+// const formItemLayoutWithOutLabel = {
+//     wrapperCol: {
+//         xs: {
+//             span: 24,
+//             offset: 0,
+//         },
+//         sm: {
+//             span: 20,
+//             offset: 4,
+//         },
+//     },
+// };
 
 
 
@@ -58,17 +58,7 @@ export function NuevaNota(props) {
         console.log('Received nota on props: ', props.nota)
     }, [])
 
-    // const [pacientesData, setPacientesData] = useState([]);
-    const onFinishTest = (values) => {
-        // Create Nota
-        values.id_medico = usuario._id;
-        values.id_usuario = props.paciente;
-        values.recetas = [];
-        values.estudios = estudiosFiles;
-
-        console.log('Estudios ready to send: ', values.estudios)
-        console.log('ready to send: ', values)
-    }
+   
     const onFinish = async (values) => {
         // Create Nota
         values.id_medico = usuario._id;
@@ -144,17 +134,6 @@ export function NuevaNota(props) {
         onDrop(e) {
             console.log('Dropped files', e.dataTransfer.files);
         },
-    };
-
-
-    // Get value Of upload
-    const getFile = (e) => {
-        console.log('Upload event:', e);
-
-        if (Array.isArray(e)) {
-            return e;
-        }
-        return e && e.file.response.file;
     };
 
     return (

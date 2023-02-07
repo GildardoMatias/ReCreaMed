@@ -4,17 +4,15 @@ import { Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { API, usuario } from '../../resources';
 import Loading from '../../loading';
-import { PlusOutlined, FormOutlined } from '@ant-design/icons';
+import {  FormOutlined } from '@ant-design/icons';
 import PerfilEdit from './perfilEdit';
 import Configuration from './configuration';
 
 export default function Perfil() {
 
     const [profileData, setProfileData] = useState([]);
-    const [profileForEdit, setProfileForEdit] = useState([]);
     const [editing, setEditing] = useState(false)
     const [isLoading, setIsLoading] = useState(true);
-    const [visible, setVisible] = useState(false)
 
     useEffect(() => {
         getProfileData()
@@ -37,7 +35,6 @@ export default function Perfil() {
     const editPerfil = async (p) => {
         p.horarios.forEach((h) => { h.sucursal = h.sucursal._id })
         console.log('Horarios before edit profile: ', p.horarios);
-        await setProfileForEdit(p)
         setEditing(true);
         console.log('Editar medico: ', p)
     }

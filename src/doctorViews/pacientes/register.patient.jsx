@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Form, Input, Button, message, Space, Divider, Upload, Switch } from 'antd'
 import { InputNumber, Select } from 'antd';
 import { S_API, API } from '../../resources'
@@ -105,30 +105,6 @@ export default function Register(props) {
     console.log('Failed:', errorInfo);
   };
 
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select
-        defaultValue='+52'
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="+52">+52</Option>
-      </Select>
-    </Form.Item>
-  );
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
-      </Select>
-    </Form.Item>
-  );
   //Start upload props Upload File
   const dragDropProps = {
     name: 'file',

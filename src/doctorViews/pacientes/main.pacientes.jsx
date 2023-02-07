@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Space, Button, Select, Tabs, Row, Col } from 'antd'
+import { Button, Select, Tabs, Row, Col } from 'antd'
 import { API } from '../../resources'
 import Loading from '../../loading'
 import { usuario } from '../../resources'
@@ -7,7 +7,6 @@ import Expedientes from '../expedientes/expedientes'
 import DetallesPaciente from './detalles.paciente'
 import Register from './register.patient'
 import { PlusOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
-const { TabPane } = Tabs;
 const { Option } = Select;
 
 export default function MainPacientes() {

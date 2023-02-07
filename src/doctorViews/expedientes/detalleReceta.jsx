@@ -16,7 +16,6 @@ export default function DetalleReceta(props) {
     const [isPrintingModalVisible, setIsPrintingModalVisible] = useState(false)
 
     // Add Recipe Modal
-    const showModal = () => { setIsModalVisible(true); };
     const handleOk = () => { setIsModalVisible(false); };
     const handleCancel = () => { setIsModalVisible(false); };
     // Edit Recipe Modal
@@ -24,7 +23,6 @@ export default function DetalleReceta(props) {
     const handleEditOk = () => { setIsEditingModalVisible(false); };
     const handleEditCancel = () => { setIsEditingModalVisible(false); };
     // Print Receta Modal
-    const showPrintModal = () => { setIsPrintingModalVisible(true); };
     const handlePrintOk = () => { setIsPrintingModalVisible(false); setIsLogoSelected(false) };
     const handlePrintCancel = () => { setIsPrintingModalVisible(false); setIsLogoSelected(false) };
     // Select logo for print in receta. Switches the modal view into select logo hospital/pdf recipe for print

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
-import William from '../../assets/logos/william_h.jpg'
 import Logo from '../../assets/Logo.png'
 import { usuario, IMAGE_API } from '../../resources';
 

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, message, Space, Row, Col, Upload } from 'antd'
 import { MinusCircleOutlined, PlusOutlined, InboxOutlined } from '@ant-design/icons';
-import { InputNumber, Select } from 'antd';
-import { S_API, getData, API } from '../../resources'
+import { Select } from 'antd';
+import { getData, API } from '../../resources'
 const { Option } = Select;
-const estados = ["Michoacan", "Morelos", "Guerrero"];
 const { Dragger } = Upload;
 
 
@@ -76,32 +75,30 @@ export default function PerfilEdit(props) {
   useEffect(() => {
     console.log('received Medic: ', props.perfil);
     getData('sucursales').then((rs) => { setSucursales(rs); setSucursalesLoading(false) })
-  }, [])
+  })
 
+  // const onFinish = (values) => {
+  //   values.avatar = avatar;
+  //   values.estatus = '1';
+  //   values.rol = 'Medico';
+  //   delete values.confirm;
+  //   delete values.prefix;
 
-
-  const onFinish = (values) => {
-    values.avatar = avatar;
-    values.estatus = '1';
-    values.rol = 'Medico';
-    delete values.confirm;
-    delete values.prefix;
-
-    console.log('ready to send', values)
-    fetch(S_API + 'register', {
-      method: 'POST',
-      body: JSON.stringify(values),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(res => res.json())
-      .then(response => {
-        console.log('Success:', response);
-        response.message && response.message === 'Usuario creado correctamente' ?
-          window.location.href = 'doctores' : message.error(response.error);
-      })
-      .catch(error => console.error('Error:', error))
-  };
+  //   console.log('ready to send', values)
+  //   fetch(S_API + 'register', {
+  //     method: 'POST',
+  //     body: JSON.stringify(values),
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   }).then(res => res.json())
+  //     .then(response => {
+  //       console.log('Success:', response);
+  //       response.message && response.message === 'Usuario creado correctamente' ?
+  //         window.location.href = 'doctores' : message.error(response.error);
+  //     })
+  //     .catch(error => console.error('Error:', error))
+  // };
 
   const onFinishEdit = (values) => {
     values.avatar = avatar;
@@ -137,23 +134,7 @@ export default function PerfilEdit(props) {
       </Select>
     </Form.Item>
   );
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
-      </Select>
-    </Form.Item>
-  );
 
-
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
   return (
     <div>
       <h4>Editar perfil</h4>

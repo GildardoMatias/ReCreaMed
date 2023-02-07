@@ -15,17 +15,14 @@ export default function DetalleNota(props) {
 
     const [notaData, setNotaData] = useState([]);
     const [notaLoading, setnotaLoading] = useState(true);
-    const [view, setView] = useState('detalles');
     const [notaForEdit, setNotaForEdit] = useState("")
     // Add Nota Modal
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const showModal = () => { setIsModalVisible(true) };
     const handleOk = () => { setIsModalVisible(false) };
     const handleCancel = () => { setIsModalVisible(false) };
     // End of Add Nota Modal
     // Edit Nota Modal
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-    const showEditModal = () => { setIsEditModalVisible(true) };
     const handleEditOk = () => { setIsEditModalVisible(false) };
     const handleEditCancel = () => { setIsEditModalVisible(false) };
     const editarNota = async (n) => { await setNotaForEdit(n); setIsEditModalVisible(true) }
@@ -52,16 +49,6 @@ export default function DetalleNota(props) {
         })
     }
     const finishGet = () => { setNotaData([]); setnotaLoading(false); }
-
-    const gridStyle = {
-        // width: '50%',
-        width: '100%',
-        height: '32',
-        textAlign: 'center',
-        display: 'inline-flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    };
 
     const NotaGridStyle = {
         width: '25%',

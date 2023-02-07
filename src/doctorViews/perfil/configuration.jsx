@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Space, Input, Button, Table, InputNumber } from 'antd';
+import { Form, Input, Button, Table, InputNumber } from 'antd';
 import Loading from '../../loading';
 import { getData, updateData } from '../../resources';
 
