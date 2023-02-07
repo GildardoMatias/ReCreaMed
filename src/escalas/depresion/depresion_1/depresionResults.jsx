@@ -8,9 +8,7 @@ const { Option } = Select;
 export default function DepresionResults() {
     const [encuestasData, setEncuestasData] = useState([])
     const [medicosData, setMedicosData] = useState([])
-    const [medico, setMedico] = useState(null)
     const [countersData, setCountersData] = useState([])
-    const [loadingCounters, setLoadingCounters] = useState(true)
 
     // For Modal
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,25 +45,25 @@ export default function DepresionResults() {
                 })
             });
             console.log(results)
-        }).finally(() => { setCountersData(results); setLoadingCounters(false) });
+        }).finally(() => { setCountersData(results); });
     }
     const counterColumns = [
         {
-          title: 'Paciente',
-          key: 'paciente',
-          dataIndex: 'paciente',
+            title: 'Paciente',
+            key: 'paciente',
+            dataIndex: 'paciente',
         },
         {
-          title: 'Fecha ultima encuesta',
-          key: 'semana',
-          dataIndex: 'semana',
+            title: 'Fecha ultima encuesta',
+            key: 'semana',
+            dataIndex: 'semana',
         },
         {
-          title: 'Total encuestas',
-          key: 'total',
-          dataIndex: 'total'
+            title: 'Total encuestas',
+            key: 'total',
+            dataIndex: 'total'
         }
-      ];
+    ];
 
 
     const columns = [
