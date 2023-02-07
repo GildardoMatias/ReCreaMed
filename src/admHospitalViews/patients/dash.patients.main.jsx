@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { myHospitals, getData, deleteData, ids_hospitales } from '../../resources'
-import { Table, Tabs, Avatar, Space, Button, Popconfirm, Modal, Card } from 'antd'
-import { UserOutlined, EditOutlined } from '@ant-design/icons'
-import Register from './register.user'
-import HospitalTab from './dash.patients.hospitalTab'
+import React from 'react'
+import { myHospitals } from '../../resources'
+import {  Tabs } from 'antd'
+import HospitalTab from './dash.patients.hospital-tab'
 
 
 const onChange = (key) => { console.log(key) }
