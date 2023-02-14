@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col, Statistic, Card } from 'antd'
-import { Pie, Line } from '@ant-design/charts';
+// import { Pie, Line } from '@ant-design/charts';
 import './home.css'
 
 export class Home extends Component {
@@ -117,11 +117,11 @@ export class Home extends Component {
                     </Row>
                     <Row gutter={20}>
                         <Col xs={24} md={12} className="graficaCircular">
-                            <Pie {...this.configPie} style={{ backgroundColor: '#1F263C', borderRadius: 12 }} />
+                            {/* <Pie {...this.configPie} style={{ backgroundColor: '#1F263C', borderRadius: 12 }} /> */}
                         </Col>
 
                         <Col xs={24} md={12}>
-                            <Line {...this.configLine} style={{ backgroundColor: '#1F263C', padding: '20px', borderRadius: 12 }} />
+                            {/* <Line {...this.configLine} style={{ backgroundColor: '#1F263C', padding: '20px', borderRadius: 12 }} /> */}
                         </Col>
                     </Row>
 

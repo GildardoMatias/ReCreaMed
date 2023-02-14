@@ -98,7 +98,7 @@ export default function DoctorApp() {
         </Route>
 
         <Route path="/">
-          <Home />
+        <MainPacientes />
         </Route>
 
       </Switch>

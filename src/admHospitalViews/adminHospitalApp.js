@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Button } from 'antd'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Citas  from './citas/main.citas'
+import Citas from './citas/main.citas'
 import Users from './patients/main.users';
 import Doctors from './doctors/main.doctors'
 import Sucursal from './sucursal'
@@ -11,6 +11,7 @@ import Home from './home/home'
 import icon from '../assets/Icon.png';
 import Escalas from '../escalas/escalasMenu';
 import { usuario } from '../resources'
+import Cortes from './cortes/main.cortes';
 
 const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); window.location.href = '/'; }
 
@@ -37,6 +38,7 @@ function Navigator() {
           <Nav.Link href="doctores">Medicos</Nav.Link>
           <Nav.Link href="citas">Citas</Nav.Link>
           <Nav.Link href="escalas">Escalas</Nav.Link>
+          <Nav.Link href="cortes">Cortes</Nav.Link>
           <Nav.Link href="perfil">Perfil</Nav.Link>
 
         </Nav>
@@ -68,11 +70,14 @@ export default function AdminHospitalApp() {
         <Route path="/escalas">
           <Escalas />
         </Route>
+        <Route path="/cortes">
+          <Cortes />
+        </Route>
         <Route path="/perfil">
           <PerfilAdministrador />
         </Route>
         <Route path="/">
-          <Home />
+          <Users />
         </Route>
 
       </Switch>

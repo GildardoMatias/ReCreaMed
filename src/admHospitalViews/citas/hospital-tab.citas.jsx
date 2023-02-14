@@ -1,71 +1,79 @@
-import React, { useState, useEffect } from 'react'
-import { getData } from '../../resources'
-import { Calendar, momentLocalizer } from 'react-big-calendar'
-import 'react-big-calendar/lib/css/react-big-calendar.css'
-import moment from 'moment'
+import React, { useState, useEffect } from 'react';
+import { Modal, Button } from "antd";
+import { getData, updateData } from '../../resources';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import moment from 'moment';
+import CreateCita from './create-cita-for-medic';
 require('moment/locale/es.js');
 
 const localizer = momentLocalizer(moment)
 
 export default function HospitalTab(props) {
+    const [citaForEdit, setCitaForEdit] = useState({})
     const [citasData, setCitasData] = useState([])
     const [loading, setLoading] = useState(true)
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => { setIsModalOpen(true) }
+    const handleOk = () => { setIsModalOpen(false) }
+    const handleCancel = () => { setIsModalOpen(false) }
+
+    // Tools for createCita Modal
+    const [fecha_hora, setFecha_hora] = useState('')
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
 
     useEffect(() => { getCitasData() }, [])
 
     const getCitasData = () => {
         getData(`citas/sucursal/${props.id_hospital}`).then((rs) => {
             rs.forEach(cita => {
-                cita.start = new Date(Date.parse(cita.createdAt));
-                const endDate = new Date(cita.createdAt);
+                cita.start = new Date(Date.parse(cita.fecha_hora));
+                const endDate = new Date(cita.fecha_hora);
                 endDate.setTime(endDate.getTime() + 1 * 60 * 60 * 1000)
                 cita.end = new Date(Date.parse(endDate));
                 cita.title = cita.comentarios;
                 cita.id = cita._id;
+                cita.key = cita._id;
             });
+            console.log('getCitasData hospital tab admin', rs)
             setCitasData(rs)
         }
         ).finally(() => setLoading(false))
     }
 
-    const events = [
-        {
-            id: 1,
-            title: "Event 1",
-            start: new Date(Date.parse("2023-02-07T10:30:00")),
-            end: new Date(Date.parse("2023-02-07T10:30:00")),
-            // end: new Date(Date.parse("2023-02-07T13:00:00")),
-        },
-        {
-            id: 2,
-            title: "Event 2",
-            start: new Date(Date.parse("2023-02-02T09:30:00")),
-            end: new Date(Date.parse("2023-02-02T09:30:00")),
-            //año / mes/ dia
-            // end: new Date(Date.parse("2023-02-02T11:30:00")),
-            backColor: "#6aa84f"
-        },
-        {
-            id: 3,
-            title: "Event 3",
-            start: new Date(Date.parse("2023-02-04T12:00:00")),
-            end: new Date(Date.parse("2023-02-04T12:00:00")),
-            // end: new Date(Date.parse("2023-02-04T15:00:00")),
-            backColor: "#f1c232"
-        }]
+    // Select cita to show details and show confirm button
+    const selectEvent = (e) => {
+        console.log('For eedit', e)
+        setCitaForEdit(e)
+        if (citaForEdit) showModal()
+    }
+    // Confirm servicio
+    const confirmService = () => {
+
+    }
+
+    const handleSlotSelection = ({ start, end, action }) => {
+        console.log('Create cita on ', new Date(start).toISOString())
+        console.log('Action ', action)
+        setFecha_hora(new Date(start).toISOString())
+        setIsCreateModalOpen(true)
+        return { style: { backgroundColor: 'red' } };
+    };
 
     return loading ? <p>Cargando...</p> : <div>
+        <br />
         <h6>Citas del hospital {props.hospital}</h6>
-        {/* {citasData.map((c) => <p key={c._id}>{c.comentarios} {c.sucursal.nombre} -</p>)} */}
+        <br />
         <Calendar
+            selectable='true'
             localizer={localizer}
             events={citasData}
             startAccessor="start"
             endAccessor="end"
             style={{ height: 500 }}
             messages={{
-                next: "sig",
-                previous: "ant",
+                next: "Sig",
+                previous: "Ant",
                 today: "Hoy",
                 month: "Mes",
                 week: "Semana",
@@ -73,7 +81,25 @@ export default function HospitalTab(props) {
             }}
             defaultView="week"
             onDoubleClickEvent={(e) => console.log(e)}
-            onSelectEvent={(e) => { console.log('Selected', e) }}
+            onSelectEvent={selectEvent}
+            onSelecting={(e) => console.log(e)}
+            // onSelectSlot={handleSlotSelection}
+            onSelectSlot={handleSlotSelection}
         />
+
+
+        <Modal title="Detalles Cita" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose footer={[<Button onClick={handleCancel}>Cerrar</Button>]}>
+            {
+                citaForEdit && <div>
+                    <p><strong>Medico </strong>{citaForEdit.medico ? citaForEdit.medico.name : 'Sin medico'}</p>
+                    <p><strong>Paciente </strong>{citaForEdit.usuario ? citaForEdit.usuario.name : 'Sin paciente'}</p>
+                    <p><strong>Fecha </strong>{citaForEdit.fecha_hora}</p>
+                    <p><strong>Comentarios </strong>{citaForEdit.comentarios}</p>
+                    <Button type='primary' onClick={confirmService}>Confirmar Servicio</Button>
+                </div>
+            }
+        </Modal>
+
+        <CreateCita setIsModalOpen={setIsCreateModalOpen} isOpenModal={isCreateModalOpen} hospital={props.id_hospital} fecha_hora={fecha_hora} getCitasData={getCitasData} />
     </div>
 }

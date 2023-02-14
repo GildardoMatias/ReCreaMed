@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { getData, sendDataBody } from '../resources';
 import { Form, Button, Space, Select, message } from 'antd'
-import { usuario } from '../resources';
+import { usuario, ids_hospitales } from '../resources';
 import QRCode from "react-qr-code";
 import { toBlob, toPng } from 'html-to-image';
 const { Option } = Select;
+
 
 
 export default function EscalasCreateGeneralLink(props) {
@@ -23,10 +24,28 @@ export default function EscalasCreateGeneralLink(props) {
         getData(`mispacientes/${_id}`).then(rs => { setSelectedPatient(null); setMisPacientes(rs); console.log(`patients of ${_id}`, rs); })
     }
 
+    // If administrator or reception, filter medicos of hospital
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
-        const body = { ids: usuario.medicos_asignados }
-        sendDataBody(`users/getMany`, body).then(rs => { setMedicosData(rs); console.log('medicosData: ', rs); })
+        // const body = { ids: usuario.medicos_asignados }
+        // sendDataBody(`users/getMany`, body).then(rs => { setMedicosData(rs); console.log('medicosData: ', rs); })
+        getData('users_by_rol/Medico').then((rs) => { setMedicosData(myDoctors(rs)) })
     }
+
+    const myDoctors = (doctorsData) => {
+
+        let doctorsFound = [];
+        ids_hospitales.forEach(id_hospital => {
+            doctorsData.forEach(doctor => {
+                doctor.horarios.forEach(horario => {
+                    if (!doctorsFound.includes(doctor) && horario.sucursal._id === id_hospital) doctorsFound.push(doctor)
+                });
+            });
+            console.log(`Founds for ${id_hospital}: `, doctorsFound)
+        });
+
+        return doctorsFound;
+    }
+    // End of medicos filtering
 
     useEffect(() => {
         usuario.rol === 'Medico' ? getPacientesOfDoctor(usuario._id) : getDoctorsData()
@@ -79,7 +98,7 @@ export default function EscalasCreateGeneralLink(props) {
     return (
         <div>
             {
-                usuario.rol === 'Administrador' &&
+                (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') &&
                 <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
                     style={{ alignItems: 'center', paddingTop: 20 }}>
                     <Select
@@ -122,6 +141,11 @@ export default function EscalasCreateGeneralLink(props) {
                     </Space>
                     <p style={{ paddingTop: 16, color: '#1890ff' }} >{link}</p>
                     <Button onClick={copyLink}>Copiar Link</Button>
+
+                    {
+                        usuario.rol === 'Recepcion' && <Button type='primary' href={link} target='_blank' rel='noreferrer' style={{ marginLeft: 14 }}>Contestar Ahora</Button>
+                    }
+
                     <br />
                     <div ref={imageRef} style={{ background: 'white', padding: '16px' }}> <QRCode value={link} /> </div>
                     <Button onClick={handleDownload}>Descargar Codigo</Button>

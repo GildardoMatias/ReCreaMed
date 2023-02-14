@@ -58,7 +58,7 @@ export default function PatientApp() {
           <Perfil />
         </Route>
         <Route path="/">
-          <Home />
+        <MisCitas />
         </Route>
       </Switch>
     </Router>

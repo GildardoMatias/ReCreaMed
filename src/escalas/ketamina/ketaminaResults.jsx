@@ -198,7 +198,7 @@ export default function KetaminaResults() {
       <br />
       <Table dataSource={efectosData} columns={columns} scroll={{ x: 1300 }} bordered />
 
-      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="Crear Enlace de Ketamina" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         {/* <KetaminaCreateLink /> */}
         <EscalasCreateGeneralLink tipo="ketamina"/>
       </Modal>

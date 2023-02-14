@@ -104,7 +104,7 @@ export default function Configuration({ id_usuario }) {
                     <div style={{ display: 'flex', alignContent: 'center', columnGap: 12 }}>
                         <h5>
                             {
-                                profileData.configuracion.costo_cita ? `Costo de cita: ${profileData.configuracion.costo_cita}` : "Sin costo de cita definido"
+                               profileData.configuracion && profileData.configuracion.costo_cita ? `Costo de cita: ${profileData.configuracion.costo_cita}` : "Sin costo de cita definido"
                             }
                         </h5>
                         <Button type='primary' size='small' onClick={setEditingCostoCita}>Modificar</Button>
