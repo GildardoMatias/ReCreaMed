@@ -3,11 +3,10 @@ import { Button } from 'antd'
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Patients from './pacientesDash/main.patients'
-import { Citas } from './citas'
+import Citas from './citas/main.citas'
 import Expedientes from './expedientes/expedientes'
 // import Recetas from './recetas'
 import Perfil from './perfil'
-import { DoctorNotas } from './doctorNotas'
 import Home from './home/home'
 import icon from '../assets/Icon.png';
 import { Footer, logout } from '../resources'
@@ -16,6 +15,8 @@ import { Historial } from './historial';
 import MainPacientes from './pacientes/main.pacientes';
 import Escalas from '../escalas/escalasMenu';
 import Balances from './balances';
+import { KetaminaPublic, DepresionQidsPublic, DepresionEspanolPublic,HeadachePublic, PostTraumaticoPublic, PostTraumaticoClinicoPublic, PostTraumaticoMX } from '../session/public_escalas_routes';
+// import { KetaminaPublic, DepresionQidsPublic, DepresionEspanolPublic,HeadachePublic, PostTraumaticoPublic, PostTraumaticoClinicoPublic, PostTraumaticoMX } from './session/public_escalas_routes';
 
 function Navigator() {
   console.log("DoctorApp", usuario.name)
@@ -40,7 +41,7 @@ function Navigator() {
           <Nav.Link href="/pacientes" >Pacientes</Nav.Link>
           <Nav.Link href="/citas">Citas</Nav.Link>
           <Nav.Link href="/escalas">Escalas</Nav.Link>
-          <Nav.Link href="/balances">Ingresos</Nav.Link>
+          {/* <Nav.Link href="/balances">Ingresos</Nav.Link> */}
           {/* <Nav.Link href="/expedientes">Expedientes</Nav.Link> */}
           {/* <Nav.Link href="/recetas">Recetas</Nav.Link> */}
           {/* <Nav.Link href="/notas">Notas</Nav.Link> */}
@@ -89,10 +90,6 @@ export default function RecepcionApp() {
           <Perfil />
         </Route>
 
-        <Route path="/notas">
-          <DoctorNotas />
-        </Route>
-
         <Route path="/historial">
           <Historial />
         </Route>
@@ -106,8 +103,36 @@ export default function RecepcionApp() {
           <Escalas />
         </Route>
 
+
+        {/* Scales Routes just like anonymous */}
+        <Route path="/ketamina_public/:idmedico/:idpaciente/:key">
+          <KetaminaPublic />
+        </Route>
+        <Route path="/dolor_public/:idmedico/:idpaciente/:key">
+          <HeadachePublic />
+        </Route>
+        <Route path="/depresion_qids_public/:idmedico/:idpaciente/:key">
+          <DepresionQidsPublic />
+        </Route>
+        <Route path="/depresion_gpc_public/:idmedico/:idpaciente/:key">
+          <DepresionEspanolPublic />
+        </Route>
+        <Route path="/post_traumatico_public/:idmedico/:idpaciente/:key">
+          <PostTraumaticoPublic />
+        </Route>
+        <Route path="/post_traumatico_clinico_public/:idmedico/:idpaciente/:key">
+          <PostTraumaticoClinicoPublic />
+        </Route>
+        <Route path="/post_traumatico_mx_public/:idmedico/:idpaciente/:key">
+          <PostTraumaticoMX />
+        </Route>
+
+        {/* End of Scales Routes just like anonymous */}
+
+
         <Route path="/">
-          <Home />
+          <MainPacientes />
+
         </Route>
 
       </Switch>
