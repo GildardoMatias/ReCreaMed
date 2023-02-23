@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { usuario, getData, sendDataBody } from '../../resources'
+import { usuario, getData, sendDataBody, ids_hospitales } from '../../resources'
 import { Form, Select, Space, Button, Table, Modal } from 'antd';
 import EscalasCreateGeneralLink from '../escalasCreateGeneralLink';
 const { Option } = Select;
@@ -18,12 +18,15 @@ export default function DolorResults() {
     const handleCancel = () => { setIsModalOpen(false) };
 
     useEffect(() => {
-        usuario.rol === 'Administrador' ? getDoctorsData() : getEncuestasData(usuario._id)
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getDoctorsData() : getEncuestasData(usuario._id)
     }, [])
+
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
-        const body = { ids: usuario.medicos_asignados }
-        sendDataBody(`users/getMany`, body).then(rs => { setMedicosData(rs); console.log('medicosData: ', rs); })
+        sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
+            setMedicosData(rs)
+        })
     }
+
     const getEncuestasData = (medico) => {
         getData(`encuestas/dolor/medico/${medico}`).then((rs) => {
             getCounters(rs, medico);
@@ -37,7 +40,7 @@ export default function DolorResults() {
         const results = []
         getData(`mispacientes/${medico}`).then(rs => {
             rs.forEach(pac => {
-                const aprs = allEncuestas.filter(enc => enc.usuario._id === pac._id)
+                const aprs = allEncuestas.filter(enc => enc.usuario?._id === pac._id)
                 const latest = aprs.at(-1)
                 results.push({
                     'paciente': pac.name,
@@ -73,7 +76,7 @@ export default function DolorResults() {
             title: 'Usuario',
             dataIndex: 'usuario',
             key: 'usuario',
-            render: (_, { usuario }) => <p>{usuario.name}</p>
+            render: (_, { usuario }) => <p>{usuario ? usuario.name : "Usuario eliminado"}</p>
         },
         {
             title: 'Pretgunta 1',
@@ -253,7 +256,7 @@ export default function DolorResults() {
             </Button>
             <br />
             {
-                usuario.rol === 'Administrador' && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
                     style={{ alignItems: 'center', paddingTop: 20 }}>
                     <Select
                         style={{ width: 260, }}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Input, Button, Table, InputNumber } from 'antd';
+import { Form, Input, Button, Table, InputNumber, Divider } from 'antd';
 import Loading from '../../loading';
 import { getData, updateData } from '../../resources';
 
@@ -28,7 +28,7 @@ export default function Configuration({ id_usuario }) {
 
     const columns = [
         {
-            title: 'Tratamiento',
+            title: 'Servicio',
             dataIndex: 'tratamiento',
             key: 'name',
         },
@@ -36,7 +36,7 @@ export default function Configuration({ id_usuario }) {
             title: 'Costo',
             dataIndex: 'costo',
             key: 'costo',
-        },
+        }
     ];
 
     // Form For edit Costo base de cita
@@ -63,10 +63,7 @@ export default function Configuration({ id_usuario }) {
             </Form.Item>
 
             <Form.Item
-                wrapperCol={{
-                    offset: 8,
-                    span: 16,
-                }}
+                wrapperCol={{ offset: 8, span: 16 }}
             >
                 <Button type="primary" htmlType="submit">
                     Guardar
@@ -84,6 +81,7 @@ export default function Configuration({ id_usuario }) {
             .then(() => getProfileData())
             .finally(() => setEditingCostoCita(false))
     };
+
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
@@ -104,43 +102,46 @@ export default function Configuration({ id_usuario }) {
                     <div style={{ display: 'flex', alignContent: 'center', columnGap: 12 }}>
                         <h5>
                             {
-                               profileData.configuracion && profileData.configuracion.costo_cita ? `Costo de cita: ${profileData.configuracion.costo_cita}` : "Sin costo de cita definido"
+                                profileData.configuracion && profileData.configuracion.costo_cita ? `Costo de cita: ${profileData.configuracion.costo_cita}` : "Sin costo de cita definido"
                             }
                         </h5>
                         <Button type='primary' size='small' onClick={setEditingCostoCita}>Modificar</Button>
                     </div>
             }
 
-            <br />
+            <Divider />
 
-            <h5>Tratamientos Registrados</h5>
+            <h5>Servicios Registrados</h5>
+
             <Table dataSource={profileData.configuracion?.tratamientos_ofrecidos} columns={columns} bordered />
 
-            <h5>Agregar tratamiento</h5>
+            <h5>Agregar servicio</h5>
             <Form
                 name="add_tratamiento_medic"
                 onFinish={onFinish}
                 labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} style={{ maxWidth: 600 }}
             >
 
-                <Form.Item label="Nuevo tratamiento" style={{ marginBottom: 0 }} >
+                <div className='fila'>
+                    <Form.Item label="Nuevo Servicio" style={{ marginBottom: 0 }} >
 
-                    <Form.Item name="tratamiento" rules={[{ required: true }]} style={{ display: 'inline-block', width: 'calc(50% - 8px)' }} >
-                        <Input placeholder="Ingresa Descripcion" />
+                        <Form.Item name="tratamiento" rules={[{ required: true }]} style={{ display: 'inline-block', width: 'calc(70% - 8px)' }} >
+                            <Input placeholder="Ingresa Descripcion" />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="costo" rules={[{ required: true }]} style={{ display: 'inline-block', width: 'calc(30% - 8px)', margin: '0 8px' }} >
+                            <InputNumber placeholder="Costo" />
+                        </Form.Item>
+
                     </Form.Item>
 
-                    <Form.Item
-                        name="costo" rules={[{ required: true }]} style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px' }} >
-                        <InputNumber placeholder="Costo" />
+                    <Form.Item style={{ marginLeft: 8 }}>
+                        <Button type="primary" htmlType="submit">
+                            Agregar
+                        </Button>
                     </Form.Item>
-
-                </Form.Item>
-
-                <Form.Item label=" " colon={false}>
-                    <Button type="primary" htmlType="submit">
-                        Agregar
-                    </Button>
-                </Form.Item>
+                </div>
             </Form>
         </div >
     )

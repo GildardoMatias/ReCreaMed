@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Modal, Select, Form, Table } from 'antd';
 import EscalasCreateGeneralLink from '../../escalasCreateGeneralLink';
-import { getData, usuario, sendDataBody } from '../../../resources';
+import { getData, usuario, sendDataBody, ids_hospitales } from '../../../resources';
 const { Option } = Select;
 
 export default function PostTraumaticoResults() {
@@ -19,12 +19,13 @@ export default function PostTraumaticoResults() {
 
 
     useEffect(() => {
-        addColumns()
-        usuario.rol === 'Administrador' ? getDoctorsData() : getEncuestasData(usuario._id)
+        addColumns();
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getDoctorsData() : getEncuestasData(usuario._id)
     }, [])
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
-        const body = { ids: usuario.medicos_asignados }
-        sendDataBody(`users/getMany`, body).then(rs => { setMedicosData(rs); console.log('medicosData: ', rs); })
+        sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
+            setMedicosData(rs)
+        })
     }
     const getEncuestasData = (medico) => {
         getData(`encuestas/byDoctorAndTipo/${medico}/post_traumatico/`).then((rs) => {
@@ -40,7 +41,7 @@ export default function PostTraumaticoResults() {
         getData(`mispacientes/${medico}`).then(rs => {
             console.log('MisPacientes ept1: ', rs);
             rs.forEach(pac => {
-                const aprs = allEncuestas.filter(enc => enc.usuario._id === pac._id)
+                const aprs = allEncuestas.filter(enc => enc.usuario?._id === pac._id)
                 const latest = aprs.at(-1)
                 results.push({
                     'paciente': pac.name,
@@ -78,7 +79,7 @@ export default function PostTraumaticoResults() {
                 title: 'Paciente',
                 dataIndex: 'usuario',
                 key: 'name',
-                render: (_, { usuario }) => <>{usuario.name}</>
+                render: (_, { usuario }) => <>{usuario ? usuario.name : "Usuario eliminado"}</>
             }
         ];
         for (let i = 1; i < 18; i++) {
@@ -89,7 +90,7 @@ export default function PostTraumaticoResults() {
                         title: 'Frecuencia',
                         dataIndex: 'respuestas_depresion2_gpc',
                         key: 'hrsd' + i,
-                        render: (_, { respuestas_ept1_davidson}) => (
+                        render: (_, { respuestas_ept1_davidson }) => (
                             <>
                                 {respuestas_ept1_davidson[i][0]}
                             </>
@@ -119,7 +120,7 @@ export default function PostTraumaticoResults() {
             </Button>
             <br />
             {
-                usuario.rol === 'Administrador' && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                 (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
                     style={{ alignItems: 'center', paddingTop: 20 }}>
                     <Select
                         style={{ width: 260, }}

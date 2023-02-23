@@ -49,7 +49,8 @@ export default function HospitalTab(props) {
     }
     // Confirm servicio
     const confirmService = () => {
-
+        console.log('To confirm service', citaForEdit)
+        updateData(`balances/update/cita/${citaForEdit._id}`, { estado: 'pagado' })
     }
 
     const handleSlotSelection = ({ start, end, action }) => {

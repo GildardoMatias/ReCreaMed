@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Table, Button, Modal } from 'antd'
 import { Form, Select } from 'antd';
-import { getData, usuario, sendDataBody } from '../../../resources';
+import { getData, usuario, sendDataBody, ids_hospitales } from '../../../resources';
 import EscalasCreateGeneralLink from '../../escalasCreateGeneralLink';
 const { Option } = Select;
+
+// DEPRESION GPC
 
 export default function Depresion2Results() {
     const [encuestasData, setEncuestasData] = useState([])
@@ -19,12 +21,15 @@ export default function Depresion2Results() {
     const handleCancel = () => { setIsModalOpen(false) };
 
     useEffect(() => {
-        usuario.rol === 'Administrador' ? getDoctorsData() : getEncuestasData(usuario._id)
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getDoctorsData() : getEncuestasData(usuario._id)
     }, [])
+
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
-        const body = { ids: usuario.medicos_asignados }
-        sendDataBody(`users/getMany`, body).then(rs => { setMedicosData(rs); console.log('medicosData: ', rs); })
+        sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
+            setMedicosData(rs)
+        })
     }
+
     const getEncuestasData = (medico) => {
         getData(`encuestas/byDoctorAndTipo/${medico}/depresion_gpc/`).then((rs) => {
             getCounters(rs, medico);
@@ -39,7 +44,7 @@ export default function Depresion2Results() {
         getData(`mispacientes/${medico}`).then(rs => {
             console.log('MisPacientes depresiod2: ', rs);
             rs.forEach(pac => {
-                const aprs = allEncuestas.filter(enc => enc.usuario._id === pac._id)
+                const aprs = allEncuestas.filter(enc => enc.usuario?._id === pac._id)
                 const latest = aprs.at(-1)
                 results.push({
                     'paciente': pac.name,
@@ -75,7 +80,7 @@ export default function Depresion2Results() {
             title: 'Paciente',
             dataIndex: 'usuario',
             key: 'name',
-            render: (_, { usuario }) => <>{usuario.name}</>
+            render: (_, { usuario }) => <>{usuario ? usuario.name : "Usuario eliminado"}</>
         },
         {
             title: 'Puntaje HRSD',
@@ -118,7 +123,7 @@ export default function Depresion2Results() {
             </Button>
             <br />
             {
-                usuario.rol === 'Administrador' && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
                     style={{ alignItems: 'center', paddingTop: 20 }}>
                     <Select
                         style={{ width: 260, }}

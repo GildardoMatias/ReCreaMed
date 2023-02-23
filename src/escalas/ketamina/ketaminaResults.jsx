@@ -2,20 +2,26 @@ import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { Space, Table, Tag, Progress, Button, Modal } from 'antd'
 import { Form, Select } from 'antd';
-import { getData, usuario, sendDataBody } from '../../resources';
+import { getData, usuario, sendDataBody, ids_hospitales } from '../../resources';
 import EscalasCreateGeneralLink from '../escalasCreateGeneralLink';
 const { Option } = Select;
 
 export default function KetaminaResults() {
 
-  const [efectosData, setEfectosData] = useState(null);
+  const [ketaminaData, setKetaminaData] = useState(null);
   const [medicosData, setMedicosData] = useState([])
   const [countersData, setCountersData] = useState([])
   const [loadingCounters, setLoadingCounters] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    usuario.rol === 'Administrador' ? getDoctorsData() : getEncuestasData(usuario._id)
+    // usuario.rol === 'Administrador' ? getDoctorsData() : getEncuestasData(usuario._id)
+
+    // New Form
+    // If session is recept/admin get escalas of all medicos of my hospital
+    // Else if session is medico get escalas for me
+    if (usuario.rol === 'Recepcion' || usuario.rol === 'Administrador') getDoctorsData()
+    else getEncuestasData(usuario._id)
   }, [])
 
   // Modal For Create Link
@@ -24,24 +30,42 @@ export default function KetaminaResults() {
   const handleCancel = () => { setIsModalOpen(false) };
 
   const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
-    const body = { ids: usuario.medicos_asignados }
-    sendDataBody(`users/getMany`, body).then(rs => { setMedicosData(rs); console.log('medicosData: ', rs); })
+    sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
+      setMedicosData(rs)
+    })
   }
 
+  // If session is medic
   const getEncuestasData = (medico) => {
     getData(`encuestas/ketamina/medico/${medico}`).then((rs) => {
       console.log('Encuestas ', rs);
       getCounters(rs, medico);
-      setEfectosData(rs)
+      setKetaminaData(rs)
     })
   }
+
+  // If session is admin/recept
+  const getEcuestasDataByHospital = async () => {
+    let allEncs = [];
+    // 1  get medicos of my hospital
+    const myDoctors = await sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales })
+    // 2 get escalas of each medico
+    myDoctors.forEach(async (doc) => {
+      await getData(`encuestas/ketamina/medico/${doc._id}`).then((rs) => {
+        allEncs = [...allEncs, rs]
+      })
+    });
+    console.log('All Encuestas: ', allEncs)
+  }
+
 
   const getCounters = (data, medico) => {
     const allEncuestas = [...data];
     const results = []
     getData(`mispacientes/${medico}`).then(rs => {
+      console.log('getCounters ketam data: ', data)
       rs.forEach(pac => {
-        const aprs = allEncuestas.filter(enc => enc.usuario._id === pac._id)
+        const aprs = allEncuestas.filter(enc => enc.usuario?._id === pac._id) // Usuario can be deleted
         const latest = aprs.at(-1)
         results.push({
           'paciente': pac.name,
@@ -76,7 +100,7 @@ export default function KetaminaResults() {
       title: 'Usuario',
       key: 'usuario',
       dataIndex: 'usuario',
-      render: (_, { usuario }) => (<>{usuario.name}</>),
+      render: (_, { usuario }) => (<>{usuario ? usuario.name : "usuario eliminado"}</>),
       sorter: true,
     },
     {
@@ -170,12 +194,12 @@ export default function KetaminaResults() {
       <h4>Resultados de listas de verificacion para efectos secundarios</h4>
       <br />
       <Button type="primary" onClick={showModal}>
-        Crear Link Ketamina
+        Generar Escala
       </Button>
       <br />
 
       {
-        usuario.rol === 'Administrador' && <Form.Item label="Selecciona un Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') && <Form.Item label="Selecciona un Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
           style={{ alignItems: 'center', paddingTop: 20 }}>
           <Select
             style={{ width: 260, }}
@@ -196,11 +220,11 @@ export default function KetaminaResults() {
       <br />
       <h4>Detalles de encuestas</h4>
       <br />
-      <Table dataSource={efectosData} columns={columns} scroll={{ x: 1300 }} bordered />
+      <Table dataSource={ketaminaData} columns={columns} scroll={{ x: 1300 }} bordered />
 
-      <Modal title="Crear Enlace de Ketamina" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="Generar Escala de Ketamina" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         {/* <KetaminaCreateLink /> */}
-        <EscalasCreateGeneralLink tipo="ketamina"/>
+        <EscalasCreateGeneralLink tipo="ketamina" />
       </Modal>
     </div>
   )

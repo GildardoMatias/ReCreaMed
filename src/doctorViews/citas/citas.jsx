@@ -58,6 +58,7 @@ export function Citas() {
             cita: _cita,
             monto: monto,
             forma_de_pago: 'efectivo',
+            fecha_hora: new Date(),
             estado: 'pendiente',
         }
         console.log('Balance ready to send: ', balanceBody)
@@ -148,7 +149,7 @@ export function Citas() {
                 ]}
             >
                 <Form name="nueva_cita_medic" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
-                    initialValues={{ isOnline: false, tratamiento: 0 }}>
+                    initialValues={{ isOnline: false }}>
 
                     <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona Usuario' }]} >
                         <Select
@@ -180,7 +181,7 @@ export function Citas() {
                         <Input />
                     </Form.Item>
 
-                    <Form.Item label="Tratamiento" name="tratamiento" rules={[{ required: false, message: 'Ingresa RFC' }]} >
+                    <Form.Item label="Tratamiento" name="tratamiento" rules={[{ required: true, message: 'Selecciona un servicio' }]} >
                         <Select
                             onChange={handleChange}
                             options={

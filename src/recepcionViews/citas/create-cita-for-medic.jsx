@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Form, Select, Input, Button, message, Switch } from 'antd'
-import { getData, usuario, sendDataBody } from '../../resources';
+import { getData, usuario, sendDataBody, ids_hospitales } from '../../resources';
 
 
 export default function CreateCita(props) {
@@ -20,11 +20,10 @@ export default function CreateCita(props) {
     }, [])
 
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
-        const body = { ids: usuario.medicos_asignados }
-        sendDataBody(`users/getMany`, body).then(rs => {
+        
+        sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
             rs.forEach(m => { m.value = m._id; m.label = m.name })
-            setMedicosData(rs);
-            console.log('medicosData: ', rs);
+            setMedicosData(rs)
         })
     }
 

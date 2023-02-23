@@ -4,7 +4,7 @@ import { Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { API, usuario } from '../../resources';
 import Loading from '../../loading';
-import {  FormOutlined } from '@ant-design/icons';
+import { FormOutlined } from '@ant-design/icons';
 import PerfilEdit from './perfilEdit';
 import Configuration from './configuration';
 
@@ -53,6 +53,7 @@ export default function Perfil() {
                     }
                     <Divider />
                     <p className='nombre'>{profileData.name} </p>
+                    <p className='datos'>{profileData.rol} </p>
                     <p className='datos'>{profileData.email} </p>
                     <p className='datos'>{profileData.telefono} </p>
                 </Col>
@@ -81,9 +82,6 @@ export default function Perfil() {
                     <p><span className='desc'>Certificacion:</span> {profileData.certificacion} </p>
                     <p><span className='desc'>Cedula:</span> {profileData.cedula} </p>
                 </Col>
-
-
-
             </Row>
             <Configuration id_usuario={usuario._id} />
         </div>

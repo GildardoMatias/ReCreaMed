@@ -20,6 +20,7 @@ export default function Expedientes(props) {
 
 
     const getExpedientesData = (id_paciente) => {
+        console.log('Received patient, ', id_paciente)
         fetch(API + `expedientes/${id_paciente}`)
             .then(response => response.json())
             .then(data => {
