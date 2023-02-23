@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Tag, Button, Modal, Form, Input, Select, Typography } from 'antd';
-import { getData, updateData, usuario } from '../../resources';
+import { Table, Tag, Button, Typography } from 'antd';
+import { getData, usuario } from '../../resources';
+import CreateBalance from './create-balance';
 
 const { Text } = Typography;
 
@@ -12,20 +13,16 @@ export default function Balances() {
     // Modal For Edit Balance
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => { setIsModalOpen(true) };
-    const handleOk = () => { setIsModalOpen(false) };
-    const handleCancel = () => { setIsModalOpen(false) };
 
-    useEffect(() => { getPacientesData() }, [])
+
+    useEffect(() => { return getPacientesData() }, [])
 
     const getPacientesData = () => { getData(`users_by_rol/Paciente`).then((rs) => { setPacientesData(rs); getBalancesData(); console.log('pacientes', rs); }) }
-    const getBalancesData = () => { getData(`balances/${usuario._id}`).then((rs) => { setBalancesData(rs); console.log('balances', rs); }) }
+    const getBalancesData = () => { getData(`balances/${usuario._id}`).then((rs) => { setBalancesData(rs.reverse()); console.log('balances', rs); }) }
 
     const MatchPatient = ({ paciente }) => {
-
         const patient = pacientesData.find((p) => paciente === p._id)
-        // console.log('Receivd:_ ', paciente);
-        // console.log('Found:_ ', patient);
-        return <div>{patient ? patient.name : <Text disabled>Usuario no encontrado</Text>}</div>
+        return <div>{patient ? patient.name : <Text disabled>Paciente eliminado o no existente</Text>}</div>
     }
 
     const columns = [
@@ -33,7 +30,7 @@ export default function Balances() {
             title: 'Fecha',
             dataIndex: 'createdAt',
             key: 'createdAt',
-            render: (_, { createdAt }) => { return <>{createdAt.substring(0, 10)}</> }
+            render: (_, { createdAt }) => { return <>{new Date(createdAt).toLocaleString()}</> }
         },
         {
             title: 'Monto',
@@ -54,7 +51,7 @@ export default function Balances() {
             key: 'cita.paciente',
             dataIndex: 'cita',
             render: (_, { cita }) => {
-                return cita ? <MatchPatient paciente={cita.usuario} /> : <Text disabled>Cita y usuario no existente</Text>
+                return cita ? <MatchPatient paciente={cita.usuario} /> : <Text disabled>Sin Paciente</Text>
             },
         },
         {
@@ -70,11 +67,6 @@ export default function Balances() {
             }
 
         },
-        // {
-        //     title: 'Cita',
-        //     key: 'Cita',
-        //     render: (_, record) => <a href='#'>Ir a la cita</a>
-        // },
         {
             title: 'Editar',
             key: 'Editar',
@@ -82,105 +74,14 @@ export default function Balances() {
         },
     ];
 
-    // Form methods
-    const onFinish = (values) => {
-        console.log('Success:', values);
-        console.log('For Edit: ', balanceForEdit);
-        updateData(`/balances/update/${balanceForEdit._id}`, values).then((rs) => {
-            console.log(rs); setBalanceForEdit({}); setIsModalOpen(false); getBalancesData()
-        })
-    };
-
-    const onFinishFailed = (errorInfo) => { console.log('Failed:', errorInfo) };
-
-    const handleChange = (value) => { console.log(`selected ${value}`) };
 
     return (
         <div className='mainContainer'>
+            <div className='fila'><h4>Tabla de Ingresos</h4><Button onClick={showModal} type='primary' style={{ marginLeft: 32 }}>Agregar Nuevo</Button></div>
             <Table columns={columns} dataSource={balancesData} />
             <div style={{ height: 200 }}></div>
 
-            <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
-                footer={[
-                    <Button type="primary" htmlType="submit" form='edit_balance'>
-                        Guardar
-                    </Button>,
-                    <Button onClick={handleCancel}>
-                        Cancelar
-                    </Button>
-                ]}>
-                <Form
-                    name="edit_balance"
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 16 }}
-                    initialValues={balanceForEdit}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
-                >
-                    <Form.Item
-                        label="Monto"
-                        name="monto"
-                        rules={[{ required: true, message: 'Ingresa el monto' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Forma de Pago"
-                        name="forma_de_pago"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={[
-                                {
-                                    value: 'efectivo',
-                                    label: 'Efectivo',
-                                },
-                                {
-                                    value: 'tarjeta',
-                                    label: 'Tarjeta',
-                                },
-                                {
-                                    value: 'transferencia',
-                                    label: 'Transferencia',
-                                },
-                            ]}
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        label="Estado"
-                        name="estado"
-                        rules={[{ required: true, message: 'Ingresa el monto' }]}
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={[
-                                {
-                                    value: 'pendiente',
-                                    label: 'Pendiente',
-                                },
-                                {
-                                    value: 'pagado',
-                                    label: 'Pagado',
-                                },
-                                {
-                                    value: 'pago parcial',
-                                    label: 'Pago parcial',
-                                },
-                            ]}
-                        />
-                    </Form.Item>
-
-                    <Form.Item
-                        wrapperCol={{
-                            offset: 8,
-                            span: 16,
-                        }}
-                    >
-
-                    </Form.Item>
-                </Form>
-            </Modal>
+            <CreateBalance balanceForEdit={balanceForEdit} setBalanceForEdit={setBalanceForEdit} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} getBalancesData={getBalancesData} />
         </div >
     )
 }

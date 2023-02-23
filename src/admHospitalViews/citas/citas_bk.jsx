@@ -19,8 +19,6 @@ export default function Citas() {
     const [isOnline, setIsOnline] = useState(false)
     const [medico, setMedico] = useState(null)
 
-
-
     useEffect(() => {
         getDoctorsData()
     }, [])

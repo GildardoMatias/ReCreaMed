@@ -13,6 +13,7 @@ import MainPacientes from './pacientes/main.pacientes';
 import Escalas from '../escalas/escalasMenu';
 import Balances from './balances/balances';
 import Stripe from './stripe/stripe';
+import Cortes from './cortes/main.cortes';
 
 function Navigator() {
   console.log("DoctorApp", usuario.name)
@@ -38,6 +39,7 @@ function Navigator() {
           <Nav.Link href="/citas">Citas</Nav.Link>
           <Nav.Link href="/escalas">Escalas</Nav.Link>
           <Nav.Link href="/balances">Ingresos</Nav.Link>
+          <Nav.Link href="/cortes">Cortes</Nav.Link>
           {/* <Nav.Link href="/expedientes">Expedientes</Nav.Link> */}
           {/* <Nav.Link href="/recetas">Recetas</Nav.Link> */}
           {/* <Nav.Link href="/notas">Notas</Nav.Link> */}
@@ -86,7 +88,11 @@ export default function DoctorApp() {
         <Route path="/balances">
           <Balances />
         </Route>
-        
+
+        <Route path="/cortes">
+          <Cortes />
+        </Route>
+
         {/* Teporaty stripe */}
         {/* <Route path="/stripe">
           <Stripe/>
@@ -98,7 +104,7 @@ export default function DoctorApp() {
         </Route>
 
         <Route path="/">
-        <MainPacientes />
+          <MainPacientes />
         </Route>
 
       </Switch>
