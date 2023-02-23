@@ -73,8 +73,8 @@ export function Login() {
                 },
               ]}
             >
-              <Input
-                prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Contraseña" />
+              <Input.Password
+                prefix={<LockOutlined className="site-form-item-icon" />}  placeholder="Contraseña" />
             </Form.Item>
             <Form.Item>
               <Form.Item name="remember" valuePropName="checked" noStyle>
