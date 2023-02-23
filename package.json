@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ant-design/charts": "^1.4.2",
     "@react-pdf/font": "2.2.0",
     "@react-pdf/renderer": "2.1.0",
     "@stripe/react-stripe-js": "^1.16.3",
@@ -29,9 +28,12 @@
   "resolutions": {
     "@react-pdf/font": "2.2.0"
   },
+  "overrides": {
+    "react-error-overlay": "6.0.9"
+  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider --max_old_space_size=4096 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "producir": "react-scripts build && cp -r ./build/* /var/www/sistema.recreamed.com",

@@ -1,19 +1,48 @@
+---modificar paciente desde administrador en detalles
+--Order pacientes y medicos y citas
+--Citas por semana y por colores
 
-Cita on click daycalendario por semana
+--upload a receptor's profile
+--Create a receptor
+---eliminar vista asignar pacientes
 
-notas entradas : tratamientos seran varios divididos
+--En asministrador, citas por hospital en tabs
+--cada tab contiene las citas de todos los pacientes del hospital combinados y por colores
+On finish cita , el medico indica cuando le va a cobrar y lo guarda
+cuando el doctor confirma lo que le va a cobrar al paciente para que 
+cuando baje al recepcion el administrador cobra
 
-catalogo tratamiento, abajo de diagnosico
+tabla de ingresos del medico que administra. Solo cambia el estado no cambia el monto
+ingresos es tabs
 
-add medico select into admin patient's register
+Change tratamientos_ofrecidos to Servicios
 
-Estado de nacimiento ->
-Nacionalidad->
-Divisor de nacimiento
-Enfermedades de nac//fams -> catalog
-catalogs on su8peradmin
+registrar que se hizo un corte
 
-balance con nota
+CORTES
+se crea de 1 o mas dias
+si un paciente no pago se pueda ver
+En el dia se vieron tantos pacientes y cuanto se entrego, fecha y nota
+guardar citas pasadas
+
+Lista de deudores
+
+cuando regrese el paciente checar que deben
+
+fechas de corte no selecciona el admin, inicio es anterior, fin es ahora, 
+y va a tomar todos los pacientes que esten en el rango
+
+
+relacionar de esta nota cuantas citas se tuvieron
+
+ultima cita -> ultimas 3 citas / historial
+
+medico puede entrar como paciente
+
+en reasignar, indicar cuales tienen y cuales no
+
+En editar paciente
+-------------------------
 
 Balance del dia y mes
 
