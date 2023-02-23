@@ -57,19 +57,20 @@ export default function SuperAdminApp() {
           <Hospitales />
         </Route>
         <Route path="/administradores">
-          <Admins/>
+          <Admins />
         </Route>
         <Route path="/doctores">
           <Doctors />
         </Route>
         <Route path="/recepcionistas">
-          <Receptionists/>
+          <Receptionists />
         </Route>
         <Route path="/pacientes">
           <Patients />
         </Route>
         <Route path="/">
-          <Home />
+          <Patients />
+
         </Route>
 
       </Switch>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col, Statistic, Card } from 'antd'
-import { Pie, Line } from '@ant-design/charts';
+// import { Pie, Line } from '@ant-design/charts';
 import './home.css'
 
 export class Home extends Component {
@@ -100,13 +100,11 @@ export class Home extends Component {
 
                         <Col xs={24} sm={12} lg={6}>
                             <Card className="cardsContenedor" hoverable bordered={false}>
-
                                 <Statistic title="Total Pacientes" value="241" valueStyle={{ color: 'white' }} style={{ backgroundColor: '#18D0C2' }} className="cardsContenido" />
                             </Card>
                         </Col>
                         <Col xs={24} sm={12} lg={6}>
                             <Card className="cardsContenedor" hoverable bordered={false}>
-
                                 <Statistic title="Citas Hoy" value={47} valueStyle={{ color: 'white' }} style={{ backgroundColor: '#847DFC' }} className="cardsContenido" />
                             </Card>
                         </Col>
@@ -114,11 +112,11 @@ export class Home extends Component {
                     <br />
                     <Row gutter={20}>
                         <Col xs={24} md={12} className="graficaCircular">
-                            <Pie {...this.configPie} style={{ backgroundColor: '#1F263C' }} />
+                            {/* <Pie {...this.configPie} style={{ backgroundColor: '#1F263C' }} /> */}
                         </Col>
 
                         <Col xs={24} md={12}>
-                            <Line {...this.configLine} style={{ backgroundColor: '#1F263C', padding: '20px' }} />
+                            {/* <Line {...this.configLine} style={{ backgroundColor: '#1F263C', padding: '20px' }} /> */}
                         </Col>
                     </Row>
 
