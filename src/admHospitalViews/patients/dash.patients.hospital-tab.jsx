@@ -44,7 +44,7 @@ export default function HospitalTab(props) {
             render: (_, { avatar }) => {
                 return avatar.length > 9 ?
                     <img width={64} src={'https://api.recreamed.com/images/' + avatar} alt='ProfilePic' /> :
-                    <Avatar size={64} icon={<UserOutlined />} />
+                    <Avatar size={64} icon={<UserOutlined />} className='btnIconCentered' />
             }
         },
         {
@@ -154,7 +154,7 @@ export default function HospitalTab(props) {
         </div>
     }
     if (loading) return <p>Cargando...</p>
-    
+
     return <div>
         <h6>Doctors of {props.hospital}</h6>
         <Table dataSource={pacientesDataFiltered} columns={columns} />

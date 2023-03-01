@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Table } from 'antd'
-import {  getData } from '../../resources'
+import { Table, Avatar } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
+import { getData } from '../../resources'
 import Loading from '../../loading'
 
 export default function HospitalTab(props) {
@@ -14,10 +15,14 @@ export default function HospitalTab(props) {
   }
   const columns = [
     {
-      title: 'Rol',
-      dataIndex: 'rol',
-      key: 'rol',
-      onFilter: (value, record) => record.rol === "Medico",
+      title: 'Avatar',
+      dataIndex: 'avatar',
+      key: 'avatar',
+      render: (_, { avatar }) => {
+        return avatar.length > 9 ?
+          <img width={64} src={'https://api.recreamed.com/images/' + avatar} alt='ProfilePic' /> :
+          <Avatar size={64} icon={<UserOutlined />} className='btnIconCentered' />
+      }
     },
     {
       title: 'Nombre',
@@ -47,7 +52,7 @@ export default function HospitalTab(props) {
   }
   const doctoresData = myDoctors(props.id_hospital); // Get medicos data before render TAble
   // Filter doctors of each hospital
-  
+
 
   if (loading) return <Loading />
 

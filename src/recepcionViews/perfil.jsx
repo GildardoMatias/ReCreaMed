@@ -46,7 +46,7 @@ export default function Perfil() {
             <Col span={8} offset={4}>
                 {
                     // Profile Pic
-                    profileData.avatar.length > 8 ?
+                    profileData.avatar.length > 9 ?
                         <Image style={{ borderRadius: 12 }} width={256} src={'https://api.recreamed.com/images/' + profileData.avatar} />
                         :
                         <Avatar size={128} icon={<UserOutlined />} className='btnIconCentered' />

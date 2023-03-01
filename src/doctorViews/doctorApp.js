@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from 'antd'
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Citas } from './citas/citas'
+import Citas from './citas/citas'
 import Expedientes from './expedientes/expedientes'
 import Perfil from './perfil/perfil'
 import Home from './home/home'

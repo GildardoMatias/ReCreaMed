@@ -26,7 +26,6 @@ export default function Perfil() {
         fetch(API + 'userByMail/' + usuario.email)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 setProfileData(data[0]);
                 setIsLoading(false);
             });
@@ -34,10 +33,12 @@ export default function Perfil() {
 
     const editPerfil = async (p) => {
         p.horarios.forEach((h) => { h.sucursal = h.sucursal._id })
-        console.log('Horarios before edit profile: ', p.horarios);
         setEditing(true);
-        console.log('Editar medico: ', p)
     }
+
+    // const editPerfil = async (p) => {
+
+    // }
 
     const DetailsProfile = () => {
         // Two columns of 8 spaces with 4 spaces around
@@ -46,8 +47,8 @@ export default function Perfil() {
                 <Col span={8} offset={4}>
                     {
                         // Profile Pic
-                        profileData.avatar.length > 8 ?
-                            <Image style={{ borderRadius: 12 }} width={256} src={'https://api.recreamed.com/images/' + profileData.avatar} />
+                        profileData.avatar.length > 9 ?
+                            <Image style={{ borderRadius: 12 }} width={256} src={'https://api.recreamed.com/images/' + profileData.avatar} alt='medic-profile-pic'/>
                             :
                             <Avatar size={128} icon={<UserOutlined />} className='btnIconCentered' />
                     }
@@ -83,7 +84,7 @@ export default function Perfil() {
                     <p><span className='desc'>Cedula:</span> {profileData.cedula} </p>
                 </Col>
             </Row>
-            <Configuration id_usuario={usuario._id} />
+            <Configuration id_usuario={usuario._id} correo={usuario.email}/>
         </div>
     }
 

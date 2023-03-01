@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Space, Button, Card, Modal, Popconfirm } from 'antd'
+import { Table, Space, Button, Card, Modal, Popconfirm, Avatar } from 'antd'
 import { API, deleteData } from '../../resources';
 import Loading from '../../loading';
 import Register from './register.patient'
+import { UserOutlined } from '@ant-design/icons'
 
 export default function Dash() {
 
@@ -49,8 +50,11 @@ export default function Dash() {
       title: 'Foto',
       dataIndex: 'avatar',
       key: 'avatar',
-      render: (_, record) => (
-        <img src={'https://api.recreamed.com/images/' + record.avatar} alt="Logo" width={64} />
+      render: (_, { avatar }) => (
+        avatar.lenght > 12 ?
+          <img src={'https://api.recreamed.com/images/' + avatar} alt="Logo" width={64} />
+          : <Avatar icon={<UserOutlined />} size={64} className='btnIconCentered' />
+
       ),
     },
     {
@@ -132,14 +136,14 @@ export default function Dash() {
 
         <Table dataSource={pacientesData} columns={columns} />
       }
-      <Modal width={800} title={<h4>Datos del paciente </h4>} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose={true}>
+      <Modal width={800} title={<h4>Datos del paciente </h4>} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose={true}>
         <DetalleUsuario />
       </Modal>
 
-      <Modal width={1000} title={<h4>Editar Paciente</h4>} visible={isEditModalVisible} onOk={handleOkEdit} onCancel={handleCancelEdit} destroyOnClose
+      <Modal width={1000} title={<h4>Editar Paciente</h4>} open={isEditModalVisible} onOk={handleOkEdit} onCancel={handleCancelEdit} destroyOnClose
         footer={[]}
       >
-        <Register paciente={patientForEdit} setIsModalVisible={setIsEditModalVisible}/>
+        <Register paciente={patientForEdit} setIsModalVisible={setIsEditModalVisible} />
       </Modal>
     </div>
   )

@@ -17,8 +17,8 @@ export default function Balances() {
 
     useEffect(() => { return getPacientesData() }, [])
 
-    const getPacientesData = () => { getData(`users_by_rol/Paciente`).then((rs) => { setPacientesData(rs); getBalancesData(); console.log('pacientes', rs); }) }
-    const getBalancesData = () => { getData(`balances/${usuario._id}`).then((rs) => { setBalancesData(rs.reverse()); console.log('balances', rs); }) }
+    const getPacientesData = () => { getData(`mispacientes/${usuario._id}`).then((rs) => { setPacientesData(rs); getBalancesData(); console.log('pacientes', rs); }) }
+    const getBalancesData = () => { getData(`balances/ingresos/${usuario._id}`).then((rs) => { setBalancesData(rs.reverse()); console.log('balances', rs); }) }
 
     const MatchPatient = ({ paciente }) => {
         const patient = pacientesData.find((p) => paciente === p._id)
@@ -27,7 +27,7 @@ export default function Balances() {
 
     const columns = [
         {
-            title: 'Fecha',
+            title: 'Fecha y Hora',
             dataIndex: 'createdAt',
             key: 'createdAt',
             render: (_, { createdAt }) => { return <>{new Date(createdAt).toLocaleString()}</> }

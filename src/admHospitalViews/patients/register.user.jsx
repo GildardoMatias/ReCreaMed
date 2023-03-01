@@ -201,16 +201,12 @@ export default function Register(props) {
           <Input />
         </Form.Item>
 
-
         <Form.Item
           name="telefono"
           label="Telefono"
-          rules={[{ required: true, message: 'Ingresa tu numero de telefono', whitespace: false }]}
+          rules={[{ required: true, message: 'Ingresa tu numero de telefono' },]}
         >
-          <InputNumber
-            // addonBefore={prefixSelector}
-            style={{ width: '100%' }}
-          />
+          <InputNumber maxLength={10} minLength={10} style={{ width: '100%' }} />
         </Form.Item>
 
         {/* Start Adding Medicos ASignados */}

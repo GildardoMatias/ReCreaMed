@@ -1,8 +1,8 @@
-import React, {  useState, useEffect } from 'react'
-import { Table, Space, Button, Popconfirm, Modal } from 'antd';
+import React, { useState, useEffect } from 'react'
+import { Table, Space, Button, Popconfirm, Modal, Avatar } from 'antd';
 import { API, deleteData } from '../../resources'
 import Loading from '../../loading';
-import { HomeOutlined, ClockCircleOutlined } from '@ant-design/icons'
+import { HomeOutlined, ClockCircleOutlined, UserOutlined } from '@ant-design/icons'
 import Register from './register.receptionist';
 
 export default function Dash() {
@@ -40,7 +40,7 @@ export default function Dash() {
     })
   }
 
- 
+
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -50,8 +50,11 @@ export default function Dash() {
     {
       title: 'Foto',
       key: 'avatar',
-      render: (_, record) => (
-        <img src={'https://api.recreamed.com/images/' + record.avatar} alt="Logo" width={64} />
+      render: (_, { avatar }) => (
+        avatar.lenght > 12 ?
+          <img src={'https://api.recreamed.com/images/' + avatar} alt="Logo" width={64} />
+          : <Avatar icon={<UserOutlined />} size={64} className='btnIconCentered' />
+
       ),
     },
     {

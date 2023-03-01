@@ -3,7 +3,7 @@ import { Form, Input, Button, Table, InputNumber, Divider } from 'antd';
 import Loading from '../../loading';
 import { getData, updateData } from '../../resources';
 
-export default function Configuration({ id_usuario }) {
+export default function Configuration({ id_usuario, correo }) {
 
     const [profileData, setProfileData] = useState([])
     const [loading, setLoading] = useState(true)
@@ -19,10 +19,9 @@ export default function Configuration({ id_usuario }) {
     };
 
     const getProfileData = () => {
-        getData(`getuser/${id_usuario}`).then((rs) => {
-            localStorage.setItem('userData', JSON.stringify(rs)) // Save profile data into local storage again, due to changes
-            setProfileData(rs)
-            console.log(`get pd on config for ${id_usuario}`, rs)
+        getData(`userByMail/${correo}`).then((rs) => {
+            localStorage.setItem('userData', JSON.stringify(rs[0])) // Save profile data into local storage again, due to changes
+            setProfileData(rs[0]) // Must change on backend to findOne, and remove the [0]
         }).finally(() => { setLoading(false) })
     }
 
