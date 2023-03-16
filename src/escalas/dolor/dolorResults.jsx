@@ -249,8 +249,7 @@ export default function DolorResults() {
 
     return (
         <div>
-            <h4>Resultados de encuestas de dolor</h4>
-            <br />
+            <h4 className='spacedTitle'>Resultados de encuestas de dolor</h4>
             <Button type="primary" onClick={showModal}>
                 Crear Link Encuesta de Dolor
             </Button>

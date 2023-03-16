@@ -156,7 +156,7 @@ export default function HospitalTab(props) {
     if (loading) return <p>Cargando...</p>
 
     return <div>
-        <h6>Doctors of {props.hospital}</h6>
+        <h6>Pacientes of {props.hospital}</h6>
         <Table dataSource={pacientesDataFiltered} columns={columns} />
 
         <Modal width={800} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>

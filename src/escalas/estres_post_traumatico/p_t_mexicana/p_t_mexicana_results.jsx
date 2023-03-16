@@ -94,7 +94,7 @@ export default function PostTraumaticoMexicanaResults() {
 
     return (
         <div>
-            <h4>Resultados de la Validación mexicana de la Escala de Estrés Traumático Secundario</h4>
+            <h6>Resultados de la Validación mexicana de la Escala de Estrés Traumático Secundario</h6>
 
             <br />
             <Button type="primary" onClick={showModal}>

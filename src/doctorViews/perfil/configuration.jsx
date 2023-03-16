@@ -11,7 +11,14 @@ export default function Configuration({ id_usuario, correo }) {
 
     useEffect(() => {
         getProfileData()
+
+        // deleteServices()
     }, [])
+
+    // const deleteServices = () => {
+    //     const newData = { configuracion: {  } }
+    //     updateData(`/users/updateUser/${id_usuario}`, newData).then((rs) => { console.log(rs); getProfileData() })
+    // }
 
     const onFinish = async (values) => {
         const newData = profileData.configuracion ? { configuracion: { tratamientos_ofrecidos: [...profileData.configuracion.tratamientos_ofrecidos, values] } } : { configuracion: { tratamientos_ofrecidos: values } }

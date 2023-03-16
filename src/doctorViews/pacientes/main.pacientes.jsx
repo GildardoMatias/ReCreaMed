@@ -85,16 +85,14 @@ export default function MainPacientes() {
       {
         isLoading ? <Loading /> :
           adding ? <Register setAdding={setAdding} /> :
-            <div style={{ border: '1px solid #D6D6D6', borderRadius: 12, padding: 12 }}>
+            <div style={{ border: '1px solid #D6D6D6', borderRadius: 12 }}>
 
-              <Tabs items={pacientesData} activeKey={activePatient} tabPosition='left' onTabClick={(k, e) => { console.log('OnTABClick', k); setPaciente(k) }} style={{ marginTop: 6 }} />
+              <Tabs items={pacientesData} activeKey={activePatient} tabPosition='left' size='small' centered onTabClick={(k, e) => { console.log('OnTABClick', k); setPaciente(k) }} style={{ marginTop: 6 }} />
 
             </div>
       }
       <br />
       <Expedientes paciente={paciente} />
-
-
     </div >
   )
 

@@ -83,7 +83,7 @@ export default function Register(props) {
   const onFinish = (values) => {
     values.avatar = avatar;
     values.estatus = '1';
-    values.rol = 'Medico';
+    values.rol = 'Recepcion';
     delete values.confirm;
     delete values.prefix;
 

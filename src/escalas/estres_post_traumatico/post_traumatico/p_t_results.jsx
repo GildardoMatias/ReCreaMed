@@ -113,14 +113,14 @@ export default function PostTraumaticoResults() {
     }
     return (
         <div>
-            <h4>Resultados de La Evaluación Del Trastorno Por Estrés Postraumático: Aproximación A Las Propiedades Psicométricas De La Escala De Trauma De Davidson</h4>
+            <h6>Evaluación Del Trastorno Por Estrés Postraumático: Aproximación A Las Propiedades Psicométricas De La Escala De Trauma De Davidson</h6>
             <br />
             <Button type="primary" onClick={showModal}>
                 Crear Enlace EPT 1
             </Button>
             <br />
             {
-                 (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
                     style={{ alignItems: 'center', paddingTop: 20 }}>
                     <Select
                         style={{ width: 260, }}

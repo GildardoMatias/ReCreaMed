@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, message, Space, Row, Col, Upload } from 'antd'
+import { Form, Input, InputNumber, Button, message, Space, Row, Col, Upload } from 'antd'
 import { MinusCircleOutlined, PlusOutlined, InboxOutlined } from '@ant-design/icons';
 import { Select } from 'antd';
 import { getData, API } from '../../resources'
@@ -123,17 +123,7 @@ export default function PerfilEdit(props) {
       .catch(error => console.error('Error:', error))
   };
 
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="+52">+52</Option>
-      </Select>
-    </Form.Item>
-  );
+
 
   return (
     <div>
@@ -193,7 +183,7 @@ export default function PerfilEdit(props) {
             </Form.Item> */}
 
             <Form.Item name="telefono" label="Telefono" rules={[{ required: true, message: 'Ingresa el numero de telefono correcto' },]}>
-              <Input addonBefore={prefixSelector} style={{ width: '100%', }} />
+              <InputNumber style={{ width: '100%' }} />
             </Form.Item>
 
 

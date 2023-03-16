@@ -48,7 +48,7 @@ export default function Perfil() {
                     {
                         // Profile Pic
                         profileData.avatar.length > 9 ?
-                            <Image style={{ borderRadius: 12 }} width={256} src={'https://api.recreamed.com/images/' + profileData.avatar} alt='medic-profile-pic'/>
+                            <Image style={{ borderRadius: 12 }} width={256} src={'https://api.recreamed.com/images/' + profileData.avatar} alt='medic-profile-pic' />
                             :
                             <Avatar size={128} icon={<UserOutlined />} className='btnIconCentered' />
                     }
@@ -84,7 +84,7 @@ export default function Perfil() {
                     <p><span className='desc'>Cedula:</span> {profileData.cedula} </p>
                 </Col>
             </Row>
-            <Configuration id_usuario={usuario._id} correo={usuario.email}/>
+            <Configuration id_usuario={usuario._id} correo={usuario.email} />
         </div>
     }
 
@@ -93,7 +93,7 @@ export default function Perfil() {
 
             <Space>
                 <h3>PERFIL</h3>
-                <Button onClick={() => editPerfil(profileData)} type="primary" shape="circle" icon={<FormOutlined />} />
+                <Button onClick={() => editPerfil(profileData)} type="primary" shape="circle" icon={<FormOutlined />} className='btnIconCentered' />
             </Space>
             {isLoading ? <Loading /> :
                 <Card style={{ borderRadius: 16 }}>

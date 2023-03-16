@@ -178,7 +178,7 @@ export default function Register(props) {
         <Form.Item
           name="telefono"
           label="Telefono"
-          rules={[{ required: true, message: 'Ingresa tu numero de telefono', whitespace: false }]}
+          rules={[{ required: true, message: 'Ingresa tu numero de telefono' }]}
         >
           <InputNumber
             // addonBefore={prefixSelector}

@@ -94,7 +94,7 @@ export default function DepresionResults() {
             <h5>Resultados de encuestas de sintomatologia depresiva QUIDS (QUICK INVENTORY OF DEPRESSIVE SYMPTOMATOLOGY)</h5>
             <br />
             <Button type="primary" onClick={showModal}>
-                Crear Link Depresion 1
+                Generar Escala Depresion 1
             </Button>
             <br />
             {
@@ -118,7 +118,7 @@ export default function DepresionResults() {
             <br />
             <h4>Detalles de encuestas</h4>
             <br />
-            <Table dataSource={encuestasData} columns={columns} bordered />
+            <Table dataSource={encuestasData}  columns={columns} bordered />
 
             <Modal title="Crear encuesta de Depresion QUIDS" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <EscalasCreateGeneralLink tipo='depresion_qids' />
