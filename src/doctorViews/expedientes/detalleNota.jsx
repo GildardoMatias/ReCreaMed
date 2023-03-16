@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Collapse, Button, Tabs, Row, Col, Modal, Space, Typography, message, Upload, Input, Select, Form } from 'antd';
+import { Card, Collapse, Button, Tabs, Row, Col, Modal, Space, Typography, message, Upload, Input, Tooltip, Form } from 'antd';
 import { getData, API, updateData, usuario } from '../../resources';
 import { PlusOutlined, ExperimentOutlined, DownloadOutlined, EditOutlined, InboxOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
 import { NuevaNota } from './nuevaNota';
@@ -163,7 +163,7 @@ export default function DetalleNota(props) {
                 {/* Mitad de la pantalla para NOTA*/}
                 <Col span={12}>
                     <Collapse bordered={false}>
-                        <Panel header="Detalles de la nota" key="1">
+                        <Panel header={<Tooltip title="Haga Click para mostrar u ocultar" placement="right"><span>Detalles de la nota</span></Tooltip>} key="1">
                             <Card >
                                 <Card.Grid style={NotaGridStyle}>Edad: <Paragraph editable={{ onChange: (ns) => updateNota(nota, "edad", ns) }} >{nota.edad}</Paragraph></Card.Grid>
                                 <Card.Grid style={NotaGridStyle}>Talla:<Paragraph editable={{ onChange: (ns) => updateNota(nota, "talla", ns) }} >{nota.talla}</Paragraph></Card.Grid>
@@ -184,7 +184,9 @@ export default function DetalleNota(props) {
                     </Card>
 
                     <Card title='Diagnostico'>
-                        {nota.diagnostico}
+                        <Paragraph editable={{ onChange: (ns) => updateNota(nota, "diagnostico", ns) }} >
+                            {nota.diagnostico}
+                        </Paragraph>
                     </Card>
 
                     <Card title='Entradas'>
@@ -226,7 +228,7 @@ export default function DetalleNota(props) {
 
                     </Card>
 
-                    <Card title='Tratamiento'>
+                    {/* <Card title='Tratamiento'>
                         <Select
                             defaultValue="Tratamiento 1"
                             style={{ width: 120 }}
@@ -246,7 +248,7 @@ export default function DetalleNota(props) {
                                 },
                             ]}
                         />
-                    </Card>
+                    </Card> */}
 
                     <Card title='Estudios'>
                         {nota.estudios.map((e) => {
@@ -265,7 +267,7 @@ export default function DetalleNota(props) {
                             </p>
                         </Dragger>
                     </Card>
-                    <Button style={{ float: 'right' }} onClick={() => { editarNota(nota) }} size='small' type="primary" icon={<EditOutlined />} >Editar Nota</Button>
+                    <Button style={{ float: 'right' }} onClick={() => { editarNota(nota) }} size='small' type="primary" icon={<EditOutlined />} className='btnIconCentered'>Editar Nota</Button>
                 </Col>
                 <Col span={12}>
                     {/* La otra mitad de la pantalla para receta */}

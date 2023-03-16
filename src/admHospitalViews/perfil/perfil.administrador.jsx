@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Row, Col, Space, Button, Image } from 'antd';
 import { Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { API, usuario } from '../resources';
-import Loading from '../loading';
+import { API, usuario } from '../../resources';
+import Loading from '../../loading';
 import { FormOutlined } from '@ant-design/icons';
 import PerfilEdit from './perfil.edit';
 
@@ -32,7 +32,7 @@ export default function PerfilAdministrador() {
   const editPerfil = async (p) => {
     p.horarios.forEach((h) => { h.sucursal = h.sucursal._id })
     console.log('Horarios before edit profile: ', p.horarios);
-   
+
     setEditing(true);
     console.log('Editar medico: ', p)
   }
@@ -42,15 +42,15 @@ export default function PerfilAdministrador() {
     return <Row>
       <Col span={8} offset={4}>
         {
-          // Profile Pic
-          profileData.avatar.length > 8 ?
+          // Profile Pic 
+          profileData.avatar.length > 9 ?
             <Image style={{ borderRadius: 12 }} width={256} src={'https://api.recreamed.com/images/' + profileData.avatar} />
             :
             <Avatar size={128} icon={<UserOutlined />} style={{ marginLeft: 80 }} className='btnIconCentered' />
         }
         <br /><br /><br />
         <p className='nombre'> {profileData.name} </p>
-        <p className='datos'>Correo: {profileData.rol} </p>
+        <p className='datos'> {profileData.rol} </p>
         <p className='datos'>Correo: {profileData.email} </p>
         <p className='datos'>Telefono: {profileData.telefono} </p>
       </Col>
@@ -88,7 +88,7 @@ export default function PerfilAdministrador() {
 
       <Space>
         <h3>PERFIL</h3>
-        <Button onClick={() => editPerfil(profileData)} type="primary" shape="circle" icon={<FormOutlined />} />
+        <Button onClick={() => editPerfil(profileData)} type="primary" shape="circle" icon={<FormOutlined />} className='btnIconCentered' />
       </Space>
       <br /><br />
       {isLoading ? <Loading /> :

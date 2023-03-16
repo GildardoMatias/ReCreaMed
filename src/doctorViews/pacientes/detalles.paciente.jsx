@@ -20,7 +20,7 @@ export default function DetallesPaciente(props) {
         return editing ?
             <Register setAdding={setEditing} paciente={pacienteData} />
             :
-            <Card style={{ width: '98%', borderRadius: 12 }} bordered={false}>
+            <div style={{ width: '98%', borderRadius: 12 }} bordered={false}>
                 {/* <div className='fila'><h5>Datos del Paciente</h5><Button className='btnIconCentered' onClick={() => setEditing(true)} size='small' disabled={!props.paciente} type="primary" ghost shape="circle" icon={<FormOutlined className='sizedIcon' />} /></div> */}
                 <br />
                 <Row >
@@ -35,11 +35,15 @@ export default function DetallesPaciente(props) {
 
                         <br />
                         <br />
-                        <p className='nombre'><UserOutlined style={{marginRight: 10}} /> {pacienteData.name}</p>
-                        <p className='datos'><MailOutlined style={{marginRight: 10}} /> {pacienteData.email}</p>
-                        <p className='datos'><MobileOutlined style={{marginRight: 10}} /> {pacienteData.telefono}</p>
+                        <div style={{ margin: 'auto', width: '80%' }}>
+                            <p className='nombre'><UserOutlined style={{ marginRight: 10 }} /> {pacienteData.name}</p>
+                            <p className='datos'><MailOutlined style={{ marginRight: 10 }} /> {pacienteData.email}</p>
+                            <p className='datos'><MobileOutlined style={{ marginRight: 10 }} /> {pacienteData.telefono}</p>
+                        </div>
                     </Col>
-                    <Col span={8} className='columnWithDescriptions'>
+                    <Col span={7} offset={1}
+                    //  className='columnWithDescriptions'
+                    >
                         <Row><Col span={10}><span className='desc'>Sexo:</span></Col><Col span={10}>{pacienteData.sexo}</Col> </Row>
                         <Row><Col span={10}><span className='desc'>Edad:</span></Col><Col span={10}>{pacienteData.edad}</Col> </Row>
                         <Row><Col span={10}><span className='desc'>Peso:</span></Col><Col span={10}>{pacienteData.peso}</Col> </Row>
@@ -54,7 +58,7 @@ export default function DetallesPaciente(props) {
                         <Row><Col span={10}><span className='desc'>Enfermedades familiares:</span></Col><Col span={10}>{pacienteData.enfermedades_familiares.map((e) => <p>{e}</p>)}</Col> </Row>
                         <Row><Col span={10}><span className='desc'>Enfermedades Medicas:</span></Col><Col span={10}>{pacienteData.enfermedades_medicas.map((e) => <p>{e}</p>)}</Col> </Row>
                     </Col>
-                    <Col span={8}>
+                    <Col span={7} offset={1}>
                         <Row><Col span={10}><span className='desc'>Tratamientos Actuales:</span></Col><Col span={10}>{pacienteData.tratamiento_actual.map((t) => <p>{t}</p>)}</Col> </Row>
                         <Row><Col span={10}><span className='desc'>Diagnostico:</span></Col><Col span={10}>{pacienteData.diagnostico}</Col> </Row>
                         <Row><Col span={10}><span className='desc'>Escolaridad:</span></Col><Col span={10}> {pacienteData.escolaridad}</Col></Row>
@@ -70,9 +74,9 @@ export default function DetallesPaciente(props) {
                         <Row><Col span={10}><span className='desc'>C.P.:</span></Col><Col span={10}>{pacienteData.codigopostal}</Col> </Row>
                     </Col>
                 </Row >
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}><Button className='btnIconCentered' onClick={() => setEditing(true)} disabled={!props.paciente} type="primary" ghost title='Editar Datos' icon={<FormOutlined className='sizedIcon' />} >Editar Datos</Button></div>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 6, marginBottom: 6 }}><Button className='btnIconCentered' onClick={() => setEditing(true)} disabled={!props.paciente} type="primary" ghost title='Editar Datos' icon={<FormOutlined className='sizedIcon' />} >Editar Datos</Button></div>
 
-            </Card >
+            </div >
     }
 
     return (

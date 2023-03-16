@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Tag, Button, Typography } from 'antd';
-import { getData, usuario } from '../../resources';
+import { deleteData, getData, usuario } from '../../resources';
 import CreateBalance from './create-balance';
 
 const { Text } = Typography;
 
 export default function Balances() {
     const [balancesData, setBalancesData] = useState([])
-    const [balanceForEdit, setBalanceForEdit] = useState({})
+    const [balanceForEdit, setBalanceForEdit] = useState(null)
     const [pacientesData, setPacientesData] = useState({})
 
     // Modal For Edit Balance
@@ -22,7 +22,7 @@ export default function Balances() {
 
     const MatchPatient = ({ paciente }) => {
         const patient = pacientesData.find((p) => paciente === p._id)
-        return <div>{patient ? patient.name : <Text disabled>Paciente eliminado o no existente</Text>}</div>
+        return <div>{patient ? patient.name : <Text disabled>Paciente eliminado o no existente</Text>} <p style={{ fontSize: 10 }}>Tomado de la cita</p></div>
     }
 
     const columns = [
@@ -50,8 +50,13 @@ export default function Balances() {
             title: 'Paciente',
             key: 'cita.paciente',
             dataIndex: 'cita',
-            render: (_, { cita }) => {
-                return cita ? <MatchPatient paciente={cita.usuario} /> : <Text disabled>Sin Paciente</Text>
+            // render: (_, { cita }) => {
+            //     return cita ? <MatchPatient paciente={cita.usuario} /> : <Text disabled>Sin Paciente</Text>
+            // },
+            render: (_, record) => {
+                if (record.cita) return <MatchPatient paciente={record.cita.usuario} />
+                else if (record.paciente) return <>{record.paciente.name}</>
+                else return <Text type="secondary"> Sin Paciente</Text>
             },
         },
         {

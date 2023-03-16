@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, message, Space, Row, Col, Upload } from 'antd'
 import { MinusCircleOutlined, PlusOutlined, InboxOutlined } from '@ant-design/icons';
 import { Select } from 'antd';
-import { getData, API } from '../resources'
+import { getData, API } from '../../resources'
 const { Option } = Select;
 const { Dragger } = Upload;
 

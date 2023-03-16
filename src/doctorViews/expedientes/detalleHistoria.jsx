@@ -55,7 +55,7 @@ export default function DetalleHistoria(props) {
 
 
     const HistoriaDetails = () => {
-        return <Card.Grid style={gridStyle} >{
+        return <Card style={gridStyle} >{
             editing ?
                 <>
                     <Form name='historiaForm' initialValues={{ historial: historiaData[0].historial }} onFinish={updateHistoria}>
@@ -76,23 +76,22 @@ export default function DetalleHistoria(props) {
                 </>
                 :
                 <p style={{ whiteSpace: 'pre', textAlign: 'left' }}>{historiaData[0].historial}</p>
-        }</Card.Grid>
+        }</Card>
     }
 
 
     return <div>
-        <Card bordered={false}>
-            <Space>
-                <h5>Historia Clinica</h5>
-                <Button className='btnIconCentered' onClick={() => setEditing(true)} size='small' disabled={!props.historia} type="primary" shape="circle" icon={<FormOutlined className='sizedIcon' />} />
-            </Space>
-            {
-                notaLoading ? <h5>Cargando Historia...</h5> :
-                    historiaData.length > 0 ?
-                        <HistoriaDetails />
-                        :
-                        <h6>No hay una historia asignada</h6>
-            }
-        </Card>
+        <Space>
+            <h5>Historia Clinica</h5>
+            <Button className='btnIconCentered' onClick={() => setEditing(true)} size='small' disabled={!props.historia} type="primary" shape="circle" icon={<FormOutlined className='sizedIcon' />} />
+        </Space>
+        {
+            notaLoading ? <h5>Cargando Historia...</h5> :
+                historiaData.length > 0 ?
+                    <HistoriaDetails />
+                    :
+                    <h6>No hay una historia asignada</h6>
+        }
+        <br />
     </div>
 }

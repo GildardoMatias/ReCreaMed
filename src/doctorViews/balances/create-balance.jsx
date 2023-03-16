@@ -1,19 +1,38 @@
-import React from 'react'
-import { Table, Tag, Button, Modal, Form, Input, Select, Typography, message } from 'antd';
+import { useState, useEffect } from 'react'
+import { Button, Modal, Form, Input, Select, InputNumber, message } from 'antd';
 import { getData, sendDataBody, updateData, usuario } from '../../resources';
 
 export default function CreateBalance(props) {
+
+    const [pacientesData, setPacientesData] = useState({})
     const handleOk = () => { props.setIsModalOpen(false) };
     const handleCancel = () => { props.setIsModalOpen(false); props.setBalanceForEdit(null) };
+   
+    useEffect(() => {
+        return getPacientesData()
+    }, [])
+
+    const getPacientesData = () => {
+        getData(`mispacientes/${usuario._id}`).then((rs) => {
+            rs.forEach(p => { p.label = p.name; p.value = p._id; });
+            setPacientesData(rs);
+        })
+    }
 
     // Form methods
     const onFinish = (values) => {
-        if (Object.keys(props.balanceForEdit).length === 0) {
+
+        if (!props.balanceForEdit || Object.keys(props.balanceForEdit).length === 0) {
             values.medico = usuario._id
+            values.fecha_hora = new Date();
+            values.tipo = 'ingreso';
         }
+
+
         console.log('Ready to send:', values);
         console.log('For Edit: ', props.balanceForEdit);
-        Object.keys(props.balanceForEdit).length > 0 ?
+
+        (props.balanceForEdit && Object.keys(props.balanceForEdit).length > 0) ?
             updateData(`/balances/update/${props.balanceForEdit._id}`, values).then((rs) => {
                 console.log(rs); props.setBalanceForEdit({}); props.setIsModalOpen(false); props.getBalancesData()
             })
@@ -48,13 +67,39 @@ export default function CreateBalance(props) {
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
+
+
                 <Form.Item
                     label="Monto"
                     name="monto"
                     rules={[{ required: true, message: 'Ingresa el monto' }]}
                 >
-                    <Input />
+                    <InputNumber style={{ width: '100%' }} />
                 </Form.Item>
+
+                {
+                    // Para el caso que sea un ingreso sin cita
+                    (!props.balanceForEdit || Object.keys(props.balanceForEdit).length === 0) && <div>
+                        <Form.Item
+                            label="Concepto"
+                            name="concepto"
+                            rules={[{ required: true, message: 'Ingresa el concepto' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Paciente"
+                            name="paciente"
+                        >
+                            <Select
+                                onChange={handleChange}
+                                options={pacientesData}
+                            />
+                        </Form.Item>
+                    </div>
+                }
+
                 <Form.Item
                     label="Forma de Pago"
                     name="forma_de_pago"
@@ -77,6 +122,7 @@ export default function CreateBalance(props) {
                         ]}
                     />
                 </Form.Item>
+
                 <Form.Item
                     label="Estado"
                     name="estado"

@@ -2,12 +2,18 @@ import { useEffect, useState } from 'react'
 import { Button, Table, Space } from 'antd'
 import { getData, sendDataBody, usuario } from '../../resources'
 import Loading from '../../loading'
+import Detalles from './details.corte'
 
 export default function Cortes() {
 
     const [balance, setBalance] = useState({})
     const [cortesData, setCortesData] = useState([])
     const [loading, setLoading] = useState(true)
+    // For details modal
+    const [corteForDetails, setCorteForDetails] = useState({})
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const showModal = (corte) => { setCorteForDetails(corte); setIsModalOpen(true) };
+
 
     useEffect(() => {
         return getCortesData()
@@ -15,14 +21,14 @@ export default function Cortes() {
 
     const getCortesData = () => {
         getData(`cortes/${usuario._id}`).then((rs) => {
-            setCortesData(rs)
+            setCortesData(rs.reverse())
         }).finally(() => setLoading(false))
     }
 
     const createCorte = () => {
         const newCorte = {
             medico: usuario._id,
-            fecha_inicio: cortesData.length === 0 ? new Date() : cortesData.at(-1).fecha_cierre,
+            fecha_inicio: cortesData.length === 0 ? new Date() : cortesData.at(0).fecha_cierre,
             fecha_cierre: new Date(),
             comentario: ''
         }
@@ -32,6 +38,8 @@ export default function Cortes() {
             getCortesData()
         })
     }
+
+
     const columns = [
         {
             title: 'fecha y hora de Inicio',
@@ -55,10 +63,8 @@ export default function Cortes() {
             key: 'Acciones',
             render: (_, record) => (
                 <Space size="middle">
-                    <Button onClick={() => {
-                        sendDataBody(`balances/corte`, record).then(rs => console.log(rs))
-                    }}>Ver Detalles</Button>
-                    <Button onClick={() => console.log(record)}>Editar</Button>
+                    <Button onClick={() => { showModal(record) }}>Ver Detalles</Button>
+                    {/* <Button onClick={() => console.log(record)}>Editar</Button> */}
                     {/* <Button onClick={() => deleteData(`cortes/remove/${record._id}`)}>Eliminar</Button> */}
                 </Space>)
         }
@@ -71,5 +77,6 @@ export default function Cortes() {
         <br />
         <Table columns={columns} dataSource={cortesData} />
 
+        <Detalles corte={corteForDetails} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </div>
 }

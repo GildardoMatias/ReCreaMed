@@ -6,7 +6,7 @@ import Citas from './citas/main.citas'
 import Users from './patients/main.users';
 import Doctors from './doctors/main.doctors'
 import Sucursal from './sucursal'
-import PerfilAdministrador from './perfil.administrador'
+import PerfilAdministrador from './perfil/perfil.administrador'
 import Ingresos from './ingresos/ingresos'
 import icon from '../assets/Icon.png';
 import Escalas from '../escalas/escalasMenu';

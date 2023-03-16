@@ -6,6 +6,8 @@
 --Create a receptor
 ---eliminar vista asignar pacientes
 
+On confirm Cita -> Select forma de pago
+
 --En asministrador, citas por hospital en tabs
 --cada tab contiene las citas de todos los pacientes del hospital combinados y por colores
 On finish cita , el medico indica cuando le va a cobrar y lo guarda

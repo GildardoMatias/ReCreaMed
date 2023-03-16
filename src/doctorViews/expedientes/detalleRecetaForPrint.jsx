@@ -61,7 +61,7 @@ export default function RecetaDocument(props) {
                         <Text style={styles.footText}>Pagina de la clinica, Correo@clinica.com</Text>
                     </View>
                     <View style={styles.section}>
-                        <Image style={styles.image} src={Logo} />F
+                        <Image style={styles.image} src={Logo} />
                         <Text style={{ fontSize: 10, marginLeft: 20 }}>www.recreamed.com</Text>
                     </View>
                 </View>

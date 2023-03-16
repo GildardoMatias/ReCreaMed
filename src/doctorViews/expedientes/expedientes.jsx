@@ -50,7 +50,7 @@ export default function Expedientes(props) {
 
     return <div id='expedient-export' >
 
-        <Space size='middle'><h4>Expediente </h4><h3> </h3></Space>
+        <h4 className='spacedTitle'>Expediente </h4>
 
         <DetalleHistoria historia={historia} />
 

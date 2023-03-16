@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Space, Table, Tag, Progress, Button, Modal } from 'antd'
 import { Form, Select } from 'antd';
 import { getData, usuario, sendDataBody, ids_hospitales } from '../../resources';
+import LoadingIndicator from '../loadingIndicator'
 import EscalasCreateGeneralLink from '../escalasCreateGeneralLink';
 const { Option } = Select;
 
@@ -22,6 +23,8 @@ export default function KetaminaResults() {
     // Else if session is medico get escalas for me
     if (usuario.rol === 'Recepcion' || usuario.rol === 'Administrador') getDoctorsData()
     else getEncuestasData(usuario._id)
+
+    // getEcuestasDataByHospital()
   }, [])
 
   // Modal For Create Link
@@ -188,6 +191,10 @@ export default function KetaminaResults() {
 
   ];
 
+
+
+  // if ((usuario.rol === 'Recepcion' || usuario.rol === 'Administracion') && !ketaminaData) return <h5>Seleccione un medico para ver los resultados de sus encuestas</h5>
+
   return (
     <div>
       <br />
@@ -216,11 +223,13 @@ export default function KetaminaResults() {
       }
       <br />
 
-      <Table dataSource={countersData} columns={counterColumns} loading={loadingCounters} bordered />
+      <Table dataSource={countersData} columns={counterColumns} loading={{ indicator: <LoadingIndicator />, spinning: loadingCounters }} bordered />
       <br />
       <h4>Detalles de encuestas</h4>
       <br />
+
       <Table dataSource={ketaminaData} columns={columns} scroll={{ x: 1300 }} bordered />
+
 
       <Modal title="Generar Escala de Ketamina" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         {/* <KetaminaCreateLink /> */}

@@ -38,6 +38,10 @@ h5 {
     color: #515a6e;
 }
 
+.spacedTitle {
+    margin: 1rem auto;
+}
+
 .btnIconCentered {
     display: inline-flex;
     justify-content: center;
