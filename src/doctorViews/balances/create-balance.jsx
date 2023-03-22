@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Button, Modal, Form, Input, Select, InputNumber, message } from 'antd';
 import { getData, sendDataBody, updateData, usuario } from '../../resources';
-
+// DOCTOR CREATE BALANCE
 export default function CreateBalance(props) {
 
     const [pacientesData, setPacientesData] = useState({})

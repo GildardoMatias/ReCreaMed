@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { getData, deleteData } from '../../resources'
-import { Table, Avatar, Space, Button, Popconfirm, Modal, Card } from 'antd'
+import { Table, Avatar, Space, Button, Popconfirm, Modal, Card, Input } from 'antd'
 import { UserOutlined, EditOutlined } from '@ant-design/icons'
 import Register from './register.user'
 
 export default function HospitalTab(props) {
+    const [value, setValue] = useState(''); // For search
+    const [filteredData, setFilteredData] = useState({}) // For Table
     const [pacientesData, setPacientesData] = useState([])
     const [paciente, setPaciente] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -107,6 +109,10 @@ export default function HospitalTab(props) {
         return dl;
     }
     const pacientesDataFiltered = findPatientsOfMyMedicos(props.id_hospital); // Get medicos data before render TAble
+    useEffect(() => {
+        setFilteredData(pacientesDataFiltered)
+    }, [])
+
     // Fill Modal
     const gridStyle = {
         width: '50%',
@@ -157,7 +163,22 @@ export default function HospitalTab(props) {
 
     return <div>
         <h6>Doctors of {props.hospital}</h6>
-        <Table dataSource={pacientesDataFiltered} columns={columns} />
+
+        <Input
+            placeholder="Search Name"
+            value={value}
+            onChange={e => {
+                const currValue = e.target.value;
+                setValue(currValue);
+                const filteredData = pacientesDataFiltered.filter(entry =>
+                    entry.name.includes(currValue)
+                );
+                console.log('Filtered: ', filteredData)
+                setFilteredData(filteredData);
+            }}
+        />
+
+        <Table dataSource={filteredData} columns={columns} />
 
         <Modal width={800} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
             <DetalleUsuario />

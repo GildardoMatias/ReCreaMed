@@ -1,6 +1,6 @@
 import React from 'react'
-import {  Tabs } from 'antd'
-import {  myHospitals } from '../../resources'
+import { Tabs } from 'antd'
+import { myHospitals } from '../../resources'
 import HospitalTab from './dash.doctors.hospitalTab';
 
 export default function Dash() {
@@ -14,7 +14,7 @@ export default function Dash() {
 
     return (
         <div>
-            <h6>Doctores de los diferentes hospitales</h6>
+            <h4 className='spacedTitle'>Doctores de los diferentes hospitales</h4>
             <Tabs defaultActiveKey="1" items={myHospitals} />
         </div>
     )

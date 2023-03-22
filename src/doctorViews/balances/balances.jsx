@@ -73,9 +73,12 @@ export default function Balances() {
 
         },
         {
-            title: 'Editar',
+            title: 'Acciones',
             key: 'Editar',
-            render: (_, record) => <Button onClick={() => { setBalanceForEdit(record); showModal() }}>Editar</Button>
+            render: (_, record) => <div className='fila'>
+                <Button onClick={() => { setBalanceForEdit(record); showModal() }}>Editar</Button>
+                <Button onClick={() => { setBalanceForEdit(record); showModal() }}>Generar Ticket</Button>
+            </div>
         },
     ];
 
@@ -87,6 +90,8 @@ export default function Balances() {
             <div style={{ height: 200 }}></div>
 
             <CreateBalance balanceForEdit={balanceForEdit} setBalanceForEdit={setBalanceForEdit} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} getBalancesData={getBalancesData} />
+
+            
         </div >
     )
 }

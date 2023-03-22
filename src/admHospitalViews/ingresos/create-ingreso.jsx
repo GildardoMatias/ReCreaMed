@@ -1,24 +1,50 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table, Tag, Button, Modal, Form, Input, Select, Typography, message } from 'antd';
-import { getData, sendDataBody, updateData, usuario } from '../../resources';
-
+import { getData, sendDataBody, updateData, usuario, ids_hospitales } from '../../resources';
+// ADMIN CREATE INGRESO
 export default function CreateBalance(props) {
+    const [pacientesData, setPacientesData] = useState([])
+
     const handleOk = () => { props.setIsModalOpen(false) };
     const handleCancel = () => { props.setIsModalOpen(false); props.setBalanceForEdit(null) };
+    useEffect(() => {
+        getPacientesData()
+    }, [props.medico])
+
+    // Start of filtering patients to show in select
+    const getPacientesData = () => {
+        if (props.medico) {
+
+            getData(`mispacientes/${props.medico}`).then((rs) => {
+                rs.forEach(patient => {
+                    patient.value = patient._id; patient.label = patient.name;
+                });
+                console.log('Pacientes: ', rs)
+                setPacientesData(rs)
+            })
+        } else { setPacientesData([]) }
+
+    }
+    // End of filtering patients to show in select
 
     // Form methods
     const onFinish = (values) => {
-        if (!props.balanceForEdit){
-            values.medico = usuario._id
-        } 
-        console.log('Success:', values);
+        if (Object.keys(props.balanceForEdit).length === 0 || !props.balanceForEdit) {
+            values.medico = props.medico;
+            values.tipo = 'ingreso';
+            values.fecha_hora = new Date();
+        }
+        console.log('Ready to send:', values);
         console.log('For Edit: ', props.balanceForEdit);
-        props.balanceForEdit ?
+        if (Object.keys(props.balanceForEdit).length === 0 || !props.balanceForEdit) {
+            sendDataBody(`balances/add`, values).then((rs) => { console.log(rs); message.success(rs.message || rs.error) }).finally(() => {props.getBalancesData(props.medico); props.setIsModalOpen(false)})
+        } else {
             updateData(`/balances/update/${props.balanceForEdit._id}`, values).then((rs) => {
                 console.log(rs); props.setBalanceForEdit({}); props.setIsModalOpen(false);
             })
-            :
-            sendDataBody(`balances/add`, values).then((rs) => message.success(rs.message || rs.error)).finally(() => props.getBalancesData())
+        }
+
+
     };
 
     const onFinishFailed = (errorInfo) => { console.log('Failed:', errorInfo) };
@@ -51,6 +77,27 @@ export default function CreateBalance(props) {
                 >
                     <Input />
                 </Form.Item>
+                {/* Start of modifications for independent ingrso */}
+                <Form.Item
+                    label="Concepto"
+                    name="concepto"
+                    rules={[{ required: true, message: 'Ingresa el concepto' }]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="Paciente"
+                    name="paciente"
+                >
+                    <Select
+                        onChange={handleChange}
+                        options={pacientesData}
+                    />
+                </Form.Item>
+                {/* End of modifications for independent ingrso */}
+
+
                 <Form.Item
                     label="Forma de Pago"
                     name="forma_de_pago"
