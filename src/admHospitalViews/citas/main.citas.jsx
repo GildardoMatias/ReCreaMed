@@ -14,7 +14,7 @@ export default function Citas() {
 
     return (
         <div className='mainContainer'>
-            <h5>Citas</h5>
+            <h4>Citas</h4>
             <Tabs defaultActiveKey="1" items={myHospitals} />
         </div>
     )

@@ -4,7 +4,7 @@ import { getData, updateData } from '../../resources';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
-import CreateCita from './create-cita-for-medic';
+import CreateCita, { CreateCitaForm } from './create-cita-for-medic';
 require('moment/locale/es.js');
 
 const localizer = momentLocalizer(moment)
@@ -17,6 +17,7 @@ export default function HospitalTab(props) {
     const showModal = () => { setIsModalOpen(true) }
     const handleOk = () => { setIsModalOpen(false) }
     const handleCancel = () => { setIsModalOpen(false) }
+    const [editingCita, setEditingCita] = useState(false)
 
     // Tools for createCita Modal
     const [fecha_hora, setFecha_hora] = useState('')
@@ -89,15 +90,24 @@ export default function HospitalTab(props) {
         />
 
 
-        <Modal title="Detalles Cita" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose footer={[<Button onClick={handleCancel}>Cerrar</Button>]}>
+        <Modal title="Detalles Cita" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
+            footer={[
+                <Button onClick={() => setEditingCita(!editingCita)}>{editingCita ? "Cancelar" : "Modificar"}</Button>,
+                <Button onClick={handleCancel}>Cerrar</Button>
+            ]}>
+
             {
-                citaForEdit && <div>
-                    <p><strong>Medico </strong>{citaForEdit.medico ? citaForEdit.medico.name : 'Sin medico'}</p>
-                    <p><strong>Paciente </strong>{citaForEdit.usuario ? citaForEdit.usuario.name : 'Sin paciente'}</p>
-                    <p><strong>Fecha </strong>{citaForEdit.fecha_hora}</p>
-                    <p><strong>Comentarios </strong>{citaForEdit.comentarios}</p>
-                    <Button type='primary' onClick={confirmService}>Confirmar Servicio</Button>
-                </div>
+                editingCita ?
+                    <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsCreateModalOpen} getCitasData={getCitasData} />
+                    : <div>{citaForEdit && <div>
+                        <p><strong>Paciente </strong>{citaForEdit.usuario ? citaForEdit.usuario.name : 'Sin paciente'}</p>
+                        <p><strong>Fecha </strong>{new Date(citaForEdit.fecha_hora).toLocaleDateString()}</p>
+                        <p><strong>Hora </strong>{new Date(citaForEdit.fecha_hora).toLocaleTimeString()}</p>
+                        <p><strong>Comentarios </strong>{citaForEdit.comentarios}</p>
+                        <Button type='primary' onClick={confirmService}>Confirmar Servicio</Button>,
+                    </div>
+                    }
+                    </div>
             }
         </Modal>
 

@@ -80,9 +80,6 @@ export default function Perfil() {
                 <br />
                 <br />
             </Col>
-
-
-
         </Row>
     }
 
@@ -90,7 +87,7 @@ export default function Perfil() {
         <div className='mainContainer'>
 
             <Space>
-                <h3>PERFIL</h3>
+                <h4>Mi Perfil</h4>
                 <Button onClick={() => editPerfil(profileData)} type="primary" shape="circle" icon={<FormOutlined />} className='btnIconCentered' />
             </Space> <br /><br />
             {isLoading ? <Loading /> :
