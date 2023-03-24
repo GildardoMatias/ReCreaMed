@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, Form, Select, Input, Button, message, Switch } from 'antd'
+import { Modal, Form, Select, Input, Button, message, Switch, DatePicker } from 'antd'
 import { getData, ids_hospitales, sendDataBody, updateData } from '../../resources';
 
 export function CreateCitaForm(props) {
@@ -13,7 +13,7 @@ export function CreateCitaForm(props) {
     const [servicios, setServicios] = useState([])
 
     useEffect(() => {
-        console.log('Received for edit', props.cita)
+        console.log('Received for edit fecg', props.fecha_hora)
         getDoctorsData()
         if (props.cita) getPacientesOfDoctor(props.cita.medico)
     }, [])
@@ -31,7 +31,6 @@ export function CreateCitaForm(props) {
                 });
                 setServicios(tratamientos_ofrecidos)
             }
-
             setMedicosData(rs)
         })
     }
@@ -55,12 +54,10 @@ export function CreateCitaForm(props) {
             setServicios(tratamientos_ofrecidos)
         }
 
-
-
     }
     // Form Methods
     const onFinish = (values) => {
-        values.fecha_hora = props.fecha_hora;
+        if (!props.cita) values.fecha_hora = props.fecha_hora;
         values.sucursal = props.hospital;
 
         // const { configuracion } = medicosData.find((m) => m._id === medico)
@@ -73,8 +70,10 @@ export function CreateCitaForm(props) {
         if (props.cita) {
             updateData(`citas/update/${props.cita._id}`, values).then((response) => {
                 // message.success(response.message || response.error);
-                console.log(response)
-            }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
+                console.log(response);
+                props.setIsModalOpen(false);
+                props.setEditingCita(false);
+            }).finally(() => { props.getCitasData(); })
         } else {
             sendDataBody('citas/add', values).then((response) => {
                 message.success(response.message || response.error);
@@ -127,22 +126,29 @@ export function CreateCitaForm(props) {
             <Switch onChange={onSwitch} />
         </Form.Item>
 
-        <Form.Item label="Comentarios" name="comentarios" rules={[{ required: false, message: 'Ingresa RFC' }]} >
+        <Form.Item label="Comentarios" name="comentarios" rules={[{ required: false, message: 'Ingresa Comentarios' }]} >
             <Input />
         </Form.Item>
 
         {
             // Only if updating cita
-            props.cita && <Form.Item
-                wrapperCol={{
-                    offset: 8,
-                    span: 16,
-                }}
-            >
-                <Button type="primary" htmlType="submit" form='nueva_cita_admin'>
-                    Guardar
-                </Button>
-            </Form.Item>
+            props.cita && <div>
+                <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: false, message: 'Selecciona Fecha y Hora' }]} >
+
+                    <DatePicker showTime />
+                </Form.Item>
+
+                <Form.Item
+                    wrapperCol={{
+                        offset: 8,
+                        span: 16,
+                    }}
+                >
+                    <Button type="primary" htmlType="submit" form='nueva_cita_admin'>
+                        Guardar
+                    </Button>
+                </Form.Item>
+            </div>
         }
 
     </Form>

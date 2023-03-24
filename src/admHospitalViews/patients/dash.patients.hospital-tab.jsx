@@ -5,25 +5,24 @@ import { UserOutlined, EditOutlined } from '@ant-design/icons'
 import Register from './register.user'
 
 export default function HospitalTab(props) {
-    const [value, setValue] = useState(''); // For search
-    const [filteredData, setFilteredData] = useState({}) // For Table
+    const [value, setValue] = useState(''); // For search input
     const [pacientesData, setPacientesData] = useState([])
+    const [searchText, setSearchText] = useState('');//For search input
     const [paciente, setPaciente] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [loading, setLoading] = useState(true)
     const [editingProfile, setEditingProfile] = useState(false)
     const showModal = () => { setIsModalVisible(true); };
     const handleOk = () => { setIsModalVisible(false); };
     const handleCancel = () => { setIsModalVisible(false); setEditingProfile(false) };
 
-
     useEffect(() => {
-        getPacientesData()
-    }, [])
-
-    const getPacientesData = () => {
-        getData('users_by_rol/Paciente').then((rs) => setPacientesData(rs)).finally(() => setLoading(false))
-    }
+        const fetchData = async () => {
+            const response = await getData('users_by_rol/Paciente');
+            // const data = await response.json();
+            setPacientesData(response);
+        };
+        fetchData();
+    }, []);
 
     const deleteUser = (id_paciente) => {
         const newPatients = pacientesData.filter((p) => p._id !== id_paciente)
@@ -102,16 +101,15 @@ export default function HospitalTab(props) {
             paciente.medicos_asignados.forEach(med => {
                 med.horarios.forEach(h => {
                     // if (ids_hospitales.includes(h.sucursal) && !dl.includes(paciente)) { console.log(paciente); dl.push(paciente) }
-                    if (h.sucursal === id_hospital && !dl.includes(paciente)) { console.log(paciente); dl.push(paciente) }
+                    // if (h.sucursal === id_hospital && !dl.includes(paciente) ) { console.log(paciente); dl.push(paciente) }
+                    if (h.sucursal === id_hospital && !dl.includes(paciente) && paciente.name.toLowerCase().includes(searchText.toLowerCase())) { console.log(paciente); dl.push(paciente) }
                 })
             });
         });
         return dl;
     }
+
     const pacientesDataFiltered = findPatientsOfMyMedicos(props.id_hospital); // Get medicos data before render TAble
-    useEffect(() => {
-        setFilteredData(pacientesDataFiltered)
-    }, [])
 
     // Fill Modal
     const gridStyle = {
@@ -159,26 +157,22 @@ export default function HospitalTab(props) {
             }
         </div>
     }
-    if (loading) return <p>Cargando...</p>
+
+    const handleSearch = e => {
+        setValue(e.target.value)
+        setSearchText(e.target.value);
+    };
 
     return <div>
-        <h6>Doctors of {props.hospital}</h6>
+        <h6>Pacientes de {props.hospital}</h6>
 
         <Input
-            placeholder="Search Name"
+            placeholder="Buscar Paciente"
             value={value}
-            onChange={e => {
-                const currValue = e.target.value;
-                setValue(currValue);
-                const filteredData = pacientesDataFiltered.filter(entry =>
-                    entry.name.includes(currValue)
-                );
-                console.log('Filtered: ', filteredData)
-                setFilteredData(filteredData);
-            }}
+            onChange={handleSearch}
         />
 
-        <Table dataSource={filteredData} columns={columns} />
+        <Table dataSource={pacientesDataFiltered} columns={columns} pagination={false} />
 
         <Modal width={800} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
             <DetalleUsuario />

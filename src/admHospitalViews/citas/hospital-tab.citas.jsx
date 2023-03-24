@@ -16,8 +16,8 @@ export default function HospitalTab(props) {
     const [loading, setLoading] = useState(true)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => { setIsModalOpen(true) }
-    const handleOk = () => { setIsModalOpen(false) }
-    const handleCancel = () => { setIsModalOpen(false) }
+    const handleOk = () => { setIsModalOpen(false); setEditingCita(false) }
+    const handleCancel = () => { setIsModalOpen(false); setEditingCita(false) }
 
     // Tools for createCita Modal
     const [fecha_hora, setFecha_hora] = useState('')
@@ -48,6 +48,7 @@ export default function HospitalTab(props) {
         e.paciente = e.usuario; // For details
         e.medico = e.medico._id;  // For edit
         e.usuario = e.usuario._id;  // For edit
+        e.fecha_hora = moment(e.fecha_hora) //For edit
         setCitaForEdit(e)
         if (citaForEdit) showModal()
     }
@@ -81,6 +82,7 @@ export default function HospitalTab(props) {
         <h6>Citas del hospital {props.hospital}</h6>
         <br />
         <Calendar
+            scrollToTime={new Date(Date.now())}
             selectable='true'
             localizer={localizer}
             events={citasData}
@@ -122,7 +124,7 @@ export default function HospitalTab(props) {
 
 
             {editingCita ?
-                <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsCreateModalOpen} getCitasData={getCitasData} />
+                <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsModalOpen} getCitasData={getCitasData} setEditingCita={setEditingCita} />
                 : <div>{citaForEdit && <div>
                     <p><strong>Medico </strong>{citaForEdit.doctor ? citaForEdit.doctor.name : 'Sin medico'}</p>
                     <p><strong>Paciente </strong>{citaForEdit.paciente ? citaForEdit.paciente.name : 'Sin paciente'}</p>
