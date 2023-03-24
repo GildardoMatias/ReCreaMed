@@ -63,6 +63,9 @@ export default function Citas() {
 
     // Select cita to show details and to confirm
     const selectEvent = async (e) => {
+        e.sucursal = e.sucursal._id;
+        e.paciente = e.usuario; // For details
+        e.usuario = e.usuario._id; // For Editing
         await setCitaForEdit(e)
         showModal()
     }
@@ -120,7 +123,7 @@ export default function Citas() {
             {editingCita ?
                 <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsCreateModalOpen} getCitasData={getCitasData} />
                 : <div>{citaForEdit && <div>
-                    <p><strong>Paciente </strong>{citaForEdit.usuario ? citaForEdit.usuario.name : 'Sin paciente'}</p>
+                    <p><strong>Paciente </strong>{citaForEdit.paciente ? citaForEdit.paciente.name : 'Sin paciente'}</p>
                     <p><strong>Fecha </strong>{new Date(citaForEdit.fecha_hora).toLocaleDateString()}</p>
                     <p><strong>Hora </strong>{new Date(citaForEdit.fecha_hora).toLocaleTimeString()}</p>
                     <p><strong>Comentarios </strong>{citaForEdit.comentarios}</p>

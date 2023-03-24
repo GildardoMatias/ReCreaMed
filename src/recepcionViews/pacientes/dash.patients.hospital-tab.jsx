@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getData, deleteData } from '../../resources'
-import { Table, Avatar, Space, Button, Popconfirm, Modal, Card } from 'antd'
+import { Table, Avatar, Space, Button, Popconfirm, Modal, Card, List, Row, Col } from 'antd'
 import { UserOutlined, EditOutlined } from '@ant-design/icons'
 import Register from './register.user'
 
@@ -157,7 +157,33 @@ export default function HospitalTab(props) {
 
     return <div>
         <h6>Pacientes of {props.hospital}</h6>
-        <Table dataSource={pacientesDataFiltered} columns={columns} />
+        <Table dataSource={pacientesDataFiltered} columns={columns} pagination={false} />
+        {/* <div style={{ height: '200px', width: '100%', overflow: 'auto' }}>
+            <ul style={{ margin: 0, padding: 0 }}>
+                <List
+                    itemLayout="horizontal"
+                    dataSource={pacientesDataFiltered}
+                    renderItem={(item, index) => (
+                        <List.Item>
+                            <List.Item.Meta
+                                avatar={
+                                    item.avatar.length > 9 ?
+                                        <img width={64} src={'https://api.recreamed.com/images/' + item.avatar} alt='ProfilePic' /> :
+                                        <Avatar size={64} className='btnIconCentered' icon={<UserOutlined />} />
+                                }
+                                title={<a href="https://ant.design">{item.name}</a>}
+                                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                            />
+                            <Row>
+                                <Col></Col>
+                            </Row>
+                        </List.Item>
+                    )}
+                />
+            </ul>
+        </div> */}
+
+
 
         <Modal width={800} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
             <DetalleUsuario />

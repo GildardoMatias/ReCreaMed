@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button } from "antd";
-import { getData, updateData } from '../../resources';
+import { Modal, Button, Popconfirm, message } from "antd";
+import { getData, updateData, deleteData } from '../../resources';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
-import CreateCita from './create-cita-for-medic';
+import CreateCita, { CreateCitaForm } from './create-cita-for-medic';
 require('moment/locale/es.js');
 
 const localizer = momentLocalizer(moment)
 
 export default function HospitalTab(props) {
+    const [editingCita, setEditingCita] = useState(false)
     const [citaForEdit, setCitaForEdit] = useState({})
     const [citasData, setCitasData] = useState([])
     const [loading, setLoading] = useState(true)
@@ -31,8 +32,7 @@ export default function HospitalTab(props) {
                 const endDate = new Date(cita.fecha_hora);
                 endDate.setTime(endDate.getTime() + 1 * 60 * 60 * 1000)
                 cita.end = new Date(Date.parse(endDate));
-                cita.title = cita.comentarios;
-                cita.id = cita._id;
+                cita.title = cita.usuario.name;
                 cita.key = cita._id;
             });
             console.log('getCitasData hospital tab admin', rs)
@@ -44,6 +44,10 @@ export default function HospitalTab(props) {
     // Select cita to show details and show confirm button
     const selectEvent = (e) => {
         console.log('For eedit', e)
+        e.doctor = e.medico; // For details
+        e.paciente = e.usuario; // For details
+        e.medico = e.medico._id;  // For edit
+        e.usuario = e.usuario._id;  // For edit
         setCitaForEdit(e)
         if (citaForEdit) showModal()
     }
@@ -59,6 +63,17 @@ export default function HospitalTab(props) {
         setFecha_hora(new Date(start).toISOString())
         setIsCreateModalOpen(true)
         return { style: { backgroundColor: 'red' } };
+    };
+    // Delete button
+    const confirm = (e) => {
+        console.log(e);
+        console.log('To delete: ', citaForEdit._id)
+        deleteData(`citas/remove/${citaForEdit._id}`).then((rs) => { console.log(rs); getCitasData(); handleCancel() })
+
+    };
+
+    const cancel = (e) => {
+        console.log(e);
     };
 
     return loading ? <p>Cargando...</p> : <div>
@@ -89,14 +104,35 @@ export default function HospitalTab(props) {
         />
 
 
-        <Modal title="Detalles Cita" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose footer={[<Button onClick={handleCancel}>Cerrar</Button>]}>
-            {
-                citaForEdit && <div>
-                    <p><strong>Medico </strong>{citaForEdit.medico ? citaForEdit.medico.name : 'Sin medico'}</p>
-                    <p><strong>Paciente </strong>{citaForEdit.usuario ? citaForEdit.usuario.name : 'Sin paciente'}</p>
-                    <p><strong>Fecha </strong>{citaForEdit.fecha_hora}</p>
+        <Modal title="Detalles Cita" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
+            footer={[
+                <Popconfirm
+                    title="Eliminar Cita"
+                    description="Seguro que quiere eliminar la cita?"
+                    onConfirm={confirm}
+                    onCancel={cancel}
+                    okText="Si"
+                    cancelText="No"
+                >
+                    <Button danger>Eliminar</Button>
+                </Popconfirm>,
+                <Button onClick={() => setEditingCita(!editingCita)}>{editingCita ? "Cancelar" : "Modificar"}</Button>,
+                <Button onClick={handleCancel}>Cerrar</Button>
+            ]}>
+
+
+            {editingCita ?
+                <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsCreateModalOpen} getCitasData={getCitasData} />
+                : <div>{citaForEdit && <div>
+                    <p><strong>Medico </strong>{citaForEdit.doctor ? citaForEdit.doctor.name : 'Sin medico'}</p>
+                    <p><strong>Paciente </strong>{citaForEdit.paciente ? citaForEdit.paciente.name : 'Sin paciente'}</p>
+                    <p><strong>Fecha </strong>{new Date(citaForEdit.fecha_hora).toLocaleDateString()}</p>
+                    <p><strong>Hora </strong>{new Date(citaForEdit.fecha_hora).toLocaleTimeString()}</p>
+                    <p><strong>Servicio </strong>{citaForEdit.servicio}</p>
                     <p><strong>Comentarios </strong>{citaForEdit.comentarios}</p>
-                    <Button type='primary' onClick={confirmService}>Confirmar Servicio</Button>
+                    <Button type='primary' onClick={confirmService}>Confirmar Servicio</Button>,
+                </div>
+                }
                 </div>
             }
         </Modal>

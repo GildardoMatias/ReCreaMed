@@ -1,73 +1,17 @@
----modificar paciente desde administrador en detalles
---Order pacientes y medicos y citas
---Citas por semana y por colores
 
---upload a receptor's profile
---Create a receptor
----eliminar vista asignar pacientes
 
 On confirm Cita -> Select forma de pago
 
---En asministrador, citas por hospital en tabs
---cada tab contiene las citas de todos los pacientes del hospital combinados y por colores
-On finish cita , el medico indica cuando le va a cobrar y lo guarda
-cuando el doctor confirma lo que le va a cobrar al paciente para que 
-cuando baje al recepcion el administrador cobra
-
-tabla de ingresos del medico que administra. Solo cambia el estado no cambia el monto
-ingresos es tabs
-
-Change tratamientos_ofrecidos to Servicios
-
-registrar que se hizo un corte
-
-CORTES
-se crea de 1 o mas dias
-si un paciente no pago se pueda ver
-En el dia se vieron tantos pacientes y cuanto se entrego, fecha y nota
-guardar citas pasadas
-
 Lista de deudores
-
 cuando regrese el paciente checar que deben
-
-fechas de corte no selecciona el admin, inicio es anterior, fin es ahora, 
-y va a tomar todos los pacientes que esten en el rango
-
-
-relacionar de esta nota cuantas citas se tuvieron
+Balance del dia y mes
 
 ultima cita -> ultimas 3 citas / historial
 
-medico puede entrar como paciente
-
-en reasignar, indicar cuales tienen y cuales no
-
-En editar paciente
--------------------------
-
-Balance del dia y mes
-
-
 On patient Generar Concentimmiento con link y el paciente debe aceptar
-
-En cuanto se cumpla la cita se genera un registro de movimiento
-Tabla de balances por colorses pagados y debiendo
-prioridad vista tabla de balances medico
-Tabla Egresos de hospital on admininstrador de hospital
-Logo del hospital en receta
-Nombre del paciente hasta rriba de la receta
-Viñeta en cada prescripcion de recetas
-Exportar expediente con los datos del mwedico en ppie de pagina
 
 ______ faq ________
 When generate link on reception, relate to reception or medic ?
 We need a medicos_gestionados array into reception profile
 we need a post endpoint that receives an array of medics and response all patients of them 
 after that, do we show medicos asignados ?
-
--notas no modal add fields @done
--notas order reverse @done
--fecha encuesta @done
--reference patients @done
--on superadmin, create a view to add admins and assing medics @done

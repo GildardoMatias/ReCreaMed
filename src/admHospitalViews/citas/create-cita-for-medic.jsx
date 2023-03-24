@@ -1,66 +1,102 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Form, Select, Input, Button, message, Switch } from 'antd'
-import { getData, ids_hospitales, sendDataBody } from '../../resources';
+import { getData, ids_hospitales, sendDataBody, updateData } from '../../resources';
 
-
-export default function CreateCita(props) {
-
+export function CreateCitaForm(props) {
     const [medicosData, setMedicosData] = useState([])
     // Select patient for cerate cita
     const [misPacientes, setMisPacientes] = useState([])
-    // Handle Modal Visibility
-    const handCreateleOk = () => { props.setIsModalOpen(false) }
-    const handCreateleCancel = () => { props.setIsModalOpen(false) }
     // Body of cita
     const [isOnline, setIsOnline] = useState(false)
     const [medico, setMedico] = useState(null)
+    // For Fiel Servicio
+    const [servicios, setServicios] = useState([])
 
     useEffect(() => {
+        console.log('Received for edit', props.cita)
         getDoctorsData()
+        if (props.cita) getPacientesOfDoctor(props.cita.medico)
     }, [])
 
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
         sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
             rs.forEach(m => { m.value = m._id; m.label = m.name })
+
+            if (props.cita) {
+                const { configuracion } = rs.find((m) => m._id === props.cita.medico)
+                console.log('Found on getDctsDt: ', configuracion)
+                let { tratamientos_ofrecidos } = configuracion;
+                tratamientos_ofrecidos.forEach(t => {
+                    t.label = t.tratamiento; t.value = t.tratamiento;
+                });
+                setServicios(tratamientos_ofrecidos)
+            }
+
             setMedicosData(rs)
         })
     }
 
     // Get patients of specific doctor to populate the select
-    const getPacientesOfDoctor = (_id) => { //Para el caso que la sesion sea de Medico
+    const getPacientesOfDoctor = (_id) => {
         getData(`mispacientes/${_id}`).then(rs => {
             rs.forEach(p => { p.label = p.name; p.value = p._id })
             setMisPacientes(rs);
             console.log(`patients of ${_id}`, rs);
         })
+
+        // Populate the "servicio" select
+        if (medicosData.length > 0) {
+            const { configuracion } = medicosData.find((m) => m._id === _id)
+            console.log('Found: ', configuracion)
+            let { tratamientos_ofrecidos } = configuracion;
+            tratamientos_ofrecidos.forEach(t => {
+                t.label = t.tratamiento; t.value = t.tratamiento;
+            });
+            setServicios(tratamientos_ofrecidos)
+        }
+
+
+
     }
     // Form Methods
     const onFinish = (values) => {
         values.fecha_hora = props.fecha_hora;
         values.sucursal = props.hospital;
 
-        const { configuracion } = medicosData.find((m) => m._id === medico)
-        const { costo_cita } = configuracion;
+        // const { configuracion } = medicosData.find((m) => m._id === medico)
+        // const { costo_cita } = configuracion;
 
-        sendDataBody('citas/add', values).then((response) => {
-            message.success(response.message || response.error);
-            createBalance(response.id_nueva_cita, costo_cita ? costo_cita : 0)
-            props.setIsModalOpen(false)
-        }).finally(() => props.getCitasData())
+        // const monto = costo_cita ? costo_cita + values.tratamiento : values.tratamiento
+        console.log('Ready to send', values)
 
-    };
-    // Create the respective balance for cita
-    const createBalance = (_cita, monto) => {
-        const balanceBody = {
-            medico: medico,
-            cita: _cita,
-            monto: monto,
-            forma_de_pago: 'efectivo',
-            estado: 'pendiente',
+        // Handle if its updating or creating cita
+        if (props.cita) {
+            updateData(`citas/update/${props.cita._id}`, values).then((response) => {
+                // message.success(response.message || response.error);
+                console.log(response)
+            }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
+        } else {
+            sendDataBody('citas/add', values).then((response) => {
+                message.success(response.message || response.error);
+                // createBalance(response.id_nueva_cita, monto)
+                console.log(response)
+            }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
         }
-        console.log('Balance ready to send: ', balanceBody)
-        sendDataBody('balances/add', balanceBody).then((rs) => console.log(rs))
     }
+
+
+    // Create the respective balance for cita
+    // const createBalance = (_cita, monto) => {
+    //     const balanceBody = {
+    //         medico: medico,
+    //         cita: _cita,
+    //         monto: monto,
+    //         forma_de_pago: 'efectivo',
+    //         estado: 'pendiente',
+    //     }
+    //     console.log('Balance ready to send: ', balanceBody)
+    //     sendDataBody('balances/add', balanceBody).then((rs) => console.log(rs))
+    // }
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -72,6 +108,52 @@ export default function CreateCita(props) {
         console.log(`switch to ${checked}`);
         setIsOnline(checked)
     };
+    return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
+        initialValues={props.cita ? props.cita : { isOnline: false, tratamiento: 'Sin servicio' }}>
+
+        <Form.Item label="Medico" name="medico" rules={[{ required: true, message: 'Selecciona Medico' }]} >
+            <Select options={medicosData} onChange={handleDoctorChange} />
+        </Form.Item>
+
+        <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona Usuario' }]} >
+            <Select options={misPacientes} />
+        </Form.Item>
+
+        <Form.Item label="Servicio" name="servicio" rules={[{ required: true, message: 'Selecciona Servicio' }]} >
+            <Select options={servicios} />
+        </Form.Item>
+
+        <Form.Item label="VideoLlada" name="isOnline" >
+            <Switch onChange={onSwitch} />
+        </Form.Item>
+
+        <Form.Item label="Comentarios" name="comentarios" rules={[{ required: false, message: 'Ingresa RFC' }]} >
+            <Input />
+        </Form.Item>
+
+        {
+            // Only if updating cita
+            props.cita && <Form.Item
+                wrapperCol={{
+                    offset: 8,
+                    span: 16,
+                }}
+            >
+                <Button type="primary" htmlType="submit" form='nueva_cita_admin'>
+                    Guardar
+                </Button>
+            </Form.Item>
+        }
+
+    </Form>
+}
+
+export default function CreateCita(props) {
+
+    // Handle Modal Visibility
+    const handCreateleOk = () => { props.setIsModalOpen(false) }
+    const handCreateleCancel = () => { props.setIsModalOpen(false) }
+
 
     return (
         <Modal title="Nueva Cita" open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose
@@ -82,28 +164,8 @@ export default function CreateCita(props) {
                 </Button>
             ]}
         >
+            <CreateCitaForm setIsModalOpen={props.setIsModalOpen} hospital={props.hospital} fecha_hora={props.fecha_hora} getCitasData={props.getCitasData} />
 
-            <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
-                initialValues={{ isOnline: false }}>
-
-                <Form.Item label="Medico" name="medico" rules={[{ required: true, message: 'Selecciona Medico' }]} >
-                    <Select options={medicosData} onChange={handleDoctorChange} />
-                </Form.Item>
-
-                <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona Usuario' }]} >
-                    <Select options={misPacientes} />
-                </Form.Item>
-
-                <Form.Item label="VideoLlada" name="isOnline" >
-                    <Switch onChange={onSwitch} />
-                </Form.Item>
-
-                <Form.Item label="Comentarios" name="comentarios" rules={[{ required: false, message: 'Ingresa RFC' }]} >
-                    <Input />
-                </Form.Item>
-
-
-            </Form>
         </Modal>
     )
 }

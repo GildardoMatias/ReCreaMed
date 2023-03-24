@@ -3,6 +3,24 @@ import { Modal, Form, Select, Input, Button, message, Switch } from 'antd'
 import { getData, usuario, sendDataBody, ids_hospitales, myHospitals } from '../../resources';
 
 export function CreateCitaForm(props) {
+
+
+
+    const [medicosData, setMedicosData] = useState([])
+    // Select patient for cerate cita
+    const [misPacientes, setMisPacientes] = useState([])
+    const [servicios, setServicios] = useState({})
+    const [serviciosLoaded, setServiciosLoaded] = useState(false)
+    const [newCita, setNewCita] = useState({}) // For form
+
+    // Body of cita
+    const [isOnline, setIsOnline] = useState(false)
+    const [medico, setMedico] = useState(null)
+
+    useEffect(() => {
+        getDoctorsData()
+    }, [])
+
     // Get patients of specific doctor to populate the select
     const getPacientesOfDoctor = (_id) => { //Para el caso que la sesion sea de Medico
         getData(`mispacientes/${_id}`).then(rs => {
@@ -21,30 +39,20 @@ export function CreateCitaForm(props) {
             }))
         }).finally(() => { setServiciosLoaded(true) })
     }
-    let newCita;
-    if (props.cita) {
-        newCita = { ...props.cita }
-        newCita.sucursal = newCita.sucursal._id;
-        newCita.usuario = newCita.usuario._id;
-        newCita.medico = newCita.medico._id;
-        getPacientesOfDoctor(newCita.medico)
-        if (!newCita.tratamiento) newCita.tratamiento = 'Sin servicio'
-        console.log('Received For Edit: ', newCita)
-    }
-
-    const [medicosData, setMedicosData] = useState([])
-    // Select patient for cerate cita
-    const [misPacientes, setMisPacientes] = useState([])
-    const [servicios, setServicios] = useState({})
-    const [serviciosLoaded, setServiciosLoaded] = useState(false)
-
-    // Body of cita
-    const [isOnline, setIsOnline] = useState(false)
-    const [medico, setMedico] = useState(null)
 
     useEffect(() => {
-        getDoctorsData()
+        if (props.cita) {
+            newCita = { ...props.cita }
+            newCita.sucursal = newCita.sucursal._id;
+            newCita.usuario = newCita.usuario._id;
+            newCita.medico = newCita.medico._id;
+            getPacientesOfDoctor(newCita.medico)
+            if (!newCita.tratamiento) newCita.tratamiento = 'Sin servicio'
+            console.log('Received For Edit: ', newCita)
+        }
     }, [])
+
+
 
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
         console.log('Get For Hospitals: ', ids_hospitales)
@@ -73,7 +81,6 @@ export function CreateCitaForm(props) {
         const monto = costo_cita ? costo_cita + values.tratamiento : values.tratamiento
 
         delete values.tratamiento;
-
 
         sendDataBody('citas/add', values).then((response) => {
             message.success(response.message || response.error);
@@ -140,6 +147,17 @@ export function CreateCitaForm(props) {
         <Form.Item label="Comentarios" name="comentarios" rules={[{ required: false, message: 'Ingresa RFC' }]} >
             <Input />
         </Form.Item>
+
+        {
+            // Only if updating cita
+            props.cita && <Form.Item
+                wrapperCol={{ offset: 8, span: 16 }}
+            >
+                <Button type="primary" htmlType="submit" form='nueva_cita_admin'>
+                    Guardar
+                </Button>
+            </Form.Item>
+        }
 
 
     </Form >

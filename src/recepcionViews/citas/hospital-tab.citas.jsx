@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button } from "antd";
-import { getData, updateData } from '../../resources';
+import { Modal, Button, Popconfirm, message } from "antd";
+import { deleteData, getData, updateData } from '../../resources';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
@@ -61,12 +61,22 @@ export default function HospitalTab(props) {
         setIsCreateModalOpen(true)
         return { style: { backgroundColor: 'red' } };
     };
+    // Delete button
+    const confirm = (e) => {
+        console.log(e);
+        console.log('To delete: ', citaForEdit._id)
+        deleteData(`citas/remove/${citaForEdit._id}`).then((rs) => { console.log(rs); getCitasData(); handleCancel() })
+    };
 
+    const cancel = (e) => {
+        console.log(e);
+    };
     return loading ? <p>Cargando...</p> : <div>
         <br />
         <h6>Citas del hospital {props.hospital}</h6>
         <br />
         <Calendar
+            scrollToTime={new Date(Date.now())}
             selectable='true'
             localizer={localizer}
             events={citasData}
@@ -92,6 +102,18 @@ export default function HospitalTab(props) {
 
         <Modal title="Detalles Cita" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
             footer={[
+                <Popconfirm
+                    title="Eliminar Cita"
+                    description="Seguro que quiere eliminar la cita?"
+                    onConfirm={confirm}
+                    onCancel={cancel}
+                    okText="Si"
+                    cancelText="No"
+                >
+                    <Button danger>Eliminar</Button>
+                </Popconfirm>
+                ,
+
                 <Button onClick={() => setEditingCita(!editingCita)}>{editingCita ? "Cancelar" : "Modificar"}</Button>,
                 <Button onClick={handleCancel}>Cerrar</Button>
             ]}>

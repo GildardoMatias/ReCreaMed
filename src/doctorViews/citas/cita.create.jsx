@@ -3,14 +3,7 @@ import { Modal, Form, Select, Input, Button, message, Switch } from 'antd'
 import { getData, myHospitals, sendDataBody, updateData, usuario } from '../../resources';
 
 export function CreateCitaForm(props) {
-    let newCita;
-    if (props.cita) {
-        newCita = { ...props.cita }
-        newCita.sucursal = newCita.sucursal._id;
-        newCita.usuario = newCita.usuario._id;
-        if (!newCita.tratamiento) newCita.tratamiento = 'Sin servicio'
-        console.log('Received For Edit: ', newCita)
-    }
+
 
 
 
@@ -19,6 +12,7 @@ export function CreateCitaForm(props) {
     const [medicosData, setMedicosData] = useState([])
     // Select patient for cerate cita
     const [misPacientes, setMisPacientes] = useState([])
+   
 
     // Body of cita
     const [isOnline, setIsOnline] = useState(false)
@@ -39,7 +33,7 @@ export function CreateCitaForm(props) {
     // Form Methods
     const onFinish = (values) => {
         // let monto;
-        if (values.tratamiento === 'Sin servicio') values.tratamiento = 0;
+        // if (values.tratamiento === 'Sin servicio') values.tratamiento = 0;
         values.fecha_hora = props.fecha_hora;
         values.medico = usuario._id;
         const { configuracion } = usuario;
@@ -52,41 +46,41 @@ export function CreateCitaForm(props) {
         console.log('Monto: ', monto)
 
         // Handle if its updating or creating cita
-        if (props.cita) {
-            updateData(`citas/update/${props.cita._id}`, values).then((response) => {
-                // message.success(response.message || response.error);
-                console.log(response)
-            }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
-        } else {
-            sendDataBody('citas/add', values).then((response) => {
-                message.success(response.message || response.error);
-                createBalance(response.id_nueva_cita, monto)
-                console.log(response)
-            }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
-        }
+        // if (props.cita) {
+        //     updateData(`citas/update/${props.cita._id}`, values).then((response) => {
+        //         console.log(response)
+        //     }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
+        // } else {
+        //     sendDataBody('citas/add', values).then((response) => {
+        //         message.success(response.message || response.error);
+        //         // createBalance(response.id_nueva_cita, monto)
+        //         console.log(response)
+        //     }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
+        // }
 
 
     };
     // Create the respective balance for cita
-    const createBalance = (_cita, monto) => {
-        const balanceBody = {
-            tipo: 'ingreso',
-            medico: usuario._id,
-            cita: _cita,
-            monto: monto,
-            forma_de_pago: 'efectivo',
-            fecha_hora: props.fecha_hora,
-            estado: 'pendiente',
-        }
-        console.log('Balance ready to send: ', balanceBody)
-        sendDataBody('balances/add', balanceBody).then((rs) => console.log(rs))
-    }
+    // const createBalance = (_cita, monto) => {
+    //     const balanceBody = {
+    //         tipo: 'ingreso',
+    //         medico: usuario._id,
+    //         cita: _cita,
+    //         monto: monto,
+    //         forma_de_pago: 'efectivo',
+    //         fecha_hora: props.fecha_hora,
+    //         estado: 'pendiente',
+    //     }
+    //     console.log('Balance ready to send: ', balanceBody)
+    //     sendDataBody('balances/add', balanceBody).then((rs) => console.log(rs))
+    // }
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
-    const handleHospitalChange = (value) => { setHospital(value) };
+    const handleHospitalChange = (value) => { console.log('Selected Hospital: ', value); setHospital(value) };
+    const handlePacienteChange = (value) => { console.log('Selected Hospital: ', value); };
 
     // Select tratamiento
     const handleChange = (value) => {
@@ -97,21 +91,21 @@ export function CreateCitaForm(props) {
         setIsOnline(checked)
     };
     return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
-        initialValues={props.cita ? newCita : { tratamiento: 'Sin servicio' }}>
-
+        initialValues={props.cita ? props.cita : { tratamiento: 'Sin servicio' }}
+    >
         <Form.Item label="Hospital" name="sucursal" rules={[{ required: true, message: 'Selecciona Sucursal' }]} >
             <Select options={myHospitals} onChange={handleHospitalChange} />
         </Form.Item>
 
         <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona Usuario' }]} >
-            <Select options={misPacientes} />
+            <Select options={misPacientes} onChange={handlePacienteChange} />
         </Form.Item>
 
         <Form.Item label="Servicio" name="tratamiento" rules={[{ required: false, message: 'Selecciona un servicio' }]} >
             <Select
                 onChange={handleChange}
                 options={
-                    usuario.configuracion.tratamientos_ofrecidos.map((t) => { return { value: t.costo, label: t.tratamiento } })
+                    usuario.configuracion.tratamientos_ofrecidos.map((t) => { return { value: t.tratamiento, label: t.tratamiento } })
                 }
             />
         </Form.Item>

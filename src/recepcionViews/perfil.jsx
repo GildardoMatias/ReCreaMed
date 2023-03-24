@@ -53,6 +53,7 @@ export default function Perfil() {
                 }
                 <br /><br /><br />
                 <p className='nombre'> {profileData.name} </p>
+                <p className='datos'>{profileData.rol} </p>
                 <p className='datos'>Correo: {profileData.email} </p>
                 <p className='datos'>Telefono: {profileData.telefono} </p>
             </Col>
