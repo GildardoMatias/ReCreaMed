@@ -15,8 +15,8 @@ export default function HospitalTab(props) {
     const [loading, setLoading] = useState(true)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => { setIsModalOpen(true) }
-    const handleOk = () => { setIsModalOpen(false) }
-    const handleCancel = () => { setIsModalOpen(false) }
+    const handleOk = () => { setIsModalOpen(false); setEditingCita(false) }
+    const handleCancel = () => { setIsModalOpen(false); setEditingCita(false) }
     const [editingCita, setEditingCita] = useState(false)
 
     // Tools for createCita Modal
@@ -32,7 +32,7 @@ export default function HospitalTab(props) {
                 const endDate = new Date(cita.fecha_hora);
                 endDate.setTime(endDate.getTime() + 1 * 60 * 60 * 1000)
                 cita.end = new Date(Date.parse(endDate));
-                cita.title = cita.comentarios;
+                cita.title = cita.usuario.name;
                 cita.id = cita._id;
                 cita.key = cita._id;
             });
@@ -45,6 +45,11 @@ export default function HospitalTab(props) {
     // Select cita to show details and show confirm button
     const selectEvent = (e) => {
         console.log('For eedit', e)
+        e.doctor = e.medico; // For details
+        e.paciente = e.usuario; // For details
+        e.medico = e.medico._id;  // For edit
+        e.usuario = e.usuario._id;  // For edit
+        e.fecha_hora = moment(e.fecha_hora) //For edit
         setCitaForEdit(e)
         if (citaForEdit) showModal()
     }
@@ -120,13 +125,15 @@ export default function HospitalTab(props) {
 
             {
                 editingCita ?
-                    <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsCreateModalOpen} getCitasData={getCitasData} />
+                    <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsModalOpen} getCitasData={getCitasData} setEditingCita={setEditingCita} />
                     : <div>{citaForEdit && <div>
-                        <p><strong>Paciente </strong>{citaForEdit.usuario ? citaForEdit.usuario.name : 'Sin paciente'}</p>
+                        <p><strong>Medico </strong>{citaForEdit.doctor ? citaForEdit.doctor.name : 'Sin medico'}</p>
+                        <p><strong>Paciente </strong>{citaForEdit.paciente ? citaForEdit.paciente.name : 'Sin paciente'}</p>
                         <p><strong>Fecha </strong>{new Date(citaForEdit.fecha_hora).toLocaleDateString()}</p>
                         <p><strong>Hora </strong>{new Date(citaForEdit.fecha_hora).toLocaleTimeString()}</p>
+                        <p><strong>Servicio </strong>{citaForEdit.servicio}</p>
                         <p><strong>Comentarios </strong>{citaForEdit.comentarios}</p>
-                        <Button type='primary' onClick={confirmService}>Confirmar Servicio</Button>,
+                        {/* <Button type='primary' onClick={confirmService}>Confirmar Servicio</Button>, */}
                     </div>
                     }
                     </div>

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { getData, deleteData } from '../../resources'
-import { Table, Avatar, Space, Button, Popconfirm, Modal, Card, List, Row, Col } from 'antd'
-import { UserOutlined, EditOutlined } from '@ant-design/icons'
+import { Table, Avatar, Space, Button, Popconfirm, Modal, Card, Input } from 'antd'
+import { UserOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons'
 import Register from './register.user'
 
 export default function HospitalTab(props) {
+    const [value, setValue] = useState(''); // For search input
     const [pacientesData, setPacientesData] = useState([])
     const [paciente, setPaciente] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -13,7 +14,7 @@ export default function HospitalTab(props) {
     const showModal = () => { setIsModalVisible(true); };
     const handleOk = () => { setIsModalVisible(false); };
     const handleCancel = () => { setIsModalVisible(false); setEditingProfile(false) };
-
+    const [searchText, setSearchText] = useState('');//For search input
 
     useEffect(() => {
         getPacientesData()
@@ -100,7 +101,7 @@ export default function HospitalTab(props) {
             paciente.medicos_asignados.forEach(med => {
                 med.horarios.forEach(h => {
                     // if (ids_hospitales.includes(h.sucursal) && !dl.includes(paciente)) { console.log(paciente); dl.push(paciente) }
-                    if (h.sucursal === id_hospital && !dl.includes(paciente)) { console.log(paciente); dl.push(paciente) }
+                    if (h.sucursal === id_hospital && !dl.includes(paciente) && paciente.name.toLowerCase().includes(searchText.toLowerCase())) { console.log(paciente); dl.push(paciente) }
                 })
             });
         });
@@ -153,37 +154,26 @@ export default function HospitalTab(props) {
             }
         </div>
     }
+
+    const handleSearch = e => {
+        setValue(e.target.value)
+        setSearchText(e.target.value);
+    };
+
     if (loading) return <p>Cargando...</p>
 
     return <div>
-        <h6>Pacientes of {props.hospital}</h6>
+        <h6>Pacientes de {props.hospital}</h6>
+
+        <Input
+            style={{ width: '20em' }}
+            placeholder="Buscar Paciente"
+            value={value}
+            onChange={handleSearch}
+            addonAfter={<SearchOutlined />}
+        />
+
         <Table dataSource={pacientesDataFiltered} columns={columns} pagination={false} />
-        {/* <div style={{ height: '200px', width: '100%', overflow: 'auto' }}>
-            <ul style={{ margin: 0, padding: 0 }}>
-                <List
-                    itemLayout="horizontal"
-                    dataSource={pacientesDataFiltered}
-                    renderItem={(item, index) => (
-                        <List.Item>
-                            <List.Item.Meta
-                                avatar={
-                                    item.avatar.length > 9 ?
-                                        <img width={64} src={'https://api.recreamed.com/images/' + item.avatar} alt='ProfilePic' /> :
-                                        <Avatar size={64} className='btnIconCentered' icon={<UserOutlined />} />
-                                }
-                                title={<a href="https://ant.design">{item.name}</a>}
-                                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                            />
-                            <Row>
-                                <Col></Col>
-                            </Row>
-                        </List.Item>
-                    )}
-                />
-            </ul>
-        </div> */}
-
-
 
         <Modal width={800} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
             <DetalleUsuario />

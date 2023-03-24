@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getData, deleteData } from '../../resources'
 import { Table, Avatar, Space, Button, Popconfirm, Modal, Card, Input } from 'antd'
-import { UserOutlined, EditOutlined } from '@ant-design/icons'
+import { UserOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons'
 import Register from './register.user'
 
 export default function HospitalTab(props) {
@@ -167,9 +167,11 @@ export default function HospitalTab(props) {
         <h6>Pacientes de {props.hospital}</h6>
 
         <Input
+            style={{ width: '20em' }}
             placeholder="Buscar Paciente"
             value={value}
             onChange={handleSearch}
+            addonAfter={<SearchOutlined />}
         />
 
         <Table dataSource={pacientesDataFiltered} columns={columns} pagination={false} />

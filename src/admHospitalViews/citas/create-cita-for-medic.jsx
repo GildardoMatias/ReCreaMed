@@ -17,24 +17,7 @@ export function CreateCitaForm(props) {
         getDoctorsData()
         if (props.cita) getPacientesOfDoctor(props.cita.medico)
     }, [])
-
-    const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
-        sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
-            rs.forEach(m => { m.value = m._id; m.label = m.name })
-
-            if (props.cita) {
-                const { configuracion } = rs.find((m) => m._id === props.cita.medico)
-                console.log('Found on getDctsDt: ', configuracion)
-                let { tratamientos_ofrecidos } = configuracion;
-                tratamientos_ofrecidos.forEach(t => {
-                    t.label = t.tratamiento; t.value = t.tratamiento;
-                });
-                setServicios(tratamientos_ofrecidos)
-            }
-            setMedicosData(rs)
-        })
-    }
-
+    
     // Get patients of specific doctor to populate the select
     const getPacientesOfDoctor = (_id) => {
         getData(`mispacientes/${_id}`).then(rs => {
@@ -53,8 +36,26 @@ export function CreateCitaForm(props) {
             });
             setServicios(tratamientos_ofrecidos)
         }
-
     }
+
+    const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
+        sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
+            rs.forEach(m => { m.value = m._id; m.label = m.name })
+
+            if (props.cita) {
+                const { configuracion } = rs.find((m) => m._id === props.cita.medico)
+                console.log('Found on getDctsDt: ', configuracion)
+                let { tratamientos_ofrecidos } = configuracion;
+                tratamientos_ofrecidos.forEach(t => {
+                    t.label = t.tratamiento; t.value = t.tratamiento;
+                });
+                setServicios(tratamientos_ofrecidos)
+            }
+            setMedicosData(rs)
+        })
+    }
+
+
     // Form Methods
     const onFinish = (values) => {
         if (!props.cita) values.fecha_hora = props.fecha_hora;
