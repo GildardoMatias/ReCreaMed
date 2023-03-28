@@ -29,10 +29,11 @@ export default function HospitalTab(props) {
         getData(`citas/sucursal/${props.id_hospital}`).then((rs) => {
             rs.forEach(cita => {
                 cita.start = new Date(Date.parse(cita.fecha_hora));
+                // const endDate = new Date(cita.fecha_hora_end ? cita.fecha_hora_end : cita._fecha_hora);
+                // if (!cita.fecha_hora_end) endDate.setTime(endDate.getTime() + 1 * 60 * 60 * 1000)
                 const endDate = new Date(cita.fecha_hora);
-                endDate.setTime(endDate.getTime() + 1 * 60 * 60 * 1000)
                 cita.end = new Date(Date.parse(endDate));
-                cita.title = cita.usuario.name;
+                cita.title = cita.usuario?.name;
                 cita.key = cita._id;
             });
             console.log('getCitasData hospital tab admin', rs)
@@ -132,7 +133,7 @@ export default function HospitalTab(props) {
                     <p><strong>Hora </strong>{new Date(citaForEdit.fecha_hora).toLocaleTimeString()}</p>
                     <p><strong>Servicio </strong>{citaForEdit.servicio}</p>
                     <p><strong>Comentarios </strong>{citaForEdit.comentarios}</p>
-                    <Button type='primary' onClick={confirmService}>Confirmar Servicio</Button>,
+                    {/* <Button type='primary' onClick={confirmService}>Confirmar Servicio</Button>, */}
                 </div>
                 }
                 </div>

@@ -120,7 +120,7 @@ export function CreateCitaForm(props) {
             <Select options={servicios} />
         </Form.Item>
 
-        <Form.Item label="VideoLlada" name="isOnline" >
+        <Form.Item label="VideoLlamada" name="isOnline" >
             <Switch onChange={onSwitch} />
         </Form.Item>
 

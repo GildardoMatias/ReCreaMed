@@ -32,7 +32,7 @@ export default function HospitalTab(props) {
                 const endDate = new Date(cita.fecha_hora);
                 endDate.setTime(endDate.getTime() + 1 * 60 * 60 * 1000)
                 cita.end = new Date(Date.parse(endDate));
-                cita.title = cita.usuario.name;
+                cita.title = cita.usuario?.name;
                 cita.id = cita._id;
                 cita.key = cita._id;
             });
