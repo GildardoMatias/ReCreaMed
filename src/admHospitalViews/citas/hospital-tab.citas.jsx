@@ -29,9 +29,8 @@ export default function HospitalTab(props) {
         getData(`citas/sucursal/${props.id_hospital}`).then((rs) => {
             rs.forEach(cita => {
                 cita.start = new Date(Date.parse(cita.fecha_hora));
-                // const endDate = new Date(cita.fecha_hora_end ? cita.fecha_hora_end : cita._fecha_hora);
-                // if (!cita.fecha_hora_end) endDate.setTime(endDate.getTime() + 1 * 60 * 60 * 1000)
-                const endDate = new Date(cita.fecha_hora);
+                const endDate = new Date(Date.parse(cita.fecha_hora));
+                endDate.setTime(endDate.getTime() + 1 * (cita.duracion ?? 60) * 60 * 1000)
                 cita.end = new Date(Date.parse(endDate));
                 cita.title = cita.usuario?.name;
                 cita.key = cita._id;
@@ -45,10 +44,10 @@ export default function HospitalTab(props) {
     // Select cita to show details and show confirm button
     const selectEvent = (e) => {
         console.log('For eedit', e)
-        e.doctor = e.medico; // For details
-        e.paciente = e.usuario; // For details
-        e.medico = e.medico._id;  // For edit
-        e.usuario = e.usuario._id;  // For edit
+        if (!e.doctor) e.doctor = e.medico; // For details
+        if (!e.paciente) e.paciente = e.usuario; // For details
+        if (e.medico._id) e.medico = e.medico._id;  // For edit
+        if (e.usuario._id) e.usuario = e.usuario._id;  // For edit
         e.fecha_hora = moment(e.fecha_hora) //For edit
         setCitaForEdit(e)
         if (citaForEdit) showModal()
@@ -125,7 +124,7 @@ export default function HospitalTab(props) {
 
 
             {editingCita ?
-                <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsModalOpen} getCitasData={getCitasData} setEditingCita={setEditingCita} />
+                <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsModalOpen} getCitasData={getCitasData} setEditingCita={setEditingCita} hospital={props.id_hospital} />
                 : <div>{citaForEdit && <div>
                     <p><strong>Medico </strong>{citaForEdit.doctor ? citaForEdit.doctor.name : 'Sin medico'}</p>
                     <p><strong>Paciente </strong>{citaForEdit.paciente ? citaForEdit.paciente.name : 'Sin paciente'}</p>

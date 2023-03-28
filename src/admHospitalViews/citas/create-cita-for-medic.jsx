@@ -1,70 +1,43 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Form, Select, Input, Button, message, Switch, DatePicker } from 'antd'
-import { getData, ids_hospitales, sendDataBody, updateData } from '../../resources';
+import { getData, sendDataBody, updateData } from '../../resources';
+import moment from 'moment';
 
 export function CreateCitaForm(props) {
-    const [medicosData, setMedicosData] = useState([])
-    // Select patient for cerate cita
-    const [misPacientes, setMisPacientes] = useState([])
+    const [pacienteData, setPacienteData] = useState([])// Select patient for cerate cita
+    const [medicos, setMedicos] = useState([])//Set Medicos for select
     // Body of cita
     const [isOnline, setIsOnline] = useState(false)
-    const [medico, setMedico] = useState(null)
-    // For Fiel Servicio
-    const [servicios, setServicios] = useState([])
 
     useEffect(() => {
-        console.log('Received for edit fecg', props.fecha_hora)
-        getDoctorsData()
-        if (props.cita) getPacientesOfDoctor(props.cita.medico)
+        // console.log('Received for edit usr', props.cita.usuario)
+        getPatientsData()
+        if (props.cita && props.cita.usuario) handlePatientChange(props.cita.usuario)
     }, [])
-    
-    // Get patients of specific doctor to populate the select
-    const getPacientesOfDoctor = (_id) => {
-        getData(`mispacientes/${_id}`).then(rs => {
-            rs.forEach(p => { p.label = p.name; p.value = p._id })
-            setMisPacientes(rs);
-            console.log(`patients of ${_id}`, rs);
-        })
 
-        // Populate the "servicio" select
-        if (medicosData.length > 0) {
-            const { configuracion } = medicosData.find((m) => m._id === _id)
-            console.log('Found: ', configuracion)
-            let { tratamientos_ofrecidos } = configuracion;
-            tratamientos_ofrecidos.forEach(t => {
-                t.label = t.tratamiento; t.value = t.tratamiento;
+
+    const getPatientsData = async () => {
+        const res = await getData(`users_by_rol/Paciente`)
+        setPacienteData(findPatientsOfMyMedicos(res))
+    }
+
+    const findPatientsOfMyMedicos = (pacientesData) => {
+        let dl = [];
+        // Check on each horario of each medico of medicos asignados of patient to see if share sucursal with my horarios as admin
+        pacientesData.forEach(paciente => {
+            paciente.medicos_asignados.forEach(med => {
+                med.horarios.forEach(h => {
+                    if (h.sucursal === props.hospital && !dl.includes(paciente)) { paciente.label = paciente.name; paciente.value = paciente._id; dl.push(paciente) }
+                })
             });
-            setServicios(tratamientos_ofrecidos)
-        }
+        });
+        return dl;
     }
-
-    const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
-        sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
-            rs.forEach(m => { m.value = m._id; m.label = m.name })
-
-            if (props.cita) {
-                const { configuracion } = rs.find((m) => m._id === props.cita.medico)
-                console.log('Found on getDctsDt: ', configuracion)
-                let { tratamientos_ofrecidos } = configuracion;
-                tratamientos_ofrecidos.forEach(t => {
-                    t.label = t.tratamiento; t.value = t.tratamiento;
-                });
-                setServicios(tratamientos_ofrecidos)
-            }
-            setMedicosData(rs)
-        })
-    }
-
 
     // Form Methods
     const onFinish = (values) => {
         if (!props.cita) values.fecha_hora = props.fecha_hora;
         values.sucursal = props.hospital;
-
-        // const { configuracion } = medicosData.find((m) => m._id === medico)
-        // const { costo_cita } = configuracion;
-
-        // const monto = costo_cita ? costo_cita + values.tratamiento : values.tratamiento
         console.log('Ready to send', values)
 
         // Handle if its updating or creating cita
@@ -84,43 +57,44 @@ export function CreateCitaForm(props) {
         }
     }
 
-
-    // Create the respective balance for cita
-    // const createBalance = (_cita, monto) => {
-    //     const balanceBody = {
-    //         medico: medico,
-    //         cita: _cita,
-    //         monto: monto,
-    //         forma_de_pago: 'efectivo',
-    //         estado: 'pendiente',
-    //     }
-    //     console.log('Balance ready to send: ', balanceBody)
-    //     sendDataBody('balances/add', balanceBody).then((rs) => console.log(rs))
-    // }
-
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
-    const handleDoctorChange = (value) => { setMedico(value); getPacientesOfDoctor(value); };
+    const handlePatientChange = (value) => {
+        const found = pacienteData.find((p) => p._id === value);
+        console.log('Found ', found);
+        if (found) {
+            found.medicos_asignados.forEach((m) => { m.label = m.name; m.value = m._id })
+            setMedicos(found.medicos_asignados);
+        }
+    };
+    const onSearchPatient = (value) => { console.log('search:', value) };
 
     const onSwitch = (checked) => {
         console.log(`switch to ${checked}`);
         setIsOnline(checked)
     };
-    return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
-        initialValues={props.cita ? props.cita : { isOnline: false, tratamiento: 'Sin servicio' }}>
 
-        <Form.Item label="Medico" name="medico" rules={[{ required: true, message: 'Selecciona Medico' }]} >
-            <Select options={medicosData} onChange={handleDoctorChange} />
-        </Form.Item>
+    const timeOptions = [
+        { label: 'Media Hora', value: 30 },
+        { label: 'Una Hora', value: 60 },
+        { label: 'Una Hora y Media', value: 90 },
+        { label: 'Dos Horas', value: 120 },
+        { label: 'Dos Horas Y Media', value: 150 },
+        { label: 'Tres Horas', value: 180 },
+    ]
+
+    return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
+        initialValues={props.cita ? props.cita : { isOnline: false, tratamiento: 'Sin servicio', fecha_hora: moment(props.fecha_hora), duracion: 60 }}>
 
         <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona Usuario' }]} >
-            <Select options={misPacientes} />
+            <Select options={pacienteData} onChange={handlePatientChange} optionFilterProp="children" onSearch={onSearchPatient} showSearch
+                filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())} />
         </Form.Item>
 
-        <Form.Item label="Servicio" name="servicio" rules={[{ required: true, message: 'Selecciona Servicio' }]} >
-            <Select options={servicios} />
+        <Form.Item label="Medico" name="medico" rules={[{ required: true, message: 'Selecciona Medico' }]} >
+            <Select options={medicos} />
         </Form.Item>
 
         <Form.Item label="VideoLlamada" name="isOnline" >
@@ -131,13 +105,18 @@ export function CreateCitaForm(props) {
             <Input />
         </Form.Item>
 
+        <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: false, message: 'Selecciona Fecha y Hora' }]} >
+            <DatePicker showTime format="DD/MM/YYYY HH:mm" use12Hours={true} />
+        </Form.Item>
+
+        <Form.Item label="Duracion" name="duracion" rules={[{ required: true, message: 'Selecciona la duracion de la cita' }]} >
+            <Select options={timeOptions} />
+        </Form.Item>
+
         {
             // Only if updating cita
             props.cita && <div>
-                <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: false, message: 'Selecciona Fecha y Hora' }]} >
 
-                    <DatePicker showTime />
-                </Form.Item>
 
                 <Form.Item
                     wrapperCol={{
@@ -176,3 +155,18 @@ export default function CreateCita(props) {
         </Modal>
     )
 }
+
+
+
+    // Create the respective balance for cita
+    // const createBalance = (_cita, monto) => {
+    //     const balanceBody = {
+    //         medico: medico,
+    //         cita: _cita,
+    //         monto: monto,
+    //         forma_de_pago: 'efectivo',
+    //         estado: 'pendiente',
+    //     }
+    //     console.log('Balance ready to send: ', balanceBody)
+    //     sendDataBody('balances/add', balanceBody).then((rs) => console.log(rs))
+    // }
