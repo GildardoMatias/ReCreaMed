@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Popconfirm, message } from "antd";
-import { deleteData, getData, updateData } from '../../resources';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { Modal, Button, Popconfirm } from "antd";
+import { deleteData, getData } from '../../resources';
+import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import moment from 'moment';
-import CreateCita, { CreateCitaForm } from './create-cita-for-medic';
-require('moment/locale/es.js');
 
-const localizer = momentLocalizer(moment)
+import CreateCita, { CreateCitaForm } from './create-cita-for-medic';
+import dayjs from 'dayjs';
+
+const localizer = dayjsLocalizer(dayjs)
 
 export default function HospitalTab(props) {
     const [citaForEdit, setCitaForEdit] = useState({})
@@ -22,8 +22,30 @@ export default function HospitalTab(props) {
     // Tools for createCita Modal
     const [fecha_hora, setFecha_hora] = useState('')
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+    // for pass to create cita model
+    const [pacientesData, setPacientesData] = useState([])
 
-    useEffect(() => { getCitasData() }, [])
+    const findPatientsOfMyMedicos = (pacientesData) => {
+        let dl = [];
+        // Check on each horario of each medico of medicos asignados of patient to see if share sucursal with my horarios as admin
+        pacientesData.forEach(paciente => {
+            paciente.medicos_asignados.forEach(med => {
+                med.horarios.forEach(h => {
+                    if (h.sucursal === props.id_hospital && !dl.includes(paciente)) { paciente.label = paciente.name; paciente.value = paciente._id; dl.push(paciente) }
+                })
+            });
+        });
+        return dl;
+    }
+
+    const getPacientesData = () => {
+        // First of all, get pacientes data for pass to the create cita component
+        getData('users_by_rol/Paciente').then((rs) => {
+            setPacientesData(findPatientsOfMyMedicos(rs))
+        })
+    }
+
+    useEffect(() => { getPacientesData(); getCitasData() }, [])
 
     const getCitasData = () => {
         getData(`citas/sucursal/${props.id_hospital}`).then((rs) => {
@@ -35,46 +57,36 @@ export default function HospitalTab(props) {
                 cita.title = cita.usuario?.name;
                 cita.key = cita._id;
             });
-            console.log('getCitasData hospital tab admin', rs)
             setCitasData(rs)
-        }
-        ).finally(() => setLoading(false))
+        }).finally(() => setLoading(false))
     }
 
     // Select cita to show details and show confirm button
     const selectEvent = (e) => {
-        console.log('For eedit', e)
         if (!e.doctor) e.doctor = e.medico; // For details
         if (!e.paciente) e.paciente = e.usuario; // For details
-        if (e.medico._id) e.medico = e.medico._id;  // For edit
-        if (e.usuario._id) e.usuario = e.usuario._id;  // For edit
-        e.fecha_hora = moment(e.fecha_hora) //For edit
+        if (e.medico && e.medico._id) e.medico = e.medico._id;  // For edit
+        if (e.usuario && e.usuario._id) e.usuario = e.usuario._id;  // For edit
+        e.fecha_hora = dayjs(e.fecha_hora) //For edit
+        console.log('Fecha al editar: ', e.fecha_hora)
         setCitaForEdit(e)
         if (citaForEdit) showModal()
     }
-    // Confirm servicio
-    const confirmService = () => {
-        console.log('To confirm service', citaForEdit)
-        updateData(`balances/update/cita/${citaForEdit._id}`, { estado: 'pagado' })
-    }
 
     const handleSlotSelection = ({ start, end, action }) => {
-        console.log('Create cita on ', new Date(start).toISOString())
-        console.log('Action ', action)
-        setFecha_hora(new Date(start).toISOString())
+        // setFecha_hora(new Date(start).toISOString())
+        setFecha_hora(dayjs(start))
+        console.log('Fecha al crear: ', dayjs(start))
         setIsCreateModalOpen(true)
         return { style: { backgroundColor: 'red' } };
     };
     // Delete button
     const confirm = (e) => {
-        console.log(e);
-        console.log('To delete: ', citaForEdit._id)
-        deleteData(`citas/remove/${citaForEdit._id}`).then((rs) => { console.log(rs); getCitasData(); handleCancel() })
+        deleteData(`citas/remove/${citaForEdit._id}`).then((rs) => { getCitasData(); handleCancel() })
     };
 
-    const cancel = (e) => {
-        console.log(e);
-    };
+    const cancel = (e) => { };
+
     return loading ? <p>Cargando...</p> : <div>
         <br />
         <h6>Citas del hospital {props.hospital}</h6>
@@ -124,7 +136,7 @@ export default function HospitalTab(props) {
 
             {
                 editingCita ?
-                    <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsModalOpen} getCitasData={getCitasData} setEditingCita={setEditingCita} hospital={props.id_hospital} />
+                    <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsModalOpen} getCitasData={getCitasData} setEditingCita={setEditingCita} hospital={props.id_hospital} pacientesData={pacientesData} />
                     : <div>{citaForEdit && <div>
                         <p><strong>Medico </strong>{citaForEdit.doctor ? citaForEdit.doctor.name : 'Sin medico'}</p>
                         <p><strong>Paciente </strong>{citaForEdit.paciente ? citaForEdit.paciente.name : 'Sin paciente'}</p>
@@ -139,6 +151,6 @@ export default function HospitalTab(props) {
             }
         </Modal>
 
-        <CreateCita setIsModalOpen={setIsCreateModalOpen} isOpenModal={isCreateModalOpen} hospital={props.id_hospital} fecha_hora={fecha_hora} getCitasData={getCitasData} />
+        <CreateCita setIsModalOpen={setIsCreateModalOpen} isOpenModal={isCreateModalOpen} hospital={props.id_hospital} fecha_hora={fecha_hora} getCitasData={getCitasData} pacientesData={pacientesData} />
     </div>
 }

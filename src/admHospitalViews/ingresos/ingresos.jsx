@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Tag, Button, Typography, Select, Modal } from 'antd';
-import { getData, usuario, sendDataBody, ids_hospitales } from '../../resources';
+import { getData, usuario, sendDataBody, ids_hospitales, deleteData } from '../../resources';
 import CreateBalance from './create-ingreso';
 import Loading from '../../loading';
 import Ticket from './ticket-for-print';
+import moment from 'moment/moment';
 
 const { Text } = Typography;
 
@@ -13,7 +14,7 @@ export default function Ingresos() {
     const [medico, setMedico] = useState(null)
     const [ingresosData, setIngresosData] = useState([])
     const [ingresoForEdit, setIngresoForEdit] = useState({})
-    const [pacientesData, setPacientesData] = useState({})
+    const [ingresoForPrint, setIngresoForPrint] = useState([])
 
     // Modal For Edit Balance
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,37 +33,49 @@ export default function Ingresos() {
     };
 
     useEffect(() => {
-        return getPacientesData() // GEt all patients once, then get medics
+        getIngresos()
     }, [])
 
+    const getIngresos = async () => {
+        const medicos = await sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales })
 
-    // useEffect(() => { getPacientesData() }, [])
-    // useEffect(() => { getPacientesData() }, [isModalOpen])
+        medicos.forEach(m => { m.label = m.name; m.value = m._id; })// to pass to create modal
+        setMedicosData(medicos) // to pass to create modal
 
-    // First of all, get patients to match names, then get medicos to populate select
-    const getPacientesData = () => { getData(`users_by_rol/Paciente`).then((rs) => { setPacientesData(rs); getDoctorsData() }) }
+        const promises = medicos.map(medico => getData(`balances/ingresos/${medico._id}`));
 
-    const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
-        sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
-            rs.forEach(m => { m.value = m._id; m.label = m.name })
-            setMedicosData(rs)
-        }).finally(() => setLoading(false))
+        Promise.all(promises)
+            .then(resultados => {
+                const ingresos = resultados.flat(); // concatenar todos los arrays de ingresos
+                console.log(ingresos);
+                // Doctor is for details, medico is for edit. Usuario is for details, paciente id for Edit
+                ingresos.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
+                setIngresosData(ingresos.reverse())
+                setLoading(false)
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
-    const handleDoctorChange = (value) => { setMedico(value); getBalancesData(value); };
 
-    const getBalancesData = (id_medico) => { getData(`balances/ingresos/${id_medico}`).then((rs) => { setIngresosData(rs); console.log('balances', rs); }) }
-
-    const MatchPatient = ({ paciente }) => {
-        const patient = pacientesData.find((p) => paciente === p._id)
-        return <div>{patient ? patient.name : <Text disabled>Usuario no encontrado</Text>}</div>
+    const handleEditIngreso = (record) => {
+        record.fecha_hora = moment.utc(record.fecha_hora)
+        setIngresoForEdit(record);
+        showModal()
     }
 
     const columns = [
         {
-            title: 'Fecha',
-            dataIndex: 'createdAt',
+            title: 'Médico',
+            dataIndex: 'medico',
             key: 'createdAt',
-            render: (_, { createdAt }) => { return <>{new Date(createdAt).toLocaleString()}</> }
+            render: (_, { doctor }) => { return <>{doctor.name}</> }
+        },
+        {
+            title: 'Fecha',
+            dataIndex: 'fecha_hora',
+            key: 'fecha_hora',
+            render: (_, { fecha_hora }) => { return <>{new Date(fecha_hora).toLocaleString()}</> }
         },
         {
             title: 'Monto',
@@ -80,13 +93,9 @@ export default function Ingresos() {
         },
         {
             title: 'Paciente',
-            key: 'cita.paciente',
-            dataIndex: 'cita',
-            render: (_, record) => {
-                if (record.cita) return <MatchPatient paciente={record.cita.usuario} />
-                else if (record.paciente) return <>{record.paciente.name}</>
-                else return <Text type="secondary"> Sin Paciente</Text>
-            },
+            key: 'usuario',
+            dataIndex: 'usuario',
+            render: (_, { usuario }) => { return <>{usuario.name}</> },
         },
         {
             title: 'Estado',
@@ -105,43 +114,37 @@ export default function Ingresos() {
             title: 'Acciones',
             key: 'Editar',
             render: (_, record) => <div className='fila'>
-                <Button onClick={() => { setIngresoForEdit(record); showModal() }}>Editar</Button>
-                <Button onClick={() => { showTicketModal() }}>Generar Ticket</Button>
+                {/* <Button onClick={() => { deleteData(`balances/remove/${record._id}`).then(()=>getIngresos()) }}>Eliminar</Button> */}
+                <Button onClick={() => handleEditIngreso(record)}>Editar</Button>
+                <Button onClick={() => { setIngresoForPrint([record]); showTicketModal() }}>Imprimir Nota</Button>
             </div>
         },
     ];
 
-    const data = [
+    const ingresos = [
         { id: 1, product: 'Ketamina 1', quantity: 1, price: 1200 },
-        // { id: 2, product: 'Producto 2', quantity: 1, price: 5 },
-        // { id: 3, product: 'Producto 3', quantity: 3, price: 15 },
     ];
 
     if (loading) return <Loading />
 
     return (
         <div className='mainContainer'>
-            <h4>Ingresos de cada Medico</h4>
+            <h4>Ingresos de todos los medicos</h4>
             <br />
-            <p className='datos'>Selecciona un medico a continuacion para ver sus ingresos</p>
 
-            <div className='fila'>
-                <Select options={medicosData} onChange={handleDoctorChange} style={{ width: 240 }} />
-                <Button onClick={showModal} type='primary' style={{ marginLeft: 32 }} disabled={!medico}>Agregar Nuevo Ingreso</Button>
-            </div>
-            {
-                medico && <Table columns={columns} dataSource={ingresosData} />
-            }
+            {/* <div></div> */}
+
+            <Button onClick={showModal} type='primary' style={{ marginBottom: 22 }} >Agregar Nuevo Ingreso</Button>
+
+            <Table columns={columns} dataSource={ingresosData} />
+
             <div style={{ height: 200 }}></div>
 
-            <CreateBalance balanceForEdit={ingresoForEdit} setBalanceForEdit={setIngresoForEdit} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} getBalancesData={getBalancesData} medico={medico} />
+            <CreateBalance balanceForEdit={ingresoForEdit} setBalanceForEdit={setIngresoForEdit} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} getIngresos={getIngresos} medico={medico} medicosData={medicosData} />
 
-            <Modal title="Imprimir Ticket" open={isTicketModalOpen} onOk={handleTicketOk} onCancel={handleTicketCancel} width={600}>
-                <Ticket data={data} logo="https://api.recreamed.com/images/bd71d914-1f11-4bea-81e5-81b55e11a4e1.jpg" company='Hospital: ' seller='Médico: ' buyer='Paciente: ' />
+            <Modal title="Imprimir Nota de Venta" open={isTicketModalOpen} onOk={handleTicketOk} onCancel={handleTicketCancel} width={600}>
+                <Ticket ingresos={ingresoForPrint} logo="https://api.recreamed.com/images/bd71d914-1f11-4bea-81e5-81b55e11a4e1.jpg" company='Hospital: ' seller='Médico: ' buyer='Paciente: ' />
             </Modal>
         </div >
     )
 }
-
-
-

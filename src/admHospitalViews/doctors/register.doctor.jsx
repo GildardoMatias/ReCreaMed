@@ -1,9 +1,8 @@
 import React from 'react';
 import { Form, Input, Button, message } from 'antd'
 import { InputNumber, Select } from 'antd';
-import { S_API } from '../../resources'
+import { S_API,estados } from '../../resources'
 const { Option } = Select;
-const estados = ["Michoacan", "Morelos", "Guerrero"];
 
 export default function Register() {
 
@@ -272,7 +271,7 @@ export default function Register() {
         </Form.Item>
 
         <Form.Item name="estado" label="Estado" rules={[{ required: true, message: 'Apellido materno', },]}>
-          <Select placeholder="Elije tu estado">
+          <Select placeholder="Elije tu estado" showSearch>
             {estados.map(e => <Option value={e}>{e}</Option>)}
           </Select>
         </Form.Item>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, Form, Select, Input, Button, message, Switch } from 'antd'
+import { Modal, Form, Select, Input, Button, message, Switch, DatePicker } from 'antd'
 import { getData, myHospitals, sendDataBody, updateData, usuario } from '../../resources';
 
 export function CreateCitaForm(props) {
@@ -12,7 +12,7 @@ export function CreateCitaForm(props) {
     const [medicosData, setMedicosData] = useState([])
     // Select patient for cerate cita
     const [misPacientes, setMisPacientes] = useState([])
-   
+
 
     // Body of cita
     const [isOnline, setIsOnline] = useState(false)
@@ -34,7 +34,6 @@ export function CreateCitaForm(props) {
     const onFinish = (values) => {
         // let monto;
         // if (values.tratamiento === 'Sin servicio') values.tratamiento = 0;
-        values.fecha_hora = props.fecha_hora;
         values.medico = usuario._id;
         const { configuracion } = usuario;
         const { costo_cita } = configuracion;
@@ -46,17 +45,17 @@ export function CreateCitaForm(props) {
         console.log('Monto: ', monto)
 
         // Handle if its updating or creating cita
-        // if (props.cita) {
-        //     updateData(`citas/update/${props.cita._id}`, values).then((response) => {
-        //         console.log(response)
-        //     }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
-        // } else {
-        //     sendDataBody('citas/add', values).then((response) => {
-        //         message.success(response.message || response.error);
-        //         // createBalance(response.id_nueva_cita, monto)
-        //         console.log(response)
-        //     }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
-        // }
+        if (props.cita) {
+            updateData(`citas/update/${props.cita._id}`, values).then((response) => {
+                console.log(response)
+            }).finally(() => { props.getCitasData(); props.setIsModalOpen(false); props.setEditingCita(false) })
+        } else {
+            sendDataBody('citas/add', values).then((response) => {
+                message.success(response.message || response.error);
+                // createBalance(response.id_nueva_cita, monto)
+                console.log(response)
+            }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
+        }
 
 
     };
@@ -90,8 +89,18 @@ export function CreateCitaForm(props) {
         console.log(`switch to ${checked}`);
         setIsOnline(checked)
     };
+
+    const timeOptions = [
+        { label: 'Media Hora', value: 30 },
+        { label: 'Una Hora', value: 60 },
+        { label: 'Una Hora y Media', value: 90 },
+        { label: 'Dos Horas', value: 120 },
+        { label: 'Dos Horas Y Media', value: 150 },
+        { label: 'Tres Horas', value: 180 },
+    ]
+
     return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
-        initialValues={props.cita ? props.cita : { tratamiento: 'Sin servicio' }}
+        initialValues={props.cita ? props.cita : { isOnline: false, tratamiento: 'Sin servicio', fecha_hora: props.fecha_hora, duracion: 60 }}
     >
         <Form.Item label="Hospital" name="sucursal" rules={[{ required: true, message: 'Selecciona Sucursal' }]} >
             <Select options={myHospitals} onChange={handleHospitalChange} />
@@ -101,21 +110,29 @@ export function CreateCitaForm(props) {
             <Select options={misPacientes} onChange={handlePacienteChange} />
         </Form.Item>
 
-        <Form.Item label="Servicio" name="tratamiento" rules={[{ required: false, message: 'Selecciona un servicio' }]} >
+        {/* <Form.Item label="Servicio" name="tratamiento" rules={[{ required: false, message: 'Selecciona un servicio' }]} >
             <Select
                 onChange={handleChange}
                 options={
                     usuario.configuracion.tratamientos_ofrecidos.map((t) => { return { value: t.tratamiento, label: t.tratamiento } })
                 }
             />
-        </Form.Item>
+        </Form.Item> */}
 
-        <Form.Item label="VideoLlada" name="isOnline" >
+        <Form.Item label="VideoLlamada" name="isOnline" >
             <Switch onChange={onSwitch} />
         </Form.Item>
 
         <Form.Item label="Comentarios" name="comentarios" rules={[{ required: false, message: 'Ingresa RFC' }]} >
             <Input />
+        </Form.Item>
+
+        <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: false, message: 'Selecciona Fecha y Hora' }]} >
+            <DatePicker showTime format="DD/MM/YYYY HH:mm" use12Hours={true} />
+        </Form.Item>
+
+        <Form.Item label="Duracion" name="duracion" rules={[{ required: true, message: 'Selecciona la duracion de la cita' }]} >
+            <Select options={timeOptions} />
         </Form.Item>
 
         {

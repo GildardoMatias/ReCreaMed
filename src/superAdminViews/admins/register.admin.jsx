@@ -4,7 +4,6 @@ import { MinusCircleOutlined, PlusOutlined, InboxOutlined } from '@ant-design/ic
 import { Divider, Select } from 'antd';
 import { S_API, getData, API } from '../../resources'
 const { Option } = Select;
-const estados = ["Michoacan", "Morelos", "Guerrero"];
 const { Dragger } = Upload;
 
 

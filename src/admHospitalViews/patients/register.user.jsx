@@ -288,7 +288,7 @@ export default function Register(props) {
           name="estado"
           label="Estado"
           rules={[{ required: false, message: 'Apellido materno', },]}>
-          <Select placeholder="Elije tu estado">
+          <Select placeholder="Elije tu estado" showSearch>
             {estados.map(e => <Option value={e}>{e}</Option>)}
           </Select>
         </Form.Item>

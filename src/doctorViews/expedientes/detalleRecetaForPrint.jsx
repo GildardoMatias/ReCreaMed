@@ -6,6 +6,30 @@ import { usuario, IMAGE_API } from '../../resources';
 
 export default function RecetaDocument(props) {
     // Create styles
+    // Styles for a4
+    // const styles = StyleSheet.create({
+    //     page: {
+    //         flexDirection: 'column',
+    //         backgroundColor: 'white'
+    //     },
+    //     block: {
+    //         flexDirection: 'row'
+    //     },
+    //     section: {
+    //         margin: 10,
+    //         padding: 10,
+    //         flexGrow: 1
+    //     },
+    //     image: {
+    //         // marginVertical: 15,
+    //         // marginHorizontal: 10,
+    //         width: 132
+    //     },
+    //     footText: {
+    //         fontSize: 14
+    //     }
+    // });
+    // Styles for a5
     const styles = StyleSheet.create({
         page: {
             flexDirection: 'column',
@@ -22,7 +46,7 @@ export default function RecetaDocument(props) {
         image: {
             // marginVertical: 15,
             // marginHorizontal: 10,
-            width: 132
+            width: 82
         },
         footText: {
             fontSize: 14
@@ -31,7 +55,7 @@ export default function RecetaDocument(props) {
     // Create Document Component
     function Receta() {
         return <Document>
-            <Page size="A4" style={styles.page}>
+            <Page size="A5" orientation="landscape" style={styles.page}>
 
                 <View style={styles.block}>
                     <View style={styles.section}>
@@ -62,7 +86,7 @@ export default function RecetaDocument(props) {
                     </View>
                     <View style={styles.section}>
                         <Image style={styles.image} src={Logo} />
-                        <Text style={{ fontSize: 10, marginLeft: 20 }}>www.recreamed.com</Text>
+                        <Text style={{ fontSize: 10, }}>www.recreamed.com</Text>
                     </View>
                 </View>
             </Page>

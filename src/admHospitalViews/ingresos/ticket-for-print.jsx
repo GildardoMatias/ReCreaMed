@@ -5,7 +5,6 @@ import { PDFViewer } from '@react-pdf/renderer';
 
 // Estilo para el ticket
 const styles = StyleSheet.create({
-
     titleContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -115,10 +114,13 @@ const styles = StyleSheet.create({
     company: {
         fontSize: 14,
         marginTop: 5,
+        marginLeft: 10,
     },
 });
+
 // Componente del ticket
-export default function Ticket({ data, logo, company, seller, buyer }) {
+export default function Ticket({ ingresos, logo, company, seller, buyer }) {
+    console.log('Received for print ', ingresos)
     return <PDFViewer height={500} width={550}>
         <Document>
             <Page size="A4" style={styles.page}>
@@ -127,40 +129,42 @@ export default function Ticket({ data, logo, company, seller, buyer }) {
                         <Image style={styles.logo} src={logo} />
                         <View>
                             <Text style={styles.title}>Nota de Venta</Text>
-                            <Text style={styles.company}>Mi Empresa S.A.</Text>
+                            <Text style={styles.company}>Hospital: </Text>
+                            <Text style={styles.company}>{new Date(ingresos[0].createdAt).toLocaleString()} </Text>
                         </View>
                     </View>
                     <View style={styles.sellerBuyerInfo}>
                         <View>
-                            <Text style={styles.infoTitle}>Vendedor:</Text>
-                            <Text style={styles.infoText}>{seller}</Text>
+                            <Text style={styles.infoTitle}>Medico:</Text>
+                            <Text style={styles.infoText}>{ingresos[0].doctor.name}</Text>
                         </View>
                         <View>
-                            <Text style={styles.infoTitle}>Comprador
+                            <Text style={styles.infoTitle}>Paciente
                                 :</Text>
-                            <Text style={styles.infoText}>{buyer}</Text>
+                            <Text style={styles.infoText}>{ingresos[0].usuario.name}</Text>
                         </View>
                     </View>
                     <View style={styles.table}>
                         <View style={styles.tableRow}>
-                            <Text style={styles.tableColHeader}>Producto</Text>
+                            <Text style={styles.tableColHeader}>Concepto</Text>
                             <Text style={styles.tableColHeader}>Cantidad</Text>
                             <Text style={styles.tableColHeader}>Precio Unitario</Text>
                             <Text style={styles.tableColHeader}>Subtotal</Text>
                         </View>
-                        {data.map((item) => (
+                        {ingresos.map((item) => (
                             <View style={styles.tableRow} key={item.id}>
-                                <Text style={styles.tableCol}>{item.product}</Text>
-                                <Text style={styles.tableCol}>{item.quantity}</Text>
-                                <Text style={styles.tableCol}>${item.price.toFixed(2)}</Text>
+                                <Text style={styles.tableCol}>{item.concepto}</Text>
+                                <Text style={styles.tableCol}>1</Text>
+                                <Text style={styles.tableCol}>${item.monto.toFixed(2)}</Text>
                                 <Text style={styles.tableCol}>
-                                    ${(item.price * item.quantity).toFixed(2)}
+                                    {/* ${(item.monto * item.quantity).toFixed(2)} */}
+                                    ${item.monto.toFixed(2)}
                                 </Text>
                             </View>
                         ))}
                     </View>
                     <Text style={styles.total}>
-                        Total: ${data.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2)}
+                        Total: ${ingresos.reduce((acc, item) => acc + item.monto * 1, 0).toFixed(2)}
                     </Text>
                 </View>
             </Page>

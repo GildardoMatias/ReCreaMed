@@ -1,14 +1,9 @@
-ingresos de todo el hospital solo a lado dice de quien es
+use chatgpt item instead tabs
+
+generate @recreamed mail
 
 paciente al reves primero paciente y luego medico
 
-pass fechahora to edit form
-
-Ingresos
-
-
-
-On confirm Cita -> Select forma de pago
 
 Lista de deudores
 cuando regrese el paciente checar que deben
@@ -17,6 +12,9 @@ Balance del dia y mes
 ultima cita -> ultimas 3 citas / historial
 
 On patient Generar Concentimmiento con link y el paciente debe aceptar
+
+IF NO EXPEDIENT, BUTTON FOR CREATE IT MANUALLY:
+    TAKE ID_PACIENTE FROM PROPS, FIRST CREATE HISTORY, AND INCRUST THEM INTO THE NEW EXPEDIENT WITH notas:[], recetas:[]
 
 ______ faq ________
 When generate link on reception, relate to reception or medic ?

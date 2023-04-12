@@ -8,13 +8,13 @@ import Register from './register.patient';
 
 
 export default function DetallesPaciente(props) {
-    const [pacienteData, setPacienteData] = useState([]);
-    const [pacienteLoading, setPacienteLoading] = useState(true);
+    const [pacienteData, setPacienteData] = useState(props.paciente);
+    // const [pacienteLoading, setPacienteLoading] = useState(true);
     const [editing, setEditing] = useState(false)
 
-    useEffect(() => {
-        getData(`getuser/${props.paciente}`).then(rs => { console.log("DetallePac: ", rs); setPacienteData(rs); setPacienteLoading(false) });
-    }, [props.paciente])
+    // useEffect(() => {
+    //     getData(`getuser/${props.paciente}`).then(rs => { console.log("DetallePac: ", rs); setPacienteData(rs); setPacienteLoading(false) });
+    // }, [props.paciente])
 
     const ProfileDetails = () => {
         return editing ?
@@ -83,11 +83,10 @@ export default function DetallesPaciente(props) {
         // <div className='mainContainer'>
         <div>
 
-            {pacienteLoading ? <Loading /> :
-                <Row>
-                    <ProfileDetails />
-                </Row>
-            }
+            <Row>
+                <ProfileDetails />
+            </Row>
+
         </div>
     )
 }

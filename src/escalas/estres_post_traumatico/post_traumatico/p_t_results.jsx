@@ -65,7 +65,7 @@ export default function PostTraumaticoResults() {
             dataIndex: 'semana',
         },
         {
-            title: 'Total encuestas',
+            title: 'Total Escalas Respondidas',
             key: 'total',
             dataIndex: 'total'
         }

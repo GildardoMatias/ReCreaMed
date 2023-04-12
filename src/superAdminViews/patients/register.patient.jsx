@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Form, Input, Button, message, Upload, Divider, Row, Col } from 'antd'
 import { InputNumber, Select } from 'antd';
 import { InboxOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { S_API, API, getData } from '../../resources'
+import { S_API, API, getData, estados } from '../../resources'
 
 const { Option } = Select;
 const { Dragger } = Upload;
-const estados = ["Michoacan", "Morelos", "Guerrero"];
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -385,7 +384,7 @@ export default function Register(props) {
             </Form.Item>
 
             <Form.Item name="estado" label="Estado" rules={[{ required: true, message: 'Apellido materno', },]}>
-              <Select placeholder="Elije tu estado">
+              <Select placeholder="Elije tu estado" showSearch>
                 {estados.map(e => <Option value={e}>{e}</Option>)}
               </Select>
             </Form.Item>
@@ -401,7 +400,7 @@ export default function Register(props) {
               <InputNumber style={{ width: '100%', }} />
             </Form.Item>
 
-            <Form.Item wrapperCol={{span: 12}} labelCol={{span: 2}} >
+            <Form.Item wrapperCol={{ span: 12 }} labelCol={{ span: 2 }} >
               {
                 props.setIsModalVisible && <Button onClick={() => props.setIsModalVisible(false)} style={{ marginRight: 8 }}>Cancelar</Button>
               }

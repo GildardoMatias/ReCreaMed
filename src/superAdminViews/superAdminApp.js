@@ -5,9 +5,7 @@ import { Button } from 'antd'
 import icon from '../assets/Icon.png';
 import Patients from "./patients/main.patients";
 import Doctors from "./doctors/main.doctors";
-import { SuperAdminExpedientes } from "./expedientes";
 import { Hospitales } from "./hospitals/main.hospitals";
-import Home from './home/home'
 import { usuario } from '../resources'
 import Admins from './admins/main.admins';
 import Receptionists from './receptionists/main.receptionists';

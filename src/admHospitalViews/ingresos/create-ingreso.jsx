@@ -1,43 +1,53 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Tag, Button, Modal, Form, Input, Select, Typography, message } from 'antd';
-import { getData, sendDataBody, updateData, usuario, ids_hospitales } from '../../resources';
+import { Button, Modal, Form, Input, Select, message, DatePicker } from 'antd';
+import { getData, sendDataBody, updateData } from '../../resources';
 // ADMIN CREATE INGRESO
 export default function CreateBalance(props) {
     const [pacientesData, setPacientesData] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const handleOk = () => { props.setIsModalOpen(false) };
     const handleCancel = () => { props.setIsModalOpen(false); props.setBalanceForEdit(null) };
+
     useEffect(() => {
-        getPacientesData()
-    }, [props.medico])
+        console.log('receivd for edit', props)
+        if (props.balanceForEdit && props.balanceForEdit.medico) {
+            getPacientesData(props.balanceForEdit.medico)
+        }
+
+    }, [props.balanceForEdit])
+
 
     // Start of filtering patients to show in select
-    const getPacientesData = () => {
-        if (props.medico) {
-
-            getData(`mispacientes/${props.medico}`).then((rs) => {
+    const getPacientesData = (medico) => {
+        // if (props.balanceForEdi) {
+        getData(`mispacientes/${medico}`).then((rs) => {
+            if (rs) {
                 rs.forEach(patient => {
                     patient.value = patient._id; patient.label = patient.name;
                 });
                 console.log('Pacientes: ', rs)
                 setPacientesData(rs)
-            })
-        } else { setPacientesData([]) }
-
+            }
+        }).finally(() => { setLoading(false) })
+        // }
     }
     // End of filtering patients to show in select
 
     // Form methods
     const onFinish = (values) => {
-        if (Object.keys(props.balanceForEdit).length === 0 || !props.balanceForEdit) {
-            values.medico = props.medico;
-            values.tipo = 'ingreso';
-            values.fecha_hora = new Date();
-        }
+        // if (Object.keys(props.balanceForEdit).length === 0 || !props.balanceForEdit) {
+        //     values.medico = props.medico;
+        //     values.tipo = 'ingreso';
+        //     values.fecha_hora = new Date();
+        // }
+
+        // values.fecha_hora = new Date();
+        values.tipo = 'ingreso';
         console.log('Ready to send:', values);
         console.log('For Edit: ', props.balanceForEdit);
-        if (Object.keys(props.balanceForEdit).length === 0 || !props.balanceForEdit) {
-            sendDataBody(`balances/add`, values).then((rs) => { console.log(rs); message.success(rs.message || rs.error) }).finally(() => {props.getBalancesData(props.medico); props.setIsModalOpen(false)})
+        if (!props.balanceForEdit || Object.keys(props.balanceForEdit).length === 0) {
+            sendDataBody(`balances/add`, values).then((rs) => { console.log(rs); message.success(rs.message || rs.error) }).finally(() => { props.getIngresos(); props.setIsModalOpen(false) })
         } else {
             updateData(`/balances/update/${props.balanceForEdit._id}`, values).then((rs) => {
                 console.log(rs); props.setBalanceForEdit({}); props.setIsModalOpen(false);
@@ -49,7 +59,7 @@ export default function CreateBalance(props) {
 
     const onFinishFailed = (errorInfo) => { console.log('Failed:', errorInfo) };
 
-    const handleChange = (value) => { console.log(`selected ${value}`) };
+    const handleDoctorChange = (value) => { getPacientesData(value) };
 
     return (
         <Modal title={props.balanceForEdit ? "Editar Ingreso" : 'Agregar Ingreso'} open={props.isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
@@ -70,40 +80,26 @@ export default function CreateBalance(props) {
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
-                <Form.Item
-                    label="Monto"
-                    name="monto"
-                    rules={[{ required: true, message: 'Ingresa el monto' }]}
-                >
-                    <Input />
-                </Form.Item>
-                {/* Start of modifications for independent ingrso */}
-                <Form.Item
-                    label="Concepto"
-                    name="concepto"
-                    rules={[{ required: true, message: 'Ingresa el concepto' }]}
-                >
+                <Form.Item label="Monto" name="monto" rules={[{ required: true, message: 'Ingresa el monto' }]} >
                     <Input />
                 </Form.Item>
 
-                <Form.Item
-                    label="Paciente"
-                    name="paciente"
-                >
-                    <Select
-                        onChange={handleChange}
-                        options={pacientesData}
-                    />
+                <Form.Item label="Concepto" name="concepto" rules={[{ required: true, message: 'Ingresa el concepto' }]}>
+                    <Input />
                 </Form.Item>
-                {/* End of modifications for independent ingrso */}
+
+                <Form.Item label="Medico" name="medico" >
+                    <Select options={props.medicosData} onChange={handleDoctorChange} />
+                </Form.Item>
+
+                <Form.Item label="Paciente" name="paciente" >
+                    <Select options={pacientesData} />
+                </Form.Item>
 
 
-                <Form.Item
-                    label="Forma de Pago"
-                    name="forma_de_pago"
-                >
+                <Form.Item label="Forma de Pago" name="forma_de_pago" >
                     <Select
-                        onChange={handleChange}
+                        // onChange={handleDoctorChange}
                         options={[
                             {
                                 value: 'efectivo',
@@ -120,13 +116,14 @@ export default function CreateBalance(props) {
                         ]}
                     />
                 </Form.Item>
+
                 <Form.Item
                     label="Estado"
                     name="estado"
                     rules={[{ required: true, message: 'Ingresa el monto' }]}
                 >
                     <Select
-                        onChange={handleChange}
+                        // onChange={handleDoctorChange}
                         options={[
                             {
                                 value: 'pendiente',
@@ -142,6 +139,15 @@ export default function CreateBalance(props) {
                             },
                         ]}
                     />
+                </Form.Item>
+
+                <Form.Item
+                    label="Fecha y Hora"
+                    name="fecha_hora"
+                    rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]}
+                >
+                    {/* <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" /> */}
+                    <DatePicker showTime format="DD-MM-YYYY HH:mm" />
                 </Form.Item>
 
                 <Form.Item

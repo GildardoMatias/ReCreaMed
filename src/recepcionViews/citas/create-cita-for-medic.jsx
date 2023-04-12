@@ -1,50 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Form, Select, Input, Button, message, Switch, DatePicker } from 'antd'
-import { getData, sendDataBody, updateData } from '../../resources';
-import moment from 'moment';
+import { sendDataBody, updateData } from '../../resources';
 
 export function CreateCitaForm(props) {
-    const [pacienteData, setPacienteData] = useState([])// Select patient for cerate cita
+    // const [medicosLoading, setMedicosLoading] = useState(true)
     const [medicos, setMedicos] = useState([])//Set Medicos for select
     // Body of cita
     const [isOnline, setIsOnline] = useState(false)
 
     useEffect(() => {
-        // console.log('Received for edit usr', props.cita.usuario)
-        getPatientsData()
+        console.log('Received Cita', props.cita)
         if (props.cita && props.cita.usuario) handlePatientChange(props.cita.usuario)
     }, [])
 
 
-    const getPatientsData = async () => {
-        const res = await getData(`users_by_rol/Paciente`)
-        setPacienteData(findPatientsOfMyMedicos(res))
-    }
-
-    const findPatientsOfMyMedicos = (pacientesData) => {
-        let dl = [];
-        // Check on each horario of each medico of medicos asignados of patient to see if share sucursal with my horarios as admin
-        pacientesData.forEach(paciente => {
-            paciente.medicos_asignados.forEach(med => {
-                med.horarios.forEach(h => {
-                    if (h.sucursal === props.hospital && !dl.includes(paciente)) { paciente.label = paciente.name; paciente.value = paciente._id; dl.push(paciente) }
-                })
-            });
-        });
-        return dl;
-    }
-
     // Form Methods
     const onFinish = (values) => {
-        if (!props.cita) values.fecha_hora = props.fecha_hora;
         values.sucursal = props.hospital;
-        console.log('Ready to send', values)
 
         // Handle if its updating or creating cita
         if (props.cita) {
             updateData(`citas/update/${props.cita._id}`, values).then((response) => {
                 // message.success(response.message || response.error);
-                console.log(response);
                 props.setIsModalOpen(false);
                 props.setEditingCita(false);
             }).finally(() => { props.getCitasData(); })
@@ -52,7 +29,6 @@ export function CreateCitaForm(props) {
             sendDataBody('citas/add', values).then((response) => {
                 message.success(response.message || response.error);
                 // createBalance(response.id_nueva_cita, monto)
-                console.log(response)
             }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
         }
     }
@@ -62,17 +38,23 @@ export function CreateCitaForm(props) {
     };
 
     const handlePatientChange = (value) => {
-        const found = pacienteData.find((p) => p._id === value);
-        console.log('Found ', found);
+        console.log('Entering search', value)
+        console.log('PatsAta', props.pacientesData)
+        const found = props.pacientesData.find((p) => p._id === value);
         if (found) {
-            found.medicos_asignados.forEach((m) => { m.label = m.name; m.value = m._id })
-            setMedicos(found.medicos_asignados);
+            let { medicos_asignados } = found
+            medicos_asignados.forEach((m) => { m.label = m.name; m.value = m._id });
+            console.log('Found', found)
+            console.log('meds', medicos_asignados)
+            setMedicos(medicos_asignados);
+            // setMedicosLoading(false)
+        } else {
+            console.log('Paciente no encontrado')
         }
     };
-    const onSearchPatient = (value) => { console.log('search:', value) };
+    const onSearchPatient = (value) => { };
 
     const onSwitch = (checked) => {
-        console.log(`switch to ${checked}`);
         setIsOnline(checked)
     };
 
@@ -83,13 +65,17 @@ export function CreateCitaForm(props) {
         { label: 'Dos Horas', value: 120 },
         { label: 'Dos Horas Y Media', value: 150 },
         { label: 'Tres Horas', value: 180 },
+        { label: 'Cuatro Horas', value: 210 },
+        { label: 'Cuatro Horas y Media', value: 240 },
+        { label: 'Cinco Horas', value: 270 },
+        { label: 'Cinco Horas y Media', value: 300 },
     ]
 
     return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
-        initialValues={props.cita ? props.cita : { isOnline: false, tratamiento: 'Sin servicio', fecha_hora: moment(props.fecha_hora), duracion: 60 }}>
+        initialValues={props.cita ? props.cita : { isOnline: false, tratamiento: 'Sin servicio', fecha_hora: props.fecha_hora, duracion: 60 }}>
 
         <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona Usuario' }]} >
-            <Select options={pacienteData} onChange={handlePatientChange} optionFilterProp="children" onSearch={onSearchPatient} showSearch
+            <Select options={props.pacientesData} onChange={handlePatientChange} optionFilterProp="children" onSearch={onSearchPatient} showSearch
                 filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())} />
         </Form.Item>
 
@@ -150,12 +136,11 @@ export default function CreateCita(props) {
                 </Button>
             ]}
         >
-            <CreateCitaForm setIsModalOpen={props.setIsModalOpen} hospital={props.hospital} fecha_hora={props.fecha_hora} getCitasData={props.getCitasData} />
+            <CreateCitaForm setIsModalOpen={props.setIsModalOpen} hospital={props.hospital} fecha_hora={props.fecha_hora} getCitasData={props.getCitasData} pacientesData={props.pacientesData} />
 
         </Modal>
     )
 }
-
 
 
     // Create the respective balance for cita

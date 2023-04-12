@@ -64,7 +64,7 @@ export default function DolorResults() {
             dataIndex: 'semana',
         },
         {
-            title: 'Total encuestas',
+            title: 'Total Escalas Respondidas',
             key: 'total',
             dataIndex: 'total'
         }

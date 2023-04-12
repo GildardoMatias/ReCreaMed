@@ -79,7 +79,7 @@ export const Footer = () =>
 
     </div>
 
-export const estados = ["Michoacan", "Morelos", "Guerrero"];
+export const estados = ["Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "CDMX", "Chiapas", "Chihuahua", "Coahuila", "Colima", "Durango", "Estado de Mexico", "Guanajuato", "Guerrero", "Hidalgo", "Jalisco", "México", "Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas"];
 
 // Only use for Doctors, Administrators and receptionists
 export const myHorarios = usuario && usuario.horarios && usuario.horarios.map(function (item) {

@@ -55,7 +55,9 @@ export default function EscalasCreateGeneralLink(props) {
     const handleChange = (value) => { setLink(null); setSelectedPatient(value) };
 
     const generateLink = () => {
-        let usr = usuario.rol === 'Administrador' ? medico : usuario._id;
+        // let usr = usuario.rol === 'Administrador' ? medico : usuario._id;
+        let usr = (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? medico : usuario._id;
+
         let l = `https://sistema.recreamed.com/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}`
         // let l = `http://localhost:3000/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}`
         setLink(l)

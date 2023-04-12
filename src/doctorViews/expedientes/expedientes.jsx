@@ -46,7 +46,7 @@ export default function Expedientes(props) {
     //         ;
     // }
 
-    if (expedientesLoading) return <p>Cargandi...</p>
+    if (expedientesLoading) return <p>Cargando...</p>
 
     return <div id='expedient-export' >
 

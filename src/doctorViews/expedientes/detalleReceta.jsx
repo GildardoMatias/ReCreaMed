@@ -132,8 +132,8 @@ export default function DetalleReceta(props) {
                         recetaData.map((r) => {
                             return <><Card.Grid key={r._id} style={gridStyle}>
                                 <p style={{ whiteSpace: 'pre' }}> Prescripcion : {r.prescripcion} </p>
-                                <Button style={{ marginLeft: 8 }} onClick={() => editReceta(r)} size='small' type="primary" shape="circle" icon={<FormOutlined />} />
-                                <Button style={{ marginLeft: 8 }} onClick={() => printReceta(r)} size='small' type="primary" shape="circle" icon={<PrinterOutlined />} />
+                                <Button style={{ marginLeft: 8 }} onClick={() => editReceta(r)} size='small' type="primary" shape="circle" icon={<FormOutlined />} className='btnIconCentered' />
+                                <Button style={{ marginLeft: 8 }} onClick={() => printReceta(r)} size='small' type="primary" shape="circle" icon={<PrinterOutlined />} className='btnIconCentered' />
                             </Card.Grid></>
                         })
                         :
@@ -200,7 +200,11 @@ export default function DetalleReceta(props) {
             </Form>
         </Modal>
 
-        <Modal title="Imprimir Receta" visible={isPrintingModalVisible} onOk={handlePrintOk} onCancel={handlePrintCancel} width={600}>
+        <Modal title="Imprimir Receta" visible={isPrintingModalVisible} onOk={handlePrintOk} onCancel={handlePrintCancel} width={600}
+            footer={[
+                <Button onClick={handlePrintCancel}>Cancelar</Button>
+            ]}
+        >
             {
                 isLogoSelected ? // Si ya hay logo seleccionado, se pasa a la receta y se muestra en pdf
                     <RecetaDocument receta={recetaForEdit} logoHospital={logoHospital} />

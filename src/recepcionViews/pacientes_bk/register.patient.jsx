@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
 import { Form, Input, Button, message, Space, Divider, Upload, Switch } from 'antd'
 import { InputNumber, Select } from 'antd';
-import { S_API, API } from '../../resources'
-import { usuario } from '../../resources'
-import { InboxOutlined, UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
-const { Dragger } = Upload;
+import { S_API, API, usuario, estados } from '../../resources'
+import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
 
 
 const { Option } = Select;
-const estados = ["Michoacan", "Morelos", "Guerrero"];
 
 export default function Register(props) {
 
@@ -288,7 +285,7 @@ export default function Register(props) {
           name="estado"
           label="Estado"
           rules={[{ required: true, message: 'Apellido materno', },]}>
-          <Select placeholder="Elije tu estado">
+          <Select placeholder="Elije tu estado" showSearch>
             {estados.map(e => <Option value={e}>{e}</Option>)}
           </Select>
         </Form.Item>
@@ -412,7 +409,7 @@ export default function Register(props) {
                       validateTrigger={['onChange', 'onBlur']}
                       rules={[{ required: true, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
                     >
-                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }}/>
+                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }} />
                     </Form.Item>
                     {fields.length > 1 ? (
                       <MinusCircleOutlined
@@ -447,7 +444,7 @@ export default function Register(props) {
                       validateTrigger={['onChange', 'onBlur']}
                       rules={[{ required: true, whitespace: true, message: "Ingresa la enfermedad o elimina este campo" }]}
                     >
-                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }}/>
+                      <Input placeholder="Ingresa enfermedad" style={{ width: fields.length > 1 ? '95%' : '100%' }} />
                     </Form.Item>
                     {fields.length > 1 ? (
                       <MinusCircleOutlined
