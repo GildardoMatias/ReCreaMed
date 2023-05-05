@@ -43,6 +43,16 @@ export default function RecetaDocument(props) {
             padding: 10,
             flexGrow: 1
         },
+        sideSection: {
+            // position: 'absolute',
+            // right: 20,
+            // bottom: 20,
+            // marginTop: 20
+            // alignSelf: 'flex-end',
+            margin: 10,
+            padding: 10,
+            // flexGrow: 1
+        },
         image: {
             // marginVertical: 15,
             // marginHorizontal: 10,
@@ -76,15 +86,15 @@ export default function RecetaDocument(props) {
                     </View>
                 </View>
 
-                <View style={{ color: 'black', width: '90%', backgroundColor: 'black', borderBottomColor: '#9bb4df', borderBottomWidth: 1, marginHorizontal: 20 }}></View>
-                <View style={styles.block}>
-                    <View style={styles.section}>
+                <View style={{ color: 'black', width: '94%', backgroundColor: 'black', borderBottomColor: '#9bb4df', borderBottomWidth: 1, marginHorizontal: 20 }}></View>
+                <View style={[styles.block, {justifyContent: 'space-between'}]}>
+                    <View style={styles.sideSection}>
                         {/* <Text style={styles.footText}>José Rubén Romero #103, Bosque Camelinas</Text>
                         <Text style={styles.footText}>Morelia, Mich. CP 58290</Text>
                         <Text style={styles.footText}>Tel. (443) 3235088, Cel (443) 356 7822</Text> */}
-                        <Text style={styles.footText}>Pagina de la clinica, Correo@clinica.com</Text>
+                        <Text style={styles.footText}>{props.nombreHospital}</Text>
                     </View>
-                    <View style={styles.section}>
+                    <View style={styles.sideSection}>
                         <Image style={styles.image} src={Logo} />
                         <Text style={{ fontSize: 10, }}>www.recreamed.com</Text>
                     </View>

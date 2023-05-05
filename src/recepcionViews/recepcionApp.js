@@ -15,7 +15,8 @@ import { Historial } from './historial';
 import MainPacientes from './pacientes/main.pacientes';
 import Escalas from '../escalas/escalasMenu';
 import Balances from './balances';
-import { KetaminaPublic, DepresionQidsPublic, DepresionEspanolPublic,HeadachePublic, PostTraumaticoPublic, PostTraumaticoClinicoPublic, PostTraumaticoMX } from '../session/public_escalas_routes';
+import { KetaminaPublic, DepresionQidsPublic, DepresionEspanolPublic, HeadachePublic, PostTraumaticoPublic, PostTraumaticoClinicoPublic, PostTraumaticoMX } from '../session/public_escalas_routes';
+import Horarios from './horarios/horarios';
 // import { KetaminaPublic, DepresionQidsPublic, DepresionEspanolPublic,HeadachePublic, PostTraumaticoPublic, PostTraumaticoClinicoPublic, PostTraumaticoMX } from './session/public_escalas_routes';
 
 function Navigator() {
@@ -41,6 +42,7 @@ function Navigator() {
           <Nav.Link href="/pacientes" >Pacientes</Nav.Link>
           <Nav.Link href="/citas">Citas</Nav.Link>
           <Nav.Link href="/escalas">Escalas</Nav.Link>
+          {/* <Nav.Link href="/horarios">Horarios</Nav.Link> */}
           {/* <Nav.Link href="/balances">Ingresos</Nav.Link> */}
           {/* <Nav.Link href="/expedientes">Expedientes</Nav.Link> */}
           {/* <Nav.Link href="/recetas">Recetas</Nav.Link> */}
@@ -96,6 +98,10 @@ export default function RecepcionApp() {
 
         <Route path="/balances">
           <Balances />
+        </Route>
+
+        <Route path="/horarios">
+          <Horarios />
         </Route>
 
         <Route path="/escalas">

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Input, Button, Table, InputNumber, Divider } from 'antd';
+import { Form, Button, Table, InputNumber, Divider, Popconfirm } from 'antd';
 import Loading from '../../loading';
 import { getData, updateData } from '../../resources';
+import AddService from './service.add';
 
 export default function Configuration({ id_usuario, correo }) {
 
     const [profileData, setProfileData] = useState([])
     const [loading, setLoading] = useState(true)
     const [editingCostoCita, setEditingCostoCita] = useState(false)
+    const [isModalOpen, setisModalOpen] = useState(false)
+    const [servicioForEdit, setServicioForEdit] = useState(null)
 
     useEffect(() => {
         getProfileData()
@@ -15,21 +18,25 @@ export default function Configuration({ id_usuario, correo }) {
         // deleteServices()
     }, [])
 
-    // const deleteServices = () => {
-    //     const newData = { configuracion: {  } }
-    //     updateData(`/users/updateUser/${id_usuario}`, newData).then((rs) => { console.log(rs); getProfileData() })
-    // }
-
-    const onFinish = async (values) => {
-        const newData = profileData.configuracion ? { configuracion: { tratamientos_ofrecidos: [...profileData.configuracion.tratamientos_ofrecidos, values] } } : { configuracion: { tratamientos_ofrecidos: values } }
-        await updateData(`/users/updateUser/${id_usuario}`, newData).then((rs) => { console.log(rs); getProfileData() })
-    };
-
     const getProfileData = () => {
         getData(`userByMail/${correo}`).then((rs) => {
             localStorage.setItem('userData', JSON.stringify(rs[0])) // Save profile data into local storage again, due to changes
             setProfileData(rs[0]) // Must change on backend to findOne, and remove the [0]
         }).finally(() => { setLoading(false) })
+    }
+
+    const confirmDelete = async (val) => {
+
+        const { configuracion: { tratamientos_ofrecidos } } = profileData;
+        const foundIndex = tratamientos_ofrecidos.findIndex((svc => svc._id === val._id));
+        tratamientos_ofrecidos.splice(foundIndex, 1)
+        profileData.configuracion.tratamientos_ofrecidos = tratamientos_ofrecidos;
+        console.log("after: ", profileData)
+        await updateData(`/users/updateUser/${profileData._id}`, profileData).then((rs) => { console.log(rs); getProfileData() })
+
+        // const newData = { configuracion: {} }
+        // updateData(`/users/updateUser/${id_usuario}`, newData).then((rs) => { console.log(rs); getProfileData() })
+        console.log(val)
     }
 
     const columns = [
@@ -42,8 +49,39 @@ export default function Configuration({ id_usuario, correo }) {
             title: 'Costo',
             dataIndex: 'costo',
             key: 'costo',
+        },
+        {
+            title: 'Opciones',
+            dataIndex: 'opciones',
+            key: 'opciones',
+            render: (_, record) => {
+                return <div className='fila'>
+                    <Button ghost type='primary' onClick={() => handleEditService(record)}>Editar</Button>
+                    <Popconfirm
+                        title="Delete the task"
+                        description="Are you sure to delete this task?"
+                        onConfirm={() => confirmDelete(record)}
+                        onCancel={() => console.log('Canceled')}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button ghost danger>Eliminar</Button>
+                    </Popconfirm>
+                </div>
+            }
         }
     ];
+
+
+    const handleEditService = (record) => {
+
+        setServicioForEdit(record)
+        setisModalOpen(true)
+    }
+    const handleClose = () => {
+        setServicioForEdit(null)
+        setisModalOpen(false);
+    }
 
     // Form For edit Costo base de cita
     const CostoCitaForm = () => {
@@ -117,38 +155,12 @@ export default function Configuration({ id_usuario, correo }) {
 
             <Divider />
 
-            <h5>Servicios Registrados</h5>
+            <h5>Servicios Registrados</h5> <Button onClick={() => setisModalOpen(true)}>Agergar Servicio</Button>
 
             <Table dataSource={profileData.configuracion?.tratamientos_ofrecidos} columns={columns} bordered />
 
-            <h5>Agregar servicio</h5>
-            <Form
-                name="add_tratamiento_medic"
-                onFinish={onFinish}
-                labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} style={{ maxWidth: 600 }}
-            >
+            <AddService isOpen={isModalOpen} handleClose={handleClose} service={servicioForEdit} profileData={profileData} getProfileData={getProfileData} />
 
-                <div className='fila'>
-                    <Form.Item label="Nuevo Servicio" style={{ marginBottom: 0 }} >
-
-                        <Form.Item name="tratamiento" rules={[{ required: true }]} style={{ display: 'inline-block', width: 'calc(70% - 8px)' }} >
-                            <Input placeholder="Ingresa Descripcion" />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="costo" rules={[{ required: true }]} style={{ display: 'inline-block', width: 'calc(30% - 8px)', margin: '0 8px' }} >
-                            <InputNumber placeholder="Costo" />
-                        </Form.Item>
-
-                    </Form.Item>
-
-                    <Form.Item style={{ marginLeft: 8 }}>
-                        <Button type="primary" htmlType="submit">
-                            Agregar
-                        </Button>
-                    </Form.Item>
-                </div>
-            </Form>
         </div >
     )
 }

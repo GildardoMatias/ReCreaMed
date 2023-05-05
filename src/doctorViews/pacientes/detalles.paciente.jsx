@@ -18,7 +18,7 @@ export default function DetallesPaciente(props) {
 
     const ProfileDetails = () => {
         return editing ?
-            <Register setAdding={setEditing} paciente={pacienteData} />
+            <Register setAdding={setEditing} paciente={pacienteData} getPacientesData={props.getPacientesData}/>
             :
             <div style={{ width: '98%', borderRadius: 12 }} bordered={false}>
                 {/* <div className='fila'><h5>Datos del Paciente</h5><Button className='btnIconCentered' onClick={() => setEditing(true)} size='small' disabled={!props.paciente} type="primary" ghost shape="circle" icon={<FormOutlined className='sizedIcon' />} /></div> */}
@@ -41,9 +41,11 @@ export default function DetallesPaciente(props) {
                             <p className='datos'><MobileOutlined style={{ marginRight: 10 }} /> {pacienteData.telefono}</p>
                         </div>
                     </Col>
+
                     <Col span={7} offset={1}
                     //  className='columnWithDescriptions'
                     >
+                        <Row><Col span={10}><span className='desc'>Responsable:</span></Col><Col span={10}>{pacienteData.responsable.nombre}</Col> </Row>
                         <Row><Col span={10}><span className='desc'>Sexo:</span></Col><Col span={10}>{pacienteData.sexo}</Col> </Row>
                         <Row><Col span={10}><span className='desc'>Edad:</span></Col><Col span={10}>{pacienteData.edad}</Col> </Row>
                         <Row><Col span={10}><span className='desc'>Peso:</span></Col><Col span={10}>{pacienteData.peso}</Col> </Row>
@@ -56,7 +58,7 @@ export default function DetallesPaciente(props) {
                         <Row><Col span={10}><span className='desc'>cuales_drogas:</span></Col><Col span={10}>{pacienteData.cuales_drogas}</Col> </Row>
                         <Row><Col span={10}><span className='desc'>Diagnostico:</span></Col><Col span={10}>{pacienteData.peso}</Col> </Row>
                         <Row><Col span={10}><span className='desc'>Enfermedades familiares:</span></Col><Col span={10}>{pacienteData.enfermedades_familiares.map((e) => <p>{e}</p>)}</Col> </Row>
-                        <Row><Col span={10}><span className='desc'>Enfermedades Medicas:</span></Col><Col span={10}>{pacienteData.enfermedades_medicas.map((e) => <p>{e}</p>)}</Col> </Row>
+                        <Row><Col span={10} ><span className='desc'>Enfermedades Medicas:</span></Col><Col span={10}><div style={{ width: 160, height: 8 }}>{pacienteData.enfermedades_medicas.map((e) => <p style={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>{e}</p>)}</div></Col> </Row>
                     </Col>
                     <Col span={7} offset={1}>
                         <Row><Col span={10}><span className='desc'>Tratamientos Actuales:</span></Col><Col span={10}>{pacienteData.tratamiento_actual.map((t) => <p>{t}</p>)}</Col> </Row>

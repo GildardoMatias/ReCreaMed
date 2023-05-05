@@ -30,6 +30,8 @@ export default function MainPacientes() {
       .then(response => response.json())
       .then(data => {
         data.forEach(paciente => {
+          paciente.res_name = paciente.responsable.nombre;
+          paciente.res_phone = paciente.responsable.telefono;
           paciente.value = paciente.name;
           paciente.key = paciente._id; // For new Tabs mode
           paciente.tab = <TabLabel name={paciente.name} telefono={paciente.telefono} key={paciente._id} />
@@ -42,9 +44,12 @@ export default function MainPacientes() {
   }
 
   const TabLabel = ({ name, telefono, key }) => {
-    return <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', margin: -6 }}>
-      <div style={{ display: 'flex', alignItems: 'center' }}><UserOutlined />{name}</div>
-      <div style={{ fontSize: 10, display: 'flex', alignItems: 'center' }}><MobileOutlined />{telefono}</div>
+    return <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: -10 }}>
+      <div><UserOutlined style={{ fontSize: 28 }} /></div>
+      <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 6 }}>
+        <div>{name}</div>
+        <div style={{ fontSize: 10, display: 'flex', alignItems: 'center', gap: 4 }}><MobileOutlined />{telefono}</div>
+      </div>
     </div>
   }
 
@@ -57,9 +62,9 @@ export default function MainPacientes() {
     };
 
     return (
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", border: '1px solid #D6D6D6', borderRadius: 12 }}>
         <List
-          style={{ width: "240px", height: "420px", overflowY: "scroll" }}
+          style={{ width: "240px", height: '520px', overflowY: "scroll" }}
           dataSource={tabs}
           renderItem={(item) => (
             <List.Item
@@ -74,7 +79,7 @@ export default function MainPacientes() {
           )}
         />
         {/* <div style={{ flex: 1 }}>{tabs.find((item) => item.key === activePatient).content}</div> */}
-        <div style={{ flex: 1 }}><DetallesPaciente paciente={activePatient} /></div>
+        <div style={{ flex: 1 }}><DetallesPaciente paciente={activePatient} getPacientesData={getPacientesData} /></div>
       </div>
     );
   }
@@ -93,14 +98,14 @@ export default function MainPacientes() {
 
   return (
     <div className='mainContainer'>
+      {/* <Col ></Col> */}
+      <h4 >Pacientes</h4>
       <Row justify="start">
-        <Col ><h4 >Pacientes</h4> </Col>
-        <Col style={{ marginLeft: 12 }}><Button className='btnIconCentered' style={{ marginTop: 4 }} onClick={() => setAdding(!adding)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} /> </Col>
-        <Col style={{ marginLeft: 16 }}>
+        <Col>
           <div className="my-select-container">
             <Select
               // Widget para buscar pacientes
-              style={{ borderRadius: 8 }}
+              style={{ borderRadius: 8, width: 256 }}
               dropdownStyle={{ borderRadius: 8 }}
               showSearch
               placeholder="Buscar paciente"
@@ -115,16 +120,14 @@ export default function MainPacientes() {
             </Select>
           </div>
         </Col>
+        <Col style={{ marginLeft: 12 }}><Button className='btnIconCentered' style={{ marginTop: 4 }} onClick={() => setAdding(!adding)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} /> </Col>
       </Row> <div style={{ height: '16px' }}></div>
       {
 
-        adding ? <Register setAdding={setAdding} /> :
-          <div style={{ border: '1px solid #D6D6D6', borderRadius: 12 }}>
+        adding ?
+          <Register setAdding={setAdding} /> :
+          <SideMenu tabs={pacientesData} />
 
-            {/* <Tabs items={pacientesData} activeKey={activePatient} tabPosition='left' size='small' centered onTabClick={(k, e) => { console.log('OnTABClick', k); setPaciente(k) }} style={{ marginTop: 6 }} /> */}
-            <SideMenu tabs={pacientesData} />
-
-          </div>
       }
       <br />
       <Expedientes paciente={activePatient._id} />

@@ -22,13 +22,17 @@ export default function LastCita(props) {
         <div >
             <Card>
 
-                <h6>Ultima cita</h6>
-                <div>
-                    <ul>
-                        <li className='btnIconCentered'><CalendarOutlined style={{ marginRight: 8 }} /> {cita.fecha_hora.substring(0, 10)}</li><br />
-                        <li className='btnIconCentered'><ClockCircleOutlined style={{ marginRight: 8 }} /> Hora: {cita.fecha_hora.substring(11, 16)}</li>
-                    </ul>
-                </div>
+
+                {
+                    cita ? <div>
+                        <h6>Ultima cita</h6>
+                        <ul>
+                            <li className='btnIconCentered'><CalendarOutlined style={{ marginRight: 8 }} /> {cita.fecha_hora.substring(0, 10)}</li><br />
+                            <li className='btnIconCentered'><ClockCircleOutlined style={{ marginRight: 8 }} /> Hora: {cita.fecha_hora.substring(11, 16)}</li>
+                        </ul>
+                    </div> : <h6>Sin citas registradas</h6>
+                }
+
             </Card>
         </div>
     )

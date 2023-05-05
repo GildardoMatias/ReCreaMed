@@ -69,7 +69,8 @@ export default function Register(props) {
     values.cedula = '';
     values.horarios = [];
     values.medicos_asignados = props.paciente ? props.paciente.medicos_asignados : [usuario._id];
-    values.responsable = props.paciente ? props.paciente.responsable : { nombre: values.res_name, telefono: values.res_phone }
+    // values.responsable = (props.paciente && props.paciente.responsable) ? props.paciente.responsable : { nombre: values.res_name, telefono: values.res_phone }
+    values.responsable = { nombre: values.res_name, telefono: values.res_phone }
 
     delete values.prefix;
     delete values.res_name;
@@ -93,11 +94,15 @@ export default function Register(props) {
         response.message === 'Usuario creado correctamente' ?
           props.setAdding(false) : console.log(response);
         response.message === 'Usuario actualizado correctamente' ?
-          props.setAdding(false) : console.log(response);
+          finishUpdate() : console.log(response);
 
       })
       .catch(error => console.error('Error:', error))
   };
+
+  const finishUpdate = () => {
+    props.setAdding(false); props.getPacientesData()
+  }
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -130,9 +135,7 @@ export default function Register(props) {
     // },
   };
   return (
-    <div
-      style={{ width: '100%' }}
-    >
+    <div style={{ width: '100%', height: '100%', overflowY: 'scroll' }} >
       {
         props.paciente ? <h4>Editar paciente</h4> : <h4>Registrar Paciente</h4>
       }
@@ -415,7 +418,7 @@ export default function Register(props) {
                 ))}
                 <Form.Item>
                   <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
-                    Agegar Tratamiento
+                    Agregar Tratamiento
                   </Button>
 
                   <Form.ErrorList errors={errors} />

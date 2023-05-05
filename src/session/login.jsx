@@ -23,7 +23,11 @@ export function Login() {
         if (res.message === "Bienvenido") {
           localStorage.setItem("userType", res.user.rol);
           localStorage.setItem('sessionToken', res.data.token);
-          localStorage.setItem('userData', JSON.stringify(res.user) );
+          localStorage.setItem('userData', JSON.stringify(res.user));
+
+          if (res.user.rol === 'Recepcion') // Save login time to schedule
+            localStorage.setItem('fecha_hora_entrada', new Date());
+
           window.location.href = '/';
         } else (message.info(res.error || res.message))
       })
@@ -33,7 +37,7 @@ export function Login() {
 
   return (
     <Row>
-      <Col lg={{span: 8,offset: 8}} md={{span: 10,offset: 7}} sm={{span: 16,offset: 4}} xs={{span: 16,offset: 4}}>
+      <Col lg={{ span: 8, offset: 8 }} md={{ span: 10, offset: 7 }} sm={{ span: 16, offset: 4 }} xs={{ span: 16, offset: 4 }}>
         <br />
         <br />
         <Card hoverable>
@@ -74,7 +78,7 @@ export function Login() {
               ]}
             >
               <Input.Password
-                prefix={<LockOutlined className="site-form-item-icon" />}  placeholder="Contraseña" />
+                prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Contraseña" />
             </Form.Item>
             <Form.Item>
               <Form.Item name="remember" valuePropName="checked" noStyle>
@@ -92,7 +96,7 @@ export function Login() {
               </Button>
             </Form.Item>
             <Form.Item>
-              <Row justify="center"> O <a href="register" style={{marginLeft: 4}}>Registrarse</a></Row>
+              <Row justify="center"> O <a href="register" style={{ marginLeft: 4 }}>Registrarse</a></Row>
 
             </Form.Item>
           </Form>

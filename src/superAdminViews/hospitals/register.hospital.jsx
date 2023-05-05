@@ -56,6 +56,7 @@ export default function Register(props) {
       // message.success(rs.message || rs.error);
       console.log('resp: ', rs);
       if (rs.message && rs.message === 'Sucursal creada correctamente') window.location.href = '/hospitales'
+      else message.warning(rs.message || rs.error)
       console.log('tosend: ', values);
     })
   };
