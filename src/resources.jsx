@@ -3,7 +3,27 @@ export const API = "https://api.recreamed.com/api/"
 export const S_API = "https://api.recreamed.com/session/"
 export const IMAGE_API = "https://api.recreamed.com/images/"
 
-export const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); localStorage.removeItem('userData'); window.location.href = '/'; }
+export const logout = async () => {
+    // Send exit time to set schedule
+    const userType = localStorage.getItem('userType')
+    if (userType === 'Recepcion') await sendSchedule()
+
+    localStorage.removeItem('sessionToken');
+    localStorage.removeItem('userType');
+    localStorage.removeItem('userData');
+    window.location.href = '/';
+}
+
+const sendSchedule = async () => {
+    const { _id } = usuario;
+    const scheduleBody = {
+        usuario: _id,
+        fecha_hora_entrada: localStorage.getItem("fecha_hora_entrada"),
+        fecha_hora_salida: new Date(),
+        notas: ''
+    }
+    await sendDataBody('asistencias/add', scheduleBody).then(() => localStorage.removeItem('fecha_hora_entrada'))
+}
 
 export const usuario = JSON.parse(localStorage.getItem('userData'));
 

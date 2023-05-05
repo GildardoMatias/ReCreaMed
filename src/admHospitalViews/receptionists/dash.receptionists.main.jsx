@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tabs } from 'antd'
 import { myHospitals } from '../../resources'
-import HospitalTab from './dash.doctors.hospitalTab';
+import HospitalTab from './dash.receptionists.hospitalTab';
 
 export default function Dash() {
 

@@ -13,6 +13,7 @@
     "antd": "^5.0.7",
     "bootstrap": "^5.1.1",
     "dayjs": "^1.11.7",
+    "file-saver": "^2.0.5",
     "html-to-image": "^1.10.8",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
@@ -24,6 +25,7 @@
     "react-qr-code": "^2.0.8",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "sheetjs-style": "^0.15.8",
     "web-vitals": "^1.1.2"
   },
   "resolutions": {

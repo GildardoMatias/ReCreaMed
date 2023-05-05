@@ -7,7 +7,7 @@ export default function CreateBalance(props) {
     const [pacientesData, setPacientesData] = useState({})
     const handleOk = () => { props.setIsModalOpen(false) };
     const handleCancel = () => { props.setIsModalOpen(false); props.setBalanceForEdit(null) };
-   
+
     useEffect(() => {
         return getPacientesData()
     }, [])
@@ -25,7 +25,7 @@ export default function CreateBalance(props) {
         if (!props.balanceForEdit || Object.keys(props.balanceForEdit).length === 0) {
             values.medico = usuario._id
             values.fecha_hora = new Date();
-            values.tipo = 'ingreso';
+            values.tipo = props.tipo;
         }
 
 
@@ -87,16 +87,19 @@ export default function CreateBalance(props) {
                         >
                             <Input />
                         </Form.Item>
+                        
+                        {
+                            props.tipo === 'ingreso' && <Form.Item
+                                label="Paciente"
+                                name="paciente"
+                            >
+                                <Select
+                                    onChange={handleChange}
+                                    options={pacientesData}
+                                />
+                            </Form.Item>
+                        }
 
-                        <Form.Item
-                            label="Paciente"
-                            name="paciente"
-                        >
-                            <Select
-                                onChange={handleChange}
-                                options={pacientesData}
-                            />
-                        </Form.Item>
                     </div>
                 }
 

@@ -5,13 +5,13 @@ import { getData } from '../../resources'
 import Loading from '../../loading'
 
 export default function HospitalTab(props) {
-  const [doctorsData, setDoctorsData] = useState([])
+  const [receptorsrData, setReceptorsData] = useState([])
   const [loading, setLoading] = useState(false)
 
   // Before all, get DoctorsData
-  useEffect(() => { getDoctorsData() }, [])
-  const getDoctorsData = () => {
-    getData('users_by_rol/Medico').then((rs) => { setDoctorsData(rs) }).finally(() => setLoading(false))
+  useEffect(() => { getReceptorsData() }, [])
+  const getReceptorsData = () => {
+    getData('users_by_rol/Recepcion').then((rs) => { setReceptorsData(rs) }).finally(() => setLoading(false))
   }
   const columns = [
     {
@@ -40,9 +40,9 @@ export default function HospitalTab(props) {
       key: 'telefono',
     },
   ];
-  const myDoctors = (id_hospital) => {
+  const myReceptors = (id_hospital) => {
     let doctorsFound = [];
-    doctorsData.forEach(doctor => {
+    receptorsrData.forEach(doctor => {
       doctor.horarios.forEach(horario => {
         if (!doctorsFound.includes(doctor) && horario.sucursal._id === id_hospital) doctorsFound.push(doctor)
       });
@@ -50,15 +50,14 @@ export default function HospitalTab(props) {
     console.log(`Founds for ${id_hospital}: `, doctorsFound)
     return doctorsFound;
   }
-  const doctoresData = myDoctors(props.id_hospital); // Get medicos data before render TAble
+  const doctoresData = myReceptors(props.id_hospital); // Get medicos data before render TAble
   // Filter doctors of each hospital
 
 
   if (loading) return <Loading />
 
   return <div>
-    <h6>Doctores del hospital {props.hospital}</h6>
-    
+    <h6>Recepcionistas del hospital {props.hospital}</h6>
     <Table dataSource={doctoresData} columns={columns} />
   </div>
 }
