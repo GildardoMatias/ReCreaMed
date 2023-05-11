@@ -307,6 +307,11 @@ export default function Register(props) {
             <Form.Item name="universidad" label="Universidad" rules={[{ required: false, message: 'Ingresa tu universidad' }]} >
               <Input />
             </Form.Item>
+
+            <Form.Item name="especialidad" label="Especialidad" rules={[{ required: false, message: 'Ingresa especialidad' }]}>
+              <Input />
+            </Form.Item>
+
             <Form.Item {...tailFormItemLayout}>
               {
                 props.setIsModalVisible && <Button onClick={() => props.setIsModalVisible(false)} style={{ marginRight: 6 }}>

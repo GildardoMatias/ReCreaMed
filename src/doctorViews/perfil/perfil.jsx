@@ -8,6 +8,9 @@ import { FormOutlined } from '@ant-design/icons';
 import PerfilEdit from './perfilEdit';
 import Configuration from './configuration';
 
+const cardStyle = {
+    marginTop: 6
+}
 export default function Perfil() {
 
     const [profileData, setProfileData] = useState([]);
@@ -52,9 +55,14 @@ export default function Perfil() {
                             :
                             <Avatar size={128} icon={<UserOutlined />} className='btnIconCentered' />
                     }
-                    <Divider />
+                    <br />
+                    <br />
+                    <br />
                     <p className='nombre'>{profileData.name} </p>
                     <p className='datos'>{profileData.rol} </p>
+                    {
+                        profileData.especialidad && <p className='datos'>{profileData.especialidad} </p>
+                    }
                     <p className='datos'>{profileData.email} </p>
                     <p className='datos'>{profileData.telefono} </p>
                 </Col>
@@ -66,7 +74,7 @@ export default function Perfil() {
                 <p>Codigo Postal:{profileData.codigopostal} </p>
             </Col> */}
                 <Col span={8}>
-                    <Card title='Horarios' style={{ borderRadius: 12 }}>
+                    <Card title='Horarios' size='small' >
                         {
                             profileData.horarios.map((h) => {
                                 return <Card.Grid style={{ width: '100%' }} >
@@ -78,12 +86,21 @@ export default function Perfil() {
                             })
                         }
                     </Card>
-                    <br />
-                    <p><span className='desc'>Universidad:</span> {profileData.universidad} </p>
-                    <p><span className='desc'>Certificacion:</span> {profileData.certificacion} </p>
-                    <p><span className='desc'>Cedula:</span> {profileData.cedula} </p>
+                    <Card title='Universidades' size='small' style={cardStyle}>
+
+                        {
+                            profileData.universidades && profileData.universidades.map((u) => {
+                                return <p><span className='desc'>Universidad:</span> {u.universidad} <span className='desc'>Carrera:</span> {u.carrera} </p>
+                            })
+                        }
+                    </Card>
+                    <Card title='Datos Academicos' size='small' style={cardStyle}>
+                        <p><span className='desc'>Certificacion:</span> {profileData.certificacion} </p>
+                        <p><span className='desc'>Cedula:</span> {profileData.cedula} </p>
+                    </Card>
                 </Col>
             </Row>
+            <br />
             <Configuration id_usuario={usuario._id} correo={usuario.email} />
         </div>
     }

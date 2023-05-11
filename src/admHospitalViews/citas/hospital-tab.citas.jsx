@@ -48,6 +48,7 @@ export default function HospitalTab(props) {
 
     const getCitasData = () => {
         getData(`citas/sucursal/${props.id_hospital}`).then((rs) => {
+            console.log(`getCitasData ${props.id_hospiatl} before format admin`, rs[rs.length - 1])
             rs.forEach(cita => {
                 cita.start = new Date(Date.parse(cita.fecha_hora));
                 const endDate = new Date(Date.parse(cita.fecha_hora));
@@ -56,7 +57,7 @@ export default function HospitalTab(props) {
                 cita.title = cita.usuario?.name;
                 cita.key = cita._id;
             });
-            console.log('getCitasData hospital tab admin', rs)
+            console.log(`getCitasData ${props.id_hospiatl} before format admin`, rs[rs.length - 1])
             setCitasData(rs)
         }
         ).finally(() => setLoading(false))

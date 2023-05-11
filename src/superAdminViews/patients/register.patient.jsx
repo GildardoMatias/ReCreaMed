@@ -130,7 +130,7 @@ export default function Register(props) {
     values.estatus = '1';
     values.rol = 'Paciente';
     values.password = '' + values.telefono;
-    values.universidad = '';
+    values.universidades = [    ];
     values.certificacion = '';
     values.cedula = '';
     values.horarios = [];

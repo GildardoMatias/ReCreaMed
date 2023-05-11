@@ -121,21 +121,26 @@ export default function DetalleReceta(props) {
         alignItems: 'center',
     };
 
-
-
     return <div>
-        <Card bordered={false} title={<>Recetas <Button className='btnIconCentered' onClick={() => setIsModalVisible(true)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} /></>} >
-
+        <Card
+        // title={<>Recetas <Button className='btnIconCentered' onClick={() => setIsModalVisible(true)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} ghost /></>}
+        >
+            <div className='fila' style={{ marginBottom: 8 }}>
+                <h6>Recetas</h6>
+                <Button className='btnIconCentered' onClick={() => setIsModalVisible(true)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} ghost />
+            </div>
             {
                 recetaLoading ? <h5>Cargando Receta...</h5> :
                     recetaData.length > 0 ?
 
                         recetaData.map((r) => {
-                            return <><Card.Grid key={r._id} style={gridStyle}>
-                                <p style={{ whiteSpace: 'pre' }}> Prescripcion : {r.prescripcion} </p>
-                                <Button style={{ marginLeft: 8 }} onClick={() => editReceta(r)} size='small' type="primary" shape="circle" icon={<FormOutlined />} className='btnIconCentered' />
-                                <Button style={{ marginLeft: 8 }} onClick={() => printReceta(r)} size='small' type="primary" shape="circle" icon={<PrinterOutlined />} className='btnIconCentered' />
-                            </Card.Grid></>
+                            return <div key={r._id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <p style={{ whiteSpace: 'pre' }}>{r.prescripcion} </p>
+                                <div>
+                                    <Button style={{ marginLeft: 8 }} onClick={() => editReceta(r)} size='small' type="primary" shape="circle" icon={<FormOutlined />} className='btnIconCentered' ghost />
+                                    <Button style={{ marginLeft: 8 }} onClick={() => printReceta(r)} size='small' type="primary" shape="circle" icon={<PrinterOutlined />} className='btnIconCentered' ghost />
+                                </div>
+                            </div>
                         })
                         :
                         <h6>No hay una receta asignada</h6>
@@ -176,11 +181,7 @@ export default function DetalleReceta(props) {
                 </Button>,
                 <Button onClick={handleEditCancel}>Cancelar</Button>
             ]}>
-            {
-                Object.keys(recetaForEdit).map((k) => {
-                    return <p key={k}>{k} : {recetaForEdit[k]}</p>
-                })
-            }
+
             <Form
                 name="update_receta_medic"
                 labelCol={{ span: 8 }}

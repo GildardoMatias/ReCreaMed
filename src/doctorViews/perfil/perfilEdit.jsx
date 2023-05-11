@@ -75,7 +75,7 @@ export default function PerfilEdit(props) {
   useEffect(() => {
     console.log('received Medic: ', props.perfil);
     getData('sucursales').then((rs) => { setSucursales(rs); setSucursalesLoading(false) })
-  })
+  },[])
 
   // const onFinish = (values) => {
   //   values.avatar = avatar;
@@ -268,9 +268,46 @@ export default function PerfilEdit(props) {
               <Input />
             </Form.Item>
 
-            <Form.Item name="universidad" label="Universidad" rules={[{ required: false, message: 'Ingresa tu universidad' }]} >
+
+
+            <Form.Item label="Universidades" rules={[{ required: true, message: 'Ingresa al menos una universidad', },]}>
+              <Form.List name="universidades" label="universidades list">
+                {(fields, { add, remove }) => (
+                  <>
+                    {fields.map(({ key, name, ...restField }) => (
+                      <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'universidad']}
+                          rules={[{ required: true, message: 'Ingresa la universidad' }]}
+                        >
+                          <Input placeholder="Universidad" />
+                        </Form.Item>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'carrera']}
+                          rules={[{ required: true, message: 'Ingresa la carrera' }]}
+                        >
+                          <Input placeholder="Carrera" />
+                        </Form.Item>
+                        <MinusCircleOutlined onClick={() => remove(name)} />
+                      </Space>
+                    ))}
+                    <Form.Item>
+                      <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                        Agregar Universidad
+                      </Button>
+                    </Form.Item>
+                  </>
+                )}
+              </Form.List>
+            </Form.Item>
+
+            <Form.Item name="especialidad" label="Especialidad" rules={[{ required: true, message: 'Ingresa tu especialidad' }]}>
               <Input />
             </Form.Item>
+
+
             <Form.Item {...tailFormItemLayout}>
               <Button type="primary" htmlType="submit">
                 Guardar

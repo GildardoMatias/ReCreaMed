@@ -26,7 +26,7 @@ export default function DetalleHistoria(props) {
     const gridStyle = {
         width: '100%',
         // height: '40',
-        textAlign: 'center',
+        // textAlign: 'center',
         // display: 'inline-flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -55,36 +55,39 @@ export default function DetalleHistoria(props) {
 
 
     const HistoriaDetails = () => {
-        return <Card style={gridStyle} >{
-            editing ?
-                <>
-                    <Form name='historiaForm' initialValues={{ historial: historiaData[0].historial }} onFinish={updateHistoria}>
-                        <Form.Item name='historial'>
-                            <TextArea rows={4} />
-                        </Form.Item>
-                        <Space>
-                            <Form.Item>
-                                <Button type="primary" htmlType="submit">Guardar</Button>
-                            </Form.Item>
-                            <Form.Item>
-                                <Button onClick={() => setEditing(false)}>Cancelar</Button>
-                            </Form.Item>
-                        </Space>
+        return <Card style={gridStyle} >
+            <h5>Historia Clinica</h5>
 
-
-                    </Form>
-                </>
-                :
-                <p style={{ whiteSpace: 'pre', textAlign: 'left' }}>{historiaData[0].historial}</p>
-        }</Card>
+            {
+                editing ?
+                    <>
+                        <Form name='historiaForm' initialValues={{ historial: historiaData[0].historial }} onFinish={updateHistoria}>
+                            <Form.Item name='historial'>
+                                <TextArea rows={4} />
+                            </Form.Item>
+                            <Space>
+                                <Form.Item>
+                                    <Button type="primary" htmlType="submit">Guardar</Button>
+                                </Form.Item>
+                                <Form.Item>
+                                    <Button onClick={() => setEditing(false)}>Cancelar</Button>
+                                </Form.Item>
+                            </Space>
+                        </Form>
+                    </>
+                    :
+                    <div>
+                        <p style={{ whiteSpace: 'pre', textAlign: 'left' }}>{historiaData[0].historial}</p>
+                        <Button className='btnIconCentered' onClick={() => setEditing(true)} size='small' disabled={!props.historia} type="primary" shape="circle" icon={<FormOutlined className='sizedIcon' />} style={{ position: 'absolute', bottom: 18, right: 18 }} ghost/>
+                    </div>
+            }</Card>
     }
 
 
     return <div>
-        <Space>
-            <h5>Historia Clinica</h5>
+        {/* <Space>
             <Button className='btnIconCentered' onClick={() => setEditing(true)} size='small' disabled={!props.historia} type="primary" shape="circle" icon={<FormOutlined className='sizedIcon' />} />
-        </Space>
+        </Space> */}
         {
             notaLoading ? <h5>Cargando Historia...</h5> :
                 historiaData.length > 0 ?

@@ -19,7 +19,7 @@ export default function LastCita(props) {
 
     if (loading) return <p>Cargando...</p>
     return (
-        <div >
+        <div style={{marginTop: 8}}>
             <Card>
 
 

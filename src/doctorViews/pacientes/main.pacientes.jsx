@@ -4,6 +4,7 @@ import { API } from '../../resources'
 import Loading from '../../loading'
 import { usuario } from '../../resources'
 import Expedientes from '../expedientes/expedientes'
+// import DetallesPaciente from './detalles.paciente_old'
 import DetallesPaciente from './detalles.paciente'
 import Register from './register.patient'
 import { PlusOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
@@ -14,7 +15,8 @@ export default function MainPacientes() {
   const [pacientesData, setPacientesData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   // const [paciente, setPaciente] = useState(null)
-  const [adding, setAdding] = useState(false)
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [activePatient, setActivePatient] = useState(pacientesData[0]?._id)
 
   useEffect(() => {
@@ -23,7 +25,7 @@ export default function MainPacientes() {
 
   useEffect(() => {
     getPacientesData()
-  }, [adding])
+  }, [isRegisterModalOpen])
 
   const getPacientesData = () => {
     fetch(API + `mispacientes/${usuario._id}`)
@@ -32,10 +34,6 @@ export default function MainPacientes() {
         data.forEach(paciente => {
           paciente.res_name = paciente.responsable.nombre;
           paciente.res_phone = paciente.responsable.telefono;
-          paciente.value = paciente.name;
-          paciente.key = paciente._id; // For new Tabs mode
-          paciente.tab = <TabLabel name={paciente.name} telefono={paciente.telefono} key={paciente._id} />
-          // paciente.content = <DetallesPaciente paciente={paciente._id} />
         });
         console.log(data); setPacientesData(data);
         if (data && data.length > 0) setActivePatient(data[0])
@@ -43,46 +41,8 @@ export default function MainPacientes() {
       .finally(() => setIsLoading(false))
   }
 
-  const TabLabel = ({ name, telefono, key }) => {
-    return <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: -10 }}>
-      <div><UserOutlined style={{ fontSize: 28 }} /></div>
-      <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 6 }}>
-        <div>{name}</div>
-        <div style={{ fontSize: 10, display: 'flex', alignItems: 'center', gap: 4 }}><MobileOutlined />{telefono}</div>
-      </div>
-    </div>
-  }
 
-  const SideMenu = ({ tabs, onChange }) => {
-    // const [activeKey, setActiveKey] = useState(activePatient);
 
-    const handleTabClick = (patientSetted) => {
-      setActivePatient(patientSetted);
-      if (onChange) onChange(patientSetted); // Only if needed an onChange external method
-    };
-
-    return (
-      <div style={{ display: "flex", border: '1px solid #D6D6D6', borderRadius: 12 }}>
-        <List
-          style={{ width: "240px", height: '520px', overflowY: "scroll" }}
-          dataSource={tabs}
-          renderItem={(item) => (
-            <List.Item
-              // style={{ borderWidth: 0, borderColor: 'transparent' }}
-              noBorder
-              key={item.key}
-              className={activePatient._id === item.key ? "active-tab" : ""}
-              onClick={() => handleTabClick(item)}
-            >
-              {item.tab}
-            </List.Item>
-          )}
-        />
-        {/* <div style={{ flex: 1 }}>{tabs.find((item) => item.key === activePatient).content}</div> */}
-        <div style={{ flex: 1 }}><DetallesPaciente paciente={activePatient} getPacientesData={getPacientesData} /></div>
-      </div>
-    );
-  }
 
   const onChange = (data) => {
     console.log('onchangeSearchInput', data)
@@ -97,9 +57,9 @@ export default function MainPacientes() {
   if (isLoading) return <Loading />
 
   return (
-    <div className='mainContainer'>
+    <div className='mainContainer' style={{ backgroundColor: '#f5f6f8' }}>
       {/* <Col ></Col> */}
-      <h4 >Pacientes</h4>
+      <h3 >Pacientes</h3>
       <Row justify="start">
         <Col>
           <div className="my-select-container">
@@ -115,22 +75,29 @@ export default function MainPacientes() {
               filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
             >
               {
-                pacientesData.map((p) => <Option value={p._id}>{p.name}</Option>)
+                pacientesData.map((p) => <Option key={p._id} value={p._id}>{p.name}</Option>)
               }
             </Select>
           </div>
         </Col>
-        <Col style={{ marginLeft: 12 }}><Button className='btnIconCentered' style={{ marginTop: 4 }} onClick={() => setAdding(!adding)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} /> </Col>
+        <Col style={{ marginLeft: 12 }}><Button className='btnIconCentered' style={{ marginTop: 4 }} onClick={() => setIsRegisterModalOpen(!isRegisterModalOpen)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} /> </Col>
       </Row> <div style={{ height: '16px' }}></div>
-      {
 
-        adding ?
-          <Register setAdding={setAdding} /> :
-          <SideMenu tabs={pacientesData} />
+      <Row gutter={16}>
+        <Col span={6}>
+          <DetallesPaciente paciente={activePatient} setEditing={setIsEditModalOpen}/>
+        </Col>
+        <Col span={18} >
+          <Expedientes paciente={activePatient._id} />
+        </Col>
+      </Row>
 
-      }
-      <br />
-      <Expedientes paciente={activePatient._id} />
+      {/* Modal For Register */}
+      <Register setIsModalOpen={setIsRegisterModalOpen} isModalOpen={isRegisterModalOpen} getPacientesData={getPacientesData} />
+
+      {/* Modal For Edit */}
+      <Register setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} paciente={activePatient} getPacientesData={getPacientesData} />
+
     </div >
   )
 

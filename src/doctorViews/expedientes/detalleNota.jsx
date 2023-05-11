@@ -159,10 +159,10 @@ export default function DetalleNota(props) {
         return {
             label: `Nota ${i + 1}`,
             key: nota._id,
-            children: <Row>
+            children: <Row gutter={8}>
                 {/* Mitad de la pantalla para NOTA*/}
                 <Col span={12}>
-                    <Collapse bordered={false}>
+                    <Collapse bordered={false} style={{ backgroundColor: '#fff' }}>
                         <Panel header={<Tooltip title="Haga Click para mostrar u ocultar" placement="right"><span>Detalles de la nota</span></Tooltip>} key="1">
                             <Card >
                                 <Card.Grid style={NotaGridStyle}>Edad: <Paragraph editable={{ onChange: (ns) => updateNota(nota, "edad", ns) }} >{nota.edad}</Paragraph></Card.Grid>
@@ -257,7 +257,7 @@ export default function DetalleNota(props) {
                             </Card.Grid>
                         })}
 
-                        <Dragger {...dragDropProps}>
+                        <Dragger {...dragDropProps} style={{ padding: 6 }}>
                             <p className="ant-upload-drag-icon">
                                 <InboxOutlined />
                             </p>
@@ -269,10 +269,10 @@ export default function DetalleNota(props) {
                     </Card>
                     <Button style={{ float: 'right' }} onClick={() => { editarNota(nota) }} size='small' type="primary" icon={<EditOutlined />} className='btnIconCentered'>Editar Nota</Button>
                 </Col>
-                <Col span={12}>
+                <Col span={12} >
                     {/* La otra mitad de la pantalla para receta */}
                     <DetalleReceta recetas={nota.recetas} id_nota={nota._id} />
-
+                    
                     {/* Debajo de la receta esta la ultima cita */}
                     <LastCita paciente={props.paciente} />
                 </Col>
@@ -280,11 +280,12 @@ export default function DetalleNota(props) {
         }
     }).reverse()
 
-    return <div>
+    // return <div style={{backgroundColor: '#fff', padding: 16}}>
+    return <Card >
 
         <Space>
             <h5>Notas </h5>
-            <Button className='btnIconCentered' onClick={createNota} size='small' type="primary" shape="circle" icon={<PlusOutlined />} />
+            <Button className='btnIconCentered' onClick={createNota} size='small' type="primary" shape="circle" icon={<PlusOutlined />} ghost />
         </Space>
 
         {
@@ -301,7 +302,7 @@ export default function DetalleNota(props) {
 
 
 
-    </div>
+    </Card>
 
 
 }

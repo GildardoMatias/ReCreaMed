@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Form, Input, Button, message, Space, Divider, Upload, Switch } from 'antd'
+import { Form, Input, Button, message, Space, Divider, Upload, Switch, Modal } from 'antd'
 import { InputNumber, Select } from 'antd';
 import { S_API, API, usuario, estados } from '../../resources'
 import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
@@ -8,7 +8,7 @@ import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/i
 
 const { Option } = Select;
 
-export default function Register(props) {
+function RegisterForm(props) {
   const [form] = Form.useForm();
   const [avatar, setAvatar] = useState(props.paciente ? props.paciente.avatar : 'noimg.jpg')
 
@@ -64,7 +64,7 @@ export default function Register(props) {
     values.estatus = '1';
     values.rol = 'Paciente';
     values.password = '' + values.telefono;
-    values.universidad = '';
+    values.universidades = [];
     values.certificacion = '';
     values.cedula = '';
     values.horarios = [];
@@ -78,7 +78,7 @@ export default function Register(props) {
 
     const url = props.paciente ? API + 'users/updateUser/' + props.paciente._id : S_API + 'register';
 
-    console.log(values)
+    console.log('before send', values)
     console.log('url: ', url);
     await fetch(url, {
       method: props.paciente ? 'PUT' : 'POST',
@@ -153,7 +153,7 @@ export default function Register(props) {
         // {...formItemLayout}
         labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}
         form={form}
-        name="register"
+        name="register_patient_medic"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         initialValues={props.paciente}
@@ -428,16 +428,43 @@ export default function Register(props) {
           </Form.List>
         </Form.Item>
 
-        <Form.Item label='*'>
+        {/* <Form.Item wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}>
           <Space>
+            <Button onClick={() => props.setAdding(false)}>Cancelar</Button>
             <Button type="primary" htmlType="submit">
               Registrar
             </Button>
-            <Button onClick={() => props.setAdding(false)}>Cancelar</Button>
           </Space>
 
-        </Form.Item>
+        </Form.Item> */}
       </Form>
     </div>
   )
+}
+
+export default function Register({ paciente, setIsModalOpen, isModalOpen, getPacientesData }) {
+
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const showModal = () => { setIsRegisterModalOpen(true); };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  return <Modal width={800} title={paciente ? 'Editar Paciente' : 'Registrar Paciente'} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
+    footer={[
+      <Button onClick={() => setIsModalOpen(false)}>Cancelar</Button>,
+      <Button type="primary" htmlType="submit" form='register_patient_medic'>
+        Guardar
+      </Button>
+    ]}
+  >
+    <RegisterForm paciente={paciente} setAdding={setIsModalOpen} getPacientesData={getPacientesData} />
+  </Modal>
+
 }

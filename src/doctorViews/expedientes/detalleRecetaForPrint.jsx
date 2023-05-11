@@ -43,6 +43,12 @@ export default function RecetaDocument(props) {
             padding: 10,
             flexGrow: 1
         },
+        noMarginSection: {
+            margin: 10,
+            padding: 10,
+
+            // flexGrow: 1
+        },
         sideSection: {
             // position: 'absolute',
             // right: 20,
@@ -67,19 +73,21 @@ export default function RecetaDocument(props) {
         return <Document>
             <Page size="A5" orientation="landscape" style={styles.page}>
 
-                <View style={styles.block}>
-                    <View style={styles.section}>
+                <View style={[styles.block, { justifyContent: 'space-between' }]}>
+                    <View style={[styles.noMarginSection, { alignItems: 'center' }]}>
                         <Image style={styles.image} src={IMAGE_API + props.logoHospital} />
+                        <Text style={styles.footText}>Dr. {usuario.name}</Text>
+                        <View style={{ color: 'black', width: '60%', backgroundColor: 'black', borderBottomColor: '#9bb4df', borderBottomWidth: 1 }}></View>
+                        {usuario.especialidad && <Text style={styles.footText}>{usuario.especialidad}</Text>}
                     </View>
-                    <View style={[styles.section, { alignItems: 'center' }]}>
-                        <Text style={styles.footText}>{usuario.name}</Text>
+                    <View style={[styles.noMarginSection, { alignItems: 'center' }]}>
                         <Text style={styles.footText}>Cédula Profesional: {usuario.cedula}</Text>
                         <Text style={styles.footText}>Certificación: {usuario.certificacion}</Text>
                         <Text style={styles.footText}>{usuario.universidad}</Text>
                     </View>
                 </View>
 
-                <View style={{ margin: 35, flexGrow: 1 }}>
+                <View style={{ marginHorizontal: 35, flexGrow: 1 }}>
                     <View style={styles.section}>
                         <Text style={{ lineHeight: 2 }}>{props.receta.prescripcion}</Text>
                         {/* <Text>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic veniam totam praesentium sapiente, provident, quidem deleniti magni ea fuga laborum dignissimos saepe sed voluptatibus voluptates? Iste consequuntur qui ab facere.</Text> */}
@@ -87,7 +95,7 @@ export default function RecetaDocument(props) {
                 </View>
 
                 <View style={{ color: 'black', width: '94%', backgroundColor: 'black', borderBottomColor: '#9bb4df', borderBottomWidth: 1, marginHorizontal: 20 }}></View>
-                <View style={[styles.block, {justifyContent: 'space-between'}]}>
+                <View style={[styles.block, { justifyContent: 'space-between' }]}>
                     <View style={styles.sideSection}>
                         {/* <Text style={styles.footText}>José Rubén Romero #103, Bosque Camelinas</Text>
                         <Text style={styles.footText}>Morelia, Mich. CP 58290</Text>
