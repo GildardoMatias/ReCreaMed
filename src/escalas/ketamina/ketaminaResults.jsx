@@ -5,6 +5,7 @@ import { Form, Select } from 'antd';
 import { getData, usuario, sendDataBody, ids_hospitales } from '../../resources';
 import LoadingIndicator from '../loadingIndicator'
 import EscalasCreateGeneralLink from '../escalasCreateGeneralLink';
+import Loading from '../../loading';
 const { Option } = Select;
 
 export default function KetaminaResults() {
@@ -14,6 +15,7 @@ export default function KetaminaResults() {
   const [countersData, setCountersData] = useState([])
   const [loadingCounters, setLoadingCounters] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     // usuario.rol === 'Administrador' ? getDoctorsData() : getEncuestasData(usuario._id)
@@ -21,7 +23,7 @@ export default function KetaminaResults() {
     // New Form
     // If session is recept/admin get escalas of all medicos of my hospital
     // Else if session is medico get escalas for me
-    if (usuario.rol === 'Recepcion' || usuario.rol === 'Administrador') getDoctorsData()
+    if (usuario.rol === 'Recepcion' || usuario.rol === 'Administrador') getAllEscalas()
     else getEncuestasData(usuario._id)
 
     // getEcuestasDataByHospital()
@@ -36,6 +38,29 @@ export default function KetaminaResults() {
     sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
       setMedicosData(rs)
     })
+  }
+
+  // new Method for session is reception
+  const getAllEscalas = async () => {
+    const medicos = await sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales })
+
+    // medicos.forEach(m => { m.label = m.name; m.value = m._id; })// to pass to create modal
+    // setMedicosData(medicos) // to pass to create modal
+    console.log('My medics', medicos)
+    const promises = medicos.map(medico => getData(`encuestas/ketamina/medico/${medico._id}`));
+
+    Promise.all(promises)
+      .then(resultados => {
+        const ingresos = resultados.flat(); // concatenar todos los arrays de ingresos
+        console.log(ingresos);
+        // Doctor is for details, medico is for edit. Usuario is for details, paciente id for Edit
+        ingresos.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
+        setKetaminaData(ingresos.reverse())
+        setLoading(false)
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   // If session is medic
@@ -195,6 +220,8 @@ export default function KetaminaResults() {
 
   // if ((usuario.rol === 'Recepcion' || usuario.rol === 'Administracion') && !ketaminaData) return <h5>Seleccione un medico para ver los resultados de sus encuestas</h5>
 
+  if (loading) return <Loading />
+
   return (
     <div>
       <br />
@@ -205,7 +232,7 @@ export default function KetaminaResults() {
       </Button>
       <br />
 
-      {
+      {/* {
         (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') && <Form.Item label="Selecciona un Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
           style={{ alignItems: 'center', paddingTop: 20 }}>
           <Select
@@ -220,10 +247,10 @@ export default function KetaminaResults() {
             }
           </Select>
         </Form.Item>
-      }
+      } */}
       <br />
 
-      <Table dataSource={countersData} columns={counterColumns} loading={{ indicator: <LoadingIndicator />, spinning: loadingCounters }} bordered />
+      {/* <Table dataSource={countersData} columns={counterColumns} loading={{ indicator: <LoadingIndicator />, spinning: loadingCounters }} bordered /> */}
       <br />
       <h4>Detalles de encuestas</h4>
       <br />
@@ -231,7 +258,11 @@ export default function KetaminaResults() {
       <Table dataSource={ketaminaData} columns={columns} scroll={{ x: 1300 }} bordered />
 
 
-      <Modal title="Generar Escala de Ketamina" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="Generar Escala de Ketamina" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+        footer={[
+          <Button onClick={handleCancel}>Cerrar</Button>
+        ]}
+      >
         {/* <KetaminaCreateLink /> */}
         <EscalasCreateGeneralLink tipo="ketamina" />
       </Modal>

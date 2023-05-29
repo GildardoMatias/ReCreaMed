@@ -12,6 +12,7 @@ export function CreateCitaForm(props) {
     const [enableCreateCita, setEnableCreateCita] = useState(true)
     // Body of cita
     const [isOnline, setIsOnline] = useState(false)
+    const [costo, setCosto] = useState(0)
 
     useEffect(() => {
         getDoctorsData()
@@ -40,8 +41,11 @@ export function CreateCitaForm(props) {
     // Form Methods
     const onFinish = (values) => {
         values.sucursal = props.hospital;
+        delete values.tratamiento;
+        delete values.servicio;
 
         // Handle if its updating or creating cita
+        console.log('cita ready', values)
         if (props.cita) {
             updateData(`citas/update/${props.cita._id}`, values).then((response) => {
                 // message.success(response.message || response.error);
@@ -51,10 +55,25 @@ export function CreateCitaForm(props) {
         } else {
             sendDataBody('citas/add', values).then((response) => {
                 message.success(response.message || response.error);
-                // createBalance(response.id_nueva_cita, monto)
+                createBalance(response.id_nueva_cita, values.medico)
             }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
         }
     }
+
+    const createBalance = (_cita, medico) => {
+        const balanceBody = {
+            tipo: 'ingreso',
+            medico: medico,
+            cita: _cita,
+            monto: costo,
+            forma_de_pago: 'efectivo',
+            fecha_hora: props.fecha_hora,
+            estado: 'pendiente'
+        }
+        console.log('Balance ready to send: ', balanceBody)
+        sendDataBody('balances/add', balanceBody).then((rs) => { message.success(rs.message || rs.error); console.log(rs) })
+    }
+
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -95,7 +114,7 @@ export function CreateCitaForm(props) {
                 let { configuracion: { tratamientos_ofrecidos } } = found;
                 // console.log("found tr", found)
                 tratamientos_ofrecidos.forEach(t => {
-                    t.label = t.tratamiento; t.value = t.tratamiento;
+                    t.label = `${t.tratamiento} - $${t.costo}`; t.value = t.costo;
                 });
                 setServicios(tratamientos_ofrecidos)
             }
@@ -111,6 +130,13 @@ export function CreateCitaForm(props) {
 
     const onSwitch = (checked) => {
         setIsOnline(checked)
+    };
+
+    // Handle change for select servicio
+    const handleChange = (value) => {
+
+        setCosto(value)
+        console.log(`selected ${value}`);
     };
 
     const timeOptions = [
@@ -142,7 +168,7 @@ export function CreateCitaForm(props) {
 
 
         <Form.Item label="Servicio" name="servicio" rules={[{ required: true, message: 'Selecciona Medico' }]} >
-            <Select options={servicios} />
+            <Select options={servicios} onChange={handleChange} />
         </Form.Item>
 
 
