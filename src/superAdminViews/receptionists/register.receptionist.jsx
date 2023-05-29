@@ -97,7 +97,7 @@ export default function Register(props) {
       .then(response => {
         console.log('Success:', response);
         response.message && response.message === 'Usuario creado correctamente' ?
-          window.location.href = 'doctores' : message.error(response.error);
+          window.location.href = 'recepcionistas' : message.error(response.error);
       })
       .catch(error => console.error('Error:', error))
   };
@@ -157,7 +157,7 @@ export default function Register(props) {
     <div>
       {
         props.medico ?
-          <></> : <h1>Registrar doctor</h1>
+          <></> : <h1>Registrar Recepcionista</h1>
       }
       <br />
       <Dragger {...dragDropProps}>
