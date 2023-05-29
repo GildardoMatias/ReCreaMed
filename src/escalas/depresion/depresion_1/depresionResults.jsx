@@ -98,7 +98,7 @@ export default function DepresionResults() {
             </Button>
             <br />
             {
-                 (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
                     style={{ alignItems: 'center', paddingTop: 20 }}>
                     <Select
                         style={{ width: 260, }}
@@ -118,9 +118,12 @@ export default function DepresionResults() {
             <br />
             <h4>Detalles de encuestas</h4>
             <br />
-            <Table dataSource={encuestasData}  columns={columns} bordered />
+            <Table dataSource={encuestasData} columns={columns} bordered />
 
-            <Modal title="Crear encuesta de Depresion QUIDS" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Crear encuesta de Depresion QUIDS" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+                footer={[
+                    <Button onClick={handleCancel}>Cerrar</Button>
+                ]}>
                 <EscalasCreateGeneralLink tipo='depresion_qids' />
             </Modal>
         </div>

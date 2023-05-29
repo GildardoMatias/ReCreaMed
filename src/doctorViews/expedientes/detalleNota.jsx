@@ -30,16 +30,18 @@ export default function DetalleNota(props) {
     // Edit Nota fields
     const [editingEntradas, setEditingEntradas] = useState(false)
 
+    const { _id: id_paciente } = props.paciente;
+
     useEffect(() => {
-        // console.log('Paciente received to detailNota: ', props.paciente)
-        props.paciente ?
+        // console.log('Paciente received to detailNota: ', id_paciente)
+        id_paciente ?
             getNotasData()
             :
             finishGet()
-    }, [props.paciente])
+    }, [id_paciente])
 
     const getNotasData = () => {
-        getData(`notas/${props.paciente}`).then(rs => {
+        getData(`notas/${id_paciente}`).then(rs => {
             console.log('NotasData: ', rs);
             rs.forEach((nt, i) => {
                 nt.label = 'Nota' + (i + 1);
@@ -67,7 +69,7 @@ export default function DetalleNota(props) {
 
     const createNota = async () => {
         let newNotaBody = {
-            id_usuario: props.paciente,
+            id_usuario: id_paciente,
             id_medico: usuario._id,
             edad: 1,
             talla: 1,
@@ -271,10 +273,10 @@ export default function DetalleNota(props) {
                 </Col>
                 <Col span={12} >
                     {/* La otra mitad de la pantalla para receta */}
-                    <DetalleReceta recetas={nota.recetas} id_nota={nota._id} />
-                    
+                    <DetalleReceta recetas={nota.recetas} id_nota={nota._id} paciente={props.paciente} />
+
                     {/* Debajo de la receta esta la ultima cita */}
-                    <LastCita paciente={props.paciente} />
+                    <LastCita paciente={id_paciente} />
                 </Col>
             </Row>
         }
@@ -293,7 +295,7 @@ export default function DetalleNota(props) {
         }
 
         <Modal title="Nueva Nota" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={680} footer={[]} destroyOnClose>
-            <NuevaNota id_expediente={props.id_expediente} paciente={props.paciente} prevExpNotas={props.prevExpNotas} setIsModalVisible={setIsModalVisible} />
+            <NuevaNota id_expediente={props.id_expediente} paciente={id_paciente} prevExpNotas={props.prevExpNotas} setIsModalVisible={setIsModalVisible} />
         </Modal>
 
         <Modal title="Editar Nota" open={isEditModalVisible} onOk={handleEditOk} onCancel={handleEditCancel} width={680} footer={[]} destroyOnClose>

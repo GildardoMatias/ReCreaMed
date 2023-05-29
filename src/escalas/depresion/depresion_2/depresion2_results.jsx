@@ -145,7 +145,10 @@ export default function Depresion2Results() {
             <br />
             <Table dataSource={encuestasData} columns={columns} bordered />
 
-            <Modal title="Crear Encuesta de depresion GPC" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Crear Encuesta de depresion GPC" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+                footer={[
+                    <Button onClick={handleCancel}>Cerrar</Button>
+                ]}>
                 <EscalasCreateGeneralLink tipo='depresion_gpc' />
             </Modal>
         </div>

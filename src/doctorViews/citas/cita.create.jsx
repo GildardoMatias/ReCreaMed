@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, Form, Select, Input, Button, message, Switch, DatePicker } from 'antd'
+import { Modal, Form, Select, Input, Button, message, Switch, DatePicker, InputNumber } from 'antd'
 import { getData, myHospitals, sendDataBody, updateData, usuario } from '../../resources';
+import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
+
 
 export function CreateCitaForm(props) {
 
-
-
+    const { configuracion } = usuario;
+    const { costo_cita = 0 } = configuracion;
 
     myHospitals.forEach(h => { h.value = h._id; h.label = h.nombre; });
 
@@ -18,7 +20,10 @@ export function CreateCitaForm(props) {
     const [isOnline, setIsOnline] = useState(false)
     const [hospital, setHospital] = useState(null)
 
+    const [costo, setCosto] = useState(0)
+
     useEffect(() => {
+        setCosto(costo_cita)
         getPacientesOfDoctor()
     }, [])
 
@@ -35,14 +40,14 @@ export function CreateCitaForm(props) {
         // let monto;
         // if (values.tratamiento === 'Sin servicio') values.tratamiento = 0;
         values.medico = usuario._id;
-        const { configuracion } = usuario;
-        const { costo_cita } = configuracion;
 
-        const monto = costo_cita ? costo_cita + values.tratamiento : values.tratamiento
+        // const { configuracion } = usuario;
+        // const { costo_cita } = configuracion;
+        // const monto = costo_cita ? costo_cita + values.tratamiento : values.tratamiento
 
         delete values.tratamiento;
+        // delete values.descuento;
         console.log(values)
-        console.log('Monto: ', monto)
 
         // Handle if its updating or creating cita
         if (props.cita) {
@@ -52,7 +57,7 @@ export function CreateCitaForm(props) {
         } else {
             sendDataBody('citas/add', values).then((response) => {
                 message.success(response.message || response.error);
-                // createBalance(response.id_nueva_cita, monto)
+                response.message && response.message === 'Cita creada correctamente' ? createBalance(response.id_nueva_cita) : message.error('No se pudo crear registro de ingreso')
                 console.log(response)
             }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
         }
@@ -60,19 +65,19 @@ export function CreateCitaForm(props) {
 
     };
     // Create the respective balance for cita
-    // const createBalance = (_cita, monto) => {
-    //     const balanceBody = {
-    //         tipo: 'ingreso',
-    //         medico: usuario._id,
-    //         cita: _cita,
-    //         monto: monto,
-    //         forma_de_pago: 'efectivo',
-    //         fecha_hora: props.fecha_hora,
-    //         estado: 'pendiente',
-    //     }
-    //     console.log('Balance ready to send: ', balanceBody)
-    //     sendDataBody('balances/add', balanceBody).then((rs) => console.log(rs))
-    // }
+    const createBalance = (_cita) => {
+        const balanceBody = {
+            tipo: 'ingreso',
+            medico: usuario._id,
+            cita: _cita,
+            monto: costo,
+            forma_de_pago: 'efectivo',
+            fecha_hora: props.fecha_hora,
+            estado: 'pendiente'
+        }
+        console.log('Balance ready to send: ', balanceBody)
+        sendDataBody('balances/add', balanceBody).then((rs) => { message.success(rs.message || rs.error); console.log(rs) })
+    }
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -83,6 +88,11 @@ export function CreateCitaForm(props) {
 
     // Select tratamiento
     const handleChange = (value) => {
+        // const { configuracion } = usuario;
+        // const { costo_cita } = configuracion;
+
+        const monto = costo_cita + value;
+        setCosto(monto)
         console.log(`selected ${value}`);
     };
     const onSwitch = (checked) => {
@@ -99,9 +109,11 @@ export function CreateCitaForm(props) {
         { label: 'Tres Horas', value: 180 },
     ]
 
-    return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
+    return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 14 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
         initialValues={props.cita ? props.cita : { isOnline: false, tratamiento: 'Sin servicio', fecha_hora: props.fecha_hora, duracion: 60 }}
     >
+
+
         <Form.Item label="Hospital" name="sucursal" rules={[{ required: true, message: 'Selecciona Sucursal' }]} >
             <Select options={myHospitals} onChange={handleHospitalChange} />
         </Form.Item>
@@ -109,15 +121,6 @@ export function CreateCitaForm(props) {
         <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona Usuario' }]} >
             <Select options={misPacientes} onChange={handlePacienteChange} />
         </Form.Item>
-
-        {/* <Form.Item label="Servicio" name="tratamiento" rules={[{ required: false, message: 'Selecciona un servicio' }]} >
-            <Select
-                onChange={handleChange}
-                options={
-                    usuario.configuracion.tratamientos_ofrecidos.map((t) => { return { value: t.tratamiento, label: t.tratamiento } })
-                }
-            />
-        </Form.Item> */}
 
         <Form.Item label="VideoLlamada" name="isOnline" >
             <Switch onChange={onSwitch} />
@@ -128,11 +131,38 @@ export function CreateCitaForm(props) {
         </Form.Item>
 
         <Form.Item label="Fecha y Hora" name="fecha_hora" rules={[{ required: false, message: 'Selecciona Fecha y Hora' }]} >
-            <DatePicker showTime format="DD/MM/YYYY HH:mm" use12Hours={true} />
+            <DatePicker showTime format="DD/MM/YYYY HH:mm" use12Hours={true} style={{ width: '100%' }} />
         </Form.Item>
 
         <Form.Item label="Duracion" name="duracion" rules={[{ required: true, message: 'Selecciona la duracion de la cita' }]} >
             <Select options={timeOptions} />
+        </Form.Item>
+
+        <Form.Item label="Servicio" name="tratamiento" rules={[{ required: false, message: 'Selecciona un servicio' }]} >
+            <Select
+                onChange={handleChange}
+                options={
+                    usuario.configuracion.tratamientos_ofrecidos.map((t) => { return { value: t.costo, label: `${t.tratamiento} $${t.costo}` } })
+                }
+            />
+        </Form.Item>
+
+
+
+
+        <Form.Item label='costo de la cita'>
+            <span>{costo_cita}</span>
+        </Form.Item>
+
+        <Form.Item
+            wrapperCol={{
+                offset: 8,
+                span: 16,
+            }}
+        >
+            <div className='fila'>
+                <h6>Costo Total: {costo} </h6>
+            </div>
         </Form.Item>
 
         {
@@ -157,7 +187,7 @@ export default function CreateCita(props) {
     const handCreateleOk = () => { props.setIsModalOpen(false) }
     const handCreateleCancel = () => { props.setIsModalOpen(false) }
     return (
-        <Modal title={props.cita ? "Editar Cita" : "Nueva Cita"} open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose
+        <Modal title={props.cita ? "Editar Cita" : "Nueva Cita"} open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose width={600}
             footer={[
                 <Button onClick={handCreateleCancel}>Cancelar</Button>,
                 <Button type="primary" htmlType="submit" form='nueva_cita_admin'>

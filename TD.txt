@@ -1,0 +1,39 @@
+costo base editable y opcional
+
+cideralt no citas
+casisme no servicios
+
+admini edita costo desde balance
+
+recepc edita estado
+
+recepcion edita estado del ingreso no la cantidaad
+
+agregar monto total - abobo  - adeudo
+
+generate enlace desde todos los pacientes
+
+servicio no obligatorio en edit cita for medic recept
+
+cantidad total a lado de medico
+
+1st nota se crea auto
+
+indicar conceptos que se estan cobrabndo
+
+editar cada concepto con un click al cobrar cita
+
+servicio medico + observaciones
+
+cedula de cada carrera certificacion de cada carrera opcional y mostrar en la receta
+
+acentos y horarios mayus
+
+imprimir corte
+
+el corte ultimo es el que esta corriendo y ingresos se muestran solamente desde la fecha de ultimo corte
+
+indicar corte que se trata en la tabla de ingresos y generar corte desde ingresos - medico
+
+recepcionista hace cortes por medico
+
