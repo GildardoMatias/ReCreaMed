@@ -2,71 +2,71 @@ export const dolor_catalog = [
     {
         'n': 1,
         'tipo': 'multiple',
-        'pregunta': 'Indique en el diagrama las zonas donde siente dolor sombreando la parte afectada. Marque una cruz en la zona que más le duele.',
+        'pregunta': '1. Indique en el diagrama las zonas donde siente dolor sombreando la parte afectada. Marque una cruz en la zona que más le duele.',
         'respuestas': ['Delante Derecha', 'Delante Izquierda', 'Detras Derecha', 'Detras Izquierda']
     },
     {
         'n': 2,
         'tipo': 'metrica',
-        'pregunta': 'Por favor, evalúe su dolor rodeando con un círculo el número que mejor describa la intensidad máxima de su dolor en la última semana',
+        'pregunta': '2. Por favor, evalúe su dolor rodeando con un círculo el número que mejor describa la intensidad máxima de su dolor en la última semana',
     },
     {
         'n': 3,
         'tipo': 'metrica',
-        'pregunta': 'Por favor, evalúe su dolor rodeando con un círculo el número que mejor describa la intensidad mínima de su dolor en la última semana',
+        'pregunta': '3. Por favor, evalúe su dolor rodeando con un círculo el número que mejor describa la intensidad mínima de su dolor en la última semana',
     },
     {
         'n': 4,
         'tipo': 'metrica',
-        'pregunta': 'Por  favor,  evalúe  su  dolor  rodeando  con  un  círculo  el  número  que  mejor  describa  la  intensidad  mediade  su  dolor.',
+        'pregunta': '4. Por  favor,  evalúe  su  dolor  rodeando  con  un  círculo  el  número  que  mejor  describa  la  intensidad  mediade  su  dolor.',
     },
     {
         'n': 5,
         'tipo': 'metrica',
-        'pregunta': 'Por favor, evalúe su dolor rodeando con un círculo el número que mejor describa la intensidad de su dolor ahora mismo',
+        'pregunta': '5. Por favor, evalúe su dolor rodeando con un círculo el número que mejor describa la intensidad de su dolor ahora mismo',
     },
     {
         'n': 6,
         'tipo': 'texto',
-        'pregunta': '¿Qué tipo de cosas le alivia el dolor (p. ej., caminar, estar de pie, levantar algo)?',
+        'pregunta': '6. ¿Qué tipo de cosas le alivia el dolor (p. ej., caminar, estar de pie, levantar algo)?',
     },
     {
         'n': 7,
         'tipo': 'texto',
-        'pregunta': '¿Qué tipo de cosas empeora el dolor (p. ej., caminar, estar de pie, levantar algo)?',
+        'pregunta': '7. ¿Qué tipo de cosas empeora el dolor (p. ej., caminar, estar de pie, levantar algo)?',
     },
     {
         'n': 8,
         'tipo': 'texto',
-        'pregunta': '¿Qué tratamiento o medicación está recibiendo para el dolor?',
+        'pregunta': '8. ¿Qué tratamiento o medicación está recibiendo para el dolor?',
     },
     {
         'n': 9,
         'tipo': 'metrica',
-        'pregunta': 'En la última semana, ¿hasta qué punto le han aliviado los tratamientos o medicación para el dolor? Por favor, rodee con un círculo el porcentaje que corresponda al grado de alivio que ha sentido'
+        'pregunta': '9. En la última semana, ¿hasta qué punto le han aliviado los tratamientos o medicación para el dolor? Por favor, rodee con un círculo el porcentaje que corresponda al grado de alivio que ha sentido'
     },
     {
         'n': 10,
         'tipo': 'seleccion',
-        'pregunta': 'Si toma medicación, ¿cuánto tarda en volver a sentir dolor?',
+        'pregunta': '10. Si toma medicación, ¿cuánto tarda en volver a sentir dolor?',
         'respuestas': ['La medicación para el dolor no me ayuda nada', '1h', '2h', '3h', '4h', 'De 5 a 12h', 'Más de 12h', 'No tomo medicación para el dolor']
     },
     {
         'n': 11,
         'tipo': 'multiple',
-        'pregunta': 'Marque con una cruz la casilla que considere adecuada para cada una de las respuestas.',
+        'pregunta': '11. Marque con una cruz la casilla que considere adecuada para cada una de las respuestas.',
         'respuestas': ['A. Los efectos del tratamiento (p. ej., medicación, operación, radiación, prótesis)', 'B. Mi enfermedad principal (la enfermedad que actualmente se está tratando y evaluando)', 'C.  Una situación no relacionada con mi enfermedad principal (p. ej., artrosis)']
     },
     {
         'n': 12,
         'tipo': 'multiple',
-        'pregunta': 'Para cada una de las siguientes palabras, marque con una cruz «sí» o «no» si ese adjetivo se aplica a su dolor.',
+        'pregunta': '12. Para cada una de las siguientes palabras, marque con una cruz «sí» o «no» si ese adjetivo se aplica a su dolor.',
         'respuestas': ['Dolorido/continuo', 'Palpitante', 'Irradiante', 'Punzante', 'Fatigoso (pesado)', 'Penetrante', 'Persistente', 'Mortificante (calambre)', 'Agudo', 'Sensible', 'Quemante', 'Agotador', 'Entumecido (adormecido)', 'Penoso', 'Insoportable']
     },
     {
         'n': 13,
         'tipo': 'titulo',
-        'pregunta': 'Rodee con un círculo el número que mejor describa hasta qué punto el dolor le ha afectado en los siguientes aspectos de la vida, durante la última semana.',
+        'pregunta': '13. Rodee con un círculo el número que mejor describa hasta qué punto el dolor le ha afectado en los siguientes aspectos de la vida, durante la última semana.',
     },
     {
         'n': 'A13',
@@ -172,3 +172,10 @@ export const dolor_catalog = [
         'pregunta': '22. Otras medicaciones no recetadas por mi médico y que tomo para el dolor son:'
     },
 ]
+
+// export const initialDolorValues = dolor_catalog.map(p => ({ p.n: p.user, liked: p.liked }));
+
+
+export const initialDolorValues = dolor_catalog.filter(({ tipo }) => tipo === 'metrica').reduce(
+    (obj, item) => Object.assign(obj, { [item.n]: 0 }), {}
+);

@@ -13,10 +13,11 @@ export default function Expedientes(props) {
     const [historia, setHistoria] = useState("");
     const [notas, setNotas] = useState("");
 
+    const { _id: id_paciente } = props.paciente;
 
     useEffect(() => {
-        getExpedientesData(props.paciente)
-    }, [props.paciente])
+        getExpedientesData(id_paciente)
+    }, [id_paciente])
 
 
     const getExpedientesData = (id_paciente) => {

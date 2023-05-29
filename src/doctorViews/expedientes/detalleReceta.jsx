@@ -209,7 +209,7 @@ export default function DetalleReceta(props) {
         >
             {
                 isLogoSelected ? // Si ya hay logo seleccionado, se pasa a la receta y se muestra en pdf
-                    <RecetaDocument receta={recetaForEdit} logoHospital={logoHospital} nombreHospital={nombreHospital} />
+                    <RecetaDocument receta={recetaForEdit} logoHospital={logoHospital} nombreHospital={nombreHospital} paciente={props.paciente}/>
                     :
                     <div>
                         <Card title='Selecciona un hospital' bordered={false}>

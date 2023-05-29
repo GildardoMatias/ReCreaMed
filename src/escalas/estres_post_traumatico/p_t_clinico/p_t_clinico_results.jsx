@@ -17,7 +17,10 @@ export default function PostTraumaticoClinicoResults() {
       </Button>
       <br />
 
-      <Modal title="Crear Encuesta de TEPT 2" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="Crear Encuesta de TEPT 2" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+        footer={[
+          <Button onClick={handleCancel}>Cerrar</Button>
+        ]}>
         <EscalasCreateGeneralLink tipo='post_traumatico_clinico' />
       </Modal>
     </div>

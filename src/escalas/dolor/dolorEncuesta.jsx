@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { dolor_catalog } from './dolor_catalog';
+import { dolor_catalog, initialDolorValues } from './dolor_catalog';
 import { Form, Input, Button, Slider, Checkbox, Radio, message } from 'antd';
 import { getData, sendDataBody } from '../../resources';
 import logo from "../../assets/Logo.png";
@@ -37,12 +37,13 @@ export default function DolorEncuesta(props) {
             uuid: props.token
         }
         console.log('Body:', body);
-        sendDataBody('encuestas/add', body).then((rs) => {
-            console.log('add enc resp', rs)
-            message.success(rs.message)
-        }).then(() => checkEncuesta())
+        // sendDataBody('encuestas/add', body).then((rs) => {
+        //     console.log('add enc resp', rs)
+        //     message.success(rs.message)
+        // }).then(() => checkEncuesta())
     };
     const onFinishFailed = (errorInfo) => {
+        console.log('init', initialDolorValues)
         console.log('Failed:', errorInfo);
         errorInfo.errorFields.map((p) => {
             message.error('Conteste la pregunta ' + p.name)
@@ -51,6 +52,8 @@ export default function DolorEncuesta(props) {
     const onChange = (checkedValues) => {
         console.log('checked = ', checkedValues);
     };
+
+    const marks = { 0: '0', 10: '10' };
 
     // Loading state
     if (checking) return <div style={{ paddingTop: 180 }}>
@@ -77,7 +80,7 @@ export default function DolorEncuesta(props) {
                 name="basic"
                 // labelCol={{ span: 24 }}
                 // wrapperCol={{ span: 24 }}
-                initialValues={{ remember: true }}
+                initialValues={initialDolorValues}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
@@ -87,7 +90,7 @@ export default function DolorEncuesta(props) {
                         let input;
                         switch (p.tipo) {
                             case 'metrica':
-                                input = <Slider defaultValue={0} min={0} max={10} />
+                                input = <Slider defaultValue={0} min={0} max={10} marks={marks} />
                                 break;
                             case 'multiple':
                                 input = <Checkbox.Group options={p.respuestas} defaultValue={['Apple']} onChange={onChange} />
@@ -106,7 +109,7 @@ export default function DolorEncuesta(props) {
 
                         return p.tipo !== 'titulo' ? <Form.Item
                             key={p.n}
-                            label={p.n + '. ' + p.pregunta}
+                            label={p.pregunta}
                             name={p.n}
                             rules={[{ required: true, message: 'Conteste correctamente' }]}
                         >

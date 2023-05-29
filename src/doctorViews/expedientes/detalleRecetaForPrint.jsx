@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
 import Logo from '../../assets/Logo.png'
 import { usuario, IMAGE_API } from '../../resources';
 
 export default function RecetaDocument(props) {
+
+    useEffect(() => {
+        console.log('receta props', props)
+    }, [])
+
     // Create styles
     // Styles for a4
     // const styles = StyleSheet.create({
@@ -36,73 +41,73 @@ export default function RecetaDocument(props) {
             backgroundColor: 'white'
         },
         block: {
-            flexDirection: 'row'
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+        },
+        sectionFull: {
+            marginHorizontal: 55,
+            // padding: 10,
+            flexGrow: 1
         },
         section: {
             margin: 10,
             padding: 10,
-            flexGrow: 1
-        },
-        noMarginSection: {
-            margin: 10,
-            padding: 10,
-
-            // flexGrow: 1
-        },
-        sideSection: {
-            // position: 'absolute',
-            // right: 20,
-            // bottom: 20,
-            // marginTop: 20
-            // alignSelf: 'flex-end',
-            margin: 10,
-            padding: 10,
-            // flexGrow: 1
         },
         image: {
-            // marginVertical: 15,
-            // marginHorizontal: 10,
-            width: 82
+            width: 64
+        },
+        desc: {
+            fontSize: 12
         },
         footText: {
             fontSize: 14
-        }
+        },
+        prescription: {
+            fontSize: 16
+        },
     });
     // Create Document Component
     function Receta() {
         return <Document>
             <Page size="A5" orientation="landscape" style={styles.page}>
 
-                <View style={[styles.block, { justifyContent: 'space-between' }]}>
-                    <View style={[styles.noMarginSection, { alignItems: 'center' }]}>
+                <View style={styles.block}>
+                    <View style={[styles.section, { alignItems: 'center' }]}>
                         <Image style={styles.image} src={IMAGE_API + props.logoHospital} />
                         <Text style={styles.footText}>Dr. {usuario.name}</Text>
                         <View style={{ color: 'black', width: '60%', backgroundColor: 'black', borderBottomColor: '#9bb4df', borderBottomWidth: 1 }}></View>
                         {usuario.especialidad && <Text style={styles.footText}>{usuario.especialidad}</Text>}
                     </View>
-                    <View style={[styles.noMarginSection, { alignItems: 'center' }]}>
-                        <Text style={styles.footText}>Cédula Profesional: {usuario.cedula}</Text>
-                        <Text style={styles.footText}>Certificación: {usuario.certificacion}</Text>
-                        <Text style={styles.footText}>{usuario.universidad}</Text>
+                    <View style={[styles.section, { alignItems: 'center' }]}>
+                        {
+                            usuario.universidades && usuario.universidades.map((u) => <View style={{ alignItems: 'center' }}>
+                                <Text style={(usuario.universidades && usuario.universidades.length) > 1 ? styles.desc : styles.footText}>{u.carrera}</Text>
+                                <Text style={(usuario.universidades && usuario.universidades.length) > 1 ? styles.desc : styles.footText}>{u.universidad.toUpperCase()}</Text>
+                            </View>)
+                        }
+                        <Text style={(usuario.universidades && usuario.universidades.length) > 1 ? styles.desc : styles.footText}>Ced. Prof.: {usuario.cedula}</Text>
                     </View>
                 </View>
 
-                <View style={{ marginHorizontal: 35, flexGrow: 1 }}>
-                    <View style={styles.section}>
-                        <Text style={{ lineHeight: 2 }}>{props.receta.prescripcion}</Text>
-                        {/* <Text>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic veniam totam praesentium sapiente, provident, quidem deleniti magni ea fuga laborum dignissimos saepe sed voluptatibus voluptates? Iste consequuntur qui ab facere.</Text> */}
-                    </View>
+                <View style={styles.sectionFull}>
+                    <Text style={styles.footText}>Nombre: {props.paciente.name}</Text>
+                    <Text style={styles.footText}>Fecha: {new Date().toLocaleString()}</Text>
+                </View>
+
+                <View style={styles.sectionFull}>
+                    <Text style={[styles.prescription, { lineHeight: 2 }]}>{props.receta.prescripcion}</Text>
                 </View>
 
                 <View style={{ color: 'black', width: '94%', backgroundColor: 'black', borderBottomColor: '#9bb4df', borderBottomWidth: 1, marginHorizontal: 20 }}></View>
-                <View style={[styles.block, { justifyContent: 'space-between' }]}>
-                    <View style={styles.sideSection}>
+                <View style={styles.block}>
+                    <View style={styles.section}>
                         {/* <Text style={styles.footText}>José Rubén Romero #103, Bosque Camelinas</Text>
                         <Text style={styles.footText}>Morelia, Mich. CP 58290</Text>
                         <Text style={styles.footText}>Tel. (443) 3235088, Cel (443) 356 7822</Text> */}
-                        <Text style={styles.footText}>{props.nombreHospital}</Text>
+                        <Text style={styles.footText}>{usuario.email}</Text>
+                        <Text style={styles.footText}>{usuario.telefono}</Text>
                     </View>
-                    <View style={styles.sideSection}>
+                    <View style={styles.section}>
                         <Image style={styles.image} src={Logo} />
                         <Text style={{ fontSize: 10, }}>www.recreamed.com</Text>
                     </View>

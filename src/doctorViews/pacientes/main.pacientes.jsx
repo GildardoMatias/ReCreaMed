@@ -88,7 +88,7 @@ export default function MainPacientes() {
           <DetallesPaciente paciente={activePatient} setEditing={setIsEditModalOpen}/>
         </Col>
         <Col span={18} >
-          <Expedientes paciente={activePatient._id} />
+          <Expedientes paciente={activePatient} />
         </Col>
       </Row>
 

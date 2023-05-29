@@ -277,7 +277,10 @@ export default function DolorResults() {
             <br />
             <Table columns={columns} dataSource={encuestasData} scroll={{ x: '200vw' }} bordered />
 
-            <Modal title="Crear Encuesta de depresion GPC" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Crear Encuesta de dolor" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+                footer={[
+                    <Button onClick={handleCancel}>Cerrar</Button>
+                ]}>
                 <EscalasCreateGeneralLink tipo='dolor' />
             </Modal>
         </div>

@@ -143,7 +143,10 @@ export default function PostTraumaticoResults() {
             <Table dataSource={encuestasData} columns={columns} scroll={{ x: 1600 }} bordered />
 
 
-            <Modal title="Crear Encuesta de Estres Post Traumatico" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Crear Encuesta de Estres Post Traumatico" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+                footer={[
+                    <Button onClick={handleCancel}>Cerrar</Button>
+                ]}>
                 <EscalasCreateGeneralLink tipo='post_traumatico' />
             </Modal>
         </div>
