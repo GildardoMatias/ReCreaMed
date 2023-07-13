@@ -84,6 +84,8 @@ export default function HospitalTab(props) {
     // Delete button
     const confirm = (e) => {
         deleteData(`citas/remove/${citaForEdit._id}`).then((rs) => { console.log(rs); getCitasData(); handleCancel() })
+        deleteData(`balances/remove/cita/${citaForEdit._id}`)
+
     };
 
     const cancel = (e) => { console.log(e) }

@@ -9,8 +9,12 @@ export default function CreateBalance(props) {
     const handleCancel = () => { props.setIsModalOpen(false); props.setBalanceForEdit(null) };
 
     useEffect(() => {
+        console.log('received for edit ', props.balanceForEdit)
         return getPacientesData()
     }, [])
+    useEffect(() => {
+        console.log('received for edit ', props.balanceForEdit)
+    }, [props.balanceForEdit])
 
     const getPacientesData = () => {
         getData(`mispacientes/${usuario._id}`).then((rs) => {
@@ -26,6 +30,7 @@ export default function CreateBalance(props) {
             values.medico = usuario._id
             values.fecha_hora = new Date();
             values.tipo = props.tipo;
+            values.estado = 'pendiente'
         }
 
 
@@ -49,7 +54,7 @@ export default function CreateBalance(props) {
     const handleChange = (value) => { console.log(`selected ${value}`) };
 
     return (
-        <Modal title={props.balanceForEdit ? "Editar Ingreso" : 'Agregar Ingreso'} open={props.isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
+        <Modal title={props.balanceForEdit ? `Editar ${props.tipo}` : `Agregar ${props.tipo}`} open={props.isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
             footer={[
                 <Button type="primary" htmlType="submit" form='edit_balance'>
                     Guardar
@@ -77,6 +82,14 @@ export default function CreateBalance(props) {
                     <InputNumber style={{ width: '100%' }} />
                 </Form.Item>
 
+                <Form.Item
+                    label="Abono"
+                    // name="abono"
+                    rules={[{ required: true, message: 'Ingresa el abono' }]}
+                >
+                    <InputNumber style={{ width: '100%' }} />
+                </Form.Item>
+
                 {
                     // Para el caso que sea un ingreso sin cita
                     (!props.balanceForEdit || Object.keys(props.balanceForEdit).length === 0) && <div>
@@ -87,7 +100,7 @@ export default function CreateBalance(props) {
                         >
                             <Input />
                         </Form.Item>
-                        
+
                         {
                             props.tipo === 'ingreso' && <Form.Item
                                 label="Paciente"
@@ -126,7 +139,7 @@ export default function CreateBalance(props) {
                     />
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                     label="Estado"
                     name="estado"
                     rules={[{ required: true, message: 'Ingresa el monto' }]}
@@ -148,7 +161,7 @@ export default function CreateBalance(props) {
                             },
                         ]}
                     />
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item
                     wrapperCol={{

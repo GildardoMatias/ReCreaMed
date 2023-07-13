@@ -3,10 +3,9 @@ import { Modal, Form, Select, Input, Button, message, Switch, DatePicker } from 
 import { sendDataBody, updateData, ids_hospitales } from '../../resources';
 
 export function CreateCitaForm(props) {
-
     // const [medicosLoading, setMedicosLoading] = useState(true)
     const [medicos, setMedicos] = useState([])//Set Medicos for select
-    // const [medicosData, setMedicosData] = useState([]) // List of all Medicos
+    const [medicosData, setMedicosData] = useState([]) // List of all Medicos
     const [servicios, setServicios] = useState([])
 
     const [errorMessage, setErrorMessage] = useState("")
@@ -20,28 +19,35 @@ export function CreateCitaForm(props) {
 
 
     useEffect(() => {
-        // getDoctorsData()
-        console.log('Received Cita for edit', props.cita)
-        if (props.cita && props.cita.usuario) {
-            handlePatientChange(props.cita.usuario)
-
-            handleMedicochange(props.cita.medico)
-        }
+        getDoctorsData()
+        console.log('Received Cita', props.cita)
+        if (props.cita && props.cita.usuario) handlePatientChange(props.cita.usuario)
     }, [])
 
-    useEffect(() => {
-        if (props.cita && props.cita.medico) handleMedicochange(props.cita.medico)
-    }, [medicos])
+    const getDoctorsData = () => { // First of all, get medicos
+        sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
+            // rs.forEach(m => { m.value = m._id; m.label = m.name })
 
+            // if (props.cita) {
+            //     const { configuracion } = rs.find((m) => m._id === props.cita.medico)
+            //     console.log('Found on getDctsDt: ', configuracion)
+            //     let { tratamientos_ofrecidos } = configuracion;
+            //     tratamientos_ofrecidos.forEach(t => {
+            //         t.label = t.tratamiento; t.value = t.tratamiento;
+            //     });
+            //     setServicios(tratamientos_ofrecidos)
+            // }
 
-
+            setMedicosData(rs)
+        })
+    }
 
     // Form Methods
     const onFinish = (values) => {
         const tipo_pago = values.tipo_pago;
         values.sucursal = props.hospital;
         delete values.tratamiento;
-        values.servicio = values.servicio.title;
+        values.servicio = values.servicio.title
         delete values.tipo_pago;
 
         // Handle if its updating or creating cita
@@ -81,38 +87,39 @@ export function CreateCitaForm(props) {
     };
 
     const handlePatientChange = (value) => {
+        console.log('Entering search', value)
+        console.log('PatsAta', props.pacientesData)
         const found = props.pacientesData.find((p) => p._id === value);
         if (found) {
             setEnableCreateCita(true)
             let { medicos_asignados } = found
             medicos_asignados.forEach((m) => {
-                m.label = m.name; m.value = m._id
+                if (medicosData.includes)
+                    m.label = m.name; m.value = m._id
             });
-
             console.log('Found', found)
             console.log('meds', medicos_asignados)
             setMedicos(medicos_asignados);
-
+            // setMedicosLoading(false)
         } else {
             setEnableCreateCita(false)
             setErrorMessage("Usuario no encontrado")
         }
     };
-
     const onSearchPatient = (value) => { };
 
     const handleMedicochange = (_id) => {
         console.log('selected', _id)
-        console.log('all medics handle med chang', medicos)
+        console.log('all medics', medicosData)
         // Populate the "servicio" select
         if (medicos.length > 0) {
-            let found = medicos.find((m) => m._id === _id)
+            let found = medicosData.find((m) => m._id === _id)
             if (found && found.configuracion.tratamientos_ofrecidos) {
                 setErrorMessage("")
                 setEnableCreateCita(true)
                 if (props.enableCreateCita) props.setEditingCita(false)
                 let { configuracion: { tratamientos_ofrecidos } } = found;
-                console.log("found tr", tratamientos_ofrecidos)
+                // console.log("found tr", found)
                 tratamientos_ofrecidos.forEach(t => {
                     t.label = `${t.tratamiento} - $${t.costo}`; t.value = t.costo; t.title = t.tratamiento;
                 });
@@ -122,7 +129,7 @@ export function CreateCitaForm(props) {
             }
             else {
                 setEnableCreateCita(false);
-                setErrorMessage("No se puede crear la cita para este médico, no cuenta con servicios")
+                setErrorMessage("No se puede crear la cita para este médico")
                 if (props.enableCreateCita) props.enableCreateCita(false)
             }
             //   
@@ -138,7 +145,7 @@ export function CreateCitaForm(props) {
     const handleServicioChange = (selected) => {
 
         setCosto(selected.value)
-        console.log(`selected service`, selected);
+        console.log(`selected `, selected);
     };
 
     const onSwitchCosoBase = (checked) => {
@@ -258,8 +265,7 @@ export default function CreateCita(props) {
                 </Button>
             ]}
         >
-            {/* <CreateCitaForm setIsModalOpen={props.setIsModalOpen} hospital={props.hospital} fecha_hora={props.fecha_hora} getCitasData={props.getCitasData} pacientesData={props.pacientesData} setEnableCreateCita={setEnableCreate} /> */}
-            <CreateCitaForm {...props} />
+            <CreateCitaForm setIsModalOpen={props.setIsModalOpen} hospital={props.hospital} fecha_hora={props.fecha_hora} getCitasData={props.getCitasData} pacientesData={props.pacientesData} setEnableCreateCita={setEnableCreate} />
 
         </Modal>
     )

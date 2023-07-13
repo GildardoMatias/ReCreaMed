@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Table, Space, Select } from 'antd'
+import { Button, Table, Space, Select, Popconfirm } from 'antd'
 import {
     getData, sendDataBody, usuario, ids_hospitales
 } from '../../resources'
@@ -90,7 +90,20 @@ export default function Cortes() {
         <p className='datos'>Selecciona un medico a continuacion para ver sus cortes</p>
 
         <Select options={medicosData} onChange={handleDoctorChange} style={{ width: 240 }} placeholder='Seleccione medico' />
-        <Button disabled={!medico} onClick={createCorte} type='primary' style={{ marginLeft: 12 }}>{cortesData.length === 0 ? 'Generar Primer Corte' : 'Generar Corte'}</Button>
+
+        <Popconfirm
+            placement='bottomRight'
+            title="Crear Corte"
+            description="Seguro que quere generar un corte de caja a la fecha y hora actuales?"
+            onConfirm={createCorte}
+            onCancel={() => console.log('Cancelled corte')}
+            okText="Si"
+            cancelText="No"
+        >
+
+            <Button disabled={!medico} type='primary' style={{ marginLeft: 12 }}>{cortesData.length === 0 ? 'Generar Primer Corte' : 'Generar Corte'}</Button>
+        </Popconfirm>
+
         {
             medico && <div>
                 <Table columns={columns} dataSource={cortesData} />

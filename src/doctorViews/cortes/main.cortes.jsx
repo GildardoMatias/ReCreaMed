@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Table, Space } from 'antd'
+import { Button, Table, Space, Popconfirm } from 'antd'
 import { getData, sendDataBody, usuario } from '../../resources'
 import Loading from '../../loading'
 import Detalles from './details.corte'
@@ -73,7 +73,20 @@ export default function Cortes() {
     if (loading) return <Loading />
 
     return <div className='mainContainer'>
-        <div className='fila'><h4>Cortes</h4><Button onClick={createCorte} type='primary' style={{ marginLeft: 12 }}>{cortesData.length === 0 ? 'Generar Primer Corte' : 'Generar Corte'}</Button></div>
+        <div className='fila'>
+            <h4>Cortes</h4>
+            <Popconfirm
+                placement='bottomRight'
+                title="Crear Corte"
+                description="Seguro que quiere crear un corte de caja hasta la fecha y hora actuales?"
+                onConfirm={createCorte}
+                onCancel={() => console.log('Cancel create corte')}
+                okText="Si"
+                cancelText="No"
+            >
+                <Button type='primary' style={{ marginLeft: 12 }}>{cortesData.length === 0 ? 'Generar Primer Corte' : 'Generar Corte'}</Button>
+            </Popconfirm>
+        </div>
         <br />
         <Table columns={columns} dataSource={cortesData} />
 

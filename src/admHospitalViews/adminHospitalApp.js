@@ -40,7 +40,7 @@ function Navigator() {
           <Nav.Link href="recepcionistas">Recepcionistas</Nav.Link>
           <Nav.Link href="citas">Citas</Nav.Link>
           <Nav.Link href="escalas">Escalas</Nav.Link>
-          <Nav.Link href="ingresos">Ingresos</Nav.Link>
+          <Nav.Link href="balances">Balances</Nav.Link>
           <Nav.Link href="cortes">Cortes</Nav.Link>
           <Nav.Link href="perfil">Perfil</Nav.Link>
 
@@ -76,7 +76,7 @@ export default function AdminHospitalApp() {
         <Route path="/escalas">
           <Escalas />
         </Route>
-        <Route path="/ingresos">
+        <Route path="/balances">
           <Ingresos />
         </Route>
         <Route path="/cortes">

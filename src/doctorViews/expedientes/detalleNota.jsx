@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Collapse, Button, Tabs, Row, Col, Modal, Space, Typography, message, Upload, Input, Tooltip, Form } from 'antd';
+import { Card, Collapse, Button, Tabs, Row, Col, Modal, Space, Typography, message, Upload, Input, Select, Form } from 'antd';
 import { getData, API, updateData, usuario } from '../../resources';
 import { PlusOutlined, ExperimentOutlined, DownloadOutlined, EditOutlined, InboxOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
 import { NuevaNota } from './nuevaNota';
 import DetalleReceta from './detalleReceta';
 import LastCita from './lastCita'
+import { diagnosticos } from '../../assets/diagnosticos2';
+import Soap from './soap'
 const { Panel } = Collapse;
 const { Paragraph } = Typography;
 const { TextArea } = Input;
 const { Dragger } = Upload;
+const { Option, OptGroup } = Select;
+
 
 
 export default function DetalleNota(props) {
@@ -29,11 +33,20 @@ export default function DetalleNota(props) {
     // End of Edit Nota Modal
     // Edit Nota fields
     const [editingEntradas, setEditingEntradas] = useState(false)
+    const [editingDiagnostico, setEditingDiagnostico] = useState(false)
 
-    const { _id: id_paciente } = props.paciente;
+    const id_paciente = props.paciente;
 
     useEffect(() => {
-        // console.log('Paciente received to detailNota: ', id_paciente)
+        console.log('Paciente received to detailNota: ', id_paciente)
+        id_paciente ?
+            getNotasData()
+            :
+            finishGet()
+    }, [])
+
+    useEffect(() => {
+        console.log('Paciente received to detailNota: ', id_paciente)
         id_paciente ?
             getNotasData()
             :
@@ -41,6 +54,7 @@ export default function DetalleNota(props) {
     }, [id_paciente])
 
     const getNotasData = () => {
+        console.log('satring notas for: ', id_paciente);
         getData(`notas/${id_paciente}`).then(rs => {
             console.log('NotasData: ', rs);
             rs.forEach((nt, i) => {
@@ -164,6 +178,8 @@ export default function DetalleNota(props) {
             children: <Row gutter={8}>
                 {/* Mitad de la pantalla para NOTA*/}
                 <Col span={12}>
+                    {/* Detalle nota and soap will come into enfermero nota */}
+                    {/* <Soap />
                     <Collapse bordered={false} style={{ backgroundColor: '#fff' }}>
                         <Panel header={<Tooltip title="Haga Click para mostrar u ocultar" placement="right"><span>Detalles de la nota</span></Tooltip>} key="1">
                             <Card >
@@ -177,7 +193,7 @@ export default function DetalleNota(props) {
                                 <Card.Grid style={NotaGridStyle}>Frecuencia Respiratoria : <Paragraph editable={{ onChange: (ns) => updateNota(nota, "frecuencia_respiratoria", ns) }} >{nota.edad}</Paragraph></Card.Grid>
                             </Card>
                         </Panel>
-                    </Collapse>
+                    </Collapse> */}
 
                     <Card title='Observaciones'>
                         <Paragraph editable={{ onChange: (ns) => updateNota(nota, "Observaciones", ns) }} >
@@ -186,9 +202,26 @@ export default function DetalleNota(props) {
                     </Card>
 
                     <Card title='Diagnostico'>
-                        <Paragraph editable={{ onChange: (ns) => updateNota(nota, "diagnostico", ns) }} >
-                            {nota.diagnostico}
-                        </Paragraph>
+
+                        {
+                            nota.diagnostico ? <div>{nota.diagnostico}</div> : <Select
+                                showSearch
+                                placeholder='Selecciona un diagnostico'
+                                style={{ width: 400 }}
+                                onChange={(newValue) => updateNota(nota, "diagnostico", newValue)}
+                            >
+                                {
+                                    Object.keys(diagnosticos).map((k) => {
+                                        return <OptGroup label={k}>
+                                            {Object.keys(diagnosticos[k]).map((sk) => {
+                                                return <Option value={diagnosticos[k][sk]}>{diagnosticos[k][sk]}</Option>
+                                            })}
+                                        </OptGroup>
+
+                                    })
+                                }
+                            </Select>
+                        }
                     </Card>
 
                     <Card title='Entradas'>

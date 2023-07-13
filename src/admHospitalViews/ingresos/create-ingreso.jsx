@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Modal, Form, Input, Select, message, DatePicker } from 'antd';
+import { Button, Modal, Form, Input, Select, message, DatePicker, InputNumber } from 'antd';
 import { getData, sendDataBody, updateData } from '../../resources';
 // ADMIN CREATE INGRESO
 export default function CreateBalance(props) {
+
+    const isCreating = !props.balanceForEdit || Object.keys(props.balanceForEdit).length === 0;
     const [pacientesData, setPacientesData] = useState([])
     const [loading, setLoading] = useState(true)
 
@@ -36,25 +38,17 @@ export default function CreateBalance(props) {
 
     // Form methods
     const onFinish = (values) => {
-        // if (Object.keys(props.balanceForEdit).length === 0 || !props.balanceForEdit) {
-        //     values.medico = props.medico;
-        //     values.tipo = 'ingreso';
-        //     values.fecha_hora = new Date();
-        // }
 
-        // values.fecha_hora = new Date();
-        values.tipo = 'ingreso';
+        values.tipo = props.tipo;
         console.log('Ready to send:', values);
         console.log('For Edit: ', props.balanceForEdit);
-        if (!props.balanceForEdit || Object.keys(props.balanceForEdit).length === 0) {
+        if (isCreating) {
             sendDataBody(`balances/add`, values).then((rs) => { console.log(rs); message.success(rs.message || rs.error) }).finally(() => { props.getIngresos(); props.setIsModalOpen(false) })
         } else {
             updateData(`/balances/update/${props.balanceForEdit._id}`, values).then((rs) => {
-                console.log(rs); props.setBalanceForEdit({}); props.setIsModalOpen(false);
+                props.getIngresos(); props.setBalanceForEdit({}); props.setIsModalOpen(false);
             })
         }
-
-
     };
 
     const onFinishFailed = (errorInfo) => { console.log('Failed:', errorInfo) };
@@ -62,7 +56,7 @@ export default function CreateBalance(props) {
     const handleDoctorChange = (value) => { getPacientesData(value) };
 
     return (
-        <Modal title={props.balanceForEdit ? "Editar Ingreso" : 'Agregar Ingreso'} open={props.isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
+        <Modal title={isCreating ? `Agregar ${props.tipo}` : `Editar ${props.tipo}`} open={props.isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
             footer={[
                 <Button type="primary" htmlType="submit" form='edit_balance'>
                     Guardar
@@ -81,21 +75,12 @@ export default function CreateBalance(props) {
                 autoComplete="off"
             >
                 <Form.Item label="Monto" name="monto" rules={[{ required: true, message: 'Ingresa el monto' }]} >
-                    <Input />
+                    <InputNumber style={{ width: '100%' }} />
                 </Form.Item>
 
-                <Form.Item label="Concepto" name="concepto" rules={[{ required: true, message: 'Ingresa el concepto' }]}>
-                    <Input />
+                <Form.Item label="abono" name="abono" rules={[{ required: true, message: 'Ingresa el abobo' }]} >
+                    <InputNumber style={{ width: '100%' }} />
                 </Form.Item>
-
-                <Form.Item label="Medico" name="medico" >
-                    <Select options={props.medicosData} onChange={handleDoctorChange} />
-                </Form.Item>
-
-                <Form.Item label="Paciente" name="paciente" >
-                    <Select options={pacientesData} />
-                </Form.Item>
-
 
                 <Form.Item label="Forma de Pago" name="forma_de_pago" >
                     <Select
@@ -117,47 +102,73 @@ export default function CreateBalance(props) {
                     />
                 </Form.Item>
 
-                <Form.Item
+                {isCreating && <div><Form.Item
                     label="Estado"
                     name="estado"
                     rules={[{ required: true, message: 'Ingresa el monto' }]}
                 >
-                    <Select
-                        // onChange={handleDoctorChange}
-                        options={[
-                            {
-                                value: 'pendiente',
-                                label: 'Pendiente',
-                            },
-                            {
-                                value: 'pagado',
-                                label: 'Pagado',
-                            },
-                            {
-                                value: 'pago parcial',
-                                label: 'Pago parcial',
-                            },
-                        ]}
+                    <Select options={[
+                        {
+                            value: 'pendiente',
+                            label: 'Pendiente',
+                        },
+                        {
+                            value: 'pagado',
+                            label: 'Pagado',
+                        },
+                        {
+                            value: 'pago parcial',
+                            label: 'Pago parcial',
+                        },
+                    ]}
                     />
                 </Form.Item>
 
-                <Form.Item
-                    label="Fecha y Hora"
-                    name="fecha_hora"
-                    rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]}
-                >
-                    {/* <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" /> */}
-                    <DatePicker showTime format="DD-MM-YYYY HH:mm" />
-                </Form.Item>
+                    <Form.Item label="Medico" name="medico" >
+                        <Select options={props.medicosData} onChange={handleDoctorChange} />
+                    </Form.Item>
 
-                <Form.Item
-                    wrapperCol={{
-                        offset: 8,
-                        span: 16,
-                    }}
-                >
 
-                </Form.Item>
+                    {
+                        // Para el caso que sea un ingreso sin cita
+                        (!props.balanceForEdit || Object.keys(props.balanceForEdit).length === 0) && <div>
+                            <Form.Item
+                                label="Concepto"
+                                name="concepto"
+                                rules={[{ required: true, message: 'Ingresa el concepto' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+
+                            {
+                                props.tipo === 'ingreso' && <Form.Item
+                                    label="Paciente"
+                                    name="paciente"
+                                >
+                                    <Select
+                                        options={pacientesData}
+                                    />
+                                </Form.Item>
+                            }
+
+                        </div>
+                    }
+
+
+
+
+
+
+
+
+                    <Form.Item
+                        label="Fecha y Hora"
+                        name="fecha_hora"
+                        rules={[{ required: true, message: 'Selecciona Fecha y Hora' }]}
+                    >
+                        <DatePicker showTime format="DD-MM-YYYY HH:mm" />
+                    </Form.Item> </div>}
+
             </Form>
         </Modal>
     )

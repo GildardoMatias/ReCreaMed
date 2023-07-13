@@ -20,7 +20,7 @@ export default function DetalleHistoria(props) {
     const finifhGet = () => { setHistoriaData([]); setHistoriaLoading(false); }
 
     const getHistoriaData = () => {
-        getData(`historia/${props.historia}`).then(rs => { console.log('DetalleHistoria: ', rs); setHistoriaData(rs); setHistoriaLoading(false) })
+        getData(`historia/${props.historia}`).then(rs => { setHistoriaData(rs); setHistoriaLoading(false) })
     }
 
     const gridStyle = {

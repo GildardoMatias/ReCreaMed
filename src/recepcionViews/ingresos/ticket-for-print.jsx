@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 'auto',
         marginRight: 10,
+
     },
     title: {
         fontSize: 20,
@@ -119,11 +120,12 @@ const styles = StyleSheet.create({
 });
 
 // Componente del ticket
-export default function Ticket({ ingresos, logo, hospital, seller, buyer }) {
-    console.log('Received for print ', ingresos)
+export default function Ticket({ ingreso, logo, hospital, seller, buyer }) {
+    console.log('Received for print ', ingreso)
+    console.log('Received logo ', logo)
 
-    const { usuario: { name: userName } = {} } = ingresos[0]
-    const { cita: { usuario: { name: citaName } = {} } = {} } = ingresos[0]
+    const { usuario: { name: userName } = {} } = ingreso
+    const { cita: { usuario: { name: citaName } = {} } = {} } = ingreso
 
     return <PDFViewer height={500} width={550}>
         <Document>
@@ -134,13 +136,13 @@ export default function Ticket({ ingresos, logo, hospital, seller, buyer }) {
                         <View>
                             <Text style={styles.title}>Nota de Venta</Text>
                             <Text style={styles.company}>{hospital} </Text>
-                            <Text style={styles.company}>{new Date(ingresos[0].createdAt).toLocaleString()} </Text>
+                            <Text style={styles.company}>{new Date(ingreso.createdAt).toLocaleString()} </Text>
                         </View>
                     </View>
                     <View style={styles.sellerBuyerInfo}>
                         <View>
                             <Text style={styles.infoTitle}>Medico:</Text>
-                            <Text style={styles.infoText}>{ingresos[0].doctor.name}</Text>
+                            <Text style={styles.infoText}>{ingreso.doctor.name}</Text>
                         </View>
                         <View>
                             <Text style={styles.infoTitle}>Paciente:</Text>
@@ -155,20 +157,21 @@ export default function Ticket({ ingresos, logo, hospital, seller, buyer }) {
                             <Text style={styles.tableColHeader}>Precio Unitario</Text>
                             <Text style={styles.tableColHeader}>Subtotal</Text>
                         </View>
-                        {ingresos.map((item) => (
-                            <View style={styles.tableRow} key={item.id}>
-                                <Text style={styles.tableCol}>{item.concepto}</Text>
-                                <Text style={styles.tableCol}>1</Text>
-                                <Text style={styles.tableCol}>${item.monto.toFixed(2)}</Text>
-                                <Text style={styles.tableCol}>
-                                    {/* ${(item.monto * item.quantity).toFixed(2)} */}
-                                    ${item.monto.toFixed(2)}
-                                </Text>
-                            </View>
-                        ))}
+                        {/* {ingresos.map((item) => ( */}
+                        <View style={styles.tableRow} key={ingreso.id}>
+                            <Text style={styles.tableCol}>{ingreso.concepto}</Text>
+                            <Text style={styles.tableCol}>1</Text>
+                            <Text style={styles.tableCol}>${ingreso.monto.toFixed(2)}</Text>
+                            <Text style={styles.tableCol}>
+                                {/* ${(item.monto * item.quantity).toFixed(2)} */}
+                                ${ingreso.monto.toFixed(2)}
+                            </Text>
+                        </View>
+                        {/* ))} */}
                     </View>
                     <Text style={styles.total}>
-                        Total: ${ingresos.reduce((acc, item) => acc + item.monto * 1, 0).toFixed(2)}
+                        Total: ${ingreso.monto}
+                        {/* Total: ${ingresos.reduce((acc, item) => acc + item.monto * 1, 0).toFixed(2)} */}
                     </Text>
                 </View>
             </Page>

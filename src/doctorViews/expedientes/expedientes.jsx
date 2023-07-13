@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Space } from 'antd';
-import { API } from '../../resources';
+import { Button, Space, message } from 'antd';
+import { API, sendDataBody } from '../../resources';
 import DetalleNota from './detalleNota'
 import DetalleHistoria from './detalleHistoria';
 // import html2canvas from 'html2canvas';
@@ -8,7 +8,7 @@ import DetalleHistoria from './detalleHistoria';
 
 
 export default function Expedientes(props) {
-    const [expedientesData, setExpedientesData] = useState([]);
+    const [expedientesData, setExpedientesData] = useState(null);
     const [expedientesLoading, setExpedientesLoading] = useState(true);
     const [historia, setHistoria] = useState("");
     const [notas, setNotas] = useState("");
@@ -21,11 +21,11 @@ export default function Expedientes(props) {
 
 
     const getExpedientesData = (id_paciente) => {
-        console.log('Received patient, ', id_paciente)
+        console.log('Received patient exp doc ', id_paciente)
         fetch(API + `expedientes/${id_paciente}`)
             .then(response => response.json())
             .then(data => {
-                // console.log("GetExpData: ", data);
+                console.log("GetExpData: ", data);
                 setExpedientesData(data);
                 if (typeof data != "undefined") {
                     setNotas(data.notas); setHistoria(data.historia);
@@ -47,6 +47,51 @@ export default function Expedientes(props) {
     //         ;
     // }
 
+
+    async function addHistoria() {
+        // return await fetch(API + 'historias/add', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         historial: "Historia clinica al " + new Date()
+        //     })
+        // }).then(res => res.json())
+        //     .then(response => {
+        //         console.log('Story Created: ', response);
+        //         return response
+        //     })
+        //     .catch(error => console.error('Error:', error))
+
+
+        return sendDataBody('historias/add', {
+            historial: "Historia clinica al " + new Date()
+        })
+    }
+
+    const createPAtientData = async (usr) => {
+        const historia = await addHistoria();
+        const postBody = {
+            usuario: usr,
+            historia: historia.id_historia,
+            notas: [],
+            recetas: []
+        }
+        console.log('postBodyForExpedient: ', postBody);
+
+        sendDataBody('expedientes/add', postBody).then(response => {
+            console.log('Success:', response);
+            message.success(response.message || response.error);
+            if (response.message && response.message === 'Expediente creado correctamente') {
+                getExpedientesData(id_paciente)
+            }
+        })
+
+    }
+
+
+
     if (expedientesLoading) return <p>Cargando...</p>
 
     return <div id='expedient-export' >
@@ -55,9 +100,23 @@ export default function Expedientes(props) {
 
         <DetalleHistoria historia={historia} />
 
-        <DetalleNota notas={notas} id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={props.paciente} />
+        
+
+        {
+            expedientesData ?
+                <DetalleNota id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={id_paciente} />
+                :
+                <div style={{}}>
+                    Sin expediente
+                    <br />
+                    <br />
+                    <Button onClick={() => { createPAtientData(id_paciente) }}>Crear Expediente Ahora</Button>
+                </div>
+        }
 
         {/* <Button onClick={printDocument}>Exportar a pdf</Button> */}
+
+
 
     </div>;
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Tag, Button, Typography, Modal } from 'antd';
+import { CheckCircleTwoTone } from '@ant-design/icons'
 import { deleteData, getData, usuario } from '../../resources';
 import CreateBalance from './create-balance';
 import Ticket from './ticket-for-print';
@@ -8,7 +9,6 @@ const { Text } = Typography;
 
 export default function Balances() {
     const [balancesData, setBalancesData] = useState([])
-    const [pacientesData, setPacientesData] = useState({})
 
     // Modal For Edit Ingreso
     const [ingresoForEdit, setIngresoForEdit] = useState(null)
@@ -27,22 +27,17 @@ export default function Balances() {
     const handleTicketOk = () => { setIsTicketModalOpen(false) }
     const handleTicketCancel = () => { setIsTicketModalOpen(false) }
 
-    useEffect(() => { return getPacientesData() }, [])
+    useEffect(() => { getBalancesData() }, [])
 
-    const getPacientesData = () => { getData(`mispacientes/${usuario._id}`).then((rs) => { setPacientesData(rs); getBalancesData(); console.log('pacientes', rs); }) }
     const getBalancesData = () => { getData(`balances/medico/${usuario._id}`).then((rs) => { setBalancesData(rs.reverse()); console.log('balances', rs); }) }
 
-    const MatchPatient = ({ paciente }) => {
-        const patient = pacientesData.find((p) => paciente === p._id)
-        return <div>{patient ? patient.name : <Text disabled>Paciente eliminado o no existente</Text>} <p style={{ fontSize: 10 }}>Tomado de la cita</p></div>
-    }
 
     const columns = [
         {
             title: 'Fecha y Hora',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
-            render: (_, { createdAt }) => { return <>{new Date(createdAt).toLocaleString()}</> }
+            dataIndex: 'fecha_hpra',
+            key: 'fecha_hora',
+            render: (_, { fecha_hora }) => { return <>{new Date(fecha_hora).toLocaleString()}</> }
         },
         {
             title: 'Tipo',
@@ -57,13 +52,27 @@ export default function Balances() {
             title: 'Monto',
             dataIndex: 'monto',
             key: 'monto',
+            render: (_, { monto }) => `$ ${monto}`
+        },
+        {
+            title: 'Abono',
+            dataIndex: 'abono',
+            key: 'abono',
+            render: (_, { abono }) => { return abono && <>${abono}</> }
+        },
+        {
+            title: 'Adeudo',
+            dataIndex: 'adeudo',
+            key: 'adeudo',
+            render: (_, record) => { return <>${record.monto - record.abono}</> }
+
         },
         {
             title: 'Forma de pago',
             key: 'forma_de_pago',
             dataIndex: 'forma_de_pago',
             render: (_, { forma_de_pago }) => {
-                let color = forma_de_pago === 'efectivo' ? 'geekblue' : 'green';
+                let color = forma_de_pago === 'efectivo' ? 'green' : 'geekblue';
                 return <Tag color={color} >{forma_de_pago.toUpperCase()}</Tag>
             },
         },
@@ -75,10 +84,18 @@ export default function Balances() {
             //     return cita ? <MatchPatient paciente={cita.usuario} /> : <Text disabled>Sin Paciente</Text>
             // },
             render: (_, record) => {
-                if (record.cita) return <MatchPatient paciente={record.cita.usuario} />
+                // if (record.cita) return <MatchPatient paciente={record.cita.usuario} />
+                if (record.cita) return <div style={{ display: 'flex', flexDirection: 'column' }}>{record.cita.usuario.name} <span style={{ fontSize: 9 }}>Tomado de la cita</span></div> //when populate is ready
                 else if (record.paciente) return <>{record.paciente.name}</>
-                else return <Text type="secondary"> Sin Paciente</Text>
+                else return <Text type="secondary"> Sin Paciente </Text>
             },
+        },
+        {
+            title: 'Factura',
+            key: 'Factura',
+            dataIndex: 'factura',
+            render: (_, { factura }) => { return factura && <CheckCircleTwoTone /> }
+
         },
         {
             title: 'Estado',

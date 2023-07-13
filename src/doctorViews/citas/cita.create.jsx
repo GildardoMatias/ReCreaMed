@@ -6,8 +6,8 @@ import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/i
 
 export function CreateCitaForm(props) {
 
-    const { configuracion } = usuario;
-    const { costo_cita = 0 } = configuracion;
+    const { configuracion : { costo_cita = 0 } } = usuario;
+    // const = configuracion;
 
     myHospitals.forEach(h => { h.value = h._id; h.label = h.nombre; });
 
@@ -19,11 +19,11 @@ export function CreateCitaForm(props) {
     // Body of cita
     const [isOnline, setIsOnline] = useState(false)
     const [hospital, setHospital] = useState(null)
+    const [usesCostoBase, setUsesCostoBase] = useState(false)
 
     const [costo, setCosto] = useState(0)
 
     useEffect(() => {
-        setCosto(costo_cita)
         getPacientesOfDoctor()
     }, [])
 
@@ -57,7 +57,7 @@ export function CreateCitaForm(props) {
         } else {
             sendDataBody('citas/add', values).then((response) => {
                 message.success(response.message || response.error);
-                response.message && response.message === 'Cita creada correctamente' ? createBalance(response.id_nueva_cita) : message.error('No se pudo crear registro de ingreso')
+                response.message && response.message === 'Cita creada correctamente' ? createBalance(response.id_nueva_cita, values.fecha_hora) : message.error('No se pudo crear registro de ingreso')
                 console.log(response)
             }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
         }
@@ -65,14 +65,14 @@ export function CreateCitaForm(props) {
 
     };
     // Create the respective balance for cita
-    const createBalance = (_cita) => {
+    const createBalance = (_cita, _fecha_hora) => {
         const balanceBody = {
             tipo: 'ingreso',
             medico: usuario._id,
             cita: _cita,
-            monto: costo,
+            monto: usesCostoBase ? (costo + costo_cita) : costo,
             forma_de_pago: 'efectivo',
-            fecha_hora: props.fecha_hora,
+            fecha_hora: _fecha_hora,
             estado: 'pendiente'
         }
         console.log('Balance ready to send: ', balanceBody)
@@ -91,13 +91,18 @@ export function CreateCitaForm(props) {
         // const { configuracion } = usuario;
         // const { costo_cita } = configuracion;
 
-        const monto = costo_cita + value;
-        setCosto(monto)
+        // const monto = costo_cita + value;
+        setCosto(value)
         console.log(`selected ${value}`);
     };
     const onSwitch = (checked) => {
         console.log(`switch to ${checked}`);
         setIsOnline(checked)
+    };
+    const onSwitchCosoBase = (checked) => {
+        // if(checked)se
+        console.log(`switch to ${checked}`);
+        setUsesCostoBase(checked)
     };
 
     const timeOptions = [
@@ -150,8 +155,8 @@ export function CreateCitaForm(props) {
 
 
 
-        <Form.Item label='costo de la cita'>
-            <span>{costo_cita}</span>
+        <Form.Item label={`costo de la cita $${costo_cita}`} >
+            <Switch onChange={onSwitchCosoBase} />
         </Form.Item>
 
         <Form.Item
@@ -161,7 +166,7 @@ export function CreateCitaForm(props) {
             }}
         >
             <div className='fila'>
-                <h6>Costo Total: {costo} </h6>
+                <h6>Costo Total: ${usesCostoBase ? (costo + costo_cita) : costo} </h6>
             </div>
         </Form.Item>
 
