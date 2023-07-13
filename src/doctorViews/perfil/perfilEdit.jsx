@@ -290,6 +290,13 @@ export default function PerfilEdit(props) {
                         >
                           <Input placeholder="Carrera" />
                         </Form.Item>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'cedula']}
+                          rules={[{ required: false, message: 'Ingresa la cedula' }]}
+                        >
+                          <Input placeholder="Cedula" />
+                        </Form.Item>
                         <MinusCircleOutlined onClick={() => remove(name)} />
                       </Space>
                     ))}

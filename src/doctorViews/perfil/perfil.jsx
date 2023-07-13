@@ -8,9 +8,7 @@ import { FormOutlined } from '@ant-design/icons';
 import PerfilEdit from './perfilEdit';
 import Configuration from './configuration';
 
-const cardStyle = {
-    marginTop: 6
-}
+
 export default function Perfil() {
 
     const [profileData, setProfileData] = useState([]);
@@ -39,42 +37,43 @@ export default function Perfil() {
         setEditing(true);
     }
 
-    // const editPerfil = async (p) => {
-
-    // }
+    const MiniCard = ({ universidad, carrera, cedula = '' }) => {
+        return <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12, textAlign: 'left' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '30%', borderBottom: 'solid 2px #f5f6f8'  }}><div className='desc'>Universidad:</div><div>{universidad}</div> </div>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '30%', borderBottom: 'solid 2px #f5f6f8'  }}><div className='desc'>Carrera:</div><div>{carrera}</div></div>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '30%', borderBottom: 'solid 2px #f5f6f8'  }}><div className='desc'>Cedula:</div><div>{cedula}</div></div>
+        </div>
+    }
 
     const DetailsProfile = () => {
         // Two columns of 8 spaces with 4 spaces around
         return <div>
-            <Row>
-                <Col span={8} offset={4}>
-                    {
-                        // Profile Pic
-                        profileData.avatar.length > 9 ?
-                            <Image style={{ borderRadius: 12 }} width={256} src={'https://api.recreamed.com/images/' + profileData.avatar} alt='medic-profile-pic' />
-                            :
-                            <Avatar size={128} icon={<UserOutlined />} className='btnIconCentered' />
-                    }
-                    <br />
-                    <br />
-                    <br />
-                    <p className='nombre'>{profileData.name} </p>
-                    <p className='datos'>{profileData.rol} </p>
-                    {
-                        profileData.especialidad && <p className='datos'>{profileData.especialidad} </p>
-                    }
-                    <p className='datos'>{profileData.email} </p>
-                    <p className='datos'>{profileData.telefono} </p>
+
+            <Row gutter={8} style={{ backgroundColor: '#f5f6f8', borderRadius: 12, padding: 8 }}>
+                <Col span={8} >
+                    <Card style={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
+                        {
+                            // Profile Pic
+                            profileData.avatar.length > 9 ?
+                                <Image style={{ borderRadius: 12 }} width={256} src={'https://api.recreamed.com/images/' + profileData.avatar} alt='medic-profile-pic' />
+                                :
+                                <Avatar size={128} icon={<UserOutlined />} className='btnIconCentered' />
+                        }
+                        <br />
+                        <br />
+                        <br />
+                        <p className='nombre'>{profileData.name} </p>
+                        <p className='datos'>{profileData.rol} </p>
+                        {
+                            profileData.especialidad && <p className='datos'>{profileData.especialidad} </p>
+                        }
+                        <p className='datos'>{profileData.email} </p>
+                        <p className='datos'>{profileData.telefono} </p>
+                    </Card>
                 </Col>
-                {/* <Col span={8}>
-                <p>Estado: {profileData.estado}</p>
-                <p>Municipio: {profileData.municipio}</p>
-                <p>Colonia: {profileData.colonia}</p>
-                <p>Calle: {profileData.calle}</p>
-                <p>Codigo Postal:{profileData.codigopostal} </p>
-            </Col> */}
-                <Col span={8}>
-                    <Card title='Horarios' size='small' >
+
+                <Col span={7}>
+                    <Card title='Horarios' size='small' style={{ height: '100%' }} >
                         {
                             profileData.horarios.map((h) => {
                                 return <Card.Grid style={{ width: '100%' }} >
@@ -86,19 +85,24 @@ export default function Perfil() {
                             })
                         }
                     </Card>
-                    <Card title='Universidades' size='small' style={cardStyle}>
+
+                    {/* <Card title='Datos Academicos' size='small' style={cardStyle}>
+                        <p><span className='desc'>Certificacion:</span> {profileData.certificacion} </p>
+                        <p><span className='desc'>Cedula:</span> {profileData.cedula} </p>
+                    </Card> */}
+                </Col>
+
+                <Col span={9}>
+                    <Card title='Universidades' size='small' style={{ height: '100%' }}>
 
                         {
                             profileData.universidades && profileData.universidades.map((u) => {
-                                return <p><span className='desc'>Universidad:</span> {u.universidad} <span className='desc'>Carrera:</span> {u.carrera} </p>
+                                return <MiniCard {...u} />
                             })
                         }
                     </Card>
-                    <Card title='Datos Academicos' size='small' style={cardStyle}>
-                        <p><span className='desc'>Certificacion:</span> {profileData.certificacion} </p>
-                        <p><span className='desc'>Cedula:</span> {profileData.cedula} </p>
-                    </Card>
                 </Col>
+
             </Row>
             <br />
             <Configuration id_usuario={usuario._id} correo={usuario.email} />
@@ -113,7 +117,7 @@ export default function Perfil() {
                 <Button onClick={() => editPerfil(profileData)} type="primary" shape="circle" icon={<FormOutlined />} className='btnIconCentered' />
             </Space>
             {isLoading ? <Loading /> :
-                <Card style={{ borderRadius: 16 }}>
+                <div>
                     {
                         editing ?
 
@@ -123,7 +127,7 @@ export default function Perfil() {
                             </> :
                             <DetailsProfile />
                     }
-                </Card>
+                </div>
             }
         </div>
     )

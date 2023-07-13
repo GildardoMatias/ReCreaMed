@@ -45,7 +45,7 @@ export default function MainPacientes() {
 
 
   const onChange = (data) => {
-    console.log('onchangeSearchInput', data)
+    // console.log('onchangeSearchInput', data)
     const found = pacientesData.find(p => p._id === data)
     setActivePatient(found)
   };

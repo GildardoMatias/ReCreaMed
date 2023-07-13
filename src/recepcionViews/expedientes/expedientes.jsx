@@ -60,5 +60,9 @@ export default function Expedientes(props) {
 
         <Button onClick={printDocument}>Exportar a pdf</Button>
 
+        <div>
+            SOAP
+        </div>
+
     </div>;
 }

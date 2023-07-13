@@ -38,11 +38,10 @@ export function CreateCitaForm(props) {
 
     // Form Methods
     const onFinish = (values) => {
-        const tipo_pago = values.tipo_pago;
         values.sucursal = props.hospital;
         delete values.tratamiento;
         values.servicio = values.servicio.title;
-        delete values.tipo_pago;
+        // delete values.servicio;
 
         // Handle if its updating or creating cita
         console.log('cita ready', values)
@@ -55,18 +54,18 @@ export function CreateCitaForm(props) {
         } else {
             sendDataBody('citas/add', values).then((response) => {
                 message.success(response.message || response.error);
-                createBalance(response.id_nueva_cita, values.medico, values.fecha_hora, tipo_pago, values.servicio)
+                createBalance(response.id_nueva_cita, values.medico, values.fecha_hora, values.servicio)
             }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
         }
     }
 
-    const createBalance = (_cita, medico, _fecha_hora, tipo_pago, _concepto) => {
+    const createBalance = (_cita, medico, _fecha_hora, _concepto) => {
         const balanceBody = {
             tipo: 'ingreso',
             medico: medico,
             cita: _cita,
             monto: costo,
-            forma_de_pago: tipo_pago,
+            forma_de_pago: 'efectivo',
             fecha_hora: _fecha_hora,
             estado: 'pendiente',
             concepto: _concepto
@@ -160,12 +159,6 @@ export function CreateCitaForm(props) {
         { label: 'Cinco Horas y Media', value: 300 },
     ]
 
-    const paymentOptions = [
-        { value: 'efectivo', label: 'Efectivo' },
-        { value: 'tarjeta', label: 'Tarjeta' },
-        { value: 'transferencia', label: 'Transferencia' },
-    ]
-
     return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
         initialValues={props.cita ? props.cita : { isOnline: false, tratamiento: 'Sin servicio', fecha_hora: props.fecha_hora, duracion: 60 }}>
 
@@ -199,10 +192,6 @@ export function CreateCitaForm(props) {
 
         <Form.Item label="Servicio" name="servicio" rules={[{ required: true, message: 'Selecciona Medico' }]} >
             <Select options={servicios} onChange={handleServicioChange} labelInValue />
-        </Form.Item>
-
-        <Form.Item label="Tipo de pago" name="tipo_pago" rules={[{ required: true, message: 'Selecciona tipo de pago' }]} >
-            <Select options={paymentOptions} />
         </Form.Item>
 
         <Form.Item label={`costo de la cita $${costoBaseCita}`} >

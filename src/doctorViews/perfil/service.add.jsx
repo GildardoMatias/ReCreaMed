@@ -54,12 +54,16 @@ export default function AddService({ isOpen, handleClose, service, profileData, 
                 <div className='fila'>
                     <Form.Item label="Nuevo Servicio" style={{ marginBottom: 0 }} >
 
-                        <Form.Item name="tratamiento" rules={[{ required: true }]} style={{ display: 'inline-block', width: 'calc(70% - 8px)' }} >
+                        <Form.Item name="tratamiento" label="Tratamiento" rules={[{ required: true }]}  >
                             <Input placeholder="Ingresa Descripcion" />
                         </Form.Item>
 
+                        <Form.Item name="observaciones" label="Observaciones" rules={[{ required: false }]}  >
+                            <Input placeholder="Ingresa Observaciones" />
+                        </Form.Item>
+
                         <Form.Item
-                            name="costo" rules={[{ required: true }]} style={{ display: 'inline-block', width: 'calc(30% - 8px)', margin: '0 8px' }} >
+                            name="costo" rules={[{ required: true }]}  >
                             <InputNumber placeholder="Costo" />
                         </Form.Item>
 

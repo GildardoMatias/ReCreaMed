@@ -44,8 +44,8 @@ export default function HospitalTab(props) {
             key: 'avatar',
             render: (_, { avatar }) => {
                 return avatar.length > 9 ?
-                    <img width={64} src={'https://api.recreamed.com/images/' + avatar} alt='ProfilePic' /> :
-                    <Avatar size={64} className='btnIconCentered' icon={<UserOutlined />} />
+                    <img width={48} src={'https://api.recreamed.com/images/' + avatar} alt='ProfilePic' /> :
+                    <Avatar size={48} className='btnIconCentered' icon={<UserOutlined />} />
             }
         },
         {
@@ -172,11 +172,12 @@ export default function HospitalTab(props) {
             onChange={handleSearch}
             addonAfter={<SearchOutlined />}
         />
-
-        <Table dataSource={pacientesDataFiltered} columns={columns} pagination={false} />
+        <div className='borderedTable'>
+            <Table dataSource={pacientesDataFiltered} columns={columns} pagination={false} size='small' />
+        </div>
 
         <Modal width={800} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
             <DetalleUsuario />
         </Modal>
-    </div>
+    </div >
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Popconfirm } from "antd";
-import { deleteData, getData } from '../../resources';
+import { deleteData, getData, sendDataBody, ids_hospitales } from '../../resources';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
@@ -24,6 +24,7 @@ export default function HospitalTab(props) {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
     // for pass to create cita model
     const [pacientesData, setPacientesData] = useState([])
+    const [medicosData, setMedicosData] = useState([])
 
     const findPatientsOfMyMedicos = (pacientesData) => {
         let dl = [];
@@ -45,7 +46,7 @@ export default function HospitalTab(props) {
         })
     }
 
-    useEffect(() => { getPacientesData(); getCitasData() }, [])
+    useEffect(() => {  getPacientesData(); getCitasData() }, [])
 
     const getCitasData = () => {
         getData(`citas/sucursal/${props.id_hospital}`).then((rs) => {
@@ -83,6 +84,7 @@ export default function HospitalTab(props) {
     // Delete button
     const confirm = (e) => {
         deleteData(`citas/remove/${citaForEdit._id}`).then((rs) => { getCitasData(); handleCancel() })
+        deleteData(`balances/remove/cita/${citaForEdit._id}`)
     };
 
     const cancel = (e) => { };
@@ -118,17 +120,17 @@ export default function HospitalTab(props) {
 
         <Modal title="Detalles Cita" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
             footer={[
-                <Popconfirm
-                    title="Eliminar Cita"
-                    description="Seguro que quiere eliminar la cita?"
-                    onConfirm={confirm}
-                    onCancel={cancel}
-                    okText="Si"
-                    cancelText="No"
-                >
-                    <Button danger>Eliminar</Button>
-                </Popconfirm>
-                ,
+                // <Popconfirm
+                //     title="Eliminar Cita"
+                //     description="Seguro que quiere eliminar la cita?"
+                //     onConfirm={confirm}
+                //     onCancel={cancel}
+                //     okText="Si"
+                //     cancelText="No"
+                // >
+                //     <Button danger>Eliminar</Button>
+                // </Popconfirm>
+                //,
 
                 <Button onClick={() => setEditingCita(!editingCita)}>{editingCita ? "Cancelar" : "Modificar"}</Button>,
                 <Button onClick={handleCancel}>Cerrar</Button>
@@ -151,6 +153,6 @@ export default function HospitalTab(props) {
             }
         </Modal>
 
-        <CreateCita setIsModalOpen={setIsCreateModalOpen} isOpenModal={isCreateModalOpen} hospital={props.id_hospital} fecha_hora={fecha_hora} getCitasData={getCitasData} pacientesData={pacientesData} />
+        <CreateCita setIsModalOpen={setIsCreateModalOpen} isOpenModal={isCreateModalOpen} hospital={props.id_hospital} fecha_hora={fecha_hora} getCitasData={getCitasData} pacientesData={pacientesData} setEditingCita={setEditingCita}/>
     </div>
 }

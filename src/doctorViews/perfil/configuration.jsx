@@ -46,6 +46,11 @@ export default function Configuration({ id_usuario, correo }) {
             key: 'name',
         },
         {
+            title: 'Observaciones',
+            dataIndex: 'observaciones',
+            key: 'observaciones',
+        },
+        {
             title: 'Costo',
             dataIndex: 'costo',
             key: 'costo',
