@@ -1,17 +1,17 @@
-costo base editable y opcional
+-costo base editable y opcional ncomple
 
-cideralt no citas
-casisme no servicios
+-cideralt no citas
+-casisme no servicios
 
-admini edita costo desde balance
+admini edita costo desde balance -> selec medc erccle medc lances
 
-recepc edita estado
+recepc edita estado-> selec medc erccle medc lances
 
 recepcion edita estado del ingreso no la cantidaad
 
-agregar monto total - abobo  - adeudo
+agregar monto total - abobo  - adeudo -> alances medc
 
-generate enlace desde todos los pacientes
+generate enlace desde todos los pacientes -> Route paams om paens o escalas
 
 servicio no obligatorio en edit cita for medic recept
 

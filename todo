@@ -1,31 +1,33 @@
+WHEN UPLOAD BALANCES WITH NEW POPULATE, CHANGE MATCH PATIENT FOR RECORD.CITA.USUARIO.NAME
+
 PRIORIDAD CORTES
 
-costo base editable y opcional
+--costo base editable y opcional
+--call patients from cita to ingresos as medico match
+--cideralt no citas
+--casisme no servicios
 
-cideralt no citas
-casisme no servicios
+--admini edita costo desde balance
 
-admini edita costo desde balance
+--recepc edita estado 
 
-recepc edita estado
-
-recepcion edita estado del ingreso no la cantidaad
+--recepcion edita estado del ingreso no la cantidaad
 
 agregar monto total - abobo  - adeudo
 
 generate enlace desde todos los pacientes
 
-servicio no obligatorio en edit cita for medic recept
+--servicio no obligatorio en edit cita for medic recept
 
-cantidad total a lado de medico
+-- cantidad total a lado de medico
 
 1st nota se crea auto
 
-indicar conceptos que se estan cobrabndo
+--indicar conceptos que se estan cobrabndo
 
-editar cada concepto con un click al cobrar cita
+--editar cada concepto con un click al cobrar cita
 
-servicio medico + observaciones
+--servicio medico + observaciones
 
 cedula de cada carrera certificacion de cada carrera opcional y mostrar en la receta
 

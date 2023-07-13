@@ -21,13 +21,34 @@ export default function LastCita(props) {
         updateData(`balances/update/${lastBalance._id}`, newLastBalance).then(getCitasData)
     }
 
+    const getLastCta = (eventos) => {
+        var fechaActual = new Date();
+
+        // Filtrar los eventos que tienen una fecha menor o igual a la fecha actual
+        var eventosPasados = eventos.filter(function (evento) {
+            var fechaEvento = new Date(evento.fecha_hora);
+            return fechaEvento <= fechaActual;
+        });
+
+        // Ordenar los eventos pasados por fecha de forma descendente
+        eventosPasados.sort(function (a, b) {
+            var fechaA = new Date(a.fecha_hora);
+            var fechaB = new Date(b.fecha_hora);
+            return fechaB - fechaA;
+        });
+
+        // Obtener el evento más reciente
+        return eventosPasados[0]
+    }
+
     const getCitasData = () => {
         getData(`citas/${props.paciente}`).then((rs) => {
-            console.log('lsat cita', rs.at(-1))
-            setCita(rs.at(-1))
-            return rs.at(-1)
+            const ultimaCita = getLastCta(rs);
+            console.log('lsat cita', ultimaCita)
+            setCita(ultimaCita)
+            return ultimaCita
         }).then((last) => {
-            return getData('balances/cita/' + last._id)
+            return getData('balances/cita/' + last?._id)
         }).then((bl) => {
             console.log('balance', bl)
             setLastBalance(bl[0])
@@ -37,8 +58,10 @@ export default function LastCita(props) {
     const LastBalance = () => {
         return <div>
             {
-                lastBalance.monto ?
+                lastBalance && lastBalance.monto ?
                     (
+                        // <div >
+
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', columnGap: '10px' }}>
                             <DollarOutlined style={{}} />
                             Costo:
@@ -51,6 +74,10 @@ export default function LastCita(props) {
                                 {lastBalance.monto}
                             </Paragraph>
                         </div>
+                        // <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', columnGap: '10px' }}>
+                        //     <CalendarOutlined /> {new Date(lastBalance.createdAt).toLocaleDateString()}
+                        // </div>
+                        // </div>
                     ) : (
                         <p>Sin Ultimo Balance</p>
                     )
@@ -66,7 +93,7 @@ export default function LastCita(props) {
             <Card>
                 {
                     cita ? <div>
-                        <h6>Ultima cita</h6>
+                        <h6>Cita más reciente</h6>
                         <ul>
                             <li className='btnIconCentered'><CalendarOutlined style={{ marginRight: 8 }} /> Fecha: {new Date(cita.fecha_hora).toLocaleDateString()}</li><br />
 
@@ -75,7 +102,7 @@ export default function LastCita(props) {
                             <LastBalance />
 
                         </ul>
-                    </div> : <h6>Sin citas registradas</h6>
+                    </div> : <h6>Sin cita recente registrada</h6>
                 }
 
             </Card>
