@@ -4,6 +4,8 @@ import { sendDataBody, updateData, ids_hospitales } from '../../resources';
 
 export function CreateCitaForm(props) {
 
+    const isCreating = !props.cita || Object.keys(props.cita).length === 0;
+
     // const [medicosLoading, setMedicosLoading] = useState(true)
     const [medicos, setMedicos] = useState([])//Set Medicos for select
     // const [medicosData, setMedicosData] = useState([]) // List of all Medicos
@@ -201,24 +203,30 @@ export function CreateCitaForm(props) {
             <Select options={servicios} onChange={handleServicioChange} labelInValue />
         </Form.Item>
 
-        <Form.Item label="Tipo de pago" name="tipo_pago" rules={[{ required: true, message: 'Selecciona tipo de pago' }]} >
-            <Select options={paymentOptions} />
-        </Form.Item>
+        {
+            isCreating && <div>
 
-        <Form.Item label={`costo de la cita $${costoBaseCita}`} >
-            <Switch onChange={onSwitchCosoBase} />
-        </Form.Item>
+                <Form.Item label="Tipo de pago" name="tipo_pago" rules={[{ required: true, message: 'Selecciona tipo de pago' }]} >
+                    <Select options={paymentOptions} />
+                </Form.Item>
 
-        <Form.Item
-            wrapperCol={{
-                offset: 8,
-                span: 16,
-            }}
-        >
-            <div className='fila'>
-                <h6>Costo Total: ${usesCostoBase ? (costo + costoBaseCita) : costo} </h6>
+                <Form.Item label={`costo de la cita $${costoBaseCita}`} >
+                    <Switch onChange={onSwitchCosoBase} />
+                </Form.Item>
+
+                <Form.Item
+                    wrapperCol={{
+                        offset: 8,
+                        span: 16,
+                    }}
+                >
+                    <div className='fila'>
+                        <h6>Costo Total: ${usesCostoBase ? (costo + costoBaseCita) : costo} </h6>
+                    </div>
+                </Form.Item>
+
             </div>
-        </Form.Item>
+        }
 
         {
             // Only if updating cita

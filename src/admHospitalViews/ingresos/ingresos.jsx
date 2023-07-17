@@ -55,7 +55,7 @@ export default function Ingresos() {
                 // Doctor is for details, medico is for edit. Usuario is for details, paciente id for Edit
                 ingresos.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
                 setIngresosData(
-                    ingresos.sort((a, b) => a.fecha_hora < b.fecha_hora)
+                    ingresos.sort((a, b) => a.fecha_hora > b.fecha_hora)
                 )
                 setLoading(false)
             })
@@ -98,8 +98,8 @@ export default function Ingresos() {
             dataIndex: 'fecha_hora',
             key: 'fecha_hora',
             render: (_, { fecha_hora }) => { return <>{new Date(fecha_hora).toLocaleString()}</> },
-            defaultSortOrder: 'descend',
-            sorter: (a, b) => a.fecha_hora > b.fecha_hora,
+            // defaultSortOrder: 'descend',
+            // sorter: (a, b) => a.fecha_hora > b.fecha_hora,
         },
         {
             title: 'Monto',

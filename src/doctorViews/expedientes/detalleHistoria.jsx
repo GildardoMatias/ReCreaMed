@@ -77,7 +77,7 @@ export default function DetalleHistoria(props) {
                     </>
                     :
                     <div>
-                        <p style={{ whiteSpace: 'pre', textAlign: 'left' }}>{historiaData[0].historial}</p>
+                        <span style={{ whiteSpace: 'pre-line', textAlign: 'left', wordWrap:'normal'}}>{historiaData[0].historial}</span>
                         <Button className='btnIconCentered' onClick={() => setEditing(true)} size='small' disabled={!props.historia} type="primary" shape="circle" icon={<FormOutlined className='sizedIcon' />} style={{ position: 'absolute', bottom: 18, right: 18 }} ghost/>
                     </div>
             }</Card>
@@ -98,3 +98,4 @@ export default function DetalleHistoria(props) {
         <br />
     </div>
 }
+
