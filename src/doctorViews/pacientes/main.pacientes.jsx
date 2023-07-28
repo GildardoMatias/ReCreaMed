@@ -83,14 +83,11 @@ export default function MainPacientes() {
         <Col style={{ marginLeft: 12 }}><Button className='btnIconCentered' style={{ marginTop: 4 }} onClick={() => setIsRegisterModalOpen(!isRegisterModalOpen)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} /> </Col>
       </Row> <div style={{ height: '16px' }}></div>
 
-      <Row gutter={16}>
-        <Col span={6}>
-          <DetallesPaciente paciente={activePatient} setEditing={setIsEditModalOpen}/>
-        </Col>
-        <Col span={18} >
-          <Expedientes paciente={activePatient} />
-        </Col>
-      </Row>
+
+
+      <Expedientes paciente={activePatient} />
+
+
 
       {/* Modal For Register */}
       <Register setIsModalOpen={setIsRegisterModalOpen} isModalOpen={isRegisterModalOpen} getPacientesData={getPacientesData} />

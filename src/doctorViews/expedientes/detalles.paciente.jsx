@@ -3,7 +3,7 @@ import { Avatar, Card, Divider, Button, Row, Col } from 'antd';
 import { FormOutlined, UserOutlined, MailOutlined, MobileOutlined } from '@ant-design/icons';
 
 export default function DetallesPaciente({ paciente, setEditing }) {
-    return (<div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', justifyContent: 'center',backgroundColor:'white', width: '25%', borderRadius: 8 }}>
+    return (<div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: 'skyblue', borderRadius: 8 }}>
 
         <div style={{ textAlign: 'center', marginTop: 8 }}>
             {

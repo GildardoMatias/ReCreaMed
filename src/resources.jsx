@@ -66,8 +66,9 @@ export async function updateData(endpoint, values) {
         body: JSON.stringify(values)
     }).then(res => res.json())
         .then(response => {
-            console.log('Success:', response);
+            // console.log('Success:', response);
             message.success(response.message || response.error);
+            return response;
         })
         .catch(error => console.error('Error:', error))
 };

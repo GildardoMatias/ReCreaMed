@@ -3,17 +3,18 @@ import { Button, Space, message } from 'antd';
 import { API, sendDataBody } from '../../resources';
 import DetalleNota from './detalleNota'
 import DetalleHistoria from './detalleHistoria';
+import DetallesPaciente from '../pacientes/detalles.paciente';
 // import html2canvas from 'html2canvas';
 // import { jsPDF } from "jspdf";
 
 
-export default function Expedientes(props) {
+export default function Expedientes({ paciente }) {
     const [expedientesData, setExpedientesData] = useState(null);
     const [expedientesLoading, setExpedientesLoading] = useState(true);
     const [historia, setHistoria] = useState("");
     const [notas, setNotas] = useState("");
 
-    const { _id: id_paciente } = props.paciente;
+    const { _id: id_paciente } = paciente;
 
     useEffect(() => {
         getExpedientesData(id_paciente)
@@ -98,9 +99,14 @@ export default function Expedientes(props) {
 
         {/* <h4 className='spacedTitle'>Expediente </h4> */}
 
-        <DetalleHistoria historia={historia} />
+        <div style={{ display: 'flex',flexDirection: 'row', gap: 15 }}>
+            <DetallesPaciente paciente={paciente} />
 
-        
+            <DetalleHistoria historia={historia} detalles_paciente={paciente} />
+        </div>
+
+
+
 
         {
             expedientesData ?

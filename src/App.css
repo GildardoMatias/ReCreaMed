@@ -72,6 +72,20 @@ h5 {
     column-gap: 10px;
 }
 
+.columna {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.lcolumna {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    column-gap: 10px;
+}
+
 .sizedIcon {
     font-size: 10px;
 }
@@ -84,7 +98,7 @@ h5 {
 
 .nombre {
     font-family: 'Poppins', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 550;
     /* color: #5B6C79; */
     color: #515a6e;
@@ -94,7 +108,7 @@ h5 {
 
 .datos {
     font-family: 'Poppins', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     color: #515a6e;
     /* display: flex;

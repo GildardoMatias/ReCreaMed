@@ -12,7 +12,6 @@ import { usuario } from '../resources'
 import MainPacientes from './pacientes/main.pacientes';
 import Escalas from '../escalas/escalasMenu';
 import Balances from './balances/balances';
-import Stripe from './stripe/stripe';
 import Cortes from './cortes/main.cortes';
 
 function Navigator() {

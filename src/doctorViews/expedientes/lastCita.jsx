@@ -44,13 +44,13 @@ export default function LastCita(props) {
     const getCitasData = () => {
         getData(`citas/${props.paciente}`).then((rs) => {
             const ultimaCita = getLastCta(rs);
-            console.log('lsat cita', ultimaCita)
+            // console.log('lsat cita', ultimaCita)
             setCita(ultimaCita)
             return ultimaCita
         }).then((last) => {
             return getData('balances/cita/' + last?._id)
         }).then((bl) => {
-            console.log('balance', bl)
+            // console.log('balance', bl)
             setLastBalance(bl[0])
         }).finally(() => setLoading(false))
     }

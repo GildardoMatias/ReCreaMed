@@ -7,6 +7,8 @@ import DetalleReceta from './detalleReceta';
 import LastCita from './lastCita'
 import { diagnosticos } from '../../assets/diagnosticos2';
 import Soap from './soap'
+import NotasEvolucion from './notasEvolucion';
+import HojasEnfermeria from './hojasEnfermeria';
 const { Panel } = Collapse;
 const { Paragraph } = Typography;
 const { TextArea } = Input;
@@ -38,7 +40,6 @@ export default function DetalleNota(props) {
     const id_paciente = props.paciente;
 
     useEffect(() => {
-        console.log('Paciente received to detailNota: ', id_paciente)
         id_paciente ?
             getNotasData()
             :
@@ -54,9 +55,9 @@ export default function DetalleNota(props) {
     }, [id_paciente])
 
     const getNotasData = () => {
-        console.log('satring notas for: ', id_paciente);
+        // console.log('satring notas for: ', id_paciente);
         getData(`notas/${id_paciente}`).then(rs => {
-            console.log('NotasData: ', rs);
+            // console.log('NotasData: ', rs);
             rs.forEach((nt, i) => {
                 nt.label = 'Nota' + (i + 1);
             });
@@ -175,9 +176,22 @@ export default function DetalleNota(props) {
         return {
             label: `Nota ${i + 1}`,
             key: nota._id,
-            children: <Row gutter={8}>
-                {/* Mitad de la pantalla para NOTA*/}
-                <Col span={12}>
+            children: <Row gutter={8} style={{ backgroundColor: 'white' }}>
+
+
+                {/* Mitad de la pantalla para Receta */}
+                <Col span={8} >
+                    <DetalleReceta recetas={nota.recetas} id_nota={nota._id} paciente={props.paciente} />
+
+                    {/* Debajo de la receta esta la ultima cita */}
+                    <LastCita paciente={id_paciente} />
+
+                    {/* Debajo de la ultima cita va hojas de enfermeria*/}
+                    <HojasEnfermeria hojas_enfermeria={nota.hojas_enfermeria} id_nota={nota._id}/>
+                </Col>
+
+                {/* la otra mitad de la pantalla para NOTA*/}
+                <Col span={16}>
                     {/* Detalle nota and soap will come into enfermero nota */}
                     {/* <Soap />
                     <Collapse bordered={false} style={{ backgroundColor: '#fff' }}>
@@ -195,13 +209,13 @@ export default function DetalleNota(props) {
                         </Panel>
                     </Collapse> */}
 
-                    <Card title='Observaciones'>
+                    {/* <Card title='Observaciones'>
                         <Paragraph editable={{ onChange: (ns) => updateNota(nota, "Observaciones", ns) }} >
                             {nota.Observaciones}
                         </Paragraph>
-                    </Card>
+                    </Card> */}
 
-                    <Card title='Diagnostico'>
+                    {/* <Card title='Diagnostico'>
 
                         {
                             nota.diagnostico ? <div>{nota.diagnostico}</div> : <Select
@@ -222,9 +236,9 @@ export default function DetalleNota(props) {
                                 }
                             </Select>
                         }
-                    </Card>
+                    </Card> */}
 
-                    <Card title='Entradas'>
+                    {/* <Card title='Entradas'>
                         {
                             editingEntradas ? <Form
                                 name="add_entry_form"
@@ -261,7 +275,7 @@ export default function DetalleNota(props) {
                             </div>
                         }
 
-                    </Card>
+                    </Card> */}
 
                     {/* <Card title='Tratamiento'>
                         <Select
@@ -285,7 +299,7 @@ export default function DetalleNota(props) {
                         />
                     </Card> */}
 
-                    <Card title='Estudios'>
+                    {/* <Card title='Estudios'>
                         {nota.estudios.map((e) => {
                             return <Card.Grid style={EstudioGridStyle}>
                                 <a href={`${API}notas/estudios/download/${e}`}><ExperimentOutlined />{e}<DownloadOutlined /> </a>
@@ -301,22 +315,18 @@ export default function DetalleNota(props) {
                                 Selecciona archivos en pdf o imagen que sean menores a 2 MB para poder subirlos
                             </p>
                         </Dragger>
-                    </Card>
-                    <Button style={{ float: 'right' }} onClick={() => { editarNota(nota) }} size='small' type="primary" icon={<EditOutlined />} className='btnIconCentered'>Editar Nota</Button>
-                </Col>
-                <Col span={12} >
-                    {/* La otra mitad de la pantalla para receta */}
-                    <DetalleReceta recetas={nota.recetas} id_nota={nota._id} paciente={props.paciente} />
+                    </Card> */}
 
-                    {/* Debajo de la receta esta la ultima cita */}
-                    <LastCita paciente={id_paciente} />
+                    <NotasEvolucion notas_evolucion={nota.notas_evolucion}/>
+
+                    {/* <Button style={{ float: 'right' }} onClick={() => { editarNota(nota) }} size='small' type="primary" icon={<EditOutlined />} className='btnIconCentered'>Editar Nota</Button> */}
                 </Col>
             </Row>
         }
     }).reverse()
 
     // return <div style={{backgroundColor: '#fff', padding: 16}}>
-    return <Card >
+    return <Card style={{ marginTop: 15 }}>
 
         <Space>
             <h5>Notas </h5>

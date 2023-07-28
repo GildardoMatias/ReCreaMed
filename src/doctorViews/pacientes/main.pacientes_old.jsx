@@ -125,9 +125,14 @@ export default function MainPacientes() {
       </Row> <div style={{ height: '16px' }}></div>
       {
 
-        adding ?
-          <Register setAdding={setAdding} /> :
-          <SideMenu tabs={pacientesData} />
+      <Row gutter={16}>
+        <Col span={6}>
+          {/* <DetallesPaciente paciente={activePatient} setEditing={setIsEditModalOpen}/> */}
+        </Col>
+        <Col span={18} >
+          <Expedientes paciente={activePatient} />
+        </Col>
+      </Row>
 
       }
       <br />
