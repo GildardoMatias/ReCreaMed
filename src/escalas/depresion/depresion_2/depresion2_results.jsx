@@ -3,6 +3,8 @@ import { Table, Button, Modal } from 'antd'
 import { Form, Select } from 'antd';
 import { getData, usuario, sendDataBody, ids_hospitales } from '../../../resources';
 import EscalasCreateGeneralLink from '../../escalasCreateGeneralLink';
+import getAllEscalas from '../../getEscalas';
+import Loading from '../../../loading';
 const { Option } = Select;
 
 // DEPRESION GPC
@@ -12,6 +14,7 @@ export default function Depresion2Results() {
     const [medicosData, setMedicosData] = useState([])
     const [medico, setMedico] = useState(null)
     const [countersData, setCountersData] = useState([])
+    const [loading, setLoading] = useState(true)
     const [loadingCounters, setLoadingCounters] = useState(true)
 
     // For Modal
@@ -21,7 +24,7 @@ export default function Depresion2Results() {
     const handleCancel = () => { setIsModalOpen(false) };
 
     useEffect(() => {
-        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getDoctorsData() : getEncuestasData(usuario._id)
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getAllEscalas('depresion_gpc', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
     }, [])
 
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
@@ -114,6 +117,8 @@ export default function Depresion2Results() {
         }
     ];
 
+    if (loading) return <Loading />
+
     return (
         <div className='mainContainer'>
             <h5>Resultados de encuestas de versiones validadas en español de las escalas HRSD, MADRS y PHQ-9</h5>
@@ -122,24 +127,9 @@ export default function Depresion2Results() {
                 Crear Link Depresion 2
             </Button>
             <br />
-            {
-                (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
-                    style={{ alignItems: 'center', paddingTop: 20 }}>
-                    <Select
-                        style={{ width: 260, }}
-                        onChange={getEncuestasData}
-                        placeholder='Selecciona un medico'
-                    >
-                        {
-                            medicosData.map((p) => {
-                                return <Option key={p._id} value={p._id}>{p.name}</Option>
-                            })
-                        }
-                    </Select>
-                </Form.Item>
-            }
+
             <br />
-            <Table dataSource={countersData} columns={counterColumns} bordered />
+            {/* <Table dataSource={countersData} columns={counterColumns} bordered /> */}
             <br />
             <h4>Detalles de encuestas</h4>
             <br />

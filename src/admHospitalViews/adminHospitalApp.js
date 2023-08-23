@@ -13,6 +13,7 @@ import Escalas from '../escalas/escalasMenu';
 import { usuario } from '../resources'
 import Cortes from './cortes/main.cortes';
 import Receptionists from './receptionists/main.receptionists';
+import Enfermeros from './enfermeros/main.enfermeros';
 
 const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); window.location.href = '/'; }
 
@@ -38,6 +39,7 @@ function Navigator() {
           <Nav.Link href="pacientes">Pacientes</Nav.Link>
           <Nav.Link href="doctores">Medicos</Nav.Link>
           <Nav.Link href="recepcionistas">Recepcionistas</Nav.Link>
+          <Nav.Link href="enfermeros">Enfermeros</Nav.Link>
           <Nav.Link href="citas">Citas</Nav.Link>
           <Nav.Link href="escalas">Escalas</Nav.Link>
           <Nav.Link href="balances">Balances</Nav.Link>
@@ -63,6 +65,9 @@ export default function AdminHospitalApp() {
         </Route>
         <Route path="/recepcionistas">
           <Receptionists />
+        </Route>
+        <Route path="/enfermeros">
+          <Enfermeros />
         </Route>
         <Route path="/doctores">
           <Doctors />

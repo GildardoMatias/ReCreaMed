@@ -65,6 +65,12 @@ h5 {
     align-items: center;
 }
 
+.textArea {
+    word-wrap: normal;
+    text-align: left;
+    white-space: pre-line
+}
+
 .fila {
     display: flex;
     flex-direction: row;

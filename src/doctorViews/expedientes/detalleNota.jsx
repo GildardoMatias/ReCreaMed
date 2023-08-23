@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Collapse, Button, Tabs, Row, Col, Modal, Space, Typography, message, Upload, Input, Select, Form } from 'antd';
+import { Card, Button, Tabs, Row, Col, Modal, Space, message } from 'antd';
 import { getData, API, updateData, usuario } from '../../resources';
-import { PlusOutlined, ExperimentOutlined, DownloadOutlined, EditOutlined, InboxOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { NuevaNota } from './nuevaNota';
 import DetalleReceta from './detalleReceta';
 import LastCita from './lastCita'
-import { diagnosticos } from '../../assets/diagnosticos2';
-import Soap from './soap'
 import NotasEvolucion from './notasEvolucion';
 import HojasEnfermeria from './hojasEnfermeria';
-const { Panel } = Collapse;
-const { Paragraph } = Typography;
-const { TextArea } = Input;
-const { Dragger } = Upload;
-const { Option, OptGroup } = Select;
 
 
 
 export default function DetalleNota(props) {
+
+    const isDoctor = usuario && usuario.rol && usuario.rol === 'Medico';
 
     const [notaData, setNotaData] = useState([]);
     const [notaLoading, setnotaLoading] = useState(true);
@@ -35,7 +30,9 @@ export default function DetalleNota(props) {
     // End of Edit Nota Modal
     // Edit Nota fields
     const [editingEntradas, setEditingEntradas] = useState(false)
-    const [editingDiagnostico, setEditingDiagnostico] = useState(false)
+    // const [editingDiagnostico, setEditingDiagnostico] = useState(false)
+
+    const [notasLen, setNotasLen] = useState("")
 
     const id_paciente = props.paciente;
 
@@ -54,6 +51,8 @@ export default function DetalleNota(props) {
             finishGet()
     }, [id_paciente])
 
+    // if patient not contains notas
+
     const getNotasData = () => {
         // console.log('satring notas for: ', id_paciente);
         getData(`notas/${id_paciente}`).then(rs => {
@@ -66,21 +65,6 @@ export default function DetalleNota(props) {
         })
     }
     const finishGet = () => { setNotaData([]); setnotaLoading(false); }
-
-    const NotaGridStyle = {
-        width: '25%',
-        textAlign: 'center',
-        border: '1px solid rgba(255, 255, 255, 255)'
-    };
-
-    const EstudioGridStyle = {
-        width: '50%',
-        // height: '32',
-        textAlign: 'center',
-        display: 'inline-flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    };
 
     const createNota = async () => {
         let newNotaBody = {
@@ -126,51 +110,66 @@ export default function DetalleNota(props) {
             .finally(() => { getNotasData() })
     };
 
-    const updateNota = (originalNota, field, newString) => {
-        originalNota[field] = newString;
-        console.log(originalNota)
-        updateData(`notas/update/${originalNota._id}`, originalNota).then((rs) => { getNotasData() })
-    }
-    const onEntryFinish = (nota, values) => {
-        console.log(values)
-        console.log('Before:', nota)
-        nota.entradas = [...nota.entradas, values];
-        console.log('After:', nota)
-        updateData(`notas/update/${nota._id}`, nota).then((rs) => {
-            getNotasData()
-        }).finally(() => setEditingEntradas(false))
-    }
-
-    const onEntryFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+    const NotaGridStyle = {
+        width: '25%',
+        textAlign: 'center',
+        border: '1px solid rgba(255, 255, 255, 255)'
     };
 
-    // Upload File For Estudios
-    const dragDropProps = {
-        name: 'file',
-        multiple: true,
-        action: API + 'notas/estudios/upload', // Production
+    // const EstudioGridStyle = {
+    //     width: '50%',
+    //     // height: '32',
+    //     textAlign: 'center',
+    //     display: 'inline-flex',
+    //     justifyContent: 'center',
+    //     alignItems: 'center'
+    // };
 
-        onChange(info) {
-            const { status } = info.file;
+    // const updateNota = (originalNota, field, newString) => {
+    //     originalNota[field] = newString;
+    //     console.log(originalNota)
+    //     updateData(`notas/update/${originalNota._id}`, originalNota).then((rs) => { getNotasData() })
+    // }
+    // const onEntryFinish = (nota, values) => {
+    //     console.log(values)
+    //     console.log('Before:', nota)
+    //     nota.entradas = [...nota.entradas, values];
+    //     console.log('After:', nota)
+    //     updateData(`notas/update/${nota._id}`, nota).then((rs) => {
+    //         getNotasData()
+    //     }).finally(() => setEditingEntradas(false))
+    // }
 
-            if (status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
+    // const onEntryFinishFailed = (errorInfo) => {
+    //     console.log('Failed:', errorInfo);
+    // };
 
-            if (status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully.`);
-                console.log('New Files: ', info.file.response.file)
-                // setEstudiosFiles([...estudiosFiles, info.file.response.file])
-            } else if (status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
-            }
-        },
+    // // Upload File For Estudios
+    // const dragDropProps = {
+    //     name: 'file',
+    //     multiple: true,
+    //     action: API + 'notas/estudios/upload', // Production
 
-        onDrop(e) {
-            console.log('Dropped files', e.dataTransfer.files);
-        },
-    };
+    //     onChange(info) {
+    //         const { status } = info.file;
+
+    //         if (status !== 'uploading') {
+    //             console.log(info.file, info.fileList);
+    //         }
+
+    //         if (status === 'done') {
+    //             message.success(`${info.file.name} file uploaded successfully.`);
+    //             console.log('New Files: ', info.file.response.file)
+    //             // setEstudiosFiles([...estudiosFiles, info.file.response.file])
+    //         } else if (status === 'error') {
+    //             message.error(`${info.file.name} file upload failed.`);
+    //         }
+    //     },
+
+    //     onDrop(e) {
+    //         console.log('Dropped files', e.dataTransfer.files);
+    //     },
+    // };
 
     const items = notaData.map((nota, i) => {
         return {
@@ -187,7 +186,7 @@ export default function DetalleNota(props) {
                     <LastCita paciente={id_paciente} />
 
                     {/* Debajo de la ultima cita va hojas de enfermeria*/}
-                    <HojasEnfermeria hojas_enfermeria={nota.hojas_enfermeria} id_nota={nota._id}/>
+                    <HojasEnfermeria hojas_enfermeria={nota.hojas_enfermeria} id_nota={nota._id} />
                 </Col>
 
                 {/* la otra mitad de la pantalla para NOTA*/}
@@ -317,7 +316,7 @@ export default function DetalleNota(props) {
                         </Dragger>
                     </Card> */}
 
-                    <NotasEvolucion notas_evolucion={nota.notas_evolucion}/>
+                    <NotasEvolucion _notas_evolucion={nota.notas_evolucion} id_nota={nota._id} />
 
                     {/* <Button style={{ float: 'right' }} onClick={() => { editarNota(nota) }} size='small' type="primary" icon={<EditOutlined />} className='btnIconCentered'>Editar Nota</Button> */}
                 </Col>
@@ -329,8 +328,11 @@ export default function DetalleNota(props) {
     return <Card style={{ marginTop: 15 }}>
 
         <Space>
+            <h3>Tamaño notas: {notasLen}</h3>
             <h5>Notas </h5>
-            <Button className='btnIconCentered' onClick={createNota} size='small' type="primary" shape="circle" icon={<PlusOutlined />} ghost />
+            {
+                isDoctor && <Button className='btnIconCentered' onClick={createNota} size='small' type="primary" shape="circle" icon={<PlusOutlined />} ghost />
+            }
         </Space>
 
         {

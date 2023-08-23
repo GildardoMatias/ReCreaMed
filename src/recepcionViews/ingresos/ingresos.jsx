@@ -176,8 +176,8 @@ export default function Ingresos() {
             <h4>Ingresos de todos los medicos</h4>
             <br />
 
-            {/* <Button onClick={showModal} type='primary' style={{ marginBottom: 22 }} >Agregar Nuevo Ingreso</Button> */}
-            <Button ghost onClick={showEgresoModal} type='primary' style={{ marginBottom: 22, marginLeft: 6 }} >Agregar Nuevo Gasto</Button>
+            <Button onClick={showModal} type='primary' style={{ marginBottom: 22 }} >Agregar Nuevo Ingreso</Button>
+            {/* <Button ghost onClick={showEgresoModal} type='primary' style={{ marginBottom: 22, marginLeft: 6 }} >Agregar Nuevo Gasto</Button> */}
 
             <Table columns={columns} dataSource={ingresosData}
             // scroll={{ x: 950, y: "calc(100vh - 220px)" }}
@@ -189,7 +189,7 @@ export default function Ingresos() {
             <CreateBalance tipo='ingreso' balanceForEdit={ingresoForEdit} setBalanceForEdit={setIngresoForEdit} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} getIngresos={getIngresos} medico={medico} medicosData={medicosData} />
 
             {/* Gasto */}
-            <CreateBalance tipo='egreso' setBalanceForEdit={setIngresoForEdit} setIsModalOpen={setIsEgresoModalOpen} isModalOpen={isEgresoModalOpen} getIngresos={getIngresos} medicosData={medicosData} />
+            {/* <CreateBalance tipo='egreso' setBalanceForEdit={setIngresoForEdit} setIsModalOpen={setIsEgresoModalOpen} isModalOpen={isEgresoModalOpen} getIngresos={getIngresos} medicosData={medicosData} /> */}
 
             {/* Ticket */}
             <Modal title="Imprimir Nota de Venta" open={isTicketModalOpen} onOk={handleTicketOk} onCancel={handleTicketCancel} width={600}>

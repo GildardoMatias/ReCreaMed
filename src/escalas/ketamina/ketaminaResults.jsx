@@ -6,6 +6,7 @@ import { getData, usuario, sendDataBody, ids_hospitales } from '../../resources'
 import LoadingIndicator from '../loadingIndicator'
 import EscalasCreateGeneralLink from '../escalasCreateGeneralLink';
 import Loading from '../../loading';
+import getAllEscalas from '../getEscalas';
 const { Option } = Select;
 
 export default function KetaminaResults() {
@@ -23,7 +24,7 @@ export default function KetaminaResults() {
     // New Form
     // If session is recept/admin get escalas of all medicos of my hospital
     // Else if session is medico get escalas for me
-    if (usuario.rol === 'Recepcion' || usuario.rol === 'Administrador') getAllEscalas()
+    if (usuario.rol === 'Recepcion' || usuario.rol === 'Administrador') getAllEscalas('ketamina', setKetaminaData, setLoading)
     else getEncuestasData(usuario._id)
 
     // getEcuestasDataByHospital()
@@ -40,36 +41,15 @@ export default function KetaminaResults() {
     })
   }
 
-  // new Method for session is reception
-  const getAllEscalas = async () => {
-    const medicos = await sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales })
-
-    // medicos.forEach(m => { m.label = m.name; m.value = m._id; })// to pass to create modal
-    // setMedicosData(medicos) // to pass to create modal
-    console.log('My medics', medicos)
-    const promises = medicos.map(medico => getData(`encuestas/ketamina/medico/${medico._id}`));
-
-    Promise.all(promises)
-      .then(resultados => {
-        const ingresos = resultados.flat(); // concatenar todos los arrays de ingresos
-        console.log(ingresos);
-        // Doctor is for details, medico is for edit. Usuario is for details, paciente id for Edit
-        ingresos.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
-        setKetaminaData(ingresos.reverse())
-        setLoading(false)
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
+ 
 
   // If session is medic
   const getEncuestasData = (medico) => {
     getData(`encuestas/ketamina/medico/${medico}`).then((rs) => {
       console.log('Encuestas ', rs);
-      getCounters(rs, medico);
+      // getCounters(rs, medico);
       setKetaminaData(rs)
-    })
+    }).finally(() => setLoading(false))
   }
 
   // If session is admin/recept
@@ -87,23 +67,23 @@ export default function KetaminaResults() {
   }
 
 
-  const getCounters = (data, medico) => {
-    const allEncuestas = [...data];
-    const results = []
-    getData(`mispacientes/${medico}`).then(rs => {
-      console.log('getCounters ketam data: ', data)
-      rs.forEach(pac => {
-        const aprs = allEncuestas.filter(enc => enc.usuario?._id === pac._id) // Usuario can be deleted
-        const latest = aprs.at(-1)
-        results.push({
-          'paciente': pac.name,
-          'total': aprs.length,
-          'semana': latest?.createdAt.substring(0, 10)
-        })
-      });
-      console.log(results)
-    }).finally(() => { setCountersData(results); setLoadingCounters(false) });
-  }
+  // const getCounters = (data, medico) => {
+  //   const allEncuestas = [...data];
+  //   const results = []
+  //   getData(`mispacientes/${medico}`).then(rs => {
+  //     console.log('getCounters ketam data: ', data)
+  //     rs.forEach(pac => {
+  //       const aprs = allEncuestas.filter(enc => enc.usuario?._id === pac._id) // Usuario can be deleted
+  //       const latest = aprs.at(-1)
+  //       results.push({
+  //         'paciente': pac.name,
+  //         'total': aprs.length,
+  //         'semana': latest?.createdAt.substring(0, 10)
+  //       })
+  //     });
+  //     console.log(results)
+  //   }).finally(() => { setCountersData(results); setLoadingCounters(false) });
+  // }
 
   const counterColumns = [
     {
@@ -129,7 +109,7 @@ export default function KetaminaResults() {
       key: 'usuario',
       dataIndex: 'usuario',
       render: (_, { usuario }) => (<>{usuario ? usuario.name : "usuario eliminado"}</>),
-      sorter: true,
+      // sorter: true,
     },
     {
       title: 'Fecha',

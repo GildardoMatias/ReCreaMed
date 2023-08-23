@@ -36,32 +36,55 @@ export default function Ingresos() {
     const handleTicketOk = () => { setIsTicketModalOpen(false); setIsLogoSelected(false) };
     const handleTicketCancel = () => { setIsTicketModalOpen(false);; setIsLogoSelected(false) };
 
+    const [lastFecha, setLastFecha] = useState("")
+    const [firstFecha, setFirstFecha] = useState("")
+
     useEffect(() => {
         getIngresos()
     }, [])
 
+    function subtractMonths(date, months) { date.setMonth(date.getMonth() - months); return date; }
     const getIngresos = async () => {
         const medicos = await sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales })
 
         medicos.forEach(m => { m.label = m.name; m.value = m._id; })// to pass to create modal
         setMedicosData(medicos) // to pass to create modal
 
-        const promises = medicos.map(medico => getData(`balances/medico/${medico._id}`));
+        const lastFechaCierre = await getData('cortes/62f55bffc59fcc36f37f541f').then((rs) => {
+            setFirstFecha(rs.at(0).fecha_cierre)
+            setLastFecha(rs.at(-1).fecha_cierre)
+            return rs.length > 0 ? rs.at(-1).fecha_cierre : subtractMonths(new Date(), 1)
+        })
 
-        Promise.all(promises)
-            .then(resultados => {
-                const ingresos = resultados.flat(); // concatenar todos los arrays de ingresos
-                console.log('adm ingr', ingresos);
-                // Doctor is for details, medico is for edit. Usuario is for details, paciente id for Edit
-                ingresos.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
-                setIngresosData(
-                    ingresos.sort((a, b) => a.fecha_hora > b.fecha_hora)
-                )
-                setLoading(false)
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        // const promises = medicos.map(medico => getData(`balances/medico/${medico._id}`));
+
+        // Promise.all(promises)
+        //     .then(resultados => {
+        //         const ingresos = resultados.flat(); // concatenar todos los arrays de ingresos
+        //         console.log('adm ingr', ingresos);
+        //         // Doctor is for details, medico is for edit. Usuario is for details, paciente id for Edit
+        //         ingresos.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
+        //         setIngresosData(
+        //             ingresos.sort((a, b) => a.fecha_hora > b.fecha_hora)
+        //         )
+        //         setLoading(false)
+        //     })
+        //     .catch(error => {
+        //         console.error(error);
+        //     });
+        const ids = medicos.map(doc => {
+            return doc._id
+        });
+        const body = {
+            fecha_inicio: lastFechaCierre,
+            medico: ids
+        }
+        console.log(body)
+        sendDataBody('balances', body).then((rs) => {
+            console.log(rs)
+            rs.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
+            setIngresosData(rs.sort((a, b) => a.fecha_hora > b.fecha_hora))
+        }).finally(() => setLoading(false))
     }
 
     const handleEditIngreso = (record) => {
@@ -179,6 +202,8 @@ export default function Ingresos() {
 
     return (
         <div className='mainContainer'>
+            <div>first fecha cierre {firstFecha} </div>
+            <div>last fecha cierre {lastFecha} </div>
             <h4>Ingresos de todos los medicos</h4>
             <br />
 

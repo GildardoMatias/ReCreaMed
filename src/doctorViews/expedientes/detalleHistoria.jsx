@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Space, Button, Input, Form, message } from 'antd';
-import { getData, API } from '../../resources';
+import { getData, API, usuario } from '../../resources';
 import { FormOutlined } from '@ant-design/icons';
 
+const isDoctor = usuario && usuario.rol && usuario.rol === 'Medico';
+
 export default function DetalleHistoria({ historia, detalles_paciente }) {
+
+
     const { TextArea } = Input;
     const [historiaData, setHistoriaData] = useState("")
     const [notaLoading, setHistoriaLoading] = useState(true)
@@ -83,7 +87,9 @@ export default function DetalleHistoria({ historia, detalles_paciente }) {
             :
             <div>
                 <span style={{ whiteSpace: 'pre-line', textAlign: 'left', wordWrap: 'normal' }}>{historiaData[0].historial}</span>
-                <Button className='btnIconCentered' onClick={() => setEditing(true)} size='small' disabled={!historia} type="primary" shape="circle" icon={<FormOutlined className='sizedIcon' />} style={{ position: 'absolute', bottom: 18, right: 18 }} ghost />
+                {
+                    isDoctor && <Button className='btnIconCentered' onClick={() => setEditing(true)} size='small' disabled={!historia} type="primary" shape="circle" icon={<FormOutlined className='sizedIcon' />} style={{ position: 'absolute', bottom: 18, right: 18 }} ghost />
+                }
             </div>
 
     }

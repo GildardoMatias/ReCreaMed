@@ -43,7 +43,7 @@ export async function sendData(endpoint) {
             return response;
         })
         .catch(error => console.error('Error:', error))
-};
+}
 
 export async function deleteData(endpoint) {
 
@@ -56,7 +56,7 @@ export async function deleteData(endpoint) {
             message.info(response.message)
         })
         .catch(error => console.error('Error:', error))
-};
+}
 
 export async function updateData(endpoint, values) {
 

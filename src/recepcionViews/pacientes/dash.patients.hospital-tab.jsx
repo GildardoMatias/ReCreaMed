@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { getData, deleteData } from '../../resources'
+import { getData, deleteData, usuario } from '../../resources'
 import { Table, Avatar, Space, Button, Popconfirm, Modal, Card, Input } from 'antd'
 import { UserOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons'
 import Register from './register.user'
+import Expedientes from '../../doctorViews/expedientes/expedientes'
 
 export default function HospitalTab(props) {
     const [value, setValue] = useState(''); // For search input
@@ -76,7 +77,9 @@ export default function HospitalTab(props) {
             key: 'detalles',
             render: (text, record) => (
                 <Space size="middle">
-                    <Button onClick={() => { setPaciente(record); showModal(); }}>Detalles</Button>
+                    <Button onClick={() => { setPaciente(record); showModal(); }}>
+                        {usuario.rol === 'Enfermero' ? "Epediente" : "Detalles"}
+                    </Button>
                     <Popconfirm
                         title="Borrar Paciente"
                         description="Esta seguro que quiere eliminar al paciente?"
@@ -135,7 +138,8 @@ export default function HospitalTab(props) {
             "drogas", "edad",
             "escolaridad",
             "estado_civil",
-            "fuma", "lugar_de_nacimiento",
+            "fuma",
+            "lugar_de_nacimiento",
             "numexterior",
             "numinterior",
             "ocupacion",
@@ -148,7 +152,7 @@ export default function HospitalTab(props) {
                 editingProfile ? <Register paciente={paciente} setAdding={setEditingProfile} /> :
                     <Card bordered={false} title={<Space><h4>Detalles del paciente </h4> <Button type='primary' ghost onClick={setEditingProfile} shape="circle" icon={<EditOutlined />} title='Editar' className='btnIconCentered' /></Space>}>
                         {
-                            datosSimples.map(k => <><Card.Grid style={gridStyle}>{k}</Card.Grid><Card.Grid style={gridStyle} size='small'>{paciente[k]}</Card.Grid></>)
+                            datosSimples.map(k => <><Card.Grid style={gridStyle}>{k}</Card.Grid><Card.Grid style={gridStyle} size='small'>{paciente[k] || 'Sin datos'}</Card.Grid></>)
                         }
                     </Card>
             }
@@ -176,8 +180,13 @@ export default function HospitalTab(props) {
             <Table dataSource={pacientesDataFiltered} columns={columns} pagination={false} size='small' />
         </div>
 
-        <Modal width={800} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
-            <DetalleUsuario />
+        <Modal width={1200} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
+            {
+                usuario.rol === "Enfermero" ?
+                    <Expedientes paciente={paciente} /> //points to expedient of medico
+                    :
+                    <DetalleUsuario />
+            }
         </Modal>
     </div >
 }

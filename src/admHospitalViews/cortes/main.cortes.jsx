@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Button, Table, Space, Select, Popconfirm } from 'antd'
-import {
-    getData, sendDataBody, usuario, ids_hospitales
-} from '../../resources'
+import { getData, sendDataBody, usuario, ids_hospitales } from '../../resources'
 import Loading from '../../loading'
 import Detalles from './details.corte'
 
@@ -11,34 +9,43 @@ export default function Cortes() {
     const [balance, setBalance] = useState({})
     const [cortesData, setCortesData] = useState([])
     const [loading, setLoading] = useState(true)
+
+    // Data before all
+    const [idsMedicos, setIdsMedicos] = useState([])
+
     // For details modal
     const [corteForDetails, setCorteForDetails] = useState({})
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const showModal = (corte) => { setCorteForDetails(corte); setIsModalOpen(true) };
-    // Data before all
-    const [medicosData, setMedicosData] = useState([])
-
+    const showModal = (corte) => {
+        corte.medico = idsMedicos; // in controller, medics is used for flter balances not cortes   
+        setCorteForDetails(corte); setIsModalOpen(true)
+    };
 
     useEffect(() => {
-        return getDoctorsData()
+        getDoctorsData()
+        getCortesData()
     }, [])
 
-    const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
+    const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador. Is used for filter balances by corte
         sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
-            rs.forEach(m => { m.value = m._id; m.label = m.name })
-            setMedicosData(rs)
+            const md = rs.map(doc => {
+                return doc._id
+            });
+            setIdsMedicos(md)
         }).finally(() => setLoading(false))
     }
 
-    const getCortesData = (id_medico) => {
-        getData(`cortes/${id_medico}`).then((rs) => {
+    const getCortesData = () => {
+        getData(`cortes/${usuario._id}`).then((rs) => {
+            console.log('cortesData', rs)
             setCortesData(rs.reverse())
-        }).finally(() => setLoading(false))
+        }).finally(() => { setLoading(false) })
     }
 
     const createCorte = () => {
         const newCorte = {
-            medico: medico,
+            // medico: medico,
+            medico: usuario._id,
             fecha_inicio: cortesData.length === 0 ? new Date() : cortesData.at(0).fecha_cierre,
             fecha_cierre: new Date(),
             comentario: ''
@@ -87,9 +94,9 @@ export default function Cortes() {
 
         <h4>Cortes de cada Medico</h4>
         <br />
-        <p className='datos'>Selecciona un medico a continuacion para ver sus cortes</p>
+        {/* <p className='datos'>Selecciona un medico a continuacion para ver sus cortes</p> */}
 
-        <Select options={medicosData} onChange={handleDoctorChange} style={{ width: 240 }} placeholder='Seleccione medico' />
+        {/* <Select options={medicosData} onChange={handleDoctorChange} style={{ width: 240 }} placeholder='Seleccione medico' /> */}
 
         <Popconfirm
             placement='bottomRight'
@@ -101,14 +108,12 @@ export default function Cortes() {
             cancelText="No"
         >
 
-            <Button disabled={!medico} type='primary' style={{ marginLeft: 12 }}>{cortesData.length === 0 ? 'Generar Primer Corte' : 'Generar Corte'}</Button>
+            <Button type='primary' style={{ marginLeft: 12 }}>{cortesData.length === 0 ? 'Generar Primer Corte' : 'Generar Corte'}</Button>
         </Popconfirm>
 
-        {
-            medico && <div>
-                <Table columns={columns} dataSource={cortesData} />
-            </div>
-        }
+
+        <Table columns={columns} dataSource={cortesData} />
+
         <div style={{ height: 200 }}></div>
         {/* {
             !medico ? <div>Seleccione un medico para ver sus cortes</div>
@@ -123,8 +128,7 @@ export default function Cortes() {
                 </div>
         } */}
 
-
-
         <Detalles corte={corteForDetails} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+
     </div>
 }

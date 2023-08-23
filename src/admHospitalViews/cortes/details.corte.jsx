@@ -4,6 +4,7 @@ import { sendDataBody, getData, usuario, deleteData } from '../../resources'
 const { Text } = Typography;
 
 export default function Detalles(props) {
+    console.log('Corte for details ', props.corte)
     const [pacientesData, setPacientesData] = useState([])
 
     const [totales, setTotales] = useState({})
@@ -89,7 +90,7 @@ export default function Detalles(props) {
         <h5>Total: <span style={{ color: '#eb3d43' }}>${totales.deudasTotales}</span></h5>
 
         {
-            totales.listOfDeudors && totales.listOfDeudors.length > 0 && <Table dataSource={totales.listOfDeudors} columns={columns} bordered={false} size='small'/>
+            totales.listOfDeudors && totales.listOfDeudors.length > 0 && <Table dataSource={totales.listOfDeudors} columns={columns} bordered={false} size='small' />
         }
         {/* {
             totales.listOfDeudors && totales.listOfDeudors.length > 0 &&

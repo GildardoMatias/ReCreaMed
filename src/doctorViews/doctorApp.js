@@ -37,7 +37,7 @@ function Navigator() {
           <Nav.Link href="/pacientes" >Pacientes</Nav.Link>
           <Nav.Link href="/citas">Citas</Nav.Link>
           <Nav.Link href="/escalas">Escalas</Nav.Link>
-          <Nav.Link href="/balances">Ingresos</Nav.Link>
+          <Nav.Link href="/balances">Balance</Nav.Link>
           <Nav.Link href="/cortes">Cortes</Nav.Link>
           {/* <Nav.Link href="/expedientes">Expedientes</Nav.Link> */}
           {/* <Nav.Link href="/recetas">Recetas</Nav.Link> */}

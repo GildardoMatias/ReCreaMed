@@ -3,6 +3,8 @@ import { Table, Button, Modal } from 'antd'
 import { Form, Select } from 'antd';
 import { getData, usuario, sendDataBody, ids_hospitales } from '../../../resources';
 import EscalasCreateGeneralLink from '../../escalasCreateGeneralLink';
+import getAllEscalas from '../../getEscalas';
+import Loading from '../../../loading';
 const { Option } = Select;
 
 // DEPRESION QIDS 
@@ -11,6 +13,7 @@ export default function DepresionResults() {
     const [encuestasData, setEncuestasData] = useState([])
     const [medicosData, setMedicosData] = useState([])
     const [countersData, setCountersData] = useState([])
+    const [loading, setLoading] = useState(true)
 
     // For Modal
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,22 +22,13 @@ export default function DepresionResults() {
     const handleCancel = () => { setIsModalOpen(false) };
 
     useEffect(() => {
-        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getDoctorsData() : getEncuestasData(usuario._id)
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getAllEscalas('depresion', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
     }, [])
-    // useEffect(() => {
-    //     if (usuario.rol === 'Recepcion' || usuario.rol === 'Administrador') getDoctorsData()
-    //     else getEncuestasData(usuario._id)
-    //   }, [])
 
-    const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
-        sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
-            setMedicosData(rs)
-        })
-    }
 
     const getEncuestasData = (medico) => {
         getData(`encuestas/depresion/medico/${medico}`).then((rs) => {
-            getCounters(rs, medico);
+            // getCounters(rs, medico);
             console.log(rs);
             setEncuestasData(rs)
         })
@@ -89,6 +83,8 @@ export default function DepresionResults() {
         }
     ];
 
+    if (loading) return <Loading />
+
     return (
         <div className='mainContainer'>
             <h5>Resultados de encuestas de sintomatologia depresiva QUIDS (QUICK INVENTORY OF DEPRESSIVE SYMPTOMATOLOGY)</h5>
@@ -96,26 +92,11 @@ export default function DepresionResults() {
             <Button type="primary" onClick={showModal}>
                 Generar Escala Depresion 1
             </Button>
-            <br />
-            {
-                (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
-                    style={{ alignItems: 'center', paddingTop: 20 }}>
-                    <Select
-                        style={{ width: 260, }}
-                        onChange={getEncuestasData}
-                        placeholder='Selecciona un medico'
-                    >
-                        {
-                            medicosData.map((p) => {
-                                return <Option key={p._id} value={p._id}>{p.name}</Option>
-                            })
-                        }
-                    </Select>
-                </Form.Item>
-            }
-            <br />
-            <Table dataSource={countersData} columns={counterColumns} bordered />
-            <br />
+
+            <br /><br />
+
+            {/* Counters <Table dataSource={countersData} columns={counterColumns} bordered /> <br /> */}
+
             <h4>Detalles de encuestas</h4>
             <br />
             <Table dataSource={encuestasData} columns={columns} bordered />

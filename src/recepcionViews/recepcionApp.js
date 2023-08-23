@@ -4,7 +4,6 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Patients from './pacientesDash/main.patients'
 import Citas from './citas/main.citas'
-import Expedientes from './expedientes/expedientes'
 // import Recetas from './recetas'
 import Perfil from './perfil'
 import Home from './home/home'
@@ -68,6 +67,7 @@ export default function RecepcionApp() {
 
       <Switch>
 
+        {/* Deprecated */}
         <Route path="/pacientesdash">
           <Patients />
         </Route>
@@ -78,10 +78,6 @@ export default function RecepcionApp() {
 
         <Route path="/citas">
           <Citas />
-        </Route>
-
-        <Route path="/expedientes">
-          <Expedientes />
         </Route>
 
         {/* <Route path="/Recetas">

@@ -9,7 +9,7 @@ import RecepcionApp from "./recepcionViews/recepcionApp";
 import PatientApp from "./patientViews/patientApp";
 import AdminHospitalApp from "./admHospitalViews/adminHospitalApp";
 import SuperAdminApp from "./superAdminViews/superAdminApp";
-import { KetaminaPublic, DepresionQidsPublic, DepresionEspanolPublic,HeadachePublic, PostTraumaticoPublic, PostTraumaticoClinicoPublic, PostTraumaticoMX } from './session/public_escalas_routes';
+import { KetaminaPublic, DepresionQidsPublic, DepresionEspanolPublic, HeadachePublic, PostTraumaticoPublic, PostTraumaticoClinicoPublic, PostTraumaticoMX } from './session/public_escalas_routes';
 
 const userType = localStorage.getItem('userType');
 
@@ -63,6 +63,8 @@ export function App() {
     case 'Administrador':
       return <AdminHospitalApp />
     case 'Recepcion':
+      return <RecepcionApp />
+    case 'Enfermero':
       return <RecepcionApp />
     case 'Paciente':
       return <PatientApp />

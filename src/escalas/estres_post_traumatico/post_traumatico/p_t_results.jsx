@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Modal, Select, Form, Table } from 'antd';
 import EscalasCreateGeneralLink from '../../escalasCreateGeneralLink';
+import getAllEscalas from '../../getEscalas';
 import { getData, usuario, sendDataBody, ids_hospitales } from '../../../resources';
 const { Option } = Select;
 
@@ -10,6 +11,7 @@ export default function PostTraumaticoResults() {
     const [medico, setMedico] = useState(null)
     const [countersData, setCountersData] = useState([])
     const [loadingCounters, setLoadingCounters] = useState(true)
+    const [loading, setLoading] = useState(true)
     const [columns, setColumns] = useState([])
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,7 +22,7 @@ export default function PostTraumaticoResults() {
 
     useEffect(() => {
         addColumns();
-        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getDoctorsData() : getEncuestasData(usuario._id)
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getAllEscalas('post_traumatico', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
     }, [])
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
         sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
@@ -111,6 +113,7 @@ export default function PostTraumaticoResults() {
         }
         setColumns(columns)
     }
+
     return (
         <div>
             <h6>Evaluación Del Trastorno Por Estrés Postraumático: Aproximación A Las Propiedades Psicométricas De La Escala De Trauma De Davidson</h6>
@@ -119,24 +122,7 @@ export default function PostTraumaticoResults() {
                 Crear Enlace EPT 1
             </Button>
             <br />
-            {
-                (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') && <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
-                    style={{ alignItems: 'center', paddingTop: 20 }}>
-                    <Select
-                        style={{ width: 260, }}
-                        onChange={getEncuestasData}
-                        placeholder='Selecciona un medico'
-                    >
-                        {
-                            medicosData.map((p) => {
-                                return <Option key={p._id} value={p._id}>{p.name}</Option>
-                            })
-                        }
-                    </Select>
-                </Form.Item>
-            }
-            <br />
-            <Table dataSource={countersData} columns={counterColumns} bordered />
+            {/* <Table dataSource={countersData} columns={counterColumns} bordered /> */}
             <br />
             <h4>Detalles de encuestas</h4>
             <br />

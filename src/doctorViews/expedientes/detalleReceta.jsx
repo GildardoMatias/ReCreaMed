@@ -8,6 +8,8 @@ const { TextArea } = Input;
 // Estan siendo agregadas y actualizadas directamente al expediente desde el form de detallenota->Agregar Receta
 export default function DetalleReceta(props) {
 
+    const isDoctor = usuario && usuario.rol && usuario.rol === 'Medico';
+
     const [recetaData, setRecetaData] = useState([]);
     const [recetaLoading, setRecetaLoading] = useState(true);
     const [recetaForEdit, setRecetaForEdit] = useState({});
@@ -127,7 +129,9 @@ export default function DetalleReceta(props) {
         >
             <div className='fila' style={{ marginBottom: 8 }}>
                 <h6>Recetas</h6>
-                <Button className='btnIconCentered' onClick={() => setIsModalVisible(true)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} ghost />
+                {
+                    isDoctor && <Button className='btnIconCentered' onClick={() => setIsModalVisible(true)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} ghost />
+                }
             </div>
             {
                 recetaLoading ? <h5>Cargando Receta...</h5> :
@@ -137,7 +141,9 @@ export default function DetalleReceta(props) {
                             return <div key={r._id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <p style={{ whiteSpace: 'pre' }}>{r.prescripcion} </p>
                                 <div>
-                                    <Button style={{ marginLeft: 8 }} onClick={() => editReceta(r)} size='small' type="primary" shape="circle" icon={<FormOutlined />} className='btnIconCentered' ghost />
+                                    {
+                                        isDoctor && <Button style={{ marginLeft: 8 }} onClick={() => editReceta(r)} size='small' type="primary" shape="circle" icon={<FormOutlined />} className='btnIconCentered' ghost />
+                                    }
                                     <Button style={{ marginLeft: 8 }} onClick={() => printReceta(r)} size='small' type="primary" shape="circle" icon={<PrinterOutlined />} className='btnIconCentered' ghost />
                                 </div>
                             </div>
@@ -179,7 +185,6 @@ export default function DetalleReceta(props) {
                 <Button type="primary" htmlType="submit" form='update_receta_medic'>
                     Actualizar
                 </Button>,
-                <Button onClick={handleEditCancel}>Cancelar</Button>
             ]}>
 
             <Form
