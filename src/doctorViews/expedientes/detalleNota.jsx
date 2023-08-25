@@ -14,7 +14,7 @@ export default function DetalleNota(props) {
 
     const isDoctor = usuario && usuario.rol && usuario.rol === 'Medico';
 
-    const [notaData, setNotaData] = useState([]);
+    const [notaData, setNotaData] = useState(null);
     const [notaLoading, setnotaLoading] = useState(true);
     const [notaForEdit, setNotaForEdit] = useState("")
     // Add Nota Modal
@@ -32,7 +32,8 @@ export default function DetalleNota(props) {
     const [editingEntradas, setEditingEntradas] = useState(false)
     // const [editingDiagnostico, setEditingDiagnostico] = useState(false)
 
-    const [notasLen, setNotasLen] = useState("")
+    const [notasLen, setNotasLen] = useState(null)
+    const [counterPilot, setCounterPilot] = useState(0)
 
     const id_paciente = props.paciente;
 
@@ -41,14 +42,24 @@ export default function DetalleNota(props) {
             getNotasData()
             :
             finishGet()
+
+
     }, [])
 
     useEffect(() => {
-        console.log('Paciente received to detailNota: ', id_paciente)
+        if (notaData && notaData.length === 0) {
+            createNota()
+        }
+    }, [notaData])
+
+
+    useEffect(() => {
+        // console.log('Paciente received to detailNota: ', id_paciente)
         id_paciente ?
             getNotasData()
             :
             finishGet()
+        // if (notasLen === 0) createNota()
     }, [id_paciente])
 
     // if patient not contains notas
@@ -61,6 +72,7 @@ export default function DetalleNota(props) {
                 nt.label = 'Nota' + (i + 1);
             });
             setNotaData(rs);
+            setNotasLen(rs.length)
             setnotaLoading(false)
         })
     }
@@ -103,7 +115,7 @@ export default function DetalleNota(props) {
             headers: { 'Content-Type': 'application/json' }
         }).then(res => res.json())
             .then(response => {
-                console.log('Update Exp:', response);
+                // console.log('Update Exp:', response);
                 message.success(response.message || response.error);
             })
             .catch(error => console.error('Error:', error))
@@ -171,7 +183,7 @@ export default function DetalleNota(props) {
     //     },
     // };
 
-    const items = notaData.map((nota, i) => {
+    const items = notaData ? notaData.map((nota, i) => {
         return {
             label: `Nota ${i + 1}`,
             key: nota._id,
@@ -322,13 +334,12 @@ export default function DetalleNota(props) {
                 </Col>
             </Row>
         }
-    }).reverse()
+    }).reverse() : []
 
     // return <div style={{backgroundColor: '#fff', padding: 16}}>
     return <Card style={{ marginTop: 15 }}>
 
         <Space>
-            <h3>Tamaño notas: {notasLen}</h3>
             <h5>Notas </h5>
             {
                 isDoctor && <Button className='btnIconCentered' onClick={createNota} size='small' type="primary" shape="circle" icon={<PlusOutlined />} ghost />

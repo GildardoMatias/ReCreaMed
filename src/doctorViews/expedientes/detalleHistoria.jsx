@@ -14,7 +14,7 @@ export default function DetalleHistoria({ historia, detalles_paciente }) {
     const [editing, setEditing] = useState(false)
 
     useEffect(() => {
-        console.log("Detalle historia recvd pat: ", detalles_paciente)
+        // console.log("Detalle historia recvd pat: ", detalles_paciente)
         historia ?
             getHistoriaData()
             :

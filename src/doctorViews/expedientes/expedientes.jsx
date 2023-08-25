@@ -22,13 +22,13 @@ export default function Expedientes({ paciente }) {
 
 
     const getExpedientesData = (id_paciente) => {
-        console.log('Received patient exp doc ', id_paciente)
+        // console.log('Received patient exp doc ', id_paciente)
         fetch(API + `expedientes/${id_paciente}`)
             .then(response => response.json())
             .then(data => {
-                console.log("GetExpData: ", data);
+                // console.log("GetExpData: ", data);
                 setExpedientesData(data);
-                if (typeof data != "undefined") {
+                if (typeof data != "undefined" && data !== null) {
                     setNotas(data.notas); setHistoria(data.historia);
                 } else { setNotas(null); setHistoria(null) }
             })
@@ -79,10 +79,10 @@ export default function Expedientes({ paciente }) {
             notas: [],
             recetas: []
         }
-        console.log('postBodyForExpedient: ', postBody);
+        // console.log('postBodyForExpedient: ', postBody);
 
         sendDataBody('expedientes/add', postBody).then(response => {
-            console.log('Success:', response);
+            // console.log('Success:', response);
             message.success(response.message || response.error);
             if (response.message && response.message === 'Expediente creado correctamente') {
                 getExpedientesData(id_paciente)
@@ -99,7 +99,7 @@ export default function Expedientes({ paciente }) {
 
         {/* <h4 className='spacedTitle'>Expediente </h4> */}
 
-        <div style={{ display: 'flex',flexDirection: 'row', gap: 15 }}>
+        <div style={{ display: 'flex', flexDirection: 'row', gap: 15 }}>
             <DetallesPaciente paciente={paciente} />
 
             <DetalleHistoria historia={historia} detalles_paciente={paciente} />
