@@ -27,8 +27,6 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
     };
 
     const onFinishEdit = (values) => {
-        console.log('Orig ', _notas_evolucion)
-        console.log('for edit ', evoForEdit._id)
         const found = _notas_evolucion.find((n) => n._id === evoForEdit._id)
 
         // Encuentra el índice del objeto a actualizar en el array
@@ -40,19 +38,12 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
 
             console.log("Elemento actualizado:", _notas_evolucion[indexToUpdate]);
             updateData(`notas/update/${id_nota}`, { notas_evolucion: _notas_evolucion }).then((rs) => {
-                console.log(rs)
+                
                 setIsModalOpen(false)
             })
         } else {
             console.log("No se encontró el elemento con el ID proporcionado.");
         }
-        console.log('Updated ', _notas_evolucion)
-
-
-
-        console.log('found ', found)
-        console.log('received ', values)
-        console.log('updated', _notas_evolucion)
     }
 
     return <div>
