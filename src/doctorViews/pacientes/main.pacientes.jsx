@@ -35,7 +35,8 @@ export default function MainPacientes() {
           paciente.res_name = paciente.responsable.nombre;
           paciente.res_phone = paciente.responsable.telefono;
         });
-        console.log(data); setPacientesData(data);
+        // console.log(data); 
+        setPacientesData(data);
         if (data && data.length > 0) setActivePatient(data[0])
       })
       .finally(() => setIsLoading(false))

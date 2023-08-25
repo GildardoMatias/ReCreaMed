@@ -28,6 +28,7 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
 
     const onFinishEdit = (values) => {
         console.log('Orig ', _notas_evolucion)
+        console.log('for edit ', evoForEdit._id)
         const found = _notas_evolucion.find((n) => n._id === evoForEdit._id)
 
         // Encuentra el índice del objeto a actualizar en el array
@@ -38,6 +39,10 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
             _notas_evolucion[indexToUpdate] = values;
 
             console.log("Elemento actualizado:", _notas_evolucion[indexToUpdate]);
+            updateData(`notas/update/${id_nota}`, { notas_evolucion: _notas_evolucion }).then((rs) => {
+                console.log(rs)
+                setIsModalOpen(false)
+            })
         } else {
             console.log("No se encontró el elemento con el ID proporcionado.");
         }
@@ -47,10 +52,11 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
 
         console.log('found ', found)
         console.log('received ', values)
+        console.log('updated', _notas_evolucion)
     }
 
     return <div>
-        {_notas_evolucion.length > 0 ?
+        {(_notas_evolucion && _notas_evolucion.length) > 0 ?
             _notas_evolucion.map((nota_evo) => {
                 return <Card title='Nota de evolucion' size='small' style={{ marginBottom: 8 }} key={nota_evo._id}>
 
@@ -123,38 +129,37 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
                 wrapperCol={{ span: 16 }}
                 initialValues={evoForEdit || {}}
             >
-                {
-                    usuario.rol === 'Enfermero' && <div>
-                        <Form.Item name='temperatura' label="Temperatura" rules={[{ required: true }]}>
-                            <InputNumber style={{ width: '100%' }} />
-                        </Form.Item>
-                        <Form.Item name='frecuencia_respiratoria' label="Frecuencia respiratoria" rules={[{ required: true }]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name='frecuencia_cardiaca' label="Frecuencia cardiaca" rules={[{ required: true }]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name='presion_arterial' label="Presion arterial" rules={[{ required: true }]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name='saturacion_oxigeno' label="Saturacion oxigeno" rules={[{ required: true }]}>
-                            <Input />
-                        </Form.Item>
-                    </div>
-                }
+
+
+                <Form.Item name='temperatura' label="Temperatura" rules={[{ required: true, message: 'Ingrese la temperatura' }]}>
+                    <InputNumber style={{ width: '100%' }} />
+                </Form.Item>
+                <Form.Item name='frecuencia_respiratoria' label="Frecuencia respiratoria" rules={[{ required: true, message: 'Ingrese la frecuencia respiratoria' }]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name='frecuencia_cardiaca' label="Frecuencia cardiaca" rules={[{ required: true, message: 'Ingrese la frecuencia cardiaca' }]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name='presion_arterial' label="Presion arterial" rules={[{ required: true, message: 'Ingrese la presión arterial' }]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name='saturacion_oxigeno' label="Saturacion oxigeno" rules={[{ required: true, message: 'Ingrese la saturacion de oxigeno' }]}>
+                    <Input />
+                </Form.Item>
+
 
                 {
                     usuario.rol === 'Medico' && <div>
-                        <Form.Item label="S" name="s" rules={[{ required: true, message: 'Please input your username!' }]} >
+                        <Form.Item label="S" name="s" rules={[{ required: true, message: 'Ingrese la respuesta' }]} >
                             <Input.TextArea />
                         </Form.Item>
-                        <Form.Item label="O" name="o" rules={[{ required: true, message: 'Please input your username!' }]} >
+                        <Form.Item label="O" name="o" rules={[{ required: true, message: 'Ingrese la respuesta' }]} >
                             <Input.TextArea />
                         </Form.Item>
-                        <Form.Item label="A" name="a" rules={[{ required: true, message: 'Please input your username!' }]} >
+                        <Form.Item label="A" name="a" rules={[{ required: true, message: 'Ingrese la respuesta' }]} >
                             <Input.TextArea />
                         </Form.Item>
-                        <Form.Item label="P" name="p" rules={[{ required: true, message: 'Please input your username!' }]} >
+                        <Form.Item label="P" name="p" rules={[{ required: true, message: 'Ingrese la respuesta' }]} >
                             <Input.TextArea />
                         </Form.Item>
                     </div>

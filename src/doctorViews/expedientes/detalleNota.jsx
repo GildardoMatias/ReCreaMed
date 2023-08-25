@@ -14,7 +14,7 @@ export default function DetalleNota(props) {
 
     const isDoctor = usuario && usuario.rol && usuario.rol === 'Medico';
 
-    const [notaData, setNotaData] = useState(null);
+    const [notaData, setNotaData] = useState([]);
     const [notaLoading, setnotaLoading] = useState(true);
     const [notaForEdit, setNotaForEdit] = useState("")
     // Add Nota Modal
@@ -46,11 +46,11 @@ export default function DetalleNota(props) {
 
     }, [])
 
-    useEffect(() => {
-        if (notaData && notaData.length === 0) {
-            createNota()
-        }
-    }, [notaData])
+    // useEffect(() => {
+    //     if (notaData === null || notaData.length === 0) {
+    //         createNota()
+    //     }
+    // }, [notaData])
 
 
     useEffect(() => {
@@ -72,7 +72,6 @@ export default function DetalleNota(props) {
                 nt.label = 'Nota' + (i + 1);
             });
             setNotaData(rs);
-            setNotasLen(rs.length)
             setnotaLoading(false)
         })
     }
@@ -119,7 +118,9 @@ export default function DetalleNota(props) {
                 message.success(response.message || response.error);
             })
             .catch(error => console.error('Error:', error))
-            .finally(() => { getNotasData() })
+            .finally(() => {
+                getNotasData()
+            })
     };
 
     const NotaGridStyle = {
@@ -342,7 +343,7 @@ export default function DetalleNota(props) {
         <Space>
             <h5>Notas </h5>
             {
-                isDoctor && <Button className='btnIconCentered' onClick={createNota} size='small' type="primary" shape="circle" icon={<PlusOutlined />} ghost />
+                (isDoctor || notaData.length === 0) && <Button className='btnIconCentered' onClick={createNota} size='small' type="primary" shape="circle" icon={<PlusOutlined />} ghost />
             }
         </Space>
 
