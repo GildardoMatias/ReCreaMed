@@ -21,15 +21,17 @@ export default function Detalles(props) {
             let totalCobros = rs.length;
             let totalPagados = 0;
             let totalPendientes = 0;
-            let listOfDeudors = [];
+            let _listOfDeudors = [];
+            let _listOfPagados = [];
             rs.forEach(c => {
-                if (c && c.estado === 'pagado') {
+                if ((c && c.estado === 'pagado') || c.monto === c.abono) {
                     totalIngresos += c.monto;
                     totalPagados++
+                    _listOfPagados.push(c)
                 } else {
                     totalPendiente += c.monto;
                     totalPendientes++;
-                    listOfDeudors.push(c)
+                    _listOfDeudors.push(c)
                 }
             });
             const totales = {
@@ -38,7 +40,8 @@ export default function Detalles(props) {
                 cobrosTotales: totalCobros,
                 pagados: totalPagados,
                 pendientes: totalPendientes,
-                listOfDeudors: listOfDeudors
+                listOfDeudors: _listOfDeudors,
+                listOfPagados: _listOfPagados
             }
             setTotales(totales)
         })
@@ -59,8 +62,13 @@ export default function Detalles(props) {
             title: 'Paciente',
             key: 'cita.paciente',
             dataIndex: 'cita',
+            // render: (_, record) => {
+            //     if (record.cita) return <MatchPatient paciente={record.cita.usuario} />
+            //     else if (record.paciente) return <>{record.paciente.name}</>
+            //     else return <Text type="secondary"> Sin Paciente</Text>
+            // },
             render: (_, record) => {
-                if (record.cita) return <MatchPatient paciente={record.cita.usuario} />
+                if (record.cita) return <>{record.cita.usuario.name}</>
                 else if (record.paciente) return <>{record.paciente.name}</>
                 else return <Text type="secondary"> Sin Paciente</Text>
             },
@@ -73,19 +81,27 @@ export default function Detalles(props) {
         },
         {
             title: 'Fecha y Hora',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
-            render: (_, { createdAt }) => { return <>{new Date(createdAt).toLocaleString()}</> }
+            dataIndex: 'fecha_hora',
+            key: 'fecha_hora',
+            render: (_, { fecha_hora }) => { return <>{new Date(fecha_hora).toLocaleString()}</> }
         },
 
     ];
     return <Modal title="Detalles del corte" open={props.isModalOpen} onCancel={handleOk} destroyOnClose
         footer={[<Button onClick={handleOk}>Cerrar</Button>]}
     >
-        <h5>Ingresos </h5>
-        <h5>Pagados: {totales.pagados}</h5>
-        <h5>Total: <span style={{ color: '#3277a8' }}>${totales.ingresosTotales}</span></h5>
-        <br />
+        {/* <h5>Ingresos </h5>
+        <h5>Pagados: {totales.pagados}</h5> */}
+
+        {/* <p>showing of {JSON.stringify(props.corte)}</p> */}
+        {/* <p>pagados {JSON.stringify(totales.listOfPagados)}</p> */}
+        {/* <p>tam {totales.listOfPagados.length}</p> */}
+
+        <h5>Total ingresos: <span style={{ color: '#3277a8' }}>${totales.ingresosTotales}</span></h5>
+        {
+            totales.listOfPagados && totales.listOfPagados.length > 0 && <Table dataSource={totales.listOfPagados} columns={columns} bordered={false} size='small' />
+        }
+
         <h5>Pendientes</h5>
         <h5>Total: <span style={{ color: '#eb3d43' }}>${totales.deudasTotales}</span></h5>
 

@@ -86,7 +86,7 @@ export default function MainPacientes() {
 
 
 
-      <Expedientes paciente={activePatient} />
+      <Expedientes paciente={activePatient} setIsEditModalOpen={setIsEditModalOpen}/>
 
 
 

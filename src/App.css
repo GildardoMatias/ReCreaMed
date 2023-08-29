@@ -127,6 +127,12 @@ h5 {
     color: #515a6e;
 }
 
+.smallText {
+    font-size: 12px;
+    font-weight: 400;
+    color: #515a6e;
+}
+
 /* End Of Detalles Paciente */
 .dynamic-delete-button {
     position: relative;

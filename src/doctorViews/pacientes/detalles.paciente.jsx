@@ -2,8 +2,8 @@ import React from 'react'
 import { Avatar, Card, Divider, Button, Row, Col } from 'antd';
 import { FormOutlined, UserOutlined, MailOutlined, MobileOutlined } from '@ant-design/icons';
 
-export default function DetallesPaciente({ paciente, setEditing }) {
-    return (<div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', justifyContent: 'center',backgroundColor:'white', width: '25%', borderRadius: 8 }}>
+export default function DetallesPaciente({ paciente, setIsEditModalOpen }) {
+    return (<div style={{ marginTop: 16, paddingBottom: 4, display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: 'white', width: '25%', borderRadius: 8 }}>
 
         <div style={{ textAlign: 'center', marginTop: 8 }}>
             {
@@ -15,6 +15,9 @@ export default function DetallesPaciente({ paciente, setEditing }) {
             <p className='nombre'><UserOutlined style={{ marginRight: 10 }} /> {paciente.name}</p>
             <p className='datos'><MailOutlined style={{ marginRight: 10 }} /> {paciente.email}</p>
             <p className='datos'><MobileOutlined style={{ marginRight: 10 }} /> {paciente.telefono}</p>
+            <div style={{ display: 'flex', flexDirection: 'row-reverse', paddingRight: 16 }}>
+                <Button className='btnIconCentered' onClick={() => setIsEditModalOpen(true)} size='small' type="primary" shape="circle" icon={<FormOutlined className='sizedIcon' />} ghost />
+            </div>
         </div>
 
         {/* <Card style={{ marginTop: 16 }}> Before, parent was a div and two Card children

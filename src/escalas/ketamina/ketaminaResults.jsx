@@ -7,6 +7,7 @@ import LoadingIndicator from '../loadingIndicator'
 import EscalasCreateGeneralLink from '../escalasCreateGeneralLink';
 import Loading from '../../loading';
 import getAllEscalas from '../getEscalas';
+import KetaminaDetails from './ketaminaDetails';
 const { Option } = Select;
 
 export default function KetaminaResults() {
@@ -17,6 +18,15 @@ export default function KetaminaResults() {
   const [loadingCounters, setLoadingCounters] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true)
+
+  // Modal for details
+  const [escalaForDetails, setEscalaForDetails] = useState("")
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const showDetailsModal = () => { setIsDetailsModalOpen(true) };
+  const handleDetailsOk = () => { setIsDetailsModalOpen(false) };
+  const handleDetailsCancel = () => { setIsDetailsModalOpen(false) };
+
+
 
   useEffect(() => {
     // usuario.rol === 'Administrador' ? getDoctorsData() : getEncuestasData(usuario._id)
@@ -41,7 +51,7 @@ export default function KetaminaResults() {
     })
   }
 
- 
+
 
   // If session is medic
   const getEncuestasData = (medico) => {
@@ -196,6 +206,23 @@ export default function KetaminaResults() {
 
   ];
 
+  const detailsColumns = [
+    {
+      title: 'Usuario',
+      key: 'usuario',
+      dataIndex: 'usuario',
+      render: (_, { usuario }) => (<>{usuario ? usuario.name : "usuario no existente"}</>),
+      sorter: true
+    },
+    {
+      title: 'Acciones',
+      key: 'actions',
+      dataIndex: 'actions',
+      render: (_, { respuestas_ketamina }) => (<>
+        <Button onClick={() => { setEscalaForDetails(respuestas_ketamina); showDetailsModal() }}>Ver detalles</Button>
+      </>),
+    },
+  ]
 
 
   // if ((usuario.rol === 'Recepcion' || usuario.rol === 'Administracion') && !ketaminaData) return <h5>Seleccione un medico para ver los resultados de sus encuestas</h5>
@@ -235,7 +262,9 @@ export default function KetaminaResults() {
       <h4>Detalles de encuestas</h4>
       <br />
 
-      <Table dataSource={ketaminaData} columns={columns} scroll={{ x: 1300 }} bordered />
+      {/* <Table dataSource={ketaminaData} columns={columns} scroll={{ x: 1300 }} bordered /> */}
+
+      <Table dataSource={ketaminaData} columns={detailsColumns} scroll={{ x: 1300 }} bordered />
 
 
       <Modal title="Generar Escala de Ketamina" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
@@ -246,6 +275,8 @@ export default function KetaminaResults() {
         {/* <KetaminaCreateLink /> */}
         <EscalasCreateGeneralLink tipo="ketamina" />
       </Modal>
+
+      <KetaminaDetails escalaDetails={escalaForDetails} handleCancel={handleDetailsCancel} handleOk={handleDetailsOk} isModalOpen={isDetailsModalOpen} />
     </div>
   )
 }

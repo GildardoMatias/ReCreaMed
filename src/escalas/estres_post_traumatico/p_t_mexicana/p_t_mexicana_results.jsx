@@ -3,6 +3,7 @@ import { Button, Modal, Table, Form, Select } from 'antd';
 import EscalasCreateGeneralLink from '../../escalasCreateGeneralLink';
 import { getData, usuario, sendDataBody, ids_hospitales } from '../../../resources';
 import getAllEscalas from '../../getEscalas';
+import PTMXDetails from './p_t_mexicana_details';
 const Option = { Select }
 
 export default function PostTraumaticoMexicanaResults() {
@@ -19,6 +20,13 @@ export default function PostTraumaticoMexicanaResults() {
     const showModal = () => { setIsModalOpen(true) };
     const handleOk = () => { setIsModalOpen(false) };
     const handleCancel = () => { setIsModalOpen(false) };
+
+    // Modal for details
+    const [escalaForDetails, setEscalaForDetails] = useState("")
+    const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+    const showDetailsModal = () => { setIsDetailsModalOpen(true) };
+    const handleDetailsOk = () => { setIsDetailsModalOpen(false) };
+    const handleDetailsCancel = () => { setIsDetailsModalOpen(false) };
 
 
     useEffect(() => {
@@ -94,6 +102,24 @@ export default function PostTraumaticoMexicanaResults() {
         setColumns(columns)
     }
 
+    const detailsColumns = [
+        {
+            title: 'Usuario',
+            key: 'usuario',
+            dataIndex: 'usuario',
+            render: (_, { usuario }) => (<>{usuario ? usuario.name : "usuario no existente"}</>),
+            sorter: true
+        },
+        {
+            title: 'Acciones',
+            key: 'actions',
+            dataIndex: 'actions',
+            render: (_, { respuestas_ept_3mx }) => (<>
+                <Button onClick={() => { setEscalaForDetails(respuestas_ept_3mx); showDetailsModal() }}>Ver detalles</Button>
+            </>),
+        },
+    ]
+
     return (
         <div>
             <h6>Resultados de la Validación mexicana de la Escala de Estrés Traumático Secundario</h6>
@@ -109,8 +135,8 @@ export default function PostTraumaticoMexicanaResults() {
             <br />
             <h4>Detalles de encuestas</h4>
             <br />
-            <Table dataSource={encuestasData} columns={columns} scroll={{ x: 1600 }} bordered />
-
+            <Table dataSource={encuestasData} columns={detailsColumns} bordered />
+            {/* <Table dataSource={encuestasData} columns={columns} scroll={{ x: 1600 }} bordered /> */}
 
             <Modal title="Crear Encuesta de Estres Post Traumatico" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
                 footer={[
@@ -118,6 +144,9 @@ export default function PostTraumaticoMexicanaResults() {
                 ]}>
                 <EscalasCreateGeneralLink tipo='post_traumatico_mx' />
             </Modal>
+
+            <PTMXDetails escalaDetails={escalaForDetails} handleCancel={handleDetailsCancel} handleOk={handleDetailsOk} isModalOpen={isDetailsModalOpen} />
+
         </div>
     )
 }

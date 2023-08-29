@@ -8,6 +8,7 @@ import DolorEncuesta from '../escalas/dolor/dolorEncuesta';
 import PostTraumaticoEncuesta from '../escalas/estres_post_traumatico/post_traumatico/p_t_encuesta';
 import PTClinicoEncuesta from '../escalas/estres_post_traumatico/p_t_clinico/p_t_clinico_encuesta';
 import PTMexicanaEncuesta from '../escalas/estres_post_traumatico/p_t_mexicana/p_t_mexicana_encuesta';
+import SatisfaccionEncuesta from '../escalas/satisfaccion/satisfaccionEncuesta';
 
 // Ketamina
 export function KetaminaPublic() {
@@ -83,6 +84,18 @@ export function PostTraumaticoMX() {
     return (
         <div>
             <PTMexicanaEncuesta idmedico={idmedico} idpaciente={idpaciente} token={key} />
+        </div>
+    )
+}
+
+// Escala de satosfaccion
+export function SatisfaccionPublic() {
+    let { idmedico, idpaciente, key } = useParams();
+    console.log(key)
+    return (
+        <div>
+            {/* <PTMexicanaEncuesta idmedico={idmedico} idpaciente={idpaciente} token={key} /> */}
+            <SatisfaccionEncuesta idmedico={idmedico} idpaciente={idpaciente} token={key} />
         </div>
     )
 }

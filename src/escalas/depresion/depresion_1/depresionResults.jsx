@@ -31,7 +31,7 @@ export default function DepresionResults() {
             // getCounters(rs, medico);
             console.log(rs);
             setEncuestasData(rs)
-        })
+        }).finally(() => setLoading(false))
     }
 
     const getCounters = (data, medico) => {

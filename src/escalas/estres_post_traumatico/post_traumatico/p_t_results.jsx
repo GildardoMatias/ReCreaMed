@@ -3,6 +3,8 @@ import { Button, Modal, Select, Form, Table } from 'antd';
 import EscalasCreateGeneralLink from '../../escalasCreateGeneralLink';
 import getAllEscalas from '../../getEscalas';
 import { getData, usuario, sendDataBody, ids_hospitales } from '../../../resources';
+import PTDetails from './p_t_details';
+
 const { Option } = Select;
 
 export default function PostTraumaticoResults() {
@@ -18,6 +20,13 @@ export default function PostTraumaticoResults() {
     const showModal = () => { setIsModalOpen(true) };
     const handleOk = () => { setIsModalOpen(false) };
     const handleCancel = () => { setIsModalOpen(false) };
+
+    // Modal for details
+    const [escalaForDetails, setEscalaForDetails] = useState("")
+    const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+    const showDetailsModal = () => { setIsDetailsModalOpen(true) };
+    const handleDetailsOk = () => { setIsDetailsModalOpen(false) };
+    const handleDetailsCancel = () => { setIsDetailsModalOpen(false) };
 
 
     useEffect(() => {
@@ -114,6 +123,24 @@ export default function PostTraumaticoResults() {
         setColumns(columns)
     }
 
+    const detailsColumns = [
+        {
+            title: 'Usuario',
+            key: 'usuario',
+            dataIndex: 'usuario',
+            render: (_, { usuario }) => (<>{usuario ? usuario.name : "usuario no existente"}</>),
+            sorter: true
+        },
+        {
+            title: 'Acciones',
+            key: 'actions',
+            dataIndex: 'actions',
+            render: (_, { respuestas_ept1_davidson }) => (<>
+                <Button onClick={() => { setEscalaForDetails(respuestas_ept1_davidson); showDetailsModal() }}>Ver detalles</Button>
+            </>),
+        }
+    ]
+
     return (
         <div>
             <h6>Evaluación Del Trastorno Por Estrés Postraumático: Aproximación A Las Propiedades Psicométricas De La Escala De Trauma De Davidson</h6>
@@ -126,8 +153,8 @@ export default function PostTraumaticoResults() {
             <br />
             <h4>Detalles de encuestas</h4>
             <br />
-            <Table dataSource={encuestasData} columns={columns} scroll={{ x: 1600 }} bordered />
-
+            {/* <Table dataSource={encuestasData} columns={columns} scroll={{ x: 1600 }} bordered /> */}
+            <Table dataSource={encuestasData} columns={detailsColumns} bordered />
 
             <Modal title="Crear Encuesta de Estres Post Traumatico" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
                 footer={[
@@ -135,6 +162,9 @@ export default function PostTraumaticoResults() {
                 ]}>
                 <EscalasCreateGeneralLink tipo='post_traumatico' />
             </Modal>
+
+            <PTDetails escalaDetails={escalaForDetails} handleCancel={handleDetailsCancel} handleOk={handleDetailsOk} isModalOpen={isDetailsModalOpen} />
+
         </div>
     )
 }

@@ -1,15 +1,25 @@
 import React, { useState } from 'react'
-import { Card, Button, Modal, InputNumber } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Card, Button, Modal, InputNumber, Row, Col } from 'antd';
+import { PlusOutlined, PrinterOutlined } from '@ant-design/icons';
 import { Form, Input, TimePicker } from 'antd';
 import locale from 'antd/es/date-picker/locale/es_ES';
 
-import { updateData } from '../../resources'
+import { updateData, usuario } from '../../resources'
+import HojaDocument from './hojaEnfermeriaPrint';
 
 
-export default function HojasEnfermeria({ hojas_enfermeria, id_nota }) {
+export default function HojasEnfermeria({ hojas_enfermeria, id_nota, datosPaciente }) {
     const [hojaEdit, setHojaEdit] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Print Receta Modal
+    const [isPrintingModalVisible, setIsPrintingModalVisible] = useState(false)
+    const handlePrintOk = () => { setIsPrintingModalVisible(false); setIsLogoSelected(false) };
+    const handlePrintCancel = () => { setIsPrintingModalVisible(false); setIsLogoSelected(false) };
+    // Select logo for print in receta. Switches the modal view into select logo hospital/pdf recipe for print
+    const [logoHospital, setLogoHospital] = useState(null)
+    const [nombreHospital, setNombreHospital] = useState(null)
+    const [isLogoSelected, setIsLogoSelected] = useState(false)
 
     // Modal for details
     const showModal = () => { setIsModalOpen(true) };
@@ -39,7 +49,12 @@ export default function HojasEnfermeria({ hojas_enfermeria, id_nota }) {
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     }
-
+    // Print Receta
+    const printHoja = async (r) => {
+        setHojaEdit(r)
+        setIsPrintingModalVisible(true)
+        console.log(r);
+    }
 
     return <Card style={{ marginTop: 8 }}>
         <div className='fila' style={{ marginBottom: 8 }}>
@@ -49,7 +64,10 @@ export default function HojasEnfermeria({ hojas_enfermeria, id_nota }) {
         {
             hojas_enfermeria && hojas_enfermeria.map((hoja, i) => {
                 hoja.aplicacion = i;
-                return <Button key={i} type='link' onClick={() => { setHojaEdit(hoja); console.log(hoja); setIsModalOpen(true) }}>Aplicacion {i + 1}  {new Date(hoja.inicio?.hora).toLocaleDateString('es-MX')}</Button>
+                return <>
+                    <Button key={i} type='link' onClick={() => { setHojaEdit(hoja); console.log(hoja); setIsModalOpen(true) }}>Aplicacion {i + 1}  {new Date(hoja.inicio?.hora).toLocaleDateString('es-MX')}</Button>
+                    <Button style={{ marginLeft: 8 }} onClick={() => printHoja(hoja)} size='small' type="primary" shape="circle" icon={<PrinterOutlined />} className='btnIconCentered' ghost />
+                </>
             })
         }
         <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
@@ -57,7 +75,7 @@ export default function HojasEnfermeria({ hojas_enfermeria, id_nota }) {
             <Button className='btnIconCentered' onClick={showAddModal} size='small' type="primary" shape="circle" icon={<PlusOutlined />} ghost />
         </div>
 
-        <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1000} footer={[
+        <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1100} footer={[
             <Button onClick={handleOk}>Cerrar</Button>
         ]}>
             {
@@ -87,7 +105,7 @@ export default function HojasEnfermeria({ hojas_enfermeria, id_nota }) {
                         <Card.Grid style={gridStyle}>{hojaEdit.inicio.saturacion_oxigeno}</Card.Grid>
 
                         <Card.Grid style={gridStyle}>INTERMEDIO</Card.Grid>
-                        <Card.Grid style={gridStyle}>{new Date(hojaEdit.inicio.hora).toLocaleTimeString()}</Card.Grid>
+                        <Card.Grid style={gridStyle}>{new Date(hojaEdit.intermedio.hora).toLocaleTimeString()}</Card.Grid>
                         <Card.Grid style={gridStyle}>{hojaEdit.intermedio.temperatura}</Card.Grid>
                         <Card.Grid style={gridStyle}>{hojaEdit.intermedio.frecuencia_cardiaca}</Card.Grid>
                         <Card.Grid style={gridStyle}>{hojaEdit.intermedio.frecuencia_respiratoria}</Card.Grid>
@@ -222,5 +240,30 @@ export default function HojasEnfermeria({ hojas_enfermeria, id_nota }) {
             </Form>
         </Modal>
 
+        <Modal title="Imprimir Receta" open={isPrintingModalVisible} onOk={handlePrintOk} onCancel={handlePrintCancel} width={600}
+            footer={[
+                <Button onClick={handlePrintCancel}>Cancelar</Button>
+            ]}
+        >
+            {
+                isLogoSelected ? // Si ya hay logo seleccionado, se pasa a la receta y se muestra en pdf
+                    <HojaDocument receta={hojaEdit} logoHospital={logoHospital} nombreHospital={nombreHospital} datosPaciente={datosPaciente} />
+                    :
+                    <div>
+                        <Card title='Selecciona un hospital' bordered={false}>
+                            {
+                                usuario.horarios.map((h) => {
+                                    return <Card.Grid style={{ width: '100%' }} onClick={() => { console.log('sucursal serlected', h.sucursal); setLogoHospital(h.sucursal.logo); setNombreHospital(h.sucursal.nombre); setIsLogoSelected(true) }} key={h._id}>
+                                        <Row align="middle">
+                                            <Col span={6} offset={4}><img width={64} src={'https://api.recreamed.com/images/' + h.sucursal.logo} alt="Logo" /></Col>
+                                            <Col span={10}>{h.sucursal.nombre} <br /> {h.horario}</Col>
+                                        </Row>
+                                    </Card.Grid>
+                                })
+                            }
+                        </Card>
+                    </div>
+            }
+        </Modal>
     </Card>
 }

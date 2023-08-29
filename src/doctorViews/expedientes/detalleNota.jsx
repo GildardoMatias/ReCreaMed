@@ -251,7 +251,7 @@ export default function DetalleNota(props) {
                     <LastCita paciente={id_paciente} />
 
                     {/* Debajo de la ultima cita va hojas de enfermeria*/}
-                    <HojasEnfermeria hojas_enfermeria={nota.hojas_enfermeria} id_nota={nota._id} />
+                    <HojasEnfermeria hojas_enfermeria={nota.hojas_enfermeria} id_nota={nota._id} datosPaciente={props.datosPaciente} />
                 </Col>
 
                 {/* la otra mitad de la pantalla para NOTA*/}

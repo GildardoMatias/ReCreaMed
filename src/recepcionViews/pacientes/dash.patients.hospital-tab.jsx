@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getData, deleteData, usuario } from '../../resources'
 import { Table, Avatar, Space, Button, Popconfirm, Modal, Card, Input } from 'antd'
 import { UserOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons'
-import Register from './register.user'
+import Register, { RegisterModal } from './register.user'
 import Expedientes from '../../doctorViews/expedientes/expedientes'
 
 export default function HospitalTab(props) {
@@ -10,6 +10,7 @@ export default function HospitalTab(props) {
     const [pacientesData, setPacientesData] = useState([])
     const [paciente, setPaciente] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false) //For Edit patient
     const [loading, setLoading] = useState(true)
     const [editingProfile, setEditingProfile] = useState(false)
     const showModal = () => { setIsModalVisible(true); };
@@ -183,10 +184,14 @@ export default function HospitalTab(props) {
         <Modal width={1200} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
             {
                 usuario.rol === "Enfermero" ?
-                    <Expedientes paciente={paciente} /> //points to expedient of medico
+                    <Expedientes paciente={paciente} setIsEditModalOpen={setIsEditModalOpen} /> //points to expedient of medico
                     :
                     <DetalleUsuario />
             }
         </Modal>
+
+        {/* Modal For Edit */}
+        <RegisterModal getPacientesData={getPacientesData} isModalOpen={isEditModalOpen} paciente={paciente} setIsModalOpen={setIsEditModalOpen} />
+
     </div >
 }

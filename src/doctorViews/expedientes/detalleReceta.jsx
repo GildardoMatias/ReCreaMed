@@ -108,7 +108,7 @@ export default function DetalleReceta(props) {
     }
     // Print Receta
     const printReceta = async (r) => {
-        await setRecetaForEdit(r)
+        setRecetaForEdit(r)
         setIsPrintingModalVisible(true)
         console.log(r);
     }

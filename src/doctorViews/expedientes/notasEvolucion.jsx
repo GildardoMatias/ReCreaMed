@@ -38,7 +38,7 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
 
             console.log("Elemento actualizado:", _notas_evolucion[indexToUpdate]);
             updateData(`notas/update/${id_nota}`, { notas_evolucion: _notas_evolucion }).then((rs) => {
-                
+
                 setIsModalOpen(false)
             })
         } else {
@@ -49,7 +49,10 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
     return <div>
         {(_notas_evolucion && _notas_evolucion.length) > 0 ?
             _notas_evolucion.map((nota_evo) => {
-                return <Card title='Nota de evolucion' size='small' style={{ marginBottom: 8 }} key={nota_evo._id}>
+                console.log('showing ', nota_evo)
+                return <Card title={`Nota de evolución \t\tcreada el: ${new Date(nota_evo.createdAt).toLocaleDateString()}\t\tActualizada el ${new Date(nota_evo.createdAt).toLocaleDateString()}`} size='small' style={{ marginBottom: 8 }} key={nota_evo._id}>
+
+
 
                     <Card size='small'>
                         <div className='fila' style={{ marginBottom: 8 }}>

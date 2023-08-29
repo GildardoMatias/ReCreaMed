@@ -8,7 +8,7 @@ import DetallesPaciente from '../pacientes/detalles.paciente';
 // import { jsPDF } from "jspdf";
 
 
-export default function Expedientes({ paciente }) {
+export default function Expedientes({ paciente,setIsEditModalOpen }) {
     const [expedientesData, setExpedientesData] = useState(null);
     const [expedientesLoading, setExpedientesLoading] = useState(true);
     const [historia, setHistoria] = useState("");
@@ -100,7 +100,7 @@ export default function Expedientes({ paciente }) {
         {/* <h4 className='spacedTitle'>Expediente </h4> */}
 
         <div style={{ display: 'flex', flexDirection: 'row', gap: 15 }}>
-            <DetallesPaciente paciente={paciente} />
+            <DetallesPaciente paciente={paciente} setIsEditModalOpen={setIsEditModalOpen}/>
 
             <DetalleHistoria historia={historia} detalles_paciente={paciente} />
         </div>
@@ -110,7 +110,7 @@ export default function Expedientes({ paciente }) {
 
         {
             expedientesData ?
-                <DetalleNota id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={id_paciente} />
+                <DetalleNota id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={id_paciente} datosPaciente={paciente}/>
                 :
                 <div style={{}}>
                     Sin expediente

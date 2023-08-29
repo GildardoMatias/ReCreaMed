@@ -50,10 +50,10 @@ export default function Ingresos() {
         medicos.forEach(m => { m.label = m.name; m.value = m._id; })// to pass to create modal
         setMedicosData(medicos) // to pass to create modal
 
-        const lastFechaCierre = await getData('cortes/62f55bffc59fcc36f37f541f').then((rs) => {
+        const lastFechaCierre = await getData(`cortes/${usuario._id}`).then((rs) => {
             setFirstFecha(rs.at(0).fecha_cierre)
-            setLastFecha(rs.at(-1).fecha_cierre)
-            return rs.length > 0 ? rs.at(-1).fecha_cierre : subtractMonths(new Date(), 1)
+            setLastFecha(rs.length > 1 ? rs.at(-1).fecha_cierre : subtractMonths(new Date(), 3).toString())
+            return rs.length > 1 ? rs.at(-1).fecha_cierre : subtractMonths(new Date(), 3)
         })
 
         // const promises = medicos.map(medico => getData(`balances/medico/${medico._id}`));
@@ -83,7 +83,7 @@ export default function Ingresos() {
         sendDataBody('balances', body).then((rs) => {
             console.log(rs)
             rs.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
-            setIngresosData(rs.sort((a, b) => a.fecha_hora > b.fecha_hora))
+            setIngresosData(rs.sort((a, b) => a.fecha_hora < b.fecha_hora))
         }).finally(() => setLoading(false))
     }
 
@@ -202,8 +202,8 @@ export default function Ingresos() {
 
     return (
         <div className='mainContainer'>
-            <div>first fecha cierre {firstFecha} </div>
-            <div>last fecha cierre {lastFecha} </div>
+            {/* <div>first fecha cierre {firstFecha} </div>
+            <div>last fecha cierre {lastFecha} </div> */}
             <h4>Ingresos de todos los medicos</h4>
             <br />
 

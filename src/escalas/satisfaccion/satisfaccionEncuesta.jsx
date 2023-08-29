@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { dolor_catalog, initialDolorValues } from './dolor_catalog';
+import { satisfaccion_catalog } from './satisfaccion_catalog';
 import { Form, Input, Button, Slider, Checkbox, Radio, message } from 'antd';
 import { getData, sendDataBody } from '../../resources';
 import logo from "../../assets/Logo.png";
 
-export default function DolorEncuesta(props) {
+export default function SatisfaccionEncuesta(props) {
     // For check if the encuesta existts on db
     const [encuestaNotExists, setEncuestaNotExists] = useState(null)
     const [checking, setChecking] = useState(true)
@@ -32,8 +32,8 @@ export default function DolorEncuesta(props) {
         const body = {
             usuario: props.idpaciente,
             medico: props.idmedico,
-            respuestas_dolor: values,
-            tipo: 'dolor',
+            encuesta_satisfaccion: values,
+            tipo: 'satisfaccion',
             uuid: props.token
         }
         console.log('Body:', body);
@@ -43,7 +43,6 @@ export default function DolorEncuesta(props) {
         }).then(() => checkEncuesta())
     };
     const onFinishFailed = (errorInfo) => {
-        console.log('init', initialDolorValues)
         console.log('Failed:', errorInfo);
         errorInfo.errorFields.map((p) => {
             message.error('Conteste la pregunta ' + p.name)
@@ -70,7 +69,7 @@ export default function DolorEncuesta(props) {
     </div>
     return (
         <div className='mainContainer'>
-            <h4>Encuesta de Dolor</h4>
+            <h4>Encuesta de Satisfaccion</h4>
             <br />
             <h5>Medico: {medicoData.name}</h5>
             <h5>Paciente: {pacienteData.name}</h5>
@@ -80,15 +79,20 @@ export default function DolorEncuesta(props) {
                 name="basic"
                 // labelCol={{ span: 24 }}
                 // wrapperCol={{ span: 24 }}
-                initialValues={initialDolorValues}
+                // initialValues={initialDolorValues}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
                 {
-                    dolor_catalog.map((p) => {
+                    satisfaccion_catalog.map((p) => {
                         let input;
                         switch (p.tipo) {
+                            case 'radioButton':
+                                input = <Radio.Group onChange={onChange} defaultValue="a">
+                                    {p.respuestas.map((r, i) => { return <Radio.Button value={i}>{r}</Radio.Button> })}
+                                </Radio.Group>
+                                break;
                             case 'metrica':
                                 input = <Slider defaultValue={0} min={0} max={10} marks={marks} />
                                 break;
@@ -97,7 +101,7 @@ export default function DolorEncuesta(props) {
                                 break;
                             case 'seleccion':
                                 input = <Radio.Group>
-                                    {p.respuestas.map((r, i) => { return <Radio value={i}>{r}</Radio> })}
+                                    {p.respuestas.map((r, i) => { return <Radio value={i === 0 ? false : true}>{r} val: {i === 0 ? 'false' : 'true'}</Radio> })}
                                 </Radio.Group>;
                                 break;
                             case 'texto':

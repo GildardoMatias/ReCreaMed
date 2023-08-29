@@ -4,10 +4,10 @@ import { usuario, getData, sendDataBody, ids_hospitales } from '../../resources'
 import { Form, Select, Space, Button, Table, Modal } from 'antd';
 import EscalasCreateGeneralLink from '../escalasCreateGeneralLink';
 import getAllEscalas from '../getEscalas';
-import DolorDetails from './dolorDetails';
+import DolorDetails from './satisfaccionDetails';
 const { Option } = Select;
 
-export default function DolorResults() {
+export default function SatisfaccionResults() {
     const [encuestasData, setEncuestasData] = useState([])
     const [medicosData, setMedicosData] = useState([])
     const [medico, setMedico] = useState(null)
@@ -28,17 +28,12 @@ export default function DolorResults() {
     const handleDetailsCancel = () => { setIsDetailsModalOpen(false) };
 
     useEffect(() => {
-        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getAllEscalas('dolor', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getAllEscalas('satisfaccion', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
     }, [])
 
-    const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
-        sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {
-            setMedicosData(rs)
-        })
-    }
 
     const getEncuestasData = (medico) => {
-        getData(`encuestas/dolor/medico/${medico}`).then((rs) => {
+        getData(`encuestas/byDoctorAndTipo/${medico}/satisfaccion`).then((rs) => {
             getCounters(rs, medico);
             console.log(rs);
             setEncuestasData(rs)
@@ -269,17 +264,17 @@ export default function DolorResults() {
             title: 'Acciones',
             key: 'actions',
             dataIndex: 'actions',
-            render: (_, { respuestas_dolor }) => (<>
-                <Button onClick={() => { setEscalaForDetails(respuestas_dolor); showDetailsModal() }}>Ver detalles</Button>
+            render: (_, { encuesta_satisfaccion }) => (<>
+                <Button onClick={() => { setEscalaForDetails(encuesta_satisfaccion); showDetailsModal() }}>Ver detalles</Button>
             </>),
         },
     ]
 
     return (
         <div>
-            <h4 className='spacedTitle'>Resultados de encuestas de dolor</h4>
+            <h4 className='spacedTitle'>Resultados de encuestas de satisfaccion</h4>
             <Button type="primary" onClick={showModal}>
-                Crear Link Encuesta de Dolor
+                Crear Link Encuesta de Satisfaccion
             </Button>
 
             <br />
@@ -290,11 +285,11 @@ export default function DolorResults() {
             {/* <Table columns={columns} dataSource={encuestasData} scroll={{ x: '200vw' }} bordered /> */}
             <Table columns={detailsColumns} dataSource={encuestasData} bordered />
 
-            <Modal title="Crear Encuesta de dolor" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+            <Modal title="Crear Encuesta de satisfaccion" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
                 footer={[
                     <Button onClick={handleCancel}>Cerrar</Button>
                 ]}>
-                <EscalasCreateGeneralLink tipo='dolor' />
+                <EscalasCreateGeneralLink tipo='satisfaccion' />
             </Modal>
 
             <DolorDetails escalaDetails={escalaForDetails} handleCancel={handleDetailsCancel} handleOk={handleDetailsOk} isModalOpen={isDetailsModalOpen} />
