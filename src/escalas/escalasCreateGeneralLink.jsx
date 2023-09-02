@@ -56,7 +56,7 @@ export default function EscalasCreateGeneralLink(props) {
 
     const generateLink = () => {
         // let usr = usuario.rol === 'Administrador' ? medico : usuario._id;
-        let usr = (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? medico : usuario._id;
+        let usr = (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') ? medico : usuario._id;
 
         // let l = `https://sistema.recreamed.com/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}`
         let l = `http://localhost:3000/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}`
@@ -100,10 +100,11 @@ export default function EscalasCreateGeneralLink(props) {
     return (
         <div>
             {
-                (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') &&
+                (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') &&
                 <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
                     style={{ alignItems: 'center', paddingTop: 20 }}>
                     <Select
+                        showSearch
                         style={{ width: 260, }}
                         onChange={handleDoctorChange}
                         placeholder='Selecciona un medico'

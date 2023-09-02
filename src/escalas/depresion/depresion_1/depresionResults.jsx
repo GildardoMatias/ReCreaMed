@@ -22,7 +22,7 @@ export default function DepresionResults() {
     const handleCancel = () => { setIsModalOpen(false) };
 
     useEffect(() => {
-        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getAllEscalas('depresion', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') ? getAllEscalas('depresion', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
     }, [])
 
 

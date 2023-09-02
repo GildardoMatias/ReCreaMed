@@ -243,7 +243,7 @@ export default function HojasEnfermeria({ hojas_enfermeria, id_nota, datosPacien
         <Modal title="Imprimir Receta" open={isPrintingModalVisible} onOk={handlePrintOk} onCancel={handlePrintCancel} width={600}
             footer={[
                 <Button onClick={handlePrintCancel}>Cancelar</Button>
-            ]}
+            ]} destroyOnClose
         >
             {
                 isLogoSelected ? // Si ya hay logo seleccionado, se pasa a la receta y se muestra en pdf

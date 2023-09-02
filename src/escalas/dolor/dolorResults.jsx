@@ -28,7 +28,7 @@ export default function DolorResults() {
     const handleDetailsCancel = () => { setIsDetailsModalOpen(false) };
 
     useEffect(() => {
-        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getAllEscalas('dolor', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') ? getAllEscalas('dolor', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
     }, [])
 
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador

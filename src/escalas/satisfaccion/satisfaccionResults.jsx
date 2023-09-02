@@ -28,7 +28,7 @@ export default function SatisfaccionResults() {
     const handleDetailsCancel = () => { setIsDetailsModalOpen(false) };
 
     useEffect(() => {
-        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getAllEscalas('satisfaccion', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') ? getAllEscalas('satisfaccion', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
     }, [])
 
 

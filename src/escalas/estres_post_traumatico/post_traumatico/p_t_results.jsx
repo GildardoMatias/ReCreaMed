@@ -31,7 +31,7 @@ export default function PostTraumaticoResults() {
 
     useEffect(() => {
         addColumns();
-        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getAllEscalas('post_traumatico', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') ? getAllEscalas('post_traumatico', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
     }, [])
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
         sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales }).then(rs => {

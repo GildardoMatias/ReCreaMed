@@ -7,20 +7,25 @@ import { usuario, IMAGE_API } from '../../resources';
 // export default function HojaDocument(receta, logoHospital, nombreHospital, datosPaciente) {
 export default function HojaDocument({ nombreHospital, logoHospital, receta, datosPaciente }) {
 
+    const { createdAt, peso, dosis, inicio, intermedio, termino, observaciones, aplicacion } = receta;
+
+    const { name, medicos_asignados } = datosPaciente;
+
     useEffect(() => {
         // console.log('hoja enf props', props)
-        // console.log('hoja enf receta', receta)
+        console.log('hoja enf ', receta)
         // console.log('hoja enf logoHospital', logoHospital)
         // console.log('hoja enf nombreHospital', nombreHospital)
-        // console.log('hoja enf datosPaciente', datosPaciente)
+        console.log('hoja enf datosPaciente', datosPaciente)
     }, [])
 
 
     const styles = StyleSheet.create({
         page: {
             flexDirection: 'column',
+            justifyContent: 'space-between',
             backgroundColor: '#ffffff',
-            padding: 20,
+            padding: 30,
         },
         header: {
             flexDirection: 'row',
@@ -33,6 +38,14 @@ export default function HojaDocument({ nombreHospital, logoHospital, receta, dat
             justifyContent: 'center',
             alignItems: 'center',
             marginVertical: 30,
+            fontSize: 18
+        },
+        subtitle: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginVertical: 15,
+            fontSize: 15
         },
         logo: {
             width: 100,
@@ -40,20 +53,39 @@ export default function HojaDocument({ nombreHospital, logoHospital, receta, dat
         },
         content: {
             flexDirection: 'row',
-            justifyContent: 'flex-start',
+            rowGap: 12,
+            justifyContent: 'space-between',
             marginBottom: 20,
         },
         text: {
-            fontSize: 12,
+            fontSize: 14,
+        },
+        table: {
+            display: "table",
+            width: "auto",
+            borderStyle: "solid",
+            borderWidth: 1,
+            borderRightWidth: 0,
+            borderBottomWidth: 0,
+        },
+        tableRow: {
+            margin: "auto",
+            flexDirection: "row",
+        },
+        tableCol: {
+            width: "14.285%", // Cambiado para 7 columnas
+            borderStyle: "solid",
+            borderWidth: 1,
+            borderLeftWidth: 0,
+            borderTopWidth: 0,
+        },
+        tableCell: {
+            margin: "auto",
+            marginTop: 5,
+            fontSize: 10
         },
         tableContainer: {
             marginBottom: 20,
-        },
-        table: {
-            width: '100%',
-            borderStyle: 'solid',
-            borderWidth: 1,
-            borderColor: 'black',
         },
         tableHeader: {
             backgroundColor: '#f0f0f0',
@@ -73,7 +105,7 @@ export default function HojaDocument({ nombreHospital, logoHospital, receta, dat
             borderWidth: 1,
             borderColor: 'black',
             padding: 5,
-            height: 100,
+            height: 140,
         },
     });
 
@@ -87,27 +119,145 @@ export default function HojaDocument({ nombreHospital, logoHospital, receta, dat
                     {/* <Text>{logoHospital}</Text> */}
                 </View>
 
-                <View style={styles.header}>
+                <View style={styles.title}>
                     <Text>HOJA DE ENFERMERÍA</Text>
                 </View>
 
                 <View style={[styles.content, { justifyContent: 'flex-end' }]}>
-                    <Text style={styles.text}>Fecha: 29 de agosto de 2023</Text>
+                    <Text style={styles.fecha}>Fecha: {new Date(createdAt).toLocaleDateString('es-MX', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}</Text>
                 </View>
 
                 <View style={styles.content}>
-                    <Text style={styles.text}>Nombre: John Doe</Text>
-                    <Text style={styles.text}>Folio: 12345</Text>
+                    <Text style={styles.text}>Nombre: {name}</Text>
                 </View>
 
                 <View style={styles.content}>
-                    <Text style={styles.text}>Aplicacion: John Doe</Text>
-                    <Text style={styles.text}>Peso: 12345</Text>
-                    <Text style={styles.text}>Dosis: 12345</Text>
+                    <Text style={styles.text}>APLICACION: {aplicacion + 1}</Text>
+                    <Text style={styles.text}>PESO: {peso}</Text>
+                    <Text style={styles.text}>DOSIS: {dosis}</Text>
                 </View>
 
                 <View style={styles.content}>
-                    <Text style={styles.text}>Medico: John Doe</Text>
+                    <Text style={styles.text}>MEDICO TRATANTE:</Text>
+                    {
+                        medicos_asignados.map((m) => {
+                            return <Text style={styles.text}>{m.name}</Text>
+                        })
+                    }
+                </View>
+
+                <View style={styles.table}>
+                    <View style={styles.tableRow}>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}></Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>Hora</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>Temperatura</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>Frecuencia Respiratoria</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>Frecuencia Cardiaca</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>Presión Arterial</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>Saturación de Oxigeno</Text>
+                        </View>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>Inicio</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{new Date(inicio.hora).toLocaleTimeString()}</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{inicio.temperatura}°</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{inicio.frecuencia_respiratoria}</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{inicio.frecuencia_cardiaca}</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{inicio.presion_arterial}</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{inicio.saturacion_oxigeno}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>Intermedio</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{new Date(intermedio.hora).toLocaleTimeString()}</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{intermedio.temperatura}°</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{intermedio.frecuencia_respiratoria}</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{intermedio.frecuencia_cardiaca}</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{intermedio.presion_arterial}</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{intermedio.saturacion_oxigeno}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>Término</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{new Date(termino.hora).toLocaleTimeString()}</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{termino.temperatura}°</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{termino.frecuencia_respiratoria}</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{termino.frecuencia_cardiaca}</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{termino.presion_arterial}</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>{termino.saturacion_oxigeno}</Text>
+                        </View>
+                    </View>
+
+                </View>
+
+                <View style={styles.subtitle}>
+                    <Text>SIGNOS Y SÍNTOMAS (OBSERVACIONES DE ENFERMERÍA)</Text>
+                </View>
+
+                <View>
+                    <View style={styles.textarea} >
+                        <Text style={{ fontSize: 12 }}>{observaciones}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.subtitle}>
+                    <Text>ENFERMERO RESPONSABLE</Text>
+                </View>
+                <View style={{ color: 'black', width: '94%', backgroundColor: 'black', borderBottomColor: 'black', borderBottomWidth: 2, marginHorizontal: 20, alignSelf: 'center' }}></View>
+                <View style={styles.subtitle}>
+                    <Text>NOMBRE Y FIRMA</Text>
                 </View>
 
             </Page>
@@ -115,42 +265,9 @@ export default function HojaDocument({ nombreHospital, logoHospital, receta, dat
 
         </Document>
 
-        // return <Document>
-        //     <Page size="A4" style={styles.page}>
-        //         <View style={styles.header}>
-        //             <Image style={styles.logo} src={IMAGE_API + logoHospital} />
-        //         </View>
-        //         <View style={styles.content}>
-        //             <Text style={styles.text}>Fecha: 29 de agosto de 2023</Text>
-        //         </View>
-        //         <View style={styles.content}>
-        //             <Text style={styles.text}>Nombre: John Doe</Text>
-        //             <Text style={styles.text}>Folio: 12345</Text>
-        //         </View>
-        //         <View style={styles.tableContainer}>
-        //             <View style={styles.table}>
-        //                 <View>
-        //                     <View style={styles.View}>Título 1</View>
-        //                     <View style={styles.View}>Título 2</View>
-        //                     <View style={styles.View}>Título 3</View>
-        //                     <View style={styles.View}>Título 4</View>
-        //                     <View style={styles.View}>Título 5</View>
-        //                 </View>
-
-        //             </View>
-        //         </View>
-        //         <View style={styles.centeredText}>
-        //             <Text>Este es un texto centrado.</Text>
-        //         </View>
-        //         <View>
-        //             <Text>Recuadro para llenar texto:</Text>
-        //             <View style={styles.textarea} />
-        //         </View>
-        //     </Page>
-        // </Document>
     }
     return <div>
-        <PDFViewer height={500} width={550}>
+        <PDFViewer height={700} width={550}>
             <Receta />
         </PDFViewer>
     </div>

@@ -24,7 +24,7 @@ export default function Depresion2Results() {
     const handleCancel = () => { setIsModalOpen(false) };
 
     useEffect(() => {
-        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion') ? getAllEscalas('depresion_gpc', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') ? getAllEscalas('depresion_gpc', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
     }, [])
 
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
