@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Form, Input, Button, message, Space, Divider, Upload, Switch, Modal } from 'antd'
+import { Form, Input, Button, message, Space, Divider, Upload, Switch, Modal, DatePicker } from 'antd'
 import { InputNumber, Select } from 'antd';
 import { S_API, API, usuario, estados } from '../../resources'
 import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
@@ -305,6 +305,10 @@ function RegisterForm(props) {
           <Input />
         </Form.Item>
 
+        <Form.Item name="fecha_nacimiento" label="Fecha De Nacimiento" rules={[{ required: false, message: 'Ingresa la fecha de nacimiento' }]} >
+          <DatePicker />
+        </Form.Item>
+
         <Form.Item name="ciudad" label="Ciudad de residencia" rules={[{ required: false, message: 'Ingresa ciudad' }]} >
           <Input />
         </Form.Item>
@@ -456,7 +460,9 @@ export default function Register({ paciente, setIsModalOpen, isModalOpen, getPac
     setIsModalOpen(false);
   };
 
-  return <Modal width={800} title={paciente ? 'Editar Paciente' : 'Registrar Paciente'} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
+  return <Modal width={800}
+    // title={paciente ? 'Editar Paciente' : 'Registrar Paciente'}
+    open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
     footer={[
       <Button onClick={() => setIsModalOpen(false)}>Cancelar</Button>,
       <Button type="primary" htmlType="submit" form='register_patient_medic'>

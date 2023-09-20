@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Input, Button, message, Space, Divider, Upload, Switch } from 'antd'
+import { Form, Input, Button, message, Space, Divider, Upload, Switch, DatePicker } from 'antd'
 import { InputNumber, Select, Modal } from 'antd';
 import { S_API, API, getData } from '../../resources'
 import { usuario, estados } from '../../resources'
@@ -364,6 +364,10 @@ export default function Register(props) {
 
         <Form.Item name="lugar_de_nacimiento" label="Lugar De Nacimiento" rules={[{ required: false, message: 'Ingresa el lugar de nacimiento' }]} >
           <Input />
+        </Form.Item>
+
+        <Form.Item name="fecha_nacimiento" label="Fecha De Nacimiento" rules={[{ required: false, message: 'Ingresa la fecha de nacimiento' }]} >
+          <DatePicker />
         </Form.Item>
 
         <Form.Item name="ciudad" label="Ciudad de residencia" rules={[{ required: false, message: 'Ingresa ciudad' }]} >

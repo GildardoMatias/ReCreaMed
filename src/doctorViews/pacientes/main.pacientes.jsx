@@ -85,8 +85,9 @@ export default function MainPacientes() {
       </Row> <div style={{ height: '16px' }}></div>
 
 
-
-      <Expedientes paciente={activePatient} setIsEditModalOpen={setIsEditModalOpen}/>
+      {
+        activePatient && <Expedientes paciente={activePatient} setIsEditModalOpen={setIsEditModalOpen} />
+      }
 
 
 

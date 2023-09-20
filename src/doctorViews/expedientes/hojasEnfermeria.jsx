@@ -240,7 +240,7 @@ export default function HojasEnfermeria({ hojas_enfermeria, id_nota, datosPacien
             </Form>
         </Modal>
 
-        <Modal title="Imprimir Receta" open={isPrintingModalVisible} onOk={handlePrintOk} onCancel={handlePrintCancel} width={600}
+        <Modal title="Imprimir Hoja de Enfermería" open={isPrintingModalVisible} onOk={handlePrintOk} onCancel={handlePrintCancel} width={600}
             footer={[
                 <Button onClick={handlePrintCancel}>Cancelar</Button>
             ]} destroyOnClose

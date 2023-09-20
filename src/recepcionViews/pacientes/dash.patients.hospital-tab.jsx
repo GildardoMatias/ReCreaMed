@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { getData, deleteData, usuario } from '../../resources'
+import { getData, deleteData, usuario, sendDataBody, } from '../../resources'
+import Loading from '../../loading'
 import { Table, Avatar, Space, Button, Popconfirm, Modal, Card, Input } from 'antd'
 import { UserOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons'
 import Register, { RegisterModal } from './register.user'
@@ -19,12 +20,24 @@ export default function HospitalTab(props) {
     const [searchText, setSearchText] = useState('');//For search input
 
     useEffect(() => {
-        getPacientesData()
+        getPacientes()
     }, [])
 
-    const getPacientesData = () => {
-        getData('users_by_rol/Paciente').then((rs) => setPacientesData(rs)).finally(() => setLoading(false))
+    const getPacientes = async () => {
+
+        const meds = await getData(`users/hospital/${props.id_hospital}`)
+
+        const idmeds = meds.map(doc => {
+            return doc._id
+        })
+
+
+        sendDataBody('pacientes/medicos', { medicos: idmeds }).then((rs) => {
+            setPacientesData(rs)
+            setLoading(false)
+        })
     }
+
 
     const deleteUser = (id_paciente) => {
         const newPatients = pacientesData.filter((p) => p._id !== id_paciente)
@@ -96,22 +109,10 @@ export default function HospitalTab(props) {
         }
     ];
 
-    // Populate table
-    // Find my patients by medico asignado
-    const findPatientsOfMyMedicos = (id_hospital) => {
-        let dl = [];
-        // Check on each horario of each medico of medicos asignados of patient to see if share sucursal with my horarios as admin
-        pacientesData.forEach(paciente => {
-            paciente.medicos_asignados.forEach(med => {
-                med.horarios.forEach(h => {
-                    // if (ids_hospitales.includes(h.sucursal) && !dl.includes(paciente)) { console.log(paciente); dl.push(paciente) }
-                    if (h.sucursal === id_hospital && !dl.includes(paciente) && paciente.name.toLowerCase().includes(searchText.toLowerCase())) { console.log(paciente); dl.push(paciente) }
-                })
-            });
-        });
-        return dl;
-    }
-    const pacientesDataFiltered = findPatientsOfMyMedicos(props.id_hospital); // Get medicos data before render TAble
+    const pacientesDataFiltered = pacientesData.filter((paciente) =>
+        paciente.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+
     // Fill Modal
     const gridStyle = {
         width: '50%',
@@ -139,8 +140,7 @@ export default function HospitalTab(props) {
             "drogas", "edad",
             "escolaridad",
             "estado_civil",
-            "fuma",
-            "lugar_de_nacimiento",
+            "fuma", "lugar_de_nacimiento",
             "numexterior",
             "numinterior",
             "ocupacion",
@@ -153,7 +153,7 @@ export default function HospitalTab(props) {
                 editingProfile ? <Register paciente={paciente} setAdding={setEditingProfile} /> :
                     <Card bordered={false} title={<Space><h4>Detalles del paciente </h4> <Button type='primary' ghost onClick={setEditingProfile} shape="circle" icon={<EditOutlined />} title='Editar' className='btnIconCentered' /></Space>}>
                         {
-                            datosSimples.map(k => <><Card.Grid style={gridStyle}>{k}</Card.Grid><Card.Grid style={gridStyle} size='small'>{paciente[k] || 'Sin datos'}</Card.Grid></>)
+                            datosSimples.map(k => <><Card.Grid style={gridStyle}>{k}</Card.Grid><Card.Grid style={gridStyle} size='small'>{paciente[k]}</Card.Grid></>)
                         }
                     </Card>
             }
@@ -165,7 +165,7 @@ export default function HospitalTab(props) {
         setSearchText(e.target.value);
     };
 
-    if (loading) return <p>Cargando...</p>
+    if (loading) return <Loading />
 
     return <div>
         <h6>Pacientes de {props.hospital}</h6>
@@ -191,7 +191,7 @@ export default function HospitalTab(props) {
         </Modal>
 
         {/* Modal For Edit */}
-        <RegisterModal getPacientesData={getPacientesData} isModalOpen={isEditModalOpen} paciente={paciente} setIsModalOpen={setIsEditModalOpen} />
+        <RegisterModal getPacientesData={getPacientes} isModalOpen={isEditModalOpen} paciente={paciente} setIsModalOpen={setIsEditModalOpen} />
 
     </div >
 }

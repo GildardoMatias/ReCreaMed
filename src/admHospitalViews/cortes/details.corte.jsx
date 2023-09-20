@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
 import { Button, Modal, Typography, Table } from 'antd'
+import * as FileSaver from 'file-saver';
+import XLSX from "sheetjs-style";
+
 import { sendDataBody, getData, usuario, deleteData } from '../../resources'
+import CorteDocument from "../../doctorViews/cortes/corteForPrint";
+
 const { Text } = Typography;
 
 export default function Detalles(props) {
     console.log('Corte for details ', props.corte)
+
+    const [isPrinting, setIsPrinting] = useState(false)
+
     const [pacientesData, setPacientesData] = useState([])
 
     const [totales, setTotales] = useState({})
@@ -86,42 +94,43 @@ export default function Detalles(props) {
             render: (_, { fecha_hora }) => { return <>{new Date(fecha_hora).toLocaleString()}</> }
         },
 
-    ];
+    ]; const filetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtextension = '.xlsx';
+
+    const exportToExcel = async () => {
+
+        const ws = XLSX.utils.json_to_sheet([totales]);
+        const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], { type: filetype })
+        FileSaver.saveAs(data, 'corte' + new Date().toLocaleDateString() + fileExtextension)
+    }
+
     return <Modal title="Detalles del corte" open={props.isModalOpen} onCancel={handleOk} destroyOnClose
-        footer={[<Button onClick={handleOk}>Cerrar</Button>]}
+        footer={[
+            <Button onClick={() => setIsPrinting(!isPrinting)}>{isPrinting ? "Cancelar Impresion" : "Imprimir PDF"}</Button>,
+            <Button onClick={() => exportToExcel()}>Exportar a excel</Button>,
+            <Button onClick={handleOk}>Cerrar</Button>
+        ]}
     >
-        {/* <h5>Ingresos </h5>
-        <h5>Pagados: {totales.pagados}</h5> */}
-
-        {/* <p>showing of {JSON.stringify(props.corte)}</p> */}
-        {/* <p>pagados {JSON.stringify(totales.listOfPagados)}</p> */}
-        {/* <p>tam {totales.listOfPagados.length}</p> */}
-
-        <h5>Total ingresos: <span style={{ color: '#3277a8' }}>${totales.ingresosTotales}</span></h5>
         {
-            totales.listOfPagados && totales.listOfPagados.length > 0 && <Table dataSource={totales.listOfPagados} columns={columns} bordered={false} size='small' />
+            isPrinting ?
+                // Called from Medico views
+                <CorteDocument totales={totales} logo="https://api.recreamed.com/images/bd71d914-1f11-4bea-81e5-81b55e11a4e1.jpg" company='Hospital: ' seller='Médico: ' buyer='Paciente: ' /> :
+                <>
+                    <h5>Total ingresos: <span style={{ color: '#3277a8' }}>${totales.ingresosTotales}</span></h5>
+                    {
+                        totales.listOfPagados && totales.listOfPagados.length > 0 && <Table dataSource={totales.listOfPagados} columns={columns} bordered={false} size='small' />
+                    }
+
+                    <h5>Pendientes</h5>
+                    <h5>Total: <span style={{ color: '#eb3d43' }}>${totales.deudasTotales}</span></h5>
+
+                    {
+                        totales.listOfDeudors && totales.listOfDeudors.length > 0 && <Table dataSource={totales.listOfDeudors} columns={columns} bordered={false} size='small' />
+                    }
+                </>
         }
 
-        <h5>Pendientes</h5>
-        <h5>Total: <span style={{ color: '#eb3d43' }}>${totales.deudasTotales}</span></h5>
-
-        {
-            totales.listOfDeudors && totales.listOfDeudors.length > 0 && <Table dataSource={totales.listOfDeudors} columns={columns} bordered={false} size='small' />
-        }
-        {/* {
-            totales.listOfDeudors && totales.listOfDeudors.length > 0 &&
-            <ul>
-                {totales.listOfDeudors.map((d) => {
-                    return <li>
-                        {() => {
-                            if (d.cita) { <MatchPatient paciente={d.cita.usuario} /> }
-                            else if (d.paciente) <>{d.paciente.name}</>
-                        }
-                        } - {d.monto} - {new Date(d.fecha_hora).toLocaleString()}
-                    </li>
-                })}
-                <li>Otrito :/</li>
-            </ul>
-        } */}
     </ Modal>
 }

@@ -56,22 +56,6 @@ export default function Ingresos() {
             return rs.length > 1 ? rs.at(-1).fecha_cierre : subtractMonths(new Date(), 3)
         })
 
-        // const promises = medicos.map(medico => getData(`balances/medico/${medico._id}`));
-
-        // Promise.all(promises)
-        //     .then(resultados => {
-        //         const ingresos = resultados.flat(); // concatenar todos los arrays de ingresos
-        //         console.log('adm ingr', ingresos);
-        //         // Doctor is for details, medico is for edit. Usuario is for details, paciente id for Edit
-        //         ingresos.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
-        //         setIngresosData(
-        //             ingresos.sort((a, b) => a.fecha_hora > b.fecha_hora)
-        //         )
-        //         setLoading(false)
-        //     })
-        //     .catch(error => {
-        //         console.error(error);
-        //     });
         const ids = medicos.map(doc => {
             return doc._id
         });
@@ -83,7 +67,7 @@ export default function Ingresos() {
         sendDataBody('balances', body).then((rs) => {
             console.log(rs)
             rs.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
-            setIngresosData(rs.sort((a, b) => a.fecha_hora < b.fecha_hora))
+            setIngresosData(rs)
         }).finally(() => setLoading(false))
     }
 
@@ -121,7 +105,7 @@ export default function Ingresos() {
             dataIndex: 'fecha_hora',
             key: 'fecha_hora',
             render: (_, { fecha_hora }) => { return <>{new Date(fecha_hora).toLocaleString()}</> },
-            // defaultSortOrder: 'descend',
+            defaultSortOrder: 'descend',
             // sorter: (a, b) => a.fecha_hora > b.fecha_hora,
         },
         {

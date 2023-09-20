@@ -46,11 +46,12 @@ export default function HospitalTab(props) {
         })
     }
 
-    useEffect(() => {  getPacientesData(); getCitasData() }, [])
+    useEffect(() => { getPacientesData(); getCitasData() }, [])
 
     const getCitasData = () => {
         getData(`citas/sucursal/${props.id_hospital}`).then((rs) => {
             rs.forEach(cita => {
+                cita.color = "green"
                 cita.start = new Date(Date.parse(cita.fecha_hora));
                 const endDate = new Date(Date.parse(cita.fecha_hora));
                 endDate.setTime(endDate.getTime() + 1 * (cita.duracion ?? 60) * 60 * 1000)
@@ -87,7 +88,23 @@ export default function HospitalTab(props) {
         deleteData(`balances/remove/cita/${citaForEdit._id}`)
     };
 
-    const cancel = (e) => { };
+
+    const eventStyleGetter = (event, start, end, isSelected) => {
+
+        // var backgroundColor = '#' + event.hexColor;
+        var backgroundColor = '##03fc8c';
+        var style = {
+            backgroundColor: backgroundColor,
+            borderRadius: '0px',
+            opacity: 0.8,
+            color: 'black',
+            border: '0px',
+            display: 'block'
+        };
+        return {
+            style: style
+        };
+    }
 
     return loading ? <p>Cargando...</p> : <div>
         <br />
@@ -98,6 +115,7 @@ export default function HospitalTab(props) {
             selectable='true'
             localizer={localizer}
             events={citasData}
+            // eventPropGetter={eventStyleGetter}
             startAccessor="start"
             endAccessor="end"
             style={{ height: 500 }}
@@ -153,6 +171,6 @@ export default function HospitalTab(props) {
             }
         </Modal>
 
-        <CreateCita setIsModalOpen={setIsCreateModalOpen} isOpenModal={isCreateModalOpen} hospital={props.id_hospital} fecha_hora={fecha_hora} getCitasData={getCitasData} pacientesData={pacientesData} setEditingCita={setEditingCita}/>
+        <CreateCita setIsModalOpen={setIsCreateModalOpen} isOpenModal={isCreateModalOpen} hospital={props.id_hospital} fecha_hora={fecha_hora} getCitasData={getCitasData} pacientesData={pacientesData} setEditingCita={setEditingCita} />
     </div>
 }

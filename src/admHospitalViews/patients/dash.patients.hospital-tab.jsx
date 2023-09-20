@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { getData, deleteData } from '../../resources'
+import { getData, deleteData, sendDataBody } from '../../resources'
 import { Table, Avatar, Space, Button, Popconfirm, Modal, Card, Input } from 'antd'
 import { UserOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons'
 import Register from './register.user'
+import Loading from '../../loading'
 
 export default function HospitalTab(props) {
+    const [loading, setLoading] = useState(true)
     const [value, setValue] = useState(''); // For search input
     const [pacientesData, setPacientesData] = useState([])
     const [searchText, setSearchText] = useState('');//For search input
@@ -15,14 +17,36 @@ export default function HospitalTab(props) {
     const handleOk = () => { setIsModalVisible(false); };
     const handleCancel = () => { setIsModalVisible(false); setEditingProfile(false) };
 
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const response = await getData('users_by_rol/Paciente');
+    //         setPacientesData(response);
+    //         setLoading(false)
+    //     };
+    //     fetchData();
+    // }, []);
+
+
+    // New method
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await getData('users_by_rol/Paciente');
-            // const data = await response.json();
-            setPacientesData(response);
-        };
-        fetchData();
-    }, []);
+        getPacientes()
+    }, [])
+
+    const getPacientes = async () => {
+
+        const meds = await getData(`users/hospital/${props.id_hospital}`)
+
+        const idmeds = meds.map(doc => {
+            return doc._id
+        })
+
+        sendDataBody('pacientes/medicos', { medicos: idmeds }).then((rs) => {
+            setPacientesData(rs)
+            setLoading(false)
+        })
+    }
+
 
     const deleteUser = (id_paciente) => {
         const newPatients = pacientesData.filter((p) => p._id !== id_paciente)
@@ -94,23 +118,32 @@ export default function HospitalTab(props) {
 
     // Populate table
     // Find my patients by medico asignado
-    const findPatientsOfMyMedicos = (id_hospital) => {
+    // const findPatientsOfMyMedicos = (id_hospital) => {
+    //     let dl = [];
+    //     // Check on each horario of each medico of medicos asignados of patient to see if share sucursal with my horarios as admin
+    //     pacientesData.forEach(paciente => {
+    //         paciente.medicos_asignados.forEach(med => {
+    //             med.horarios.forEach(h => {
+    //                if (h.sucursal === id_hospital && !dl.includes(paciente) && paciente.name.toLowerCase().includes(searchText.toLowerCase())) { console.log(paciente); dl.push(paciente) }
+    //             })
+    //         });
+    //     });
+    //     return dl;
+    // }
+
+    // Populate table new Form
+    const findPatientsOfMyMedicos = () => {
         let dl = [];
-        // Check on each horario of each medico of medicos asignados of patient to see if share sucursal with my horarios as admin
         pacientesData.forEach(paciente => {
-            paciente.medicos_asignados.forEach(med => {
-                med.horarios.forEach(h => {
-                    // if (ids_hospitales.includes(h.sucursal) && !dl.includes(paciente)) { console.log(paciente); dl.push(paciente) }
-                    // if (h.sucursal === id_hospital && !dl.includes(paciente) ) { console.log(paciente); dl.push(paciente) }
-                    if (h.sucursal === id_hospital && !dl.includes(paciente) && paciente.name.toLowerCase().includes(searchText.toLowerCase())) { console.log(paciente); dl.push(paciente) }
-                })
-            });
+            if (!dl.includes(paciente) && paciente.name.toLowerCase().includes(searchText.toLowerCase())) { dl.push(paciente) }
         });
         return dl;
     }
 
-    const pacientesDataFiltered = findPatientsOfMyMedicos(props.id_hospital); // Get medicos data before render TAble
-
+    // const pacientesDataFiltered = findPatientsOfMyMedicos(); // Get medicos data before render TAble
+    const pacientesDataFiltered = pacientesData.filter((paciente) =>
+        paciente.name.toLowerCase().includes(searchText.toLowerCase())
+    );
     // Fill Modal
     const gridStyle = {
         width: '50%',
@@ -162,6 +195,8 @@ export default function HospitalTab(props) {
         setValue(e.target.value)
         setSearchText(e.target.value);
     };
+
+    if (loading) return <Loading />
 
     return <div>
         <h6>Pacientes de {props.hospital}</h6>
