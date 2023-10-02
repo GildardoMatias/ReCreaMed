@@ -6,7 +6,7 @@ import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/i
 
 export function CreateCitaForm(props) {
 
-    const { configuracion : { costo_cita = 0 } } = usuario;
+    const { configuracion: { costo_cita = 0 } } = usuario;
     // const = configuracion;
 
     myHospitals.forEach(h => { h.value = h._id; h.label = h.nombre; });
@@ -143,11 +143,16 @@ export function CreateCitaForm(props) {
             <Select options={timeOptions} />
         </Form.Item>
 
+        {/* {
+            usuario.configuracion.tratamientos_ofrecidos.map((t) => { return <p> `${t.tratamiento} $${t.costo} ${t._id}` </p> })
+
+        } */}
+
         <Form.Item label="Servicio" name="tratamiento" rules={[{ required: false, message: 'Selecciona un servicio' }]} >
             <Select
                 onChange={handleChange}
                 options={
-                    usuario.configuracion.tratamientos_ofrecidos.map((t) => { return { value: t.costo, label: `${t.tratamiento} $${t.costo}` } })
+                    usuario.configuracion.tratamientos_ofrecidos.map((t) => { return { value: t.costo, label: `${t.tratamiento} $${t.costo} ${t._id}` } })
                 }
             />
         </Form.Item>
@@ -192,7 +197,7 @@ export default function CreateCita(props) {
     const handCreateleOk = () => { props.setIsModalOpen(false) }
     const handCreateleCancel = () => { props.setIsModalOpen(false) }
     return (
-        <Modal title={props.cita ? "Editar Cita" : "Nueva Cita"} open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose width={600}
+        <Modal title={props.cita ? "Editar Cita" : "Nueva Cita"} open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose width={900}
             footer={[
                 <Button onClick={handCreateleCancel}>Cancelar</Button>,
                 <Button type="primary" htmlType="submit" form='nueva_cita_admin'>
