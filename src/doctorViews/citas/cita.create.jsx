@@ -152,7 +152,7 @@ export function CreateCitaForm(props) {
             <Select
                 onChange={handleChange}
                 options={
-                    usuario.configuracion.tratamientos_ofrecidos.map((t) => { return { value: t.costo, label: `${t.tratamiento} $${t.costo} ${t._id}` } })
+                    usuario.configuracion.tratamientos_ofrecidos.map((t) => { return { key: t._id, value: t.costo, label: `${t.tratamiento} $${t.costo} ${t._id}` } })
                 }
             />
         </Form.Item>
@@ -197,7 +197,7 @@ export default function CreateCita(props) {
     const handCreateleOk = () => { props.setIsModalOpen(false) }
     const handCreateleCancel = () => { props.setIsModalOpen(false) }
     return (
-        <Modal title={props.cita ? "Editar Cita" : "Nueva Cita"} open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose width={900}
+        <Modal title={props.cita ? "Editar Cita" : "Nueva Cita"} open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose width={600}
             footer={[
                 <Button onClick={handCreateleCancel}>Cancelar</Button>,
                 <Button type="primary" htmlType="submit" form='nueva_cita_admin'>
