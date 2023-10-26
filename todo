@@ -3,7 +3,10 @@ WHEN UPLOAD BALANCES WITH NEW POPULATE, CHANGE MATCH PATIENT FOR RECORD.CITA.USU
 barra de respuesta
 fecha en lista de respuestas y ordenar en lista de pacientes
 
-imprimir hoja enf
+seleccionar fisioterapio tipo de clinica
+ocultar o mostrar inputs de datos personales para cada tipop de clinica
+
+--imprimir hoja enf
 nomb enf
 seleccionar fecha al crear hoja de enferm
 

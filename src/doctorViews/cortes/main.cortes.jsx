@@ -3,6 +3,7 @@ import { Button, Table, Space, Popconfirm } from 'antd'
 import { getData, sendDataBody, usuario } from '../../resources'
 import Loading from '../../loading'
 import Detalles from './details.corte'
+import CreateCorte from './create.corte'
 
 export default function Cortes() {
 
@@ -13,6 +14,18 @@ export default function Cortes() {
     const [corteForDetails, setCorteForDetails] = useState({})
     const [isModalOpen, setIsModalOpen] = useState(false)
     const showModal = (corte) => { setCorteForDetails(corte); setIsModalOpen(true) };
+
+    // For Create Corte Modal
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const showCreateModal = () => {
+        setIsCreateModalOpen(true);
+    };
+    const handleCreateOk = () => {
+        setIsCreateModalOpen(false);
+    };
+    const handleCreateCancel = () => {
+        setIsCreateModalOpen(false);
+    };
 
 
     useEffect(() => {
@@ -75,7 +88,7 @@ export default function Cortes() {
     return <div className='mainContainer'>
         <div className='fila'>
             <h4>Cortes</h4>
-            <Popconfirm
+            {/* <Popconfirm
                 placement='bottomRight'
                 title="Crear Corte"
                 description="Seguro que quiere crear un corte de caja hasta la fecha y hora actuales?"
@@ -85,11 +98,16 @@ export default function Cortes() {
                 cancelText="No"
             >
                 <Button type='primary' style={{ marginLeft: 12 }}>{cortesData.length === 0 ? 'Generar Primer Corte' : 'Generar Corte'}</Button>
-            </Popconfirm>
+            </Popconfirm> */}
+            <Button onClick={showCreateModal} type='primary' style={{ marginLeft: 12 }}>Generar corte</Button>
+
         </div>
         <br />
         <Table columns={columns} dataSource={cortesData} />
 
         <Detalles corte={corteForDetails} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+
+        <CreateCorte isModalOpen={isCreateModalOpen} handleOk={handleCreateOk} handleCancel={handleCreateCancel} />
+
     </div>
 }

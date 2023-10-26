@@ -8,6 +8,7 @@ import Expedientes from '../expedientes/expedientes'
 import DetallesPaciente from './detalles.paciente'
 import Register from './register.patient'
 import { PlusOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs'
 const { Option } = Select;
 
 export default function MainPacientes() {
@@ -34,6 +35,7 @@ export default function MainPacientes() {
         data.forEach(paciente => {
           paciente.res_name = paciente.responsable.nombre;
           paciente.res_phone = paciente.responsable.telefono;
+          paciente.fecha_nacimiento = dayjs(paciente.fecha_nacimiento);
         });
         // console.log(data); 
         setPacientesData(data);
@@ -46,9 +48,9 @@ export default function MainPacientes() {
 
 
   const onChange = (data) => {
-    // console.log('onchangeSearchInput', data)
     const found = pacientesData.find(p => p._id === data)
     setActivePatient(found)
+    console.log('active patient', found)
   };
 
   const onSearch = (value) => {
@@ -66,7 +68,7 @@ export default function MainPacientes() {
           <div className="my-select-container">
             <Select
               // Widget para buscar pacientes
-              style={{ borderRadius: 8, width: 256 }}
+              style={{ borderRadius: 8, width: 320 }}
               dropdownStyle={{ borderRadius: 8 }}
               showSearch
               placeholder="Buscar paciente"
@@ -81,7 +83,7 @@ export default function MainPacientes() {
             </Select>
           </div>
         </Col>
-        <Col style={{ marginLeft: 12 }}><Button className='btnIconCentered' style={{ marginTop: 4 }} onClick={() => setIsRegisterModalOpen(!isRegisterModalOpen)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} /> </Col>
+        <Col style={{ marginLeft: 12 }}><Button className='btnIconCentered' style={{ height: 30 }} onClick={() => setIsRegisterModalOpen(!isRegisterModalOpen)} size='small' icon={<PlusOutlined />} shape='round' type="primary" title='Agregar paciente' >Agregar Paciente</Button> </Col>
       </Row> <div style={{ height: '16px' }}></div>
 
 

@@ -1,16 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Form, Input, Button, message, Space, Divider, Upload, Switch, Modal, DatePicker } from 'antd'
 import { InputNumber, Select } from 'antd';
 import { S_API, API, usuario, estados } from '../../resources'
 import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
+import { useEffect } from 'react';
 // const { Dragger } = Upload;
 
 
 const { Option } = Select;
 
 function RegisterForm(props) {
+  const myRef = useRef();
   const [form] = Form.useForm();
   const [avatar, setAvatar] = useState(props.paciente ? props.paciente.avatar : 'noimg.jpg')
+
+  useEffect(() => {
+    console.log('Received patient ', props.paciente)
+    if (myRef && myRef.current) {
+      const { input } = myRef.current
+      input.focus()
+    }
+  }, [])
+
 
 
   async function addHistoria() {
@@ -165,7 +176,7 @@ function RegisterForm(props) {
           label="Nombre"
           rules={[{ required: true, message: 'Ingresa Nombre y apellidos' }]}
         >
-          <Input />
+          <Input ref={myRef} />
         </Form.Item>
 
         <Form.Item

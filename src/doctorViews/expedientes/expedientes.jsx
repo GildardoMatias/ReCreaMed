@@ -50,23 +50,7 @@ export default function Expedientes({ paciente,setIsEditModalOpen }) {
 
 
     async function addHistoria() {
-        // return await fetch(API + 'historias/add', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         historial: "Historia clinica al " + new Date()
-        //     })
-        // }).then(res => res.json())
-        //     .then(response => {
-        //         console.log('Story Created: ', response);
-        //         return response
-        //     })
-        //     .catch(error => console.error('Error:', error))
-
-
-        return sendDataBody('historias/add', {
+            return sendDataBody('historias/add', {
             historial: "Historia clinica al " + new Date()
         })
     }

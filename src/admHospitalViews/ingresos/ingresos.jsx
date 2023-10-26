@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Tag, Button, Typography, Modal, Card, Row, Col } from 'antd';
+import { Table, Tag, Button, Typography, Modal, Card, Row, Col, Switch, Select } from 'antd';
 import { CheckCircleTwoTone } from '@ant-design/icons'
 import moment from 'moment/moment';
 
@@ -39,29 +39,45 @@ export default function Ingresos() {
     const [lastFecha, setLastFecha] = useState("")
     const [firstFecha, setFirstFecha] = useState("")
 
+    // Toggles between for medic/for hospital
+    const [viewTipeMedics, setViewTipeMedics] = useState(true)
+
     useEffect(() => {
-        getIngresos()
+        getLastFechaCierre()
     }, [])
 
     function subtractMonths(date, months) { date.setMonth(date.getMonth() - months); return date; }
+
+    const getLastFechaCierre = () => {
+        getData(`cortes/${usuario._id}`).then((rs) => {
+            setFirstFecha(rs.at(0).fecha_cierre)
+            setLastFecha(rs.length > 1 ? rs.at(-1).fecha_cierre : subtractMonths(new Date(), 3))
+        }).then(getIngresos())
+    }
+
     const getIngresos = async () => {
+        // First get List of medics
         const medicos = await sendDataBody('users/getMany/hospitals', { ids_hospitales: ids_hospitales })
 
         medicos.forEach(m => { m.label = m.name; m.value = m._id; })// to pass to create modal
-        setMedicosData(medicos) // to pass to create modal
+        setMedicosData(medicos) // to pass to create modal and select
 
-        const lastFechaCierre = await getData(`cortes/${usuario._id}`).then((rs) => {
-            setFirstFecha(rs.at(0).fecha_cierre)
-            setLastFecha(rs.length > 1 ? rs.at(-1).fecha_cierre : subtractMonths(new Date(), 3).toString())
-            return rs.length > 1 ? rs.at(-1).fecha_cierre : subtractMonths(new Date(), 3)
-        })
+        // const lastFechaCierre = await getData(`cortes/${usuario._id}`).then((rs) => {
+        //     setFirstFecha(rs.at(0).fecha_cierre)
+        //     setLastFecha(rs.length > 1 ? rs.at(-1).fecha_cierre : subtractMonths(new Date(), 3))
+        //     return rs.length > 1 ? rs.at(-1).fecha_cierre : subtractMonths(new Date(), 3)
+        // })
 
         const ids = medicos.map(doc => {
             return doc._id
         });
+        getBalancesData(ids)
+    }
+
+    const getBalancesData = (medicos) => {
         const body = {
-            fecha_inicio: lastFechaCierre,
-            medico: ids
+            fecha_inicio: lastFecha,
+            medico: medicos
         }
         console.log(body)
         sendDataBody('balances', body).then((rs) => {
@@ -181,6 +197,14 @@ export default function Ingresos() {
         },
     ];
 
+    // Toggle View Tipe medic/for all
+    const onSwitchChange = (checked) => {
+        setViewTipeMedics(checked)
+        console.log(`switch to ${checked}`);
+        if(!checked) getIngresos()
+    };
+    const handleDoctorChange = (value) => { setMedico(value); getBalancesData([value]); };
+
 
     if (loading) return <Loading />
 
@@ -188,13 +212,21 @@ export default function Ingresos() {
         <div className='mainContainer'>
             {/* <div>first fecha cierre {firstFecha} </div>
             <div>last fecha cierre {lastFecha} </div> */}
-            <h4>Ingresos de todos los medicos</h4>
+            <h4>Ingresos de{viewTipeMedics ? 'l médico' : ' todos los medicos'}</h4>
             <br />
 
-            {/* <div></div> */}
 
             <Button ghost onClick={showIngresoModal} type='primary' style={{ marginBottom: 22 }} >Agregar Nuevo Ingreso</Button>
             <Button ghost onClick={showEgresoModal} type='primary' style={{ marginBottom: 22, marginLeft: 6 }} >Agregar Nuevo Gasto</Button>
+
+            <div>
+                Hospital <Switch defaultChecked onChange={onSwitchChange} /> Medico
+                {
+                    viewTipeMedics && <Select options={medicosData} onChange={handleDoctorChange} style={{ width: 240, marginLeft: 16 }} placeholder='Seleccione medico' />
+                }
+            </div>
+
+            <br />
 
             <Table columns={columns} dataSource={ingresosData} />
 

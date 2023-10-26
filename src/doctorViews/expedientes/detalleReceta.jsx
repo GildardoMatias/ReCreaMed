@@ -174,7 +174,7 @@ export default function DetalleReceta(props) {
                     name="prescripcion"
                     rules={[{ required: true, message: 'Ingresa la prescripcion' }]}
                 >
-                    <TextArea rows={4} />
+                    <TextArea rows={6} autoFocus />
                 </Form.Item>
 
             </Form>
@@ -201,7 +201,7 @@ export default function DetalleReceta(props) {
                     name="prescripcion"
                     rules={[{ required: true, message: 'Ingresa la prescripcion' }]}
                 >
-                    <TextArea rows={4} />
+                    <TextArea rows={6} />
                 </Form.Item>
 
             </Form>

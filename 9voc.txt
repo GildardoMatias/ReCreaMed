@@ -1,0 +1,38 @@
+
+focus on start receta, perfil , servicio
+recetas mas grande
+perfil
+
+pacientes por fechaa de modicicacion
+mas grande search patient
+más grande el agregar paciente y que diga agregar paciente
+todos los botones de pacientes con texto y mas grandes
+Hora de historia clinica en español
+Calendario en español
+
+
+-----------------------------------------
+fisio
+
+historia clinica y datos del paciente quedan ig
+
+restructurar expediente para fisioterapia
+
+nota evoluc es en lugar de abaj izq
+
+en lugar de last cita es carta de exhumeracion
+
+nombre de nota en lugar de nota 1
+-----------------------------------------
+configurar clinica de fisioterapia
+actualizar pacientes con citas movidas
+acentos ignore search
+mandar google
+mandar meta
+
+usuarioos repetidos
+
+automaticamente mayus y sin acentos
+
+clinica.acuerdo_confidencialidad que el paciente lo vea
+clinica.consentimiento_informado se firma por el paciente

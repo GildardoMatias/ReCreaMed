@@ -37,41 +37,20 @@ export default function DetalleNota(props) {
 
     const id_paciente = props.paciente;
 
-    // useEffect(() => {
-    //     id_paciente ?
-    //         getNotasData()
-    //         :
-    //         finishGet()
-
-
-    // }, [])
-
-    // useEffect(() => {
-    //     if (notaData === null || notaData.length === 0) {
-    //         createNota()
-    //     }
-    // }, [notaData])
-
-
     useEffect(() => {
         // console.log('Paciente received to detailNota: ', id_paciente)
         id_paciente ?
             getNotasData()
             :
             finishGet()
-        // if (notasLen === 0) createNota()
     }, [id_paciente])
 
-    // if patient not contains notas
 
     const getNotasData = async () => {
-        // console.log('satring notas for: ', id_paciente);
         await getData(`notas/${id_paciente}`).then(rs => {
             console.log('NotasData: ', rs);
             if (rs && rs.length === 0) {
                 createNota()
-                // alert("create first nota");
-
             }
 
             rs.forEach((nt, i) => {
@@ -82,52 +61,8 @@ export default function DetalleNota(props) {
             setnotaLoading(false)
         })
     }
+    // if patient not contains notas
     const finishGet = () => { setNotaData([]); setnotaLoading(false); }
-
-    const createFirstNota = async () => {
-        let newNotaBody = {
-            id_usuario: id_paciente,
-            id_medico: usuario._id,
-            edad: 1,
-            talla: 1,
-            imc: 1,
-            peso: 1,
-            temperatura: 1,
-            presion_arterial: "---/---",
-            frecuencia_cardiaca: 1,
-            frecuencia_respiratoria: 1,
-            estudios: [],
-            Observaciones: "",
-            recetas: []
-        }
-        const newNota = await fetch(API + 'notas/add', {
-            method: 'POST',
-            body: JSON.stringify(newNotaBody),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(res => res.json())
-            .then(response => {
-                message.success(response.message || response.error);
-                // response.message && response.message === ''
-                return response;
-            })
-            .catch(error => console.error('Error:', error))
-
-        // Add new nota to received notas
-        props.prevExpNotas.push(newNota.id_nota)
-        //Update nota at expedient
-        fetch(API + 'expedientes/updateNotas/' + props.id_expediente, {
-            method: 'PUT',
-            body: JSON.stringify({ "notas": props.prevExpNotas }),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(res => res.json())
-            .then(response => {
-                // console.log('Update Exp:', response);
-                message.success(response.message || response.error);
-            })
-            .catch(error => console.error('Error:', error))
-            .finally(() => { newNotaBody.label = "Nota 1"; setNotaData(newNotaBody) })
-
-    };
 
     const createNota = async () => {
         let newNotaBody = {

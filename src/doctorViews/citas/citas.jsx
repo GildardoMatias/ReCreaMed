@@ -7,6 +7,9 @@ import { Button, Modal, Popconfirm } from 'antd'
 import dayjs from 'dayjs';
 
 const localizer = dayjsLocalizer(dayjs)
+
+const { configuracion: { tratamientos_ofrecidos } = {} } = usuario || {};
+
 const today = new Date();
 
 // To set rage for calendar
@@ -41,25 +44,35 @@ export default function Citas() {
     const [citaForEdit, setCitaForEdit] = useState(null)
     const [fecha_hora, setFecha_hora] = useState(null)
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-
+    const [serviceList, setserviceList] = useState([]) // For colorize citas
 
     useEffect(() => { return getCitasData() }, [])
 
     const getCitasData = () => {
-        getData(`citas/medico/${usuario._id}`).then((rs) => {
-            rs.forEach(cita => {
-                cita.start = new Date(Date.parse(cita.fecha_hora));
-                const endDate = new Date(cita.fecha_hora);
-                endDate.setTime(endDate.getTime() + 1 * (cita.duracion ?? 60) * 60 * 1000)
-                cita.end = new Date(Date.parse(endDate));
-                cita.title = cita.usuario.name;
-                cita.id = cita._id;
-                cita.key = cita._id;
-            });
-            console.log('getCitasData medico', rs)
-            setCitasData(rs)
-        }
-        ).finally(() => setLoading(false))
+        const list = []; // For colorize
+        if (usuario)
+
+            getData(`citas/medico/${usuario._id}`).then((rs) => {
+                rs.forEach(cita => {
+                    const servicio = cita.id_servicio;
+                    const servicioInfo = tratamientos_ofrecidos.find(servicioItem => servicioItem._id === servicio);
+                    if (servicioInfo) {
+                        cita.color = servicioInfo.color;
+                    }
+
+                    cita.start = new Date(Date.parse(cita.fecha_hora));
+                    const endDate = new Date(cita.fecha_hora);
+                    endDate.setTime(endDate.getTime() + 1 * (cita.duracion ?? 60) * 60 * 1000)
+                    cita.end = new Date(Date.parse(endDate));
+                    cita.title = cita.usuario.name;
+                    cita.id = cita._id;
+                    cita.key = cita._id;
+                });
+                console.log('getCitasData medico', rs)
+                setserviceList(list);
+                setCitasData(rs)
+            }
+            ).finally(() => setLoading(false))
     }
 
     // Select cita to show details and to confirm
@@ -69,7 +82,7 @@ export default function Citas() {
         if (!e.paciente) e.paciente = e.usuario; // For details
         if (e.usuario && e.usuario._id) e.usuario = e.usuario._id; // For Editing
         e.fecha_hora = dayjs(e.fecha_hora) //For edit
-        await setCitaForEdit(e)
+        setCitaForEdit(e)
         showModal()
     }
 
@@ -95,9 +108,27 @@ export default function Citas() {
 
     const cancel = (e) => { console.log(e) }
 
+    const eventStyleGetter = (event, start, end, isSelected) => {
+        // const index = serviceList.indexOf(event.servicio);
+        // var backgroundColor = '#' + pre_colors[index]; 
+        // var backgroundColor = '##03fc8c';
+        var style = {
+            backgroundColor: event.color,
+            borderRadius: '4px',
+            opacity: 0.8,
+            color: 'white',
+            border: '0px',
+            display: 'block'
+        };
+        return {
+            style: style
+        };
+    }
+
     if (loading) return <Loading />;
 
     return <div className='mainContainer'>
+
         <Calendar
             // min={min}
             // max={max}
@@ -106,6 +137,7 @@ export default function Citas() {
             selectable='true'
             localizer={localizer}
             events={citasData}
+            eventPropGetter={eventStyleGetter}
             startAccessor="start"
             endAccessor="end"
             style={{ height: 500 }}
@@ -146,6 +178,7 @@ export default function Citas() {
                     <p><strong>Paciente </strong>{citaForEdit.paciente ? citaForEdit.paciente.name : 'Sin paciente'}</p>
                     <p><strong>Fecha </strong>{new Date(citaForEdit.fecha_hora).toLocaleDateString()}</p>
                     <p><strong>Hora </strong>{new Date(citaForEdit.fecha_hora).toLocaleTimeString()}</p>
+                    <p><strong>Servicio </strong>{citaForEdit.servicio}</p>
                     <p><strong>Comentarios </strong>{citaForEdit.comentarios}</p>
                     {/* <Button type='primary' onClick={confirmService}>Confirmar Servicio</Button>, */}
                 </div>

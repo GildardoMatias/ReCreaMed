@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react'
-import { Button, Table, Space, Select, Popconfirm } from 'antd'
+import { Button, Table, Space, Select, Popconfirm, Switch } from 'antd'
 import { getData, sendDataBody, usuario, ids_hospitales } from '../../resources'
 import Loading from '../../loading'
 import Detalles from './details.corte'
+import CreateCorte from './create.corte'
 
 export default function Cortes() {
     const [medico, setMedico] = useState(null)
     const [balance, setBalance] = useState({})
     const [cortesData, setCortesData] = useState([])
     const [loading, setLoading] = useState(true)
+    const [medicosData, setMedicosData] = useState([]) // For populate medics select
+
+    // Toggles between for medic/for hospital
+    const [viewTipeMedics, setViewTipeMedics] = useState(true)
 
     // Data before all
     const [idsMedicos, setIdsMedicos] = useState([])
@@ -21,9 +26,21 @@ export default function Cortes() {
         setCorteForDetails(corte); setIsModalOpen(true)
     };
 
+    // For Create Corte Modal
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const showCreateModal = () => {
+        setIsCreateModalOpen(true);
+    };
+    const handleCreateOk = () => {
+        setIsCreateModalOpen(false);
+    };
+    const handleCreateCancel = () => {
+        setIsCreateModalOpen(false);
+    };
+
     useEffect(() => {
         getDoctorsData()
-        getCortesData()
+        getCortesData(usuario._id)
     }, [])
 
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador. Is used for filter balances by corte
@@ -31,12 +48,14 @@ export default function Cortes() {
             const md = rs.map(doc => {
                 return doc._id
             });
+            rs.forEach(m => { m.value = m._id; m.label = m.name })
+            setMedicosData(rs)
             setIdsMedicos(md)
         }).finally(() => setLoading(false))
     }
 
-    const getCortesData = () => {
-        getData(`cortes/${usuario._id}`).then((rs) => {
+    const getCortesData = (id_medico) => {
+        getData(`cortes/${id_medico}`).then((rs) => {
             console.log('cortesData', rs)
             setCortesData(rs.reverse())
         }).finally(() => { setLoading(false) })
@@ -89,6 +108,11 @@ export default function Cortes() {
         }
     ];
 
+    const onChange = (checked) => {
+        console.log(`switch to ${checked}`);
+        setViewTipeMedics(checked);
+    };
+
 
     return <div className='mainContainer'>
 
@@ -98,7 +122,7 @@ export default function Cortes() {
 
         {/* <Select options={medicosData} onChange={handleDoctorChange} style={{ width: 240 }} placeholder='Seleccione medico' /> */}
 
-        <Popconfirm
+        {/* <Popconfirm
             placement='bottomRight'
             title="Crear Corte"
             description="Seguro que quere generar un corte de caja a la fecha y hora actuales?"
@@ -109,8 +133,12 @@ export default function Cortes() {
         >
 
             <Button type='primary' style={{ marginLeft: 12 }}>{cortesData.length === 0 ? 'Generar Primer Corte' : 'Generar Corte'}</Button>
-        </Popconfirm>
+        </Popconfirm> */}
 
+        <Button onClick={showCreateModal} type='primary' style={{ marginLeft: 12 }}>Generar corte</Button>
+
+        <br />
+        <br />
 
         <Table columns={columns} dataSource={cortesData} />
 
@@ -129,6 +157,8 @@ export default function Cortes() {
         } */}
 
         <Detalles corte={corteForDetails} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+
+        <CreateCorte isModalOpen={isCreateModalOpen} handleOk={handleCreateOk} handleCancel={handleCreateCancel} />
 
     </div>
 }

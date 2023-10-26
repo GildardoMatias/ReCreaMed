@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Popconfirm, message } from "antd";
-import { getData, deleteData } from '../../resources';
+import { getData, deleteData, pre_colors } from '../../resources';
+import Loading from '../../loading';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+
 import CreateCita, { CreateCitaForm } from './create-cita-for-medic';
 import dayjs from 'dayjs';
 
 const localizer = dayjsLocalizer(dayjs)
-
+// admin and receipt shares citas and create citas
+// ONLY RECEIPT CANT DELETE, SO, FIRST EDIT RECEIPT
 export default function HospitalTab(props) {
-    const [editingCita, setEditingCita] = useState(false)
     const [citaForEdit, setCitaForEdit] = useState({})
     const [citasData, setCitasData] = useState([])
     const [loading, setLoading] = useState(true)
@@ -17,6 +19,8 @@ export default function HospitalTab(props) {
     const showModal = () => { setIsModalOpen(true) }
     const handleOk = () => { setIsModalOpen(false); setEditingCita(false) }
     const handleCancel = () => { setIsModalOpen(false); setEditingCita(false) }
+    const [editingCita, setEditingCita] = useState(false)
+    const [serviceList, setserviceList] = useState([])
 
     // Tools for createCita Modal
     const [fecha_hora, setFecha_hora] = useState('')
@@ -46,10 +50,16 @@ export default function HospitalTab(props) {
 
     useEffect(() => { getPacientesData(); getCitasData() }, [])
 
+
     const getCitasData = () => {
+        const list = []; // For colorize
         getData(`citas/sucursal/${props.id_hospital}`).then((rs) => {
-            console.log(`getCitasData ${props.id_hospiatl} before format admin`, rs[rs.length - 1])
-            rs.forEach(cita => {
+            console.log('resp ', rs)
+            rs.forEach((cita) => {
+                const servicio = cita.id_servicio; // for colorize slots
+                if (!list.includes(servicio)) {
+                    list.push(servicio);
+                }
                 cita.start = new Date(Date.parse(cita.fecha_hora));
                 const endDate = new Date(Date.parse(cita.fecha_hora));
                 endDate.setTime(endDate.getTime() + 1 * (cita.duracion ?? 60) * 60 * 1000)
@@ -57,10 +67,10 @@ export default function HospitalTab(props) {
                 cita.title = cita.usuario?.name;
                 cita.key = cita._id;
             });
-            console.log(`getCitasData ${props.id_hospiatl} before format admin`, rs[rs.length - 1])
+            console.log('Services ', list)
+            setserviceList(list);
             setCitasData(rs)
-        }
-        ).finally(() => setLoading(false))
+        }).finally(() => setLoading(false))
     }
 
     // Select cita to show details and show confirm button
@@ -90,7 +100,23 @@ export default function HospitalTab(props) {
 
     const cancel = (e) => { console.log(e) }
 
-    return loading ? <p>Cargando...</p> : <div>
+    const eventStyleGetter = (event, start, end, isSelected) => {
+        const index = serviceList.indexOf(event.id_servicio);
+        var backgroundColor = '#' + pre_colors[index];
+        var style = {
+            backgroundColor: backgroundColor,
+            borderRadius: '4px',
+            opacity: 0.8,
+            color: 'white',
+            border: '0px',
+            display: 'block'
+        };
+        return {
+            style: style
+        };
+    }
+
+    return loading ? <Loading /> : <div>
         <br />
         <h6>Citas del hospital {props.hospital}</h6>
         <br />
@@ -99,6 +125,7 @@ export default function HospitalTab(props) {
             selectable='true'
             localizer={localizer}
             events={citasData}
+            eventPropGetter={eventStyleGetter}
             startAccessor="start"
             endAccessor="end"
             style={{ height: 500 }}

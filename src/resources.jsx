@@ -112,3 +112,27 @@ export const myHospitals = usuario && usuario.horarios && usuario.horarios.map(f
 export const ids_hospitales = usuario && usuario.horarios && usuario.horarios.map(function (item) {
     return item['sucursal']['_id'];
 })
+
+// Preset colors for citas
+export const pre_colors = [
+    '722ED1', // purple
+    'F5222D', // red
+    'FA8C16', // orange
+    'FADB14', // yellow
+    '8BBB11', // green
+    '52C41A', // greenforte
+    '13A8A8', // greenwater
+    '1677FF', // blue
+    '2F54EB', // blueforte
+    'EB2F96', // rose
+    'FF7A45',   // Color adicional 1
+    'FFC53D',   // Color adicional 2
+    'D3F261',   // Color adicional 3
+    '62DDF1',   // Color adicional 4
+    '4B85EF',   // Color adicional 5
+    'A972DD',   // Color adicional 6
+    'FF80AB',   // Color adicional 7
+    'FFBE3B',   // Color adicional 8
+    '5CD0E3',   // Color adicional 9
+    'A0E03C',   // Color adicional 10
+];

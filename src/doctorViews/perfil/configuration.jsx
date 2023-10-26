@@ -56,6 +56,14 @@ export default function Configuration({ id_usuario, correo }) {
             key: 'costo',
         },
         {
+            title: 'Color',
+            dataIndex: 'color',
+            key: 'color',
+            render: (_, { color }) => {
+                return <div style={{ width: 42, height: 16, backgroundColor: color, alignSelf: 'center', borderRadius: 3 }}></div>
+            }
+        },
+        {
             title: 'Opciones',
             dataIndex: 'opciones',
             key: 'opciones',
@@ -154,14 +162,16 @@ export default function Configuration({ id_usuario, correo }) {
                                 profileData.configuracion && profileData.configuracion.costo_cita ? `Costo de cita: ${profileData.configuracion.costo_cita}` : "Sin costo de cita definido"
                             }
                         </h5>
-                        <Button type='primary' size='small' onClick={setEditingCostoCita}>Modificar</Button>
+                        <Button type='primary' ghost size='small' onClick={setEditingCostoCita}>Modificar</Button>
                     </div>
             }
 
             <Divider />
 
-            <h5>Servicios Registrados</h5> <Button onClick={() => setisModalOpen(true)}>Agergar Servicio</Button>
-
+            <div className='fila'>
+                <h5>Servicios Registrados</h5> <Button type='primary' ghost onClick={() => setisModalOpen(true)}>Agergar Servicio</Button>
+            </div>
+            <br />
             <Table dataSource={profileData.configuracion?.tratamientos_ofrecidos} columns={columns} bordered />
 
             <AddService isOpen={isModalOpen} handleClose={handleClose} service={servicioForEdit} profileData={profileData} getProfileData={getProfileData} />

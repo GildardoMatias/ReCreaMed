@@ -43,6 +43,7 @@ export function CreateCitaForm(props) {
         const tipo_pago = values.tipo_pago;
         values.sucursal = props.hospital;
         delete values.tratamiento;
+        values.id_servicio = values.servicio.key;
         values.servicio = values.servicio.title;
         delete values.tipo_pago;
 
@@ -116,7 +117,7 @@ export function CreateCitaForm(props) {
                 let { configuracion: { tratamientos_ofrecidos } } = found;
                 console.log("found tr", tratamientos_ofrecidos)
                 tratamientos_ofrecidos.forEach(t => {
-                    t.label = `${t.tratamiento} - $${t.costo}`; t.value = t.costo; t.title = t.tratamiento;
+                    t.label = `${t.tratamiento} - $${t.costo}`; t.value = t.costo; t.title = t.tratamiento;  t.key = t._id
                 });
                 const { configuracion: { costo_cita = 0 } } = found;
                 setCostoBaseCita(costo_cita)

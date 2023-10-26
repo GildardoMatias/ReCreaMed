@@ -37,16 +37,12 @@ export function CreateCitaForm(props) {
     }
     // Form Methods
     const onFinish = (values) => {
-        // let monto;
-        // if (values.tratamiento === 'Sin servicio') values.tratamiento = 0;
+
         values.medico = usuario._id;
-
-        // const { configuracion } = usuario;
-        // const { costo_cita } = configuracion;
-        // const monto = costo_cita ? costo_cita + values.tratamiento : values.tratamiento
-
+        values.id_servicio = values.servicio.key;
+        values.servicio = values.servicio.title;
         delete values.tratamiento;
-        // delete values.descuento;
+
         console.log(values)
 
         // Handle if its updating or creating cita
@@ -86,15 +82,17 @@ export function CreateCitaForm(props) {
     const handleHospitalChange = (value) => { console.log('Selected Hospital: ', value); setHospital(value) };
     const handlePacienteChange = (value) => { console.log('Selected Hospital: ', value); };
 
-    // Select tratamiento
-    const handleChange = (value) => {
-        // const { configuracion } = usuario;
-        // const { costo_cita } = configuracion;
-
-        // const monto = costo_cita + value;
-        setCosto(value)
-        console.log(`selected ${value}`);
+    // Select tratamiento old
+    // const handleChange = (value) => {
+    //     setCosto(value)
+    //     console.log(`selected ${value}`);
+    // };
+    // Select tratamiento new
+    const handleChange = (selected) => {
+        setCosto(selected.value)
+        console.log(`selected service`, selected);
     };
+
     const onSwitch = (checked) => {
         console.log(`switch to ${checked}`);
         setIsOnline(checked)
@@ -148,12 +146,13 @@ export function CreateCitaForm(props) {
 
         } */}
 
-        <Form.Item label="Servicio" name="tratamiento" rules={[{ required: false, message: 'Selecciona un servicio' }]} >
+        <Form.Item label="Servicio" name="servicio" rules={[{ required: false, message: 'Selecciona un servicio' }]} >
             <Select
                 onChange={handleChange}
                 options={
-                    usuario.configuracion.tratamientos_ofrecidos.map((t) => { return { key: t._id, value: t.costo, label: `${t.tratamiento} $${t.costo} ${t._id}` } })
+                    usuario.configuracion.tratamientos_ofrecidos.map((t) => { return { key: t._id, value: t.costo, label: `${t.tratamiento} - $${t.costo} - ${t.observaciones ?? ""}`, title: t.tratamiento } })
                 }
+                labelInValue
             />
         </Form.Item>
 

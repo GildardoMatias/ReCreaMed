@@ -125,35 +125,35 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
             >
 
 
-                <Form.Item name='temperatura' label="Temperatura" rules={[{ required: true, message: 'Ingrese la temperatura' }]}>
+                <Form.Item name='temperatura' label="Temperatura" rules={[{ required: false, message: 'Ingrese la temperatura' }]}>
                     <InputNumber style={{ width: '100%' }} />
                 </Form.Item>
-                <Form.Item name='frecuencia_respiratoria' label="Frecuencia respiratoria" rules={[{ required: true, message: 'Ingrese la frecuencia respiratoria' }]}>
+                <Form.Item name='frecuencia_respiratoria' label="Frecuencia respiratoria" rules={[{ required: false, message: 'Ingrese la frecuencia respiratoria' }]}>
                     <Input />
                 </Form.Item>
-                <Form.Item name='frecuencia_cardiaca' label="Frecuencia cardiaca" rules={[{ required: true, message: 'Ingrese la frecuencia cardiaca' }]}>
+                <Form.Item name='frecuencia_cardiaca' label="Frecuencia cardiaca" rules={[{ required: false, message: 'Ingrese la frecuencia cardiaca' }]}>
                     <Input />
                 </Form.Item>
-                <Form.Item name='presion_arterial' label="Presion arterial" rules={[{ required: true, message: 'Ingrese la presión arterial' }]}>
+                <Form.Item name='presion_arterial' label="Presion arterial" rules={[{ required: false, message: 'Ingrese la presión arterial' }]}>
                     <Input />
                 </Form.Item>
-                <Form.Item name='saturacion_oxigeno' label="Saturacion oxigeno" rules={[{ required: true, message: 'Ingrese la saturacion de oxigeno' }]}>
+                <Form.Item name='saturacion_oxigeno' label="Saturacion oxigeno" rules={[{ required: false, message: 'Ingrese la saturacion de oxigeno' }]}>
                     <Input />
                 </Form.Item>
 
 
                 {
                     usuario.rol === 'Medico' && <div>
-                        <Form.Item label="S" name="s" rules={[{ required: true, message: 'Ingrese la respuesta' }]} >
+                        <Form.Item label="S" name="s" rules={[{ required: false, message: 'Ingrese la respuesta' }]} >
                             <Input.TextArea />
                         </Form.Item>
-                        <Form.Item label="O" name="o" rules={[{ required: true, message: 'Ingrese la respuesta' }]} >
+                        <Form.Item label="O" name="o" rules={[{ required: false, message: 'Ingrese la respuesta' }]} >
                             <Input.TextArea />
                         </Form.Item>
-                        <Form.Item label="A" name="a" rules={[{ required: true, message: 'Ingrese la respuesta' }]} >
+                        <Form.Item label="A" name="a" rules={[{ required: false, message: 'Ingrese la respuesta' }]} >
                             <Input.TextArea />
                         </Form.Item>
-                        <Form.Item label="P" name="p" rules={[{ required: true, message: 'Ingrese la respuesta' }]} >
+                        <Form.Item label="P" name="p" rules={[{ required: false, message: 'Ingrese la respuesta' }]} >
                             <Input.TextArea />
                         </Form.Item>
                     </div>
