@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Button, Tabs, Row, Col, Modal, Space, Typography, message, Upload, Input, Select, Form, Divider, InputNumber } from 'antd';
-import { MinusCircleOutlined, PlusOutlined, EditOutlined } from '@ant-design/icons';
-import { updateData, usuario } from '../../resources';
+import { UploadOutlined, PlusOutlined, EditOutlined } from '@ant-design/icons';
+import { updateData, usuario, API } from '../../resources';
 const { TextArea } = Input;
+
+// estudios will be to notas/estudios/upload
+// foto will be to images/upload
 
 const numbers = ['Primera', 'Segunda', 'Tercera']
 
 export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
+
+    const [newEstudio, setNewEstudio] = useState(null) //initially on database eill be [], onFinish or on Edit will insert this
+    const [evoImage, setEvoImage] = useState(null)
 
     const [evoForEdit, setEvoForEdit] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,6 +21,8 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
     const handleCancel = () => { setIsModalOpen(false); setEvoForEdit(null) };
 
     const onFinish = (values) => {
+
+        if (newEstudio) values.estudios = [newEstudio];
 
         // console.log('Prev notas:', _notas_evolucion);
         console.log('Received values of form:', values);
@@ -27,7 +35,10 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
     };
 
     const onFinishEdit = (values) => {
-        const found = _notas_evolucion.find((n) => n._id === evoForEdit._id)
+
+        // add estudios and images
+        evoForEdit.estudios.push(newEstudio)
+
 
         // Encuentra el índice del objeto a actualizar en el array
         const indexToUpdate = _notas_evolucion.findIndex(item => item._id === evoForEdit._id);
@@ -45,6 +56,24 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
             console.log("No se encontró el elemento con el ID proporcionado.");
         }
     }
+
+    const uploadEstudiosProps = {
+        name: 'file',
+        action: API + 'notas/estudios/upload',
+        multiple: true,
+        onChange(info) {
+            if (info.file.status !== 'uploading') {
+                console.log(info.file, info.fileList);
+            }
+            if (info.file.status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully`);
+                console.log('New Files: ', info.file.response.file)
+                // setEstudiosFiles([...estudiosFiles, info.file.response.file])
+            } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+            }
+        },
+    };
 
     return <div>
         {(_notas_evolucion && _notas_evolucion.length) > 0 ?
@@ -114,6 +143,22 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
                 </Button>
             ]}
         >
+
+            {/* upload estudios and image */}
+            <div className='fila'>
+
+                <Upload {...uploadEstudiosProps}>
+                    <Button icon={<UploadOutlined />}>Click para subir estudios</Button>
+                </Upload>
+
+                <Upload {...uploadEstudiosProps}>
+                    <Button icon={<UploadOutlined />}>Click para subir fotos</Button>
+                </Upload>
+
+            </div>
+
+            <br />
+
             <Form
                 name="add_nota_evo_doc"
                 onFinish={evoForEdit ? onFinishEdit : onFinish}
@@ -159,6 +204,13 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
                     </div>
                 }
 
+                <Form.Item label="Estudios" rules={[{ required: false, message: 'Ingrese la saturacion de oxigeno' }]}>
+                    <Button icon={<UploadOutlined />}>Click para seleccionar archivos</Button>
+                </Form.Item>
+
+                <Form.Item label="Foto" rules={[{ required: false, message: 'Ingrese la saturacion de oxigeno' }]}>
+                    <Button icon={<UploadOutlined />}>Click para seleccionar fotos</Button>
+                </Form.Item>
             </Form>
         </Modal>
 

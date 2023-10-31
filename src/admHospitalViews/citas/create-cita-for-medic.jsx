@@ -117,7 +117,7 @@ export function CreateCitaForm(props) {
                 let { configuracion: { tratamientos_ofrecidos } } = found;
                 console.log("found tr", tratamientos_ofrecidos)
                 tratamientos_ofrecidos.forEach(t => {
-                    t.label = `${t.tratamiento} - $${t.costo}`; t.value = t.costo; t.title = t.tratamiento;  t.key = t._id
+                    t.label = `${t.tratamiento} - $${t.costo} - ${t.observaciones ?? ""}`; t.value = t.costo; t.title = t.tratamiento;  t.key = t._id
                 });
                 const { configuracion: { costo_cita = 0 } } = found;
                 setCostoBaseCita(costo_cita)
