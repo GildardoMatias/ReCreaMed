@@ -40,7 +40,7 @@ export default function Ingresos() {
     const [firstFecha, setFirstFecha] = useState("")
 
     // Toggles between for medic/for hospital
-    const [viewTipeMedics, setViewTipeMedics] = useState(true)
+    const [viewTipeMedics, setViewTipeMedics] = useState(false)
 
     useEffect(() => {
         getLastFechaCierre()
@@ -201,7 +201,7 @@ export default function Ingresos() {
     const onSwitchChange = (checked) => {
         setViewTipeMedics(checked)
         console.log(`switch to ${checked}`);
-        if(!checked) getIngresos()
+        if (!checked) getIngresos()
     };
     const handleDoctorChange = (value) => { setMedico(value); getBalancesData([value]); };
 
@@ -220,7 +220,7 @@ export default function Ingresos() {
             <Button ghost onClick={showEgresoModal} type='primary' style={{ marginBottom: 22, marginLeft: 6 }} >Agregar Nuevo Gasto</Button>
 
             <div>
-                Hospital <Switch defaultChecked onChange={onSwitchChange} /> Medico
+                Hospital <Switch onChange={onSwitchChange} /> Medico
                 {
                     viewTipeMedics && <Select options={medicosData} onChange={handleDoctorChange} style={{ width: 240, marginLeft: 16 }} placeholder='Seleccione medico' />
                 }

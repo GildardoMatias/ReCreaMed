@@ -1,6 +1,6 @@
 
-focus on start receta, perfil , servicio
-recetas mas grande
+focus on start receta, --perfil , servicio
+--recetas mas grande
 perfil
 
 pacientes por fechaa de modicicacion

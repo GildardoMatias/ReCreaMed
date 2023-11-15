@@ -4,6 +4,7 @@ import { InputNumber, Select } from 'antd';
 import { S_API, API, usuario, estados } from '../../resources'
 import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
 import { useEffect } from 'react';
+import RegisterFisio from './register.patent.fisio';
 // const { Dragger } = Upload;
 
 
@@ -462,8 +463,7 @@ function RegisterForm(props) {
 
 export default function Register({ paciente, setIsModalOpen, isModalOpen, getPacientesData }) {
 
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // const showModal = () => { setIsRegisterModalOpen(true); };
+
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -481,7 +481,9 @@ export default function Register({ paciente, setIsModalOpen, isModalOpen, getPac
       </Button>
     ]}
   >
+    {/* ISFisio? */}
     <RegisterForm paciente={paciente} setAdding={setIsModalOpen} getPacientesData={getPacientesData} />
+    {/* <RegisterFisio /> */}
   </Modal>
 
 }

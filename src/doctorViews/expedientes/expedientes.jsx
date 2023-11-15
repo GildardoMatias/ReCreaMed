@@ -1,18 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Space, message } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { API, sendDataBody } from '../../resources';
 import DetalleNota from './detalleNota'
 import DetalleHistoria from './detalleHistoria';
 import DetallesPaciente from '../pacientes/detalles.paciente';
-// import html2canvas from 'html2canvas';
+import { PrinterOutlined } from '@ant-design/icons'
+import ExpedienteDocument from './expedienteForPrint';
+// import html2canvas from 'html2canvas'; deprecated
 // import { jsPDF } from "jspdf";
 
 
-export default function Expedientes({ paciente,setIsEditModalOpen }) {
+export default function Expedientes({ paciente, setIsEditModalOpen }) {
     const [expedientesData, setExpedientesData] = useState(null);
     const [expedientesLoading, setExpedientesLoading] = useState(true);
     const [historia, setHistoria] = useState("");
     const [notas, setNotas] = useState("");
+
+    // Print modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+    // Print modal end
 
     const { _id: id_paciente } = paciente;
 
@@ -50,7 +65,7 @@ export default function Expedientes({ paciente,setIsEditModalOpen }) {
 
 
     async function addHistoria() {
-            return sendDataBody('historias/add', {
+        return sendDataBody('historias/add', {
             historial: "Historia clinica al " + new Date()
         })
     }
@@ -84,7 +99,7 @@ export default function Expedientes({ paciente,setIsEditModalOpen }) {
         {/* <h4 className='spacedTitle'>Expediente </h4> */}
 
         <div style={{ display: 'flex', flexDirection: 'row', gap: 15 }}>
-            <DetallesPaciente paciente={paciente} setIsEditModalOpen={setIsEditModalOpen}/>
+            <DetallesPaciente paciente={paciente} setIsEditModalOpen={setIsEditModalOpen} />
 
             <DetalleHistoria historia={historia} detalles_paciente={paciente} />
         </div>
@@ -94,7 +109,7 @@ export default function Expedientes({ paciente,setIsEditModalOpen }) {
 
         {
             expedientesData ?
-                <DetalleNota id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={id_paciente} datosPaciente={paciente}/>
+                <DetalleNota id_expediente={expedientesData._id} prevExpNotas={expedientesData.notas} paciente={id_paciente} datosPaciente={paciente} />
                 :
                 <div style={{}}>
                     Sin expediente
@@ -104,9 +119,13 @@ export default function Expedientes({ paciente,setIsEditModalOpen }) {
                 </div>
         }
 
+        <Button onClick={showModal} style={{ marginTop: 6 }} icon={<PrinterOutlined />}>Imprimir expediente</Button>
+
         {/* <Button onClick={printDocument}>Exportar a pdf</Button> */}
 
-
+        <Modal title="Imprimir Expediente" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={900}>
+            <ExpedienteDocument />
+        </Modal>
 
     </div>;
 }

@@ -5,12 +5,15 @@ import Loading from '../../loading'
 import CreateCita, { CreateCitaForm } from './cita.create'
 import { Button, Modal, Popconfirm } from 'antd'
 import dayjs from 'dayjs';
+// import CitaGoogle from './cita.google';
+// import '@dayjs/locale/es-mx';
+// require('@dayjs/locale/es-mx');
 
 const localizer = dayjsLocalizer(dayjs)
 
 const { configuracion: { tratamientos_ofrecidos } = {} } = usuario || {};
 
-const today = new Date();
+// const today = new Date();
 
 // To set rage for calendar
 // start time 8:00am
@@ -44,12 +47,10 @@ export default function Citas() {
     const [citaForEdit, setCitaForEdit] = useState(null)
     const [fecha_hora, setFecha_hora] = useState(null)
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-    const [serviceList, setserviceList] = useState([]) // For colorize citas
 
     useEffect(() => { return getCitasData() }, [])
 
     const getCitasData = () => {
-        const list = []; // For colorize
         if (usuario)
 
             getData(`citas/medico/${usuario._id}`).then((rs) => {
@@ -69,7 +70,6 @@ export default function Citas() {
                     cita.key = cita._id;
                 });
                 console.log('getCitasData medico', rs)
-                setserviceList(list);
                 setCitasData(rs)
             }
             ).finally(() => setLoading(false))
@@ -128,7 +128,9 @@ export default function Citas() {
     if (loading) return <Loading />;
 
     return <div className='mainContainer'>
-
+        <br />
+        {/* <CitaGoogle />
+        <br /> */}
         <Calendar
             // min={min}
             // max={max}
@@ -147,7 +149,7 @@ export default function Citas() {
                 today: "Hoy",
                 month: "Mes",
                 week: "Semana",
-                day: "Día"
+                day: "Día",
             }}
             defaultView="week"
             onDoubleClickEvent={(e) => console.log(e)}
