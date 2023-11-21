@@ -28,7 +28,7 @@ function Navigator() {
         alt="Recreamed logo"
         style={{ marginRight: 6 }}
       />
-      <Navbar.Brand href="#home" style={{ fontFamily: 'Poppins', color: 'White' }}>
+      <Navbar.Brand href="/" style={{ fontFamily: 'Poppins', color: 'White' }}>
         Bienvenido {usuario.name}
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />

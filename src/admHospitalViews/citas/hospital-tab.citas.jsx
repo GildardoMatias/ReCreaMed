@@ -50,14 +50,26 @@ export default function HospitalTab(props) {
             });
 
             setPacientesData(rs)
-        }).finally(getCitasData)
+        }).finally(() => {
+            const fechaActual = new Date();
+
+            // Calcular la fecha de hace una semana
+            const fechaHaceUnaSemana = new Date();
+            fechaHaceUnaSemana.setDate(fechaActual.getDate() - 7);
+
+            // Calcular la fecha dentro de una semana
+            const fechaDentroDeUnaSemana = new Date();
+            fechaDentroDeUnaSemana.setDate(fechaActual.getDate() + 7);
+            getCitasData(fechaHaceUnaSemana, fechaDentroDeUnaSemana)
+        })
     }
 
     useEffect(() => { getPacientes() }, [])
 
 
-    const getCitasData = () => {
-        getData(`citas/sucursal/${props.id_hospital}`).then((rs) => {
+    const getCitasData = async (_start_date, _end_date) => {
+        const body = { start_date: _start_date, end_date: _end_date }
+        await sendDataBody(`citas/sucursal/${props.id_hospital}`, body).then((rs) => {
             // console.log('resp ', rs)
             rs.forEach((cita) => {
                 const servicio = cita.id_servicio; // Colorze cita
@@ -74,8 +86,11 @@ export default function HospitalTab(props) {
                 cita.key = cita._id;
             });
             setCitasData(rs)
-        }).finally(() => setLoading(false))
+            console.log('Citas data at end ', citasData)
+            setLoading(false)
+        })
     }
+
 
     // Select cita to show details and show confirm button
     const selectEvent = (e) => {
@@ -123,8 +138,9 @@ export default function HospitalTab(props) {
         <br />
         <h6>Citas del hospital {props.hospital}</h6>
         <br />
-        {/* <p>{JSON.stringify(serviceList)}</p>
-        <br /> */}
+        {/* <p>{JSON.stringify(serviceList)}</p> */}
+        {/* <p>{JSON.stringify(citasData)}</p> */}
+        <br />
         <Calendar
             scrollToTime={new Date(Date.now())}
             selectable='true'
@@ -148,6 +164,14 @@ export default function HospitalTab(props) {
             onSelecting={(e) => console.log(e)}
             // onSelectSlot={handleSlotSelection}
             onSelectSlot={handleSlotSelection}
+            onRangeChange={(range) => {
+
+                console.log('Start ', range)
+                console.log('End ', range.end)
+
+            }}
+
+
         />
 
 

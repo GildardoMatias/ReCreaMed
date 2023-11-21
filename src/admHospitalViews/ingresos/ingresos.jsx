@@ -7,6 +7,7 @@ import { getData, usuario, sendDataBody, ids_hospitales } from '../../resources'
 import CreateBalance from './create-ingreso';
 import Loading from '../../loading';
 import Ticket from './ticket-for-print';
+import IngersosHosptal from './ingresos.hospital';
 
 const { Text } = Typography;
 
@@ -212,12 +213,12 @@ export default function Ingresos() {
         <div className='mainContainer'>
             {/* <div>first fecha cierre {firstFecha} </div>
             <div>last fecha cierre {lastFecha} </div> */}
-            <h4>Ingresos de{viewTipeMedics ? 'l médico' : ' todos los medicos'}</h4>
-            <br />
 
-
-            <Button ghost onClick={showIngresoModal} type='primary' style={{ marginBottom: 22 }} >Agregar Nuevo Ingreso</Button>
-            <Button ghost onClick={showEgresoModal} type='primary' style={{ marginBottom: 22, marginLeft: 6 }} >Agregar Nuevo Gasto</Button>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+                <h4>Ingresos de{viewTipeMedics ? 'l médico' : ' todos los medicos'}</h4>
+                <Button ghost size='small' onClick={showIngresoModal} type='primary'  >Agregar Nuevo Ingreso</Button>
+                <Button ghost size='small' onClick={showEgresoModal} type='primary'  >Agregar Nuevo Gasto</Button>
+            </div>
 
             <div>
                 Hospital <Switch onChange={onSwitchChange} /> Medico
@@ -228,9 +229,9 @@ export default function Ingresos() {
 
             <br />
 
-            <Table columns={columns} dataSource={ingresosData} />
+            <Table columns={columns} dataSource={ingresosData} size='small' />
 
-            <div style={{ height: 200 }}></div>
+            <IngersosHosptal ids_hospitales={ids_hospitales} />
 
             {/* Ingreso */}
             <CreateBalance tipo='ingreso' balanceForEdit={ingresoForEdit} setBalanceForEdit={setIngresoForEdit} setIsModalOpen={setIsIngresoModalOpen} isModalOpen={isIngresoModalOpen} getIngresos={getIngresos} medico={medico} medicosData={medicosData} />

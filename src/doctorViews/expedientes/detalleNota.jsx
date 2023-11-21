@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Button, Tabs, Row, Col, Modal, Space, message } from 'antd';
-import { getData, API, updateData, usuario } from '../../resources';
+import { getData, API, usuario } from '../../resources';
 import { PlusOutlined } from '@ant-design/icons';
 import { NuevaNota } from './nuevaNota';
 import DetalleReceta from './detalleReceta';
@@ -110,20 +110,7 @@ export default function DetalleNota(props) {
             })
     };
 
-    const NotaGridStyle = {
-        width: '25%',
-        textAlign: 'center',
-        border: '1px solid rgba(255, 255, 255, 255)'
-    };
 
-    // const EstudioGridStyle = {
-    //     width: '50%',
-    //     // height: '32',
-    //     textAlign: 'center',
-    //     display: 'inline-flex',
-    //     justifyContent: 'center',
-    //     alignItems: 'center'
-    // };
 
     // const updateNota = (originalNota, field, newString) => {
     //     originalNota[field] = newString;
@@ -187,6 +174,7 @@ export default function DetalleNota(props) {
 
                     {/* Debajo de la ultima cita va hojas de enfermeria*/}
                     <HojasEnfermeria hojas_enfermeria={nota.hojas_enfermeria} id_nota={nota._id} datosPaciente={props.datosPaciente} />
+
                 </Col>
 
                 {/* la otra mitad de la pantalla para NOTA*/}

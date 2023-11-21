@@ -154,13 +154,6 @@ export default function CreateBalance(props) {
                         </div>
                     }
 
-
-
-
-
-
-
-
                     <Form.Item
                         label="Fecha y Hora"
                         name="fecha_hora"

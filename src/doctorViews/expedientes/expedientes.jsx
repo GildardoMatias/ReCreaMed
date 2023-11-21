@@ -4,7 +4,7 @@ import { API, sendDataBody } from '../../resources';
 import DetalleNota from './detalleNota'
 import DetalleHistoria from './detalleHistoria';
 import DetallesPaciente from '../pacientes/detalles.paciente';
-import { PrinterOutlined } from '@ant-design/icons'
+import { PrinterOutlined, CloudDownloadOutlined } from '@ant-design/icons'
 import ExpedienteDocument from './expedienteForPrint';
 // import html2canvas from 'html2canvas'; deprecated
 // import { jsPDF } from "jspdf";
@@ -90,6 +90,15 @@ export default function Expedientes({ paciente, setIsEditModalOpen }) {
 
     }
 
+    function DownloadConscent() {
+        // El archvo de conscentmiento se guardará en ./uploads y se llamara con /notas/estudos/download de momento porque no hay un endpoint para archivo de conscentimento para subrlo sera en /notas/estudus/upload
+        return <Button icon={  <CloudDownloadOutlined className="teamSocialIcon" />} style={{marginLeft: 12}} href={`${API}notas/estudios/download/3d4c9465-889f-428c-9e15-13bea15162ef.doc`}>
+        
+            Avso de Conscentmiento
+        </Button>
+
+    }
+
 
 
     if (expedientesLoading) return <p>Cargando...</p>
@@ -121,11 +130,12 @@ export default function Expedientes({ paciente, setIsEditModalOpen }) {
 
         <Button onClick={showModal} style={{ marginTop: 6 }} icon={<PrinterOutlined />}>Imprimir expediente</Button>
 
-        {/* <Button onClick={printDocument}>Exportar a pdf</Button> */}
 
         <Modal title="Imprimir Expediente" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={900}>
             <ExpedienteDocument />
         </Modal>
+
+        <DownloadConscent />
 
     </div>;
 }
