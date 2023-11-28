@@ -1,56 +1,69 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Popconfirm, message } from "antd";
-import { getData, deleteData, pre_colors, sendDataBody } from '../../resources';
-import Loading from '../../loading';
+import { API, sendDataBody } from '../../resources';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-
-import CreateCita, { CreateCitaForm } from './create-cita-for-medic';
 import dayjs from 'dayjs';
 
+import Loading from '../../loading';
+
 const localizer = dayjsLocalizer(dayjs)
-// admin and receipt shares citas and create citas
-// RECEIPT CANT DELETE, SO, FIRST EDIT RECEIPT
-export default function HospitalTab(props) {
-    const [citaForEdit, setCitaForEdit] = useState({})
-    const [citasData, setCitasData] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const showModal = () => { setIsModalOpen(true) }
-    const handleOk = () => { setIsModalOpen(false); setEditingCita(false) }
-    const handleCancel = () => { setIsModalOpen(false); setEditingCita(false) }
-    const [editingCita, setEditingCita] = useState(false)
-    const [serviceList, setserviceList] = useState([])
-
-    // Tools for createCita Modal
-    const [fecha_hora, setFecha_hora] = useState('')
-    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-    // for pass to create cita model
-    const [pacientesData, setPacientesData] = useState([])
 
 
+const HospitalTab = ({ id_hospital }) => {
+    const [serviceList, setServiceList] = useState(null);
+    const [pacientesData, setPacientesData] = useState(null);
 
-    // First of all, get pacientes data for pass to the create cita component
-    const getPacientes = async () => { // Willl be the next working
+    const [citasData, setCitasData] = useState(null)
 
-        let allServices = []
+    const [loadedSuccessfully, setLoadedSuccessfully] = useState(false);
 
-        const meds = await getData(`users/hospital/${props.id_hospital}`)
 
-        const idmeds = meds.map(doc => {
-            allServices = allServices.concat(doc.configuracion.tratamientos_ofrecidos) // Extract tratamientos ofrecdos to create an unique list
-            return doc._id
-        })
-        setserviceList(allServices) // Set unique list
+    useEffect(() => {
+        fetch(API + `users/hospital/${id_hospital}`)
+            .then(response => response.json())
+            .then(medicosResponse => {
+                console.log('medicos response: ', medicosResponse)
+                let allServices = [];
+                const idmeds = medicosResponse.map(doc => {
+                    allServices = allServices.concat(doc.configuracion.tratamientos_ofrecidos) // Extract tratamientos ofrecdos to create an unique list
+                    return doc._id
+                })
+                console.log('Services: ', allServices)
+                setServiceList(allServices)
 
-        await sendDataBody('pacientes/medicos', { medicos: idmeds }).then((rs) => {
-
-            rs.forEach(paciente => {
-                paciente.label = paciente.name; paciente.value = paciente._id;
+                // Llamada al segundo API
+                return fetch(API + 'pacientes/medicos', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ medicos: idmeds })
+                });
+            })
+            .then(response => response.json())
+            .then(pacientesResponse => {
+                console.log('Pacientes response: ', pacientesResponse)
+                pacientesResponse.forEach(paciente => {
+                    paciente.label = paciente.name; paciente.value = paciente._id;
+                })
+                setPacientesData(pacientesResponse);
+            })
+            .catch(error => {
+                // Manejar errores
+                console.error('Error:', error);
             });
+    }, []);
 
-            setPacientesData(rs)
-        }).finally(() => {
+    // Función para formatear el array de respuesta del primer API
+    const formatoArray = (data) => {
+        // Tu lógica de formateo aquí
+        return data;
+    };
+
+
+
+    useEffect(() => {
+        // Verificar si ambos sets de datos están disponibles y tienen contenido
+        if (serviceList !== null && serviceList.length > 0 && pacientesData !== null) {
+
             const fechaActual = new Date();
 
             // Calcular la fecha de hace una semana
@@ -61,15 +74,14 @@ export default function HospitalTab(props) {
             const fechaDentroDeUnaSemana = new Date();
             fechaDentroDeUnaSemana.setDate(fechaActual.getDate() + 7);
             getCitasData(fechaHaceUnaSemana, fechaDentroDeUnaSemana)
-        })
-    }
-
-    useEffect(() => { getPacientes() }, [])
-
+            // setLoadedSuccessfully(true);
+        }
+    }, [serviceList, pacientesData]);
 
     const getCitasData = async (_start_date, _end_date) => {
         const body = { start_date: _start_date, end_date: _end_date }
-        await sendDataBody(`citas/sucursal/${props.id_hospital}`, body).then((rs) => {
+
+        await sendDataBody(`citas/sucursal/${id_hospital}`, body).then((rs) => {
             // console.log('resp ', rs)
             rs.forEach((cita) => {
                 const servicio = cita.id_servicio; // Colorze cita
@@ -87,10 +99,11 @@ export default function HospitalTab(props) {
             });
             setCitasData(rs)
             console.log('Citas data at end ', citasData)
-            setLoading(false)
+            setLoadedSuccessfully(true);
+
+            // setLoading(false)
         })
     }
-
 
     // Select cita to show details and show confirm button
     const selectEvent = (e) => {
@@ -99,25 +112,17 @@ export default function HospitalTab(props) {
         if (!e.paciente) e.paciente = e.usuario; // For details
         if (e.medico && e.medico._id) e.medico = e.medico._id;  // For edit
         if (e.usuario && e.usuario._id) e.usuario = e.usuario._id;  // For edit
-        e.fecha_hora = dayjs(e.fecha_hora) //For edit
-        setCitaForEdit(e)
-        if (citaForEdit) showModal()
+        // e.fecha_hora = dayjs(e.fecha_hora) //For edit www
+        // setCitaForEdit(e) www
+        // if (citaForEdit) showModal() www
     }
 
 
     const handleSlotSelection = ({ start, end, action }) => {
-        setFecha_hora(dayjs(start))
-        setIsCreateModalOpen(true)
+        // setFecha_hora(dayjs(start)) www
+        // setIsCreateModalOpen(true) www
         return { style: { backgroundColor: 'red' } };
     };
-    // Delete button
-    const confirm = (e) => {
-        deleteData(`citas/remove/${citaForEdit._id}`).then((rs) => { console.log(rs); getCitasData(); handleCancel() })
-        deleteData(`balances/remove/cita/${citaForEdit._id}`)
-
-    };
-
-    const cancel = (e) => { console.log(e) }
 
     const eventStyleGetter = (event, start, end, isSelected) => {
 
@@ -134,82 +139,53 @@ export default function HospitalTab(props) {
         };
     }
 
-    return loading ? <Loading /> : <div>
-        <br />
-        <h6>Citas del hospital {props.hospital}</h6>
-        <br />
-        {/* <p>{JSON.stringify(serviceList)}</p> */}
-        {/* <p>{JSON.stringify(citasData)}</p> */}
-        <br />
-        <Calendar
-            scrollToTime={new Date(Date.now())}
-            selectable='true'
-            localizer={localizer}
-            events={citasData}
-            eventPropGetter={eventStyleGetter}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: 500 }}
-            messages={{
-                next: "Sig",
-                previous: "Ant",
-                today: "Hoy",
-                month: "Mes",
-                week: "Semana",
-                day: "Día"
-            }}
-            defaultView="week"
-            onDoubleClickEvent={(e) => console.log(e)}
-            onSelectEvent={selectEvent}
-            onSelecting={(e) => console.log(e)}
-            // onSelectSlot={handleSlotSelection}
-            onSelectSlot={handleSlotSelection}
-            onRangeChange={(range) => {
+    if (serviceList === null || pacientesData === null) {
+        // Muestra un mensaje de carga mientras se obtienen los datos
+        return <Loading />
+    }
 
-                console.log('Start ', range)
-                console.log('End ', range.end)
+    if (loadedSuccessfully) {
+        // Mostrar el alert solo si los datos cargaron correctamente
+        return (
+            <div>
 
-            }}
+                <Calendar
+                    scrollToTime={new Date(Date.now())}
+                    selectable='true'
+                    localizer={localizer}
+                    events={citasData}
+                    eventPropGetter={eventStyleGetter}
+                    startAccessor="start"
+                    endAccessor="end"
+                    style={{ height: 500 }}
+                    messages={{
+                        next: "Sig",
+                        previous: "Ant",
+                        today: "Hoy",
+                        month: "Mes",
+                        week: "Semana",
+                        day: "Día"
+                    }}
+                    defaultView="week"
+                    onDoubleClickEvent={(e) => console.log(e)}
+                    onSelectEvent={selectEvent}
+                    onSelecting={(e) => console.log(e)}
+                    // onSelectSlot={handleSlotSelection}
+                    onSelectSlot={handleSlotSelection}
+                    onRangeChange={(range) => {
 
+                        console.log('Start ', range)
+                        console.log('End ', range.end)
 
-        />
+                    }}
+                />
 
+            </div>
+        );
+    }
 
-        <Modal title="Detalles Cita" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose width={900}
-            footer={[
-                <Popconfirm
-                    title="Eliminar Cita"
-                    description="Seguro que quiere eliminar la cita?"
-                    onConfirm={confirm}
-                    onCancel={cancel}
-                    okText="Si"
-                    cancelText="No"
-                >
-                    <Button danger>Eliminar</Button>
-                </Popconfirm>,
-                <Button onClick={() => setEditingCita(!editingCita)}>{editingCita ? "Cancelar" : "Modificar"}</Button>,
-                <Button onClick={handleCancel}>Cerrar</Button>
-            ]}>
+    // Si los datos no cargaron correctamente, muestra un mensaje de error
+    return <p>Citas no cargadas correctamente</p>;
+};
 
-
-            {editingCita ?
-                <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsModalOpen} getCitasData={getCitasData} setEditingCita={setEditingCita} hospital={props.id_hospital} pacientesData={pacientesData} />
-                : <div>{citaForEdit && <div>
-                    <p><strong>Medico </strong>{citaForEdit.doctor ? citaForEdit.doctor.name : 'Sin medico'}</p>
-                    <p><strong>Paciente </strong>{citaForEdit.paciente ? citaForEdit.paciente.name : 'Sin paciente'}</p>
-                    <p><strong>Fecha </strong>{new Date(citaForEdit.fecha_hora).toLocaleDateString()}</p>
-                    <p><strong>Hora </strong>{new Date(citaForEdit.fecha_hora).toLocaleTimeString()}</p>
-                    <p><strong>Servicio </strong>{citaForEdit.servicio}</p>
-                    <p><strong>Comentarios </strong>{citaForEdit.comentarios}</p>
-                    {/* <p><strong>Servicio ID </strong>{citaForEdit.id_servicio}</p> */}
-                    <p><strong>Color </strong> <div style={{ width: 18, height: 8, backgroundColor: citaForEdit.color }}></div> </p>
-                    {/* <Button type='primary' onClick={confirmService}>Confirmar Servicio</Button>, */}
-                </div>
-                }
-                </div>
-            }
-        </Modal>
-
-        <CreateCita setIsModalOpen={setIsCreateModalOpen} isOpenModal={isCreateModalOpen} hospital={props.id_hospital} fecha_hora={fecha_hora} getCitasData={getCitasData} pacientesData={pacientesData} />
-    </div>
-}
+export default HospitalTab;
