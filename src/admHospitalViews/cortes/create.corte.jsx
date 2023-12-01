@@ -2,14 +2,28 @@ import React from 'react'
 import { Button, Modal, Form, Input, DatePicker } from 'antd';
 import dayjs from 'dayjs';
 
-export default function CreateCorte({ isModalOpen, handleOk, handleCancel }) {
-    const onFinish = (values) => {
-        console.log('Success:', values);
-    };
+import { getData, sendDataBody, usuario, ids_hospitales } from '../../resources'
+
+
+export default function CreateCorte({ isModalOpen, handleOk, handleCancel, onFinish }) {
+    // const onFinish = (values) => {
+    //     const newCorte = {
+    //         // medico: medico,
+    //         medico: usuario._id,
+    //         fecha_inicio: cortesData.length === 0 ? new Date() : cortesData.at(0).fecha_cierre,
+    //         fecha_cierre: new Date(),
+    //         comentario: ''
+    //     }
+    //     console.log('ready to send ', newCorte)
+    //     sendDataBody('cortes/add', newCorte).then((rs) => {
+    //         console.log(rs);
+    //         getCortesData(medico)
+    //     })
+    // };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-    return <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+    return <Modal title="Generar Corte" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
         footer={[
             <Button onClick={handleCancel}>
                 Cancelar
@@ -21,25 +35,17 @@ export default function CreateCorte({ isModalOpen, handleOk, handleCancel }) {
     >
         <Form
             name="create_corte_medic"
-            labelCol={{
-                span: 8,
-            }}
-            wrapperCol={{
-                span: 16,
-            }}
-            style={{
-                maxWidth: 600,
-            }}
-            initialValues={{
-                fecha_cierre: dayjs(new Date()),
-            }}
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            style={{ maxWidth: 600 }}
+            initialValues={{ fecha_cierre: dayjs(new Date()) }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
         >
             <Form.Item
                 label="Comentario"
-                name="username"
+                name="comentario"
                 rules={[
                     {
                         required: true,
@@ -73,7 +79,7 @@ export default function CreateCorte({ isModalOpen, handleOk, handleCancel }) {
                     },
                 ]}
             >
-                <DatePicker defaultValue={dayjs()}/>
+                <DatePicker defaultValue={dayjs()} />
             </Form.Item>
 
         </Form>

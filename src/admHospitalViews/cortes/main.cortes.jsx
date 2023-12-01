@@ -40,7 +40,7 @@ export default function Cortes() {
 
     useEffect(() => {
         getDoctorsData()
-        getCortesData(usuario._id)
+        getCortesData()
     }, [])
 
     const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador. Is used for filter balances by corte
@@ -54,25 +54,23 @@ export default function Cortes() {
         }).finally(() => setLoading(false))
     }
 
-    const getCortesData = (id_medico) => {
-        getData(`cortes/${id_medico}`).then((rs) => {
+    const getCortesData = () => {
+        getData(`cortes/${usuario._id}`).then((rs) => {
             console.log('cortesData', rs)
             setCortesData(rs.reverse())
         }).finally(() => { setLoading(false) })
     }
 
-    const createCorte = () => {
+    const createCorte = (values) => {
         const newCorte = {
-            // medico: medico,
             medico: usuario._id,
             fecha_inicio: cortesData.length === 0 ? new Date() : cortesData.at(0).fecha_cierre,
-            fecha_cierre: new Date(),
-            comentario: ''
+            ...values
         }
         console.log('ready to send ', newCorte)
         sendDataBody('cortes/add', newCorte).then((rs) => {
             console.log(rs);
-            getCortesData(medico)
+            getCortesData()
         })
     }
 
@@ -158,7 +156,7 @@ export default function Cortes() {
 
         <Detalles corte={corteForDetails} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
 
-        <CreateCorte isModalOpen={isCreateModalOpen} handleOk={handleCreateOk} handleCancel={handleCreateCancel} />
+        <CreateCorte isModalOpen={isCreateModalOpen} handleOk={handleCreateOk} handleCancel={handleCreateCancel} onFinish={createCorte} />
 
     </div>
 }

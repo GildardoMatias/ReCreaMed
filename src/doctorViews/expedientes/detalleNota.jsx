@@ -166,7 +166,7 @@ export default function DetalleNota(props) {
 
 
                 {/* Mitad de la pantalla para Receta */}
-                <Col span={8} >
+                <Col span={6} >
                     <DetalleReceta recetas={nota.recetas} id_nota={nota._id} paciente={props.paciente} />
 
                     {/* Debajo de la receta esta la ultima cita */}
@@ -178,7 +178,7 @@ export default function DetalleNota(props) {
                 </Col>
 
                 {/* la otra mitad de la pantalla para NOTA*/}
-                <Col span={16}>
+                <Col span={18}>
                     {/* Detalle nota and soap will come into enfermero nota */}
                     {/* <Soap />
                     <Collapse bordered={false} style={{ backgroundColor: '#fff' }}>

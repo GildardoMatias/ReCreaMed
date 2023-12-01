@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Button, Tabs, Row, Col, Modal, Space, Typography, message, Upload, Input, Select, Form, Divider, InputNumber } from 'antd';
-import { UploadOutlined, PlusOutlined, EditOutlined } from '@ant-design/icons';
-import { updateData, usuario, API } from '../../resources';
+import { Card, Button, Image, Modal, message, Upload, Input, Form, InputNumber } from 'antd';
+import { UploadOutlined, PlusOutlined, EditOutlined, ExperimentOutlined, DownloadOutlined } from '@ant-design/icons';
+import { updateData, usuario, API, IMAGE_API } from '../../resources';
 const { TextArea } = Input;
 
 // estudios will be to notas/estudios/upload
@@ -14,6 +14,9 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
     const [newEstudio, setNewEstudio] = useState(null) //initially on database eill be [], onFinish or on Edit will insert this
     const [evoImage, setEvoImage] = useState(null)
 
+    const [estudiosFiles, setEstudiosFiles] = useState([])
+    const [imagesFiles, setImagesFiles] = useState([])
+
     const [evoForEdit, setEvoForEdit] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => { setIsModalOpen(true); };
@@ -22,7 +25,8 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
 
     const onFinish = (values) => {
 
-        if (newEstudio) values.estudios = [newEstudio];
+        values.estudios = estudiosFiles;
+        values.imagen = imagesFiles;
 
         // console.log('Prev notas:', _notas_evolucion);
         console.log('Received values of form:', values);
@@ -37,7 +41,8 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
     const onFinishEdit = (values) => {
 
         // add estudios and images
-        evoForEdit.estudios.push(newEstudio)
+        values.estudios = evoForEdit.estudios.concat(estudiosFiles)
+        values.imagen = evoForEdit.imagen.concat(imagesFiles)
 
 
         // Encuentra el índice del objeto a actualizar en el array
@@ -68,58 +73,124 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
             if (info.file.status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully`);
                 console.log('New Files: ', info.file.response.file)
-                // setEstudiosFiles([...estudiosFiles, info.file.response.file])
+                setEstudiosFiles([...estudiosFiles, info.file.response.file])
             } else if (info.file.status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);
             }
         },
     };
 
+    const isImage = (file) => {
+        return file.type.startsWith('image/');
+    };
+
+    const uploadImageProps = {
+        beforeUpload: (file) => {
+            if (!isImage(file)) {
+                message.error('Solo se permiten subir imágenes');
+                return false; // Evita la subida del archivo no válido
+            }
+            return true; // Permite la subida del archivo válido
+        },
+        name: 'file',
+        action: API + 'imagenes/upload',
+        multiple: true,
+        onChange(info) {
+            if (info.file.status !== 'uploading') {
+                console.log(info.file, info.fileList);
+            }
+            if (info.file.status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully`);
+                console.log('New Files: ', info.file.response.file)
+                setImagesFiles([...imagesFiles, info.file.response.file])
+            } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+            }
+        },
+    };
+
+    const rowStyle = { display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '100%' };
     return <div>
         {(_notas_evolucion && _notas_evolucion.length) > 0 ?
             _notas_evolucion.map((nota_evo) => {
                 console.log('showing ', nota_evo)
-                return <Card title={`Nota de evolución \t\tcreada el: ${new Date(nota_evo.createdAt).toLocaleDateString()}\t\tActualizada el ${new Date(nota_evo.createdAt).toLocaleDateString()}`} size='small' style={{ marginBottom: 8 }} key={nota_evo._id}>
-
-
+                return <Card title={`Nota de evolución \t\tcreada el: ${new Date(nota_evo.createdAt).toLocaleDateString()}\t\tActualizada el ${new Date(nota_evo.createdAt).toLocaleDateString()}`} size='small' style={{ marginBottom: 16 }} key={nota_evo._id}>
 
                     <Card size='small'>
                         <div className='fila' style={{ marginBottom: 8 }}>
                             <span className='desc'>Signos Vitales</span>
                         </div>
 
-                        <div className='fila'>
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', columnWidth: '30%' }}>
 
-                            <div><span className='desc'>Temperatura: </span>{nota_evo.temperatura}°</div>
-                            <div><span className='desc'>Frecuencia Respiratoria: </span>{nota_evo.frecuencia_respiratoria}</div>
-                            <div><span className='desc'>Frecuencia Cardiaca: </span>{nota_evo.frecuencia_cardiaca}</div>
-                            <div><span className='desc'>Presion Arterial: </span>{nota_evo.presion_arterial}</div>
-                            <div><span className='desc'>Saturacion de Oxigeno: </span>{nota_evo.saturacion_oxigeno}</div>
+                            <div className='lcolumna'>
+                                <div style={rowStyle}><span className='desc'>Temperatura: </span><div>{nota_evo.temperatura}°</div></div>
+                                <div style={rowStyle}><span className='desc'>Frecuencia Respiratoria: </span><div>{nota_evo.frecuencia_respiratoria}</div></div>
+
+                            </div>
+                            <div className='lcolumna'>
+                                <div style={rowStyle}><span className='desc'>Frecuencia Cardiaca: </span><div>{nota_evo.frecuencia_cardiaca}</div></div>
+                                <div style={rowStyle}><span className='desc'>Presion Arterial: </span><div>{nota_evo.presion_arterial}</div></div>
+                            </div>
+                            <div className='clolumna'>
+                                <div style={rowStyle}><span className='desc'>Saturacion de Oxigeno: </span><div>{nota_evo.saturacion_oxigeno}</div></div>
+                            </div>
                         </div>
 
-
-                        <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-                            <Button onClick={() => { setEvoForEdit(nota_evo); console.log('For edit ', nota_evo); showModal(); }} style={{ marginTop: 4 }} className='btnIconCentered' size='small' type="primary" shape="circle" icon={<EditOutlined />} ghost />
-                        </div>
                     </Card>
 
 
                     <div style={{ marginTop: 8 }} >
                         <div className='fila' style={{ marginBottom: 8 }}>
                             <h6>S</h6> <Card size='small' style={{ width: '100%' }} className='textArea'>{nota_evo.s}</Card>
-                        </div>
-                        <div className='fila' style={{ marginBottom: 8 }}>
                             <h6>O</h6><Card size='small' style={{ width: '100%' }} className='textArea'>{nota_evo.o}</Card>
                         </div>
+                        {/* <div className='fila' style={{ marginBottom: 8 }}>
+                        </div> */}
                         <div className='fila' style={{ marginBottom: 8 }}>
                             <h6>A</h6><Card size='small' style={{ width: '100%' }} className='textArea'>{nota_evo.a}</Card>
-                        </div>
-                        <div className='fila' style={{ marginBottom: 8 }}>
                             <h6>P</h6><Card size='small' style={{ width: '100%' }} className='textArea'>{nota_evo.p}</Card>
                         </div>
+                        {/* <div className='fila' style={{ marginBottom: 8 }}>
+                        </div> */}
+                    </div>
+
+                    <div style={{ display: 'flex', gap: 6 }}>
+                        {
+                            nota_evo.imagen.length > 0 && <Card style={{ flex: 1 }}>
+                                <p>Imagenes</p>
+                                {/* {JSON.stringify(nota_evo.imagen)} */}
+                                {
+                                    nota_evo.imagen.map((img) => {
+                                        return <Image
+                                            style={{ marginRight: 4, borderRadius: 6 }}
+                                            width={80}
+                                            src={IMAGE_API + img}
+                                        />
+                                    })
+                                }
+                            </Card>
+                        }
+                        {
+                            nota_evo.estudios.length > 0 && <Card style={{ flex: 1 }}>
+                                <p>Estudios</p>
+                                {/* {JSON.stringify(nota_evo.estudios)} */}
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+
+                                    {
+                                        nota_evo.estudios.map((e) => {
+                                            return <a style={{ alignItems: 'center' }} href={`${API}notas/estudios/download/${e}`}><ExperimentOutlined /> {e} </a>
+                                        })
+                                    }
+                                </div>
+                            </Card>
+                        }
                     </div>
 
                     {/* <Button style={{ marginTop: 4 }} >Agregar</Button> */}
+                    <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+                        <Button onClick={() => { setEvoForEdit(nota_evo); console.log('For edit ', nota_evo); showModal(); }} style={{ marginTop: 4 }} className='btnIconCentered' size='small' type="primary" shape="circle" icon={<EditOutlined />} ghost />
+                    </div>
 
                 </Card >
             })
@@ -145,14 +216,14 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
         >
 
             {/* upload estudios and image */}
-            <div className='fila'>
+            <div className='fila' style={{ justifyContent: 'space-evenly', marginTop: 8 }}>
 
-                <Upload {...uploadEstudiosProps}>
-                    <Button icon={<UploadOutlined />}>Click para subir estudios</Button>
+                <Upload {...uploadImageProps}>
+                    <Button icon={<UploadOutlined />}>Click para subir fotos</Button>
                 </Upload>
 
                 <Upload {...uploadEstudiosProps}>
-                    <Button icon={<UploadOutlined />}>Click para subir fotos</Button>
+                    <Button icon={<UploadOutlined />}>Click para subir estudios</Button>
                 </Upload>
 
             </div>
@@ -204,13 +275,6 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
                     </div>
                 }
 
-                <Form.Item label="Estudios" rules={[{ required: false, message: 'Ingrese la saturacion de oxigeno' }]}>
-                    <Button icon={<UploadOutlined />}>Click para seleccionar archivos</Button>
-                </Form.Item>
-
-                <Form.Item label="Foto" rules={[{ required: false, message: 'Ingrese la saturacion de oxigeno' }]}>
-                    <Button icon={<UploadOutlined />}>Click para seleccionar fotos</Button>
-                </Form.Item>
             </Form>
         </Modal>
 
