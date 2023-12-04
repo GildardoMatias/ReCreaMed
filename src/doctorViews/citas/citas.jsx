@@ -6,6 +6,7 @@ import CreateCita, { CreateCitaForm } from './cita.create'
 import { Button, Modal, Popconfirm } from 'antd'
 import dayjs from 'dayjs';
 import { GoogleOutlined } from '@ant-design/icons'
+import AuthButton from './auth.button';
 // import CitaGoogle from './cita.google';
 // import '@dayjs/locale/es-mx';
 // require('@dayjs/locale/es-mx');
@@ -159,9 +160,11 @@ export default function Citas() {
             onSelectSlot={handleSlotSelection} // create cita
         />
         <br />
-        <Button icon={<GoogleOutlined />}>
+        <Button icon={<GoogleOutlined />} >
             Sincronzar calendario
         </Button>
+
+        <AuthButton />
 
 
         <Modal title="Detalles Cita" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
