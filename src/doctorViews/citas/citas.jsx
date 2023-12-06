@@ -133,6 +133,16 @@ export default function Citas() {
         <br />
         {/* <CitaGoogle />
         <br /> */}
+
+        <AuthButton />
+
+        <Button icon={<GoogleOutlined />} >
+            Sincronzar calendario
+        </Button>
+
+        <br />
+        <br />
+
         <Calendar
             // min={min}
             // max={max}
@@ -160,11 +170,7 @@ export default function Citas() {
             onSelectSlot={handleSlotSelection} // create cita
         />
         <br />
-        <Button icon={<GoogleOutlined />} >
-            Sincronzar calendario
-        </Button>
 
-        <AuthButton />
 
 
         <Modal title="Detalles Cita" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose

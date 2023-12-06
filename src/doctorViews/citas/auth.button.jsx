@@ -32,8 +32,24 @@ export default function AuthButton() {
         }
     }
 
+    const addEvent = () => {
+        const eventFromNow = {
+            summary: "Evento recreamed de prueba",
+            time: 30,
+        };
 
-    return <div>
+        apiCalendar
+            .createEventFromNow(eventFromNow)
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+
+    return <div style={{ display: 'flex', flexDirection: 'row', gap: 12 }}>
         <p>{JSON.stringify(authText)}</p>
         <Button
             onClick={(e) => handleItemClick('sign-in')}
@@ -42,6 +58,11 @@ export default function AuthButton() {
         </Button>
         < Button onClick={(e) => handleItemClick('sign-out')}>
             sign - out
+        </Button>
+        <Button
+            onClick={addEvent}
+        >
+            Create Event
         </Button>
     </div>;
 
