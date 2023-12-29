@@ -4,7 +4,7 @@ import { PDFViewer } from '@react-pdf/renderer';
 import Logo from '../../assets/Logo.png'
 import { usuario, IMAGE_API } from '../../resources';
 
-export default function ExpedienteDocument(props) {
+export default function ExpedienteDocument({ pacienteData, expedienteData, historia, notas, recetas }) {
 
     useEffect(() => {
         // console.log('receta props', props)
@@ -89,12 +89,12 @@ export default function ExpedienteDocument(props) {
                 </View>
 
                 <View style={styles.sectionFull}>
-                    <Text style={styles.footText}>Expediente del paciente: </Text>
+                    <Text style={styles.footText}>Expediente del paciente: {pacienteData.name}</Text>
                     {/* <Text style={styles.footText}>Fecha: {new Date().toLocaleString()}</Text> */}
                 </View>
 
                 <View style={styles.sectionFull}>
-                    <Text style={[styles.prescription, { lineHeight: 2 }]}></Text>
+                    <Text style={[styles.prescription, { lineHeight: 2 }]}>{JSON.stringify(expedienteData)}</Text>
                 </View>
 
                 <View style={{ color: 'black', width: '94%', backgroundColor: 'black', borderBottomColor: '#9bb4df', borderBottomWidth: 1, marginHorizontal: 20 }}></View>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Modal, Form, Select, Input, Button, message, Switch, DatePicker, InputNumber } from 'antd'
 import { getData, myHospitals, sendDataBody, updateData, usuario } from '../../resources';
 import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
+import { createEvent } from './auth.button';
 
 
 export function CreateCitaForm(props) {
@@ -39,8 +40,9 @@ export function CreateCitaForm(props) {
     const onFinish = (values) => {
 
         values.medico = usuario._id;
-        values.id_servicio = values.servicio.key;
-        values.servicio = values.servicio.title;
+        // values.id_servicio = values.servicio.key;
+        values.servicio = values.servicio.label;
+        // values.servicio = values.servicio.title +" - " + values.servicio.;
         delete values.tratamiento;
 
         console.log(values)
@@ -51,6 +53,9 @@ export function CreateCitaForm(props) {
                 console.log(response)
             }).finally(() => { props.getCitasData(); props.setIsModalOpen(false); props.setEditingCita(false) })
         } else {
+
+            // createEvent(values.fecha_hora, values.duracion, values.servicio.title || values.servicio) // Create cita google W
+            
             sendDataBody('citas/add', values).then((response) => {
                 message.success(response.message || response.error);
                 response.message && response.message === 'Cita creada correctamente' ? createBalance(response.id_nueva_cita, values.fecha_hora) : message.error('No se pudo crear registro de ingreso')

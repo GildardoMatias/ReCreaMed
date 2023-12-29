@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Modal, Form, Select, Input, Button, message, Switch, DatePicker } from 'antd'
 import { sendDataBody, updateData, ids_hospitales } from '../../resources';
 
+// admin and receipt shares citas and create citas
+// ONLY RECEIPT CANT DELETE, SO, FIRST EDIT RECEIPTIONIST
+
 export function CreateCitaForm(props) {
 
     const isCreating = !props.cita || Object.keys(props.cita).length === 0;
@@ -44,7 +47,7 @@ export function CreateCitaForm(props) {
         values.sucursal = props.hospital;
         delete values.tratamiento;
         values.id_servicio = values.servicio.key;
-        values.servicio = values.servicio.title;
+        values.servicio = values.servicio.label;
         delete values.tipo_pago;
 
         // Handle if its updating or creating cita
@@ -117,7 +120,7 @@ export function CreateCitaForm(props) {
                 let { configuracion: { tratamientos_ofrecidos } } = found;
                 console.log("found tr", tratamientos_ofrecidos)
                 tratamientos_ofrecidos.forEach(t => {
-                    t.label = `${t.tratamiento} - $${t.costo} - ${t.observaciones ?? ""}`; t.value = t.costo; t.title = t.tratamiento;  t.key = t._id
+                    t.label =  `${t.tratamiento} - $${t.costo} - ${t.observaciones ?? ""}`; t.value = t.costo; t.title = t.tratamiento; t.key = t._id
                 });
                 const { configuracion: { costo_cita = 0 } } = found;
                 setCostoBaseCita(costo_cita)
@@ -169,7 +172,7 @@ export function CreateCitaForm(props) {
         { value: 'transferencia', label: 'Transferencia' },
     ]
 
-    return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
+    return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 14 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
         initialValues={props.cita ? props.cita : { isOnline: false, tratamiento: 'Sin servicio', fecha_hora: props.fecha_hora, duracion: 60 }}>
 
         <div>{errorMessage}</div>
@@ -259,7 +262,7 @@ export default function CreateCita(props) {
 
 
     return (
-        <Modal title="Nueva Cita" open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose
+        <Modal title="Nueva Cita" open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose width={600}
             footer={[
                 <Button onClick={handCreateleCancel}>Cancelar</Button>,
                 <Button type="primary" htmlType="submit" form='nueva_cita_admin' disabled={!enableCreate}>
@@ -275,15 +278,15 @@ export default function CreateCita(props) {
 }
 
 
-    // Create the respective balance for cita
-    // const createBalance = (_cita, monto) => {
-    //     const balanceBody = {
-    //         medico: medico,
-    //         cita: _cita,
-    //         monto: monto,
-    //         forma_de_pago: 'efectivo',
-    //         estado: 'pendiente',
-    //     }
-    //     console.log('Balance ready to send: ', balanceBody)
-    //     sendDataBody('balances/add', balanceBody).then((rs) => console.log(rs))
-    // }
+// Create the respective balance for cita
+// const createBalance = (_cita, monto) => {
+//     const balanceBody = {
+//         medico: medico,
+//         cita: _cita,
+//         monto: monto,
+//         forma_de_pago: 'efectivo',
+//         estado: 'pendiente',
+//     }
+//     console.log('Balance ready to send: ', balanceBody)
+//     sendDataBody('balances/add', balanceBody).then((rs) => console.log(rs))
+// }

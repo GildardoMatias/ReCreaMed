@@ -113,7 +113,7 @@ export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
     return <div>
         {(_notas_evolucion && _notas_evolucion.length) > 0 ?
             _notas_evolucion.map((nota_evo) => {
-                console.log('showing ', nota_evo)
+                // console.log('showing ', nota_evo)
                 return <Card title={`Nota de evolución \t\tcreada el: ${new Date(nota_evo.createdAt).toLocaleDateString()}\t\tActualizada el ${new Date(nota_evo.createdAt).toLocaleDateString()}`} size='small' style={{ marginBottom: 16 }} key={nota_evo._id}>
 
                     <Card size='small'>

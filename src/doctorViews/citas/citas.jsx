@@ -50,6 +50,8 @@ export default function Citas() {
     const [fecha_hora, setFecha_hora] = useState(null)
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
 
+    
+
     useEffect(() => { return getCitasData() }, [])
 
     const getCitasData = () => {
@@ -134,11 +136,11 @@ export default function Citas() {
         {/* <CitaGoogle />
         <br /> */}
 
-        <AuthButton />
+        {/* <AuthButton /> WWWWWW */}
 
-        <Button icon={<GoogleOutlined />} >
+        {/* <Button icon={<GoogleOutlined />} >
             Sincronzar calendario
-        </Button>
+        </Button> */}
 
         <br />
         <br />
@@ -203,7 +205,7 @@ export default function Citas() {
             }
         </Modal>
 
-        <CreateCita setIsModalOpen={setIsCreateModalOpen} isOpenModal={isCreateModalOpen} fecha_hora={fecha_hora} getCitasData={getCitasData} />
+        <CreateCita  setIsModalOpen={setIsCreateModalOpen} isOpenModal={isCreateModalOpen} fecha_hora={fecha_hora} getCitasData={getCitasData} />
 
     </div>
 

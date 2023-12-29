@@ -8,14 +8,9 @@ export default function IngersosHosptal({ ids_hospitales }) {
 
     const [ingresosData, setIngresosData] = useState([])
     const [loading, setLoading] = useState(true)
-
-    // Modal For Add/Edit Inreso
-    const [isIngresoModalOpen, setIsIngresoModalOpen] = useState(false);
-    const showIngresoModal = () => {
-        console.log('opening hosp create modal')
-        setIsIngresoModalOpen(true)
-    };
-
+    const [isIngresoModalOpen, setIsIngresoModalOpen] = useState(false); // Modal For Add/Edit Inreso
+    const [isGastooModalOpen, setIsGastoModalOpen] = useState(false); // Modal For Add/Edit Gasto
+  
     useEffect(() => {
         getIngresos()
     }, [])
@@ -25,7 +20,6 @@ export default function IngersosHosptal({ ids_hospitales }) {
             setIngresosData(rs)
         }).finally(() => setLoading(false))
     }
-
 
     const columns = [
         {
@@ -119,19 +113,17 @@ export default function IngersosHosptal({ ids_hospitales }) {
 
         <div style={{ display: 'flex', flexDirection: 'row', gap: 12, alignItems: 'center' }}>
             <h4>Ingresos del hospital</h4>
+            {/* {JSON.stringify(ids_hospitales)} For view another hospitals , create a select with ids_hospitales as options and a state for hospital selected and pass ir as a param into createBalance*/}
             <Button ghost size='small' onClick={() => setIsIngresoModalOpen(true)} type='primary'  >Agregar Nuevo Ingreso del Hospital</Button>
+            <Button ghost size='small' onClick={() => setIsGastoModalOpen(true)} type='primary'  >Agregar Nuevo Gasto del Hospital</Button>
         </div>
 
         <Table dataSource={ingresosData} columns={columns} size='small' />;
 
         {/* Ingreso of Hospital*/}
-        <CreateBalanceHosptal tipo='ingreso' setIsModalOpen={setIsIngresoModalOpen} isModalOpen={isIngresoModalOpen} getIngresos={getIngresos} />
-
-        {/* <Modal title="Basic Modal" open={isIngresoModalOpen} onOk={()=>setIsIngresoModalOpen(false)} onCancel={()=>setIsIngresoModalOpen(false)}>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-        </Modal> */}
+        <CreateBalanceHosptal tipo='ingreso' setIsModalOpen={setIsIngresoModalOpen} isModalOpen={isIngresoModalOpen} getIngresos={getIngresos} id_hospital={ids_hospitales[0]} />
+        {/* Gasto of Hospital*/}
+        <CreateBalanceHosptal tipo='egreso' setIsModalOpen={setIsGastoModalOpen} isModalOpen={isGastooModalOpen} getIngresos={getIngresos} id_hospital={ids_hospitales[0]} />
 
     </div>
 }

@@ -92,7 +92,7 @@ export default function Expedientes({ paciente, setIsEditModalOpen }) {
 
     function DownloadConscent() {
         // El archvo de conscentmiento se guardará en ./uploads y se llamara con /notas/estudos/download de momento porque no hay un endpoint para archivo de conscentimento para subrlo sera en /notas/estudus/upload
-        return <Button icon={  <CloudDownloadOutlined className="teamSocialIcon" />} style={{marginLeft: 12}} href={`${API}notas/estudios/download/3d4c9465-889f-428c-9e15-13bea15162ef.doc`}>
+        return <Button icon={<CloudDownloadOutlined className="teamSocialIcon" />} style={{ marginLeft: 12 }} href={`${API}notas/estudios/download/3d4c9465-889f-428c-9e15-13bea15162ef.doc`}>
             Avso de Conscentmiento
         </Button>
 
@@ -131,7 +131,7 @@ export default function Expedientes({ paciente, setIsEditModalOpen }) {
 
 
         <Modal title="Imprimir Expediente" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={900}>
-            <ExpedienteDocument />
+            <ExpedienteDocument pacienteData={{name: 'patient', phone: 123456}} expedienteData={{ notas: [], other: [] }} />
         </Modal>
 
         <DownloadConscent />

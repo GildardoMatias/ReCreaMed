@@ -44,7 +44,7 @@ export function CreateCitaForm(props) {
         values.sucursal = props.hospital;
         delete values.tratamiento;
         values.id_servicio = values.servicio.key;
-        values.servicio = values.servicio.title;
+        values.servicio = values.servicio.label;
         delete values.tipo_pago;
 
         // Handle if its updating or creating cita
@@ -117,7 +117,7 @@ export function CreateCitaForm(props) {
                 let { configuracion: { tratamientos_ofrecidos } } = found;
                 console.log("found tr", tratamientos_ofrecidos)
                 tratamientos_ofrecidos.forEach(t => {
-                    t.label = `${t.tratamiento} - $${t.costo}`; t.value = t.costo; t.title = t.tratamiento; t.key = t._id
+                    t.key = t._id; t.label = `${t.tratamiento} - $${t.costo} - ${t.observaciones ?? ""}`; t.value = t.costo + "-" + t._id; t.title = t.tratamiento; t.cobro = t.costo;
                 });
                 const { configuracion: { costo_cita = 0 } } = found;
                 setCostoBaseCita(costo_cita)
@@ -139,9 +139,10 @@ export function CreateCitaForm(props) {
 
     // Handle change for select servicio
     const handleServicioChange = (selected) => {
-
-        setCosto(selected.value)
+        var cobro = selected.value.split("-")[0];
+        setCosto(cobro)
         console.log(`selected service`, selected);
+        console.log(`selected cobro`, cobro);
     };
 
     const onSwitchCosoBase = (checked) => {
@@ -169,7 +170,7 @@ export function CreateCitaForm(props) {
         { value: 'transferencia', label: 'Transferencia' },
     ]
 
-    return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
+    return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 14 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
         initialValues={props.cita ? props.cita : { isOnline: false, tratamiento: 'Sin servicio', fecha_hora: props.fecha_hora, duracion: 60 }}>
 
         <div>{errorMessage}</div>
@@ -259,7 +260,7 @@ export default function CreateCita(props) {
 
 
     return (
-        <Modal title="Nueva Cita" open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose
+        <Modal title="Nueva Cita" open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose width={600}
             footer={[
                 <Button onClick={handCreateleCancel}>Cancelar</Button>,
                 <Button type="primary" htmlType="submit" form='nueva_cita_admin' disabled={!enableCreate}>

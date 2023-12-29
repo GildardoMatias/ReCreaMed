@@ -5,7 +5,7 @@ import { getData, sendDataBody, updateData } from '../../resources';
 export default function CreateBalanceHosptal({id_hospital, tipo, balanceForEdit, setBalanceForEdit, setIsModalOpen, isModalOpen, getIngresos}) {
 
     const isCreating = !balanceForEdit || Object.keys(balanceForEdit).length === 0;
-    const [pacientesData, setPacientesData] = useState([])
+    
     const [loading, setLoading] = useState(true)
 
     const handleOk = () => { setIsModalOpen(false) };
@@ -20,7 +20,8 @@ export default function CreateBalanceHosptal({id_hospital, tipo, balanceForEdit,
     const onFinish = (values) => {
 
         values.tipo = tipo;
-        values.sucusal = id_hospital;
+        values.sucursal = id_hospital;
+        values.estado = 'pendiente'
         console.log('Ready to send:', values);
         console.log('For Edit: ', balanceForEdit);
         if (isCreating) {
@@ -37,7 +38,7 @@ export default function CreateBalanceHosptal({id_hospital, tipo, balanceForEdit,
     const onFinishFailed = (errorInfo) => { console.log('Failed:', errorInfo) };
 
     return (
-        <Modal title="Agergar ingreso del hospital" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
+        <Modal title={`Agergar ${tipo} del hospital`} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
             footer={[
                 <Button type="primary" htmlType="submit" form='edit_balance'>
                     Guardar
@@ -84,7 +85,7 @@ export default function CreateBalanceHosptal({id_hospital, tipo, balanceForEdit,
                 </Form.Item>
 
 
-                <Form.Item
+                {/* <Form.Item
                     label="Estado"
                     name="estado"
                     rules={[{ required: true, message: 'Ingresa el monto' }]}
@@ -104,7 +105,7 @@ export default function CreateBalanceHosptal({id_hospital, tipo, balanceForEdit,
                         },
                     ]}
                     />
-                </Form.Item>
+                </Form.Item> */}
 
 
                 <Form.Item

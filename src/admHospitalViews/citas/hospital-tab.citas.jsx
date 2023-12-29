@@ -1,21 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { API, sendDataBody } from '../../resources';
+import { API, deleteData, sendDataBody } from '../../resources';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { Modal, Popconfirm, Button } from 'antd'
 import dayjs from 'dayjs';
-
+import CreateCita, { CreateCitaForm } from './create-cita-for-medic';
 import Loading from '../../loading';
 
 const localizer = dayjsLocalizer(dayjs)
 
+// admin and receipt shares citas and create citas
+// ONLY RECEIPT CANT DELETE, SO, FIRST EDIT RECEIPTIONIST
 
-const HospitalTab = ({ id_hospital }) => {
+const HospitalTab = ({ id_hospital, hospital }) => {
+
+    const [citaForEdit, setCitaForEdit] = useState({})
+    const [loading, setLoading] = useState(true)
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => { setIsModalOpen(true) }
+    const handleOk = () => { setIsModalOpen(false); setEditingCita(false) }
+    const handleCancel = () => { setIsModalOpen(false); setEditingCita(false) }
+    const [editingCita, setEditingCita] = useState(false)
+
+    // Tools for createCita Modal
+    const [fecha_hora, setFecha_hora] = useState('')
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+    // for pass to create cita model
+    const [pacientesData, setPacientesData] = useState([])
+
     const [serviceList, setServiceList] = useState(null);
-    const [pacientesData, setPacientesData] = useState(null);
 
     const [citasData, setCitasData] = useState(null)
 
     const [loadedSuccessfully, setLoadedSuccessfully] = useState(false);
+
+    const [initialDates, setInitialDates] = useState(null)
 
 
     useEffect(() => {
@@ -52,13 +71,6 @@ const HospitalTab = ({ id_hospital }) => {
             });
     }, []);
 
-    // Función para formatear el array de respuesta del primer API
-    const formatoArray = (data) => {
-        // Tu lógica de formateo aquí
-        return data;
-    };
-
-
 
     useEffect(() => {
         // Verificar si ambos sets de datos están disponibles y tienen contenido
@@ -72,13 +84,14 @@ const HospitalTab = ({ id_hospital }) => {
 
             // Calcular la fecha dentro de una semana
             const fechaDentroDeUnaSemana = new Date();
-            fechaDentroDeUnaSemana.setDate(fechaActual.getDate() + 14);
+            fechaDentroDeUnaSemana.setDate(fechaActual.getDate() + 31);
+            setInitialDates({ start_date: fechaHaceUnaSemana, end_date: fechaDentroDeUnaSemana }) // Nos servirá más adelante al crear citas
             getCitasData(fechaHaceUnaSemana, fechaDentroDeUnaSemana)
             // setLoadedSuccessfully(true);
         }
     }, [serviceList, pacientesData]);
 
-    const getCitasData = async (_start_date, _end_date) => {
+    const getCitasData = async (_start_date = initialDates.start_date, _end_date = initialDates.end_date) => {
         const body = { start_date: _start_date, end_date: _end_date }
 
         await sendDataBody(`citas/sucursal/${id_hospital}`, body).then((rs) => {
@@ -112,17 +125,25 @@ const HospitalTab = ({ id_hospital }) => {
         if (!e.paciente) e.paciente = e.usuario; // For details
         if (e.medico && e.medico._id) e.medico = e.medico._id;  // For edit
         if (e.usuario && e.usuario._id) e.usuario = e.usuario._id;  // For edit
-        // e.fecha_hora = dayjs(e.fecha_hora) //For edit www
-        // setCitaForEdit(e) www
-        // if (citaForEdit) showModal() www
+        e.fecha_hora = dayjs(e.fecha_hora) //For edit 
+        setCitaForEdit(e)
+        if (citaForEdit) showModal()
     }
 
 
     const handleSlotSelection = ({ start, end, action }) => {
-        // setFecha_hora(dayjs(start)) www
-        // setIsCreateModalOpen(true) www
+        setFecha_hora(dayjs(start))
+        setIsCreateModalOpen(true)
         return { style: { backgroundColor: 'red' } };
     };
+
+    // Delete button
+    const confirm = (e) => {
+        deleteData(`citas/remove/${citaForEdit._id}`).then((rs) => { console.log(rs); getCitasData(); handleCancel() })
+        deleteData(`balances/remove/cita/${citaForEdit._id}`)
+    };
+
+    const cancel = (e) => { console.log(e) }
 
     const eventStyleGetter = (event, start, end, isSelected) => {
 
@@ -179,6 +200,43 @@ const HospitalTab = ({ id_hospital }) => {
 
                     }}
                 />
+
+                <Modal title="Detalles Cita" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose width={900}
+                    footer={[
+                        <Popconfirm
+                            title="Eliminar Cita"
+                            description="Seguro que quiere eliminar la cita?"
+                            onConfirm={confirm}
+                            onCancel={cancel}
+                            okText="Si"
+                            cancelText="No"
+                        >
+                            <Button danger>Eliminar</Button>
+                        </Popconfirm>,
+                        <Button onClick={() => setEditingCita(!editingCita)}>{editingCita ? "Cancelar" : "Modificar"}</Button>,
+                        <Button onClick={handleCancel}>Cerrar</Button>
+                    ]}>
+
+
+                    {editingCita ?
+                        <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsModalOpen} getCitasData={getCitasData} setEditingCita={setEditingCita} hospital={id_hospital} pacientesData={pacientesData} />
+                        : <div>{citaForEdit && <div>
+                            <p><strong>Medico </strong>{citaForEdit.doctor ? citaForEdit.doctor.name : 'Sin medico'}</p>
+                            <p><strong>Paciente </strong>{citaForEdit.paciente ? citaForEdit.paciente.name : 'Sin paciente'}</p>
+                            <p><strong>Fecha </strong>{new Date(citaForEdit.fecha_hora).toLocaleDateString()}</p>
+                            <p><strong>Hora </strong>{new Date(citaForEdit.fecha_hora).toLocaleTimeString()}</p>
+                            <p><strong>Servicio </strong>{citaForEdit.servicio}</p>
+                            <p><strong>Comentarios </strong>{citaForEdit.comentarios}</p>
+                            {/* <p><strong>Servicio ID </strong>{citaForEdit.id_servicio}</p> */}
+                            <p><strong>Color </strong> <div style={{ width: 18, height: 8, backgroundColor: citaForEdit.color }}></div> </p>
+                            {/* <Button type='primary' onClick={confirmService}>Confirmar Servicio</Button>, */}
+                        </div>
+                        }
+                        </div>
+                    }
+                </Modal>
+
+                <CreateCita setIsModalOpen={setIsCreateModalOpen} isOpenModal={isCreateModalOpen} hospital={id_hospital} fecha_hora={fecha_hora} getCitasData={getCitasData} pacientesData={pacientesData} />
 
             </div>
         );
