@@ -11,6 +11,7 @@ import ExpedienteDocument from './expedienteForPrint';
 
 
 export default function Expedientes({ paciente, setIsEditModalOpen }) {
+
     const [expedientesData, setExpedientesData] = useState(null);
     const [expedientesLoading, setExpedientesLoading] = useState(true);
     const [historia, setHistoria] = useState("");
@@ -50,18 +51,6 @@ export default function Expedientes({ paciente, setIsEditModalOpen }) {
             .finally(() => setExpedientesLoading(false))
     }
 
-    // const printDocument = () => {
-    //     const input = document.getElementById('expedient-export');
-    //     html2canvas(input)
-    //         .then((canvas) => {
-    //             const imgData = canvas.toDataURL('image/png');
-    //             const pdf = new jsPDF();
-    //             pdf.addImage(imgData, 'JPEG', 0, 0);
-    //             pdf.output('dataurlnewwindow');//Name of file?
-    //             pdf.save("expediente.pdf");
-    //         })
-    //         ;
-    // }
 
 
     async function addHistoria() {
@@ -110,9 +99,8 @@ export default function Expedientes({ paciente, setIsEditModalOpen }) {
             <DetallesPaciente paciente={paciente} setIsEditModalOpen={setIsEditModalOpen} />
 
             <DetalleHistoria historia={historia} detalles_paciente={paciente} />
+
         </div>
-
-
 
 
         {
@@ -131,7 +119,7 @@ export default function Expedientes({ paciente, setIsEditModalOpen }) {
 
 
         <Modal title="Imprimir Expediente" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={900}>
-            <ExpedienteDocument pacienteData={{name: 'patient', phone: 123456}} expedienteData={{ notas: [], other: [] }} />
+            <ExpedienteDocument pacienteData={{ name: 'patient', phone: 123456 }} expedienteData={{ notas: [], other: [] }} />
         </Modal>
 
         <DownloadConscent />

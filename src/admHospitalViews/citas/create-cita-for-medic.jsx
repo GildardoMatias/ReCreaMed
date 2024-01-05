@@ -120,7 +120,7 @@ export function CreateCitaForm(props) {
                 let { configuracion: { tratamientos_ofrecidos } } = found;
                 console.log("found tr", tratamientos_ofrecidos)
                 tratamientos_ofrecidos.forEach(t => {
-                    t.label =  `${t.tratamiento} - $${t.costo} - ${t.observaciones ?? ""}`; t.value = t.costo; t.title = t.tratamiento; t.key = t._id
+                    t.key = t._id; t.label = `${t.tratamiento} - $${t.costo} - ${t.observaciones ?? ""}`; t.value = t.costo + "-" + t._id; t.title = t.tratamiento; 
                 });
                 const { configuracion: { costo_cita = 0 } } = found;
                 setCostoBaseCita(costo_cita)
@@ -142,9 +142,10 @@ export function CreateCitaForm(props) {
 
     // Handle change for select servicio
     const handleServicioChange = (selected) => {
-
-        setCosto(selected.value)
+        var cobro = selected.value.split("-")[0];
+        setCosto(cobro)
         console.log(`selected service`, selected);
+        console.log(`selected cobro`, cobro);
     };
 
     const onSwitchCosoBase = (checked) => {

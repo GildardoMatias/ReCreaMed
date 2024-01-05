@@ -9,7 +9,7 @@ import Loading from '../../loading';
 
 const localizer = dayjsLocalizer(dayjs)
 
-// admin and receipt shares citas and create citas
+// admin and receipt shares hospital-tab.citas and create-cita-for-medic
 // ONLY RECEIPT CANT DELETE, SO, FIRST EDIT RECEIPTIONIST
 
 const HospitalTab = ({ id_hospital, hospital }) => {

@@ -158,8 +158,7 @@ export default function DetalleNota(props) {
     //     },
     // };
 
-    const items = notaData ? notaData.map((nota, i) => {
-        return {
+    const items = notaData ? notaData.map((nota, i) => { return {
             label: `Nota ${i + 1}`,
             key: nota._id,
             children: <Row gutter={8} style={{ backgroundColor: 'white' }}>

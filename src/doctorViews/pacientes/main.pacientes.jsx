@@ -9,9 +9,12 @@ import DetallesPaciente from './detalles.paciente'
 import Register from './register.patient'
 import { PlusOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs'
+import ExpedienteFisio from '../expedieteFisio/expediente'
 const { Option } = Select;
 
 export default function MainPacientes() {
+
+  const TIPO = "psique"
 
   const [pacientesData, setPacientesData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -88,7 +91,9 @@ export default function MainPacientes() {
 
 
       {
-        activePatient && <Expedientes paciente={activePatient} setIsEditModalOpen={setIsEditModalOpen} />
+        TIPO === 'fisio' ?
+          <ExpedienteFisio  paciente={activePatient}/> :
+          <Expedientes paciente={activePatient} setIsEditModalOpen={setIsEditModalOpen} />
       }
 
 

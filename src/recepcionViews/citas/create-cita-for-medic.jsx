@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Modal, Form, Select, Input, Button, message, Switch, DatePicker } from 'antd'
 import { sendDataBody, updateData, ids_hospitales } from '../../resources';
 
+// admin and receipt shares citas and create citas
+// ONLY RECEIPT CANT DELETE, SO, FIRST EDIT RECEIPTIONIST
+
 export function CreateCitaForm(props) {
 
     const isCreating = !props.cita || Object.keys(props.cita).length === 0;
@@ -117,7 +120,7 @@ export function CreateCitaForm(props) {
                 let { configuracion: { tratamientos_ofrecidos } } = found;
                 console.log("found tr", tratamientos_ofrecidos)
                 tratamientos_ofrecidos.forEach(t => {
-                    t.key = t._id; t.label = `${t.tratamiento} - $${t.costo} - ${t.observaciones ?? ""}`; t.value = t.costo + "-" + t._id; t.title = t.tratamiento; t.cobro = t.costo;
+                    t.key = t._id; t.label = `${t.tratamiento} - $${t.costo} - ${t.observaciones ?? ""}`; t.value = t.costo + "-" + t._id; t.title = t.tratamiento; 
                 });
                 const { configuracion: { costo_cita = 0 } } = found;
                 setCostoBaseCita(costo_cita)

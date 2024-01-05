@@ -47,13 +47,17 @@ export default function Ingresos() {
         getLastFechaCierre()
     }, [])
 
+    useEffect(()=>{
+        getIngresos()
+    },[lastFecha])
+
     function subtractMonths(date, months) { date.setMonth(date.getMonth() - months); return date; }
 
-    const getLastFechaCierre = () => {
-        getData(`cortes/${usuario._id}`).then((rs) => {
+    const getLastFechaCierre = async () => {
+        await getData(`cortes/${usuario._id}`).then((rs) => {
             setFirstFecha(rs.at(0).fecha_cierre)
             setLastFecha(rs.length > 1 ? rs.at(-1).fecha_cierre : subtractMonths(new Date(), 3))
-        }).then(getIngresos())
+        })
     }
 
     const getIngresos = async () => {
@@ -80,9 +84,9 @@ export default function Ingresos() {
             fecha_inicio: lastFecha,
             medico: medicos
         }
-        console.log(body)
+        console.log('Balances body',body)
         sendDataBody('balances', body).then((rs) => {
-            console.log(rs)
+            console.log('alances',rs)
             rs.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
             setIngresosData(rs)
         }).finally(() => setLoading(false))
@@ -204,6 +208,7 @@ export default function Ingresos() {
         console.log(`switch to ${checked}`);
         if (!checked) getIngresos()
     };
+    
     const handleDoctorChange = (value) => { setMedico(value); getBalancesData([value]); };
 
 
