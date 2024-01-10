@@ -9,7 +9,7 @@ export default function DetallesPaciente({ paciente, setIsEditModalOpen }) {
 
         <div style={{ textAlign: 'center', marginTop: 8 }}>
             {
-                paciente.avatar.length > 9 ?
+                paciente.avatar && paciente.avatar.length > 9 ?
                     <img width={82} src={'https://api.recreamed.com/images/' + paciente.avatar} alt='ProfilePic' style={{ alignSelf: 'center' }} /> :
                     <Avatar size={82} icon={<UserOutlined />} className='btnIconCentered' style={{ alignSelf: 'center' }} />
             }

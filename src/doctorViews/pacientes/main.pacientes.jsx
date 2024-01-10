@@ -10,18 +10,22 @@ import Register from './register.patient'
 import { PlusOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs'
 import ExpedienteFisio from '../expedieteFisio/expediente'
+import RegisterFisio from './register.patent.fisio'
 const { Option } = Select;
 
 export default function MainPacientes() {
 
-  const TIPO = "psique"
+  const TIPO = usuario.tipo || "PSIQ"
 
   const [pacientesData, setPacientesData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  // const [paciente, setPaciente] = useState(null)
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+
   const [activePatient, setActivePatient] = useState(pacientesData[0]?._id)
+
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false) // PSIQ
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isRegisterFisioModal, setIsRegisterFisioModal] = useState(false) // FISIO
+  const [isEditFisioModalOpen, setIsEditFisioModalOpen] = useState(false)
 
   useEffect(() => {
     getPacientesData()
@@ -36,8 +40,10 @@ export default function MainPacientes() {
       .then(response => response.json())
       .then(data => {
         data.forEach(paciente => {
-          paciente.res_name = paciente.responsable.nombre;
-          paciente.res_phone = paciente.responsable.telefono;
+          if (paciente.responsable) {
+            paciente.res_name = paciente.responsable.nombre;
+            paciente.res_phone = paciente.responsable.telefono;
+          }
           paciente.fecha_nacimiento = dayjs(paciente.fecha_nacimiento);
         });
         // console.log(data); 
@@ -86,23 +92,29 @@ export default function MainPacientes() {
             </Select>
           </div>
         </Col>
-        <Col style={{ marginLeft: 12 }}><Button className='btnIconCentered' style={{ height: 30 }} onClick={() => setIsRegisterModalOpen(!isRegisterModalOpen)} size='small' icon={<PlusOutlined />} shape='round' type="primary" title='Agregar paciente' >Agregar Paciente</Button> </Col>
+        <Col style={{ marginLeft: 12 }}>
+          {TIPO === 'FISIO' ?
+            <Button className='btnIconCentered' style={{ height: 30 }} onClick={() => setIsRegisterFisioModal(!isRegisterFisioModal)} size='small' icon={<PlusOutlined />} shape='round' type="primary" title='Agregar paciente' >Agregar Paciente</Button> :
+            <Button className='btnIconCentered' style={{ height: 30 }} onClick={() => setIsRegisterModalOpen(!isRegisterModalOpen)} size='small' icon={<PlusOutlined />} shape='round' type="primary" title='Agregar paciente' >Agregar Paciente</Button>
+          }
+        </Col>
       </Row> <div style={{ height: '16px' }}></div>
 
 
       {
-        TIPO === 'fisio' ?
-          <ExpedienteFisio  paciente={activePatient}/> :
+        TIPO === 'FISIO' ?
+          <ExpedienteFisio paciente={activePatient} /> :
           <Expedientes paciente={activePatient} setIsEditModalOpen={setIsEditModalOpen} />
       }
-
-
 
       {/* Modal For Register */}
       <Register setIsModalOpen={setIsRegisterModalOpen} isModalOpen={isRegisterModalOpen} getPacientesData={getPacientesData} />
 
       {/* Modal For Edit */}
       <Register setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} paciente={activePatient} getPacientesData={getPacientesData} />
+
+      {/* Modal For Register FISIO*/}
+      <RegisterFisio setIsModalOpen={setIsRegisterFisioModal} isModalOpen={isRegisterFisioModal} getPacientesData={getPacientesData} />
 
     </div >
   )

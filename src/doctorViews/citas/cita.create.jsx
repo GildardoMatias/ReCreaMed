@@ -7,7 +7,7 @@ import { createEvent } from './auth.button';
 
 export function CreateCitaForm(props) {
 
-    const { configuracion: { costo_cita = 0 } } = usuario;
+    const { configuracion: { costo_cita = 0 } = {} } = usuario;
     // const = configuracion;
 
     myHospitals.forEach(h => { h.value = h._id; h.label = h.nombre; });
@@ -55,7 +55,7 @@ export function CreateCitaForm(props) {
         } else {
 
             // createEvent(values.fecha_hora, values.duracion, values.servicio.title || values.servicio) // Create cita google W
-            
+
             sendDataBody('citas/add', values).then((response) => {
                 message.success(response.message || response.error);
                 response.message && response.message === 'Cita creada correctamente' ? createBalance(response.id_nueva_cita, values.fecha_hora) : message.error('No se pudo crear registro de ingreso')

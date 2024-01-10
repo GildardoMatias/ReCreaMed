@@ -126,6 +126,7 @@ export function Register() {
             name="register"
             onFinish={onFinish}
             initialValues={{
+              tipo: 'PSIQ',
               horarios: [{ sucursal: '', horario: '' }],
               prefix: '+52',
             }}
@@ -267,6 +268,26 @@ export function Register() {
             <Form.Item name="universidad" label="Universidad" rules={[{ required: false, message: 'Ingresa tu universidad' }]} >
               <Input />
             </Form.Item>
+
+            <Form.Item name="tipo" label="Tipo" rules={[{ required: false, message: 'Selecciona el tipo de medico' }]} >
+              <Select
+                style={{
+                  width: '100%',
+                }}
+                onChange={(val) => console.log('Selected ', val)}
+                options={[
+                  {
+                    value: 'PSIQ',
+                    label: 'Psiquiatría',
+                  },
+                  {
+                    value: 'FISIO',
+                    label: 'Fisioterapia',
+                  }
+                ]}
+              />
+            </Form.Item>
+
 
             <Form.Item
               name="agreement"

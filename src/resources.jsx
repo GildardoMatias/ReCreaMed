@@ -85,6 +85,19 @@ export async function sendDataBody(endpoint, values) {
         .catch(error => console.error('Error:', error))
 };
 
+export async function registerProfile( values) {
+
+    return await fetch(S_API + 'register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values)
+    }).then(res => res.json())
+        .then(response => {
+            return response
+        })
+        .catch(error => console.error('Error:', error))
+};
+
 export const Footer = () =>
     <div style={{
         display: 'flex',

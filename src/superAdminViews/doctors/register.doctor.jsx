@@ -222,11 +222,6 @@ export default function Register(props) {
               <Input addonBefore={prefixSelector} style={{ width: '100%', }} />
             </Form.Item>
 
-
-
-
-          </Col>
-          <Col span={11}>
             <Form.Item label="horarios" rules={[{ required: true, message: 'Ingresa al menos un horario', },]}>
               <Form.List name="horarios" label="horarios list"
               >
@@ -264,6 +259,11 @@ export default function Register(props) {
                 )}
               </Form.List>
             </Form.Item>
+
+
+          </Col>
+          <Col span={11}>
+
 
             <Form.Item name="cedula" label="Cedula" rules={[{ required: false, message: 'Ingresa cedula' }]}>
               <Input />
@@ -310,6 +310,25 @@ export default function Register(props) {
 
             <Form.Item name="especialidad" label="Especialidad" rules={[{ required: false, message: 'Ingresa especialidad' }]}>
               <Input />
+            </Form.Item>
+
+            <Form.Item name="tipo" label="Tipo" rules={[{ required: true, message: 'Selecciona el tipo de medico' }]} >
+              <Select
+                style={{
+                  width: '100%',
+                }}
+                onChange={(val) => console.log('Selected ', val)}
+                options={[
+                  {
+                    value: 'PSIQ',
+                    label: 'Psiquiatría',
+                  },
+                  {
+                    value: 'FISIO',
+                    label: 'Fisioterapia',
+                  }
+                ]}
+              />
             </Form.Item>
 
             <Form.Item {...tailFormItemLayout}>

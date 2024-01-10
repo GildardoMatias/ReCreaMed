@@ -98,8 +98,6 @@ export default function Ingresos() {
         showIngresoModal()
     }
 
-
-
     const columns = [
         {
             title: 'Médico',
@@ -208,7 +206,7 @@ export default function Ingresos() {
         console.log(`switch to ${checked}`);
         if (!checked) getIngresos()
     };
-    
+
     const handleDoctorChange = (value) => { setMedico(value); getBalancesData([value]); };
 
 
