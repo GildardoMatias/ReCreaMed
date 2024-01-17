@@ -17,12 +17,12 @@ export default function DetallesPaciente({ paciente, setIsEditModalOpen }) {
             <p className='nombre'><UserOutlined style={{ marginRight: 10 }} /> {paciente.name}</p>
             <p className='datos'><MailOutlined style={{ marginRight: 10 }} /> {paciente.email}</p>
             <p className='datos'><MobileOutlined style={{ marginRight: 10 }} /> {paciente.telefono}</p>
-            {
+            {/* {
                 TYPE === 'fisio' && <DetallesFisioModal userData={paciente} />
             }
             <div style={{ display: 'flex', flexDirection: 'row-reverse', paddingRight: 16 }}>
                 <Button className='btnIconCentered' onClick={() => setIsEditModalOpen(true)} size='small' type="primary" shape="circle" icon={<FormOutlined className='sizedIcon' />} ghost />
-            </div>
+            </div> */}
         </div>
 
     </div>)

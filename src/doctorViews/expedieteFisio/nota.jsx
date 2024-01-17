@@ -4,10 +4,16 @@ import Padecimiento from './padecimiento';
 import { getData } from '../../resources'
 import { PlusOutlined } from '@ant-design/icons';
 import NuevaNota from './nuevaNota';
+import FDetalleReceta from './detalleReceta';
+import LastCita from '../expedientes/lastCita';
+import Bitacora from './bitacora';
+import Goniometria from './goniometria';
+import ExamenManMusc from './examenManMusc';
+import DetalleReceta from '../expedientes/detalleReceta'
 
 // It's called nota, but actually is the complete expedient 
 
-export default function NotaFisio({ id_paciente }) {
+export default function NotaFisio({ id_paciente, pacienteData }) { // PacienteData is used for Recetas
 
     const [expedienteData, setExpedienteData] = useState(null)
 
@@ -15,7 +21,7 @@ export default function NotaFisio({ id_paciente }) {
 
     useEffect(() => {
         getExpedienteData()
-    }, [])
+    }, [id_paciente])
 
     useEffect(() => {
         getExpedienteData()
@@ -23,6 +29,7 @@ export default function NotaFisio({ id_paciente }) {
 
     const getExpedienteData = () => {
         getData(`fexpedientes/${id_paciente}`).then((rs) => {
+            console.log('ExpedienteData ', rs)
             setExpedienteData(rs)
         })
     }
@@ -31,70 +38,45 @@ export default function NotaFisio({ id_paciente }) {
         console.log(key);
     };
 
-    const items = [
-        {
-            key: '1',
-            label: 'Nota 2',
+    const items = expedienteData ? expedienteData.map((nota, i) => { // 1 nota = 1 expedient ----- N notas = expedient = array of notas
+        return {
+            label: `Nota ${i + 1}`,
+            key: nota._id,
             children: <Row gutter={8} style={{ backgroundColor: 'white' }}>
 
+                {/* Mitad de la pantalla para Receta y last cita*/}
+                <Col span={5} >
 
-                {/* Mitad de la pantalla para Receta */}
-                <Col span={6} >
-                    {/* <DetalleReceta recetas={nota.recetas} id_nota={nota._id} paciente={props.paciente} /> */}
+                    {/* <FDetalleReceta id_nota={nota._id} /> */}
+                    {/* <DetalleReceta id_nota={nota._id} paciente={pacienteData} recetas={nota.recetas}/> */}
 
-                    {/* <p>RECETAS</p>
 
-                    <p>CITA RECIENTE</p>
+                    {/* Taken from psiq */}
+                    <LastCita paciente={id_paciente} />
 
-                    <p>BITACORA</p> */}
-
+                    <Bitacora bitacoras={nota.bitacoras} id_nota={nota._id} getExpedienteData={getExpedienteData} />
                 </Col>
 
                 {/* la otra mitad de la pantalla para NOTA*/}
-                <Col span={18}>
-                    {/* <NotasEvolucion _notas_evolucion={nota.notas_evolucion} id_nota={nota._id} /> */}
-                    {/* <p>PADECIMIENTO</p>
+                <Col span={19}>
+                    <Card>
 
-                    <p>RANGOS DE MOVIMIENTO</p>
+                        <Padecimiento fisio_data={nota} />
 
-                    <p>EXAMEN MANUAL MUSCULAR</p> */}
-                </Col>
-
-            </Row>
-        },
-        {
-            key: '2',
-            label: 'Nota 1',
-            children: <Row gutter={8} style={{ backgroundColor: 'white' }}>
+                        <div className='fila'>
+                            <Goniometria id_expediente={nota._id} goniometria={nota.goniometria} getExpedienteData={getExpedienteData} />
+                            <ExamenManMusc id_expediente={nota._id} examenes={nota.examenes} getExpedienteData={getExpedienteData} />
+                        </div>
 
 
-                {/* Mitad de la pantalla para Receta */}
-                <Col span={6} >
-                    {/* <DetalleReceta recetas={nota.recetas} id_nota={nota._id} paciente={props.paciente} /> */}
 
-                    <p>RECETAS</p>
-
-                    <p>CITA RECIENTE</p>
-
-                    <p>BITACORA</p>
-
-                </Col>
-
-                {/* la otra mitad de la pantalla para NOTA*/}
-                <Col span={18}>
-                    {/* <NotasEvolucion _notas_evolucion={nota.notas_evolucion} id_nota={nota._id} /> */}
-                    <Card title='PADECIMIENTO ACTUAL'>
-                        <Padecimiento />
-
-                        <p>RANGOS DE MOVIMIENTO</p>
-
-                        <p>EXAMEN MANUAL MUSCULAR</p>
                     </Card>
                 </Col>
 
             </Row>
-        },
-    ];
+        }
+    }) : []
+
 
     return <Card style={{ marginTop: 15 }} >
 
@@ -105,7 +87,6 @@ export default function NotaFisio({ id_paciente }) {
             }
         </div>
 
-        {expedienteData && JSON.stringify(expedienteData)}
 
         <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
 

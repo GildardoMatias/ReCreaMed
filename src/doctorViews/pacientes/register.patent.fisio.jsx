@@ -2,40 +2,36 @@ import React from 'react'
 import { Button, Select, Form, Input, InputNumber, Divider, Modal, Radio, message } from 'antd';
 import { registerProfile, usuario } from '../../resources';
 const { Option } = Select;
-const onFinish = (values) => {
-    values.tipo = 'FISIO'
-    values.password = '' + values.telefono;
-    values.rol = 'Paciente';
-    values.medicos_asignados = [usuario._id];
 
-    console.log('Register Fisio:', values);
-    registerProfile(values).then((rs) => {
-        console.log('Response register fisio ', rs)
-        rs.message && rs.message === 'Usuario creado correctamente' ?
-            message.info('Usuario creado correctamente') :
-            message.error(rs.error)
-    })
-};
-const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-};
 
-function RegisterFisioForm() {
+function RegisterFisioForm({ paciente, setAdding, getPacientesData }) {
+
+    const onFinish = (values) => {
+        values.tipo = 'FISIO'
+        values.password = '' + values.telefono;
+        values.rol = 'Paciente';
+        values.medicos_asignados = [usuario._id];
+
+        console.log('Register Fisio:', values);
+        registerProfile(values).then((rs) => {
+            console.log('Response register fisio ', rs)
+            if (rs.message && rs.message === 'Usuario creado correctamente') {
+                message.info('Usuario creado correctamente')
+                setAdding(false);
+            } else message.error(rs.error)
+        })
+    };
+
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
+
     return <Form
         name="register_patient_fisio"
-        labelCol={{
-            span: 12,
-        }}
-        wrapperCol={{
-            span: 12,
-        }}
+        labelCol={{ span: 12 }}
+        wrapperCol={{ span: 12 }}
         size='small'
-        // style={{
-        //     maxWidth: 600,
-        // }}
-        initialValues={{
-            remember: true,
-        }}
+        initialValues={{}}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -60,15 +56,12 @@ function RegisterFisioForm() {
 
 
 
-        <Form.Item
-            name="telefono"
-            label="Telefono"
-            rules={[{ required: true, message: 'Ingresa tu numero de telefono' }]}
-        >
-            <InputNumber
-                // addonBefore={prefixSelector}
-                style={{ width: '100%' }}
-            />
+        <Form.Item name="telefono" label="Telefono" rules={[{ required: true, message: 'Ingresa tu numero de telefono' }]}>
+            <InputNumber style={{ width: '100%' }} />
+        </Form.Item>
+
+        <Form.Item name="email" label="Correo electrónico" rules={[{ required: true, message: 'Ingresa tu numero de telefono' }]}>
+            <Input />
         </Form.Item>
 
         <Form.Item name="estado_civil" label="Estado Civil" rules={[{ required: false, message: 'Ingresa estado civil' }]} >
@@ -268,7 +261,7 @@ export default function Register({ paciente, setIsModalOpen, isModalOpen, getPac
             <Button type="primary" htmlType="submit" form='register_patient_fisio'>
                 Guardar
             </Button>
-        ]}
+        ]} 
     >
         {/* ISFisio? */}
         <RegisterFisioForm paciente={paciente} setAdding={setIsModalOpen} getPacientesData={getPacientesData} />

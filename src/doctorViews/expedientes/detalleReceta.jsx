@@ -6,7 +6,7 @@ import RecetaDocument from './detalleRecetaForPrint';
 const { TextArea } = Input;
 //Los IDS de las recetas son tomados y enviados desde el expediente
 // Estan siendo agregadas y actualizadas directamente al expediente desde el form de detallenota->Agregar Receta
-export default function DetalleReceta(props) {
+export default function DetalleReceta({ recetas, id_nota, paciente }) {
 
     const isDoctor = usuario && usuario.rol && usuario.rol === 'Medico';
 
@@ -33,14 +33,14 @@ export default function DetalleReceta(props) {
     const [isLogoSelected, setIsLogoSelected] = useState(false)
 
     useEffect(() => {
-        props.recetas ?
+        recetas ?
             getRecetasData()
             :
             finifhGet()
-    }, [props.recetas])
+    }, [recetas])
 
     const getRecetasData = () => {
-        sendDataBody('recetas/getMany', { 'ids': props.recetas }).then((response) => {
+        sendDataBody('recetas/getMany', { 'ids': recetas }).then((response) => {
             setRecetaData(response);
             setRecetaLoading(false)
         })
@@ -50,7 +50,7 @@ export default function DetalleReceta(props) {
 
     // New Receta
     const onFinish = async (values) => {
-        values.id_nota = props.id_nota;
+        values.id_nota = id_nota;
         console.log('new Receta:', values);
         console.log('new Recetas:', values);
 
@@ -69,13 +69,13 @@ export default function DetalleReceta(props) {
             })
             .catch(error => console.error('Error:', error))
 
-        props.recetas.push(newReceta.id_receta)
-        console.log('New Recetas: ', props.recetas);
+        recetas.push(newReceta.id_receta)
+        console.log('New Recetas: ', recetas);
 
         // Update nota.recetas
-        fetch(API + 'notas/updateRecetas/' + props.id_nota, {
+        fetch(API + 'notas/updateRecetas/' + id_nota, {
             method: 'PUT',
-            body: JSON.stringify({ "recetas": props.recetas }),
+            body: JSON.stringify({ "recetas": recetas }),
             headers: { 'Content-Type': 'application/json' }
         }).then(res => res.json())
             .then(response => {
@@ -214,7 +214,7 @@ export default function DetalleReceta(props) {
         >
             {
                 isLogoSelected ? // Si ya hay logo seleccionado, se pasa a la receta y se muestra en pdf
-                    <RecetaDocument receta={recetaForEdit} logoHospital={logoHospital} nombreHospital={nombreHospital} paciente={props.paciente} />
+                    <RecetaDocument receta={recetaForEdit} logoHospital={logoHospital} nombreHospital={nombreHospital} paciente={paciente} />
                     :
                     <div>
                         <Card title='Selecciona un hospital' bordered={false}>

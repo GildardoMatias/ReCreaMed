@@ -13,11 +13,11 @@ export default function ExpedienteFisio({ paciente, setIsEditModalOpen }) {
 
                 <DetallesPaciente paciente={paciente} setIsEditModalOpen={setIsEditModalOpen} />
 
-                <DetalleHistoria historiaTomadaDeLosDatos={{ motivo: 'Motivo de visita', referido: 'referido por otro medico' }} />
+                <DetalleHistoria paciente={paciente} />
 
             </div>
-            <p>detalles de {id_paciente}</p>
-            <NotaFisio id_paciente={id_paciente} />
+            
+            <NotaFisio id_paciente={id_paciente} pacienteData={paciente}/>
 
         </div>
     )

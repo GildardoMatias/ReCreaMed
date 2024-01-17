@@ -33,7 +33,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
 
     return <Modal title="Nuevo Expediente Fisioterapia" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
         footer={[
-            <Button>Cancelar</Button>,
+            <Button onClick={() => setIsModalOpen(false)}>Cancelar</Button>,
             <Button type='primary' htmlType='submit' form='add_expediente_fisio'>Guardar</Button>
         ]} destroyOnClose
     >
@@ -123,7 +123,6 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                 />
             </Form.Item>
 
-
             <Form.Item label="tipo_es" name="tipo_es" rules={[{ required: true, message: 'Please input your username!' }]}>
                 <Input />
             </Form.Item>
@@ -132,8 +131,6 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                 <Slider defaultValue={0} min={0} max={10} marks={marks} />
             </Form.Item>
 
-
-
             <Divider>Goniometria</Divider>
 
             <Form.List name="goniometria">
@@ -141,7 +138,6 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                     <>
                         {fields.map(({ key, name, ...restField }) => (
                             <div>
-
                                 <Form.Item
                                     {...restField}
                                     label='articulacion'
@@ -150,6 +146,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                 >
                                     <Input placeholder="articulacion" />
                                 </Form.Item>
+
                                 <Form.Item
                                     {...restField}
                                     label='movimiento'
@@ -158,8 +155,6 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                 >
                                     <Input placeholder="movimiento" />
                                 </Form.Item>
-
-
 
                                 <Form.Item
                                     {...restField}
@@ -172,6 +167,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                         <Radio value={false}>No</Radio>
                                     </Radio.Group>
                                 </Form.Item>
+
                                 <Form.Item
                                     {...restField}
                                     label='ayuda'
@@ -184,7 +180,6 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     </Radio.Group>
                                 </Form.Item>
 
-
                                 <Form.Item
                                     {...restField}
                                     label='dolor'
@@ -196,13 +191,14 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                         <Radio value={false}>No</Radio>
                                     </Radio.Group>
                                 </Form.Item>
+
                                 <Form.Item
                                     {...restField}
                                     label='grados'
                                     name={[name, 'grados']}
                                     rules={[{ required: true, message: 'Missing last name' }]}
                                 >
-                                    <InputNumber />
+                                    <InputNumber style={{width:'100%'}}/>
                                 </Form.Item>
 
 
@@ -218,79 +214,42 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                     <>
                         {fields.map(({ key, name, ...restField }) => (
                             <div>
-                                <Space
-                                    key={key}
-                                    style={{
-                                        display: 'flex',
-                                        marginBottom: 8,
-                                    }}
-                                    align="baseline"
+                                <Form.Item
+                                    {...restField}
+                                    label='grupo'
+                                    name={[name, 'grupo']}
+                                    rules={[{ required: true, message: 'Missing grupo' }]}
                                 >
-                                    <Form.Item
-                                        {...restField}
-                                        label='grupo'
-                                        name={[name, 'grupo']}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Missing grupo',
-                                            },
-                                        ]}
-                                    >
-                                        <Input placeholder="grupo" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        {...restField}
-                                        label='referencia'
-                                        name={[name, 'referencia']}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Missing referencia',
-                                            },
-                                        ]}
-                                    >
-                                        <InputNumber />
-                                    </Form.Item>
-                                </Space>
-                                <Space
-                                    key={key}
-                                    style={{
-                                        display: 'flex',
-                                        marginBottom: 8,
-                                    }}
-                                    align="baseline"
+                                    <Input placeholder="grupo" />
+                                </Form.Item>
+                                <Form.Item
+                                    {...restField}
+                                    label='referencia'
+                                    name={[name, 'referencia']}
+                                    rules={[{ required: true, message: 'Missing referencia' }]}
                                 >
-                                    <Form.Item
-                                        {...restField}
-                                        label='dolor'
-                                        name={[name, 'dolor']}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Missing dolor',
-                                            },
-                                        ]}
-                                    >
-                                        <Radio.Group onChange={(val) => console.log('Selected ', val)} >
-                                            <Radio value={true}>Si</Radio>
-                                            <Radio value={false}>No</Radio>
-                                        </Radio.Group>
-                                    </Form.Item>
-                                    <Form.Item
-                                        {...restField}
-                                        label='dinamometro'
-                                        name={[name, 'dinamometro']}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Missing dinamometro',
-                                            },
-                                        ]}
-                                    >
-                                        <Input placeholder="dinamometro" />
-                                    </Form.Item>
-                                </Space>
+                                    <InputNumber style={{width:'100%'}}/>
+                                </Form.Item>
+                                <Form.Item
+                                    {...restField}
+                                    label='dolor'
+                                    name={[name, 'dolor']}
+                                    rules={[{ required: true, message: 'Missing dolor' }]}
+                                >
+                                    <Radio.Group onChange={(val) => console.log('Selected ', val)} >
+                                        <Radio value={true}>Si</Radio>
+                                        <Radio value={false}>No</Radio>
+                                    </Radio.Group>
+                                </Form.Item>
+                                <Form.Item
+                                    {...restField}
+                                    label='dinamometro'
+                                    name={[name, 'dinamometro']}
+                                    rules={[{ required: true, message: 'Missing dinamometro' }]}
+                                >
+                                    <Input placeholder="dinamometro" />
+                                </Form.Item>
+
                             </div>
                         ))}
 

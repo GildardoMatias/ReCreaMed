@@ -120,7 +120,15 @@ export function CreateCitaForm(props) {
     return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 14 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
         initialValues={props.cita ? props.cita : { isOnline: false, tratamiento: 'Sin servicio', fecha_hora: props.fecha_hora, duracion: 60 }}
     >
+        {
+            myHospitals.length < 1 && <span style={{ color: 'red' }}>Debes tener horarios registrados para poder registrar citas, puedes configurarlos en 'Mi perfil'</span>
+        }
 
+        {usuario && usuario.configuracion && usuario.configuracion.tratamientos_ofrecidos ? (
+            <></>
+        ) : (
+            <span style={{ color: 'red' }}>Debes tener servicios registrados para poder registrar citas, puedes configurarlos en 'Mi perfil' y después 'configuracion'</span>
+        )}
 
         <Form.Item label="Hospital" name="sucursal" rules={[{ required: true, message: 'Selecciona Sucursal' }]} >
             <Select options={myHospitals} onChange={handleHospitalChange} />
@@ -151,15 +159,18 @@ export function CreateCitaForm(props) {
 
         } */}
 
-        <Form.Item label="Servicio" name="servicio" rules={[{ required: false, message: 'Selecciona un servicio' }]} >
-            <Select
-                onChange={handleChange}
-                options={
-                    usuario.configuracion.tratamientos_ofrecidos.map((t) => { return { key: t._id, value: t.costo, label: `${t.tratamiento} - $${t.costo} - ${t.observaciones ?? ""}`, title: t.tratamiento } })
-                }
-                labelInValue
-            />
-        </Form.Item>
+        {
+            usuario.configuracion && usuario.configuracion.tratamientos_ofrecidos &&
+            <Form.Item label="Servicio" name="servicio" rules={[{ required: false, message: 'Selecciona un servicio' }]} >
+                <Select
+                    onChange={handleChange}
+                    options={
+                        usuario.configuracion.tratamientos_ofrecidos.map((t) => { return { key: t._id, value: t.costo, label: `${t.tratamiento} - $${t.costo} - ${t.observaciones ?? ""}`, title: t.tratamiento } })
+                    }
+                    labelInValue
+                />
+            </Form.Item>
+        }
 
 
 
