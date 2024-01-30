@@ -30,6 +30,7 @@ export default function Ingresos() {
     const [logoHospital, setLogoHospital] = useState(null)
     const [nombreHospital, setNombreHospital] = useState(null)
     const [isLogoSelected, setIsLogoSelected] = useState(false)
+    const [idHospital, setIdHospital] = useState({})
 
     // Modal For Ticket
     const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
@@ -84,7 +85,7 @@ export default function Ingresos() {
             fecha_inicio: lastFecha,
             medico: medicos
         }
-        console.log('Balances body',body)
+        // console.log('Balances body',body)
         sendDataBody('balances', body).then((rs) => {
             console.log('alances',rs)
             rs.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
@@ -245,13 +246,13 @@ export default function Ingresos() {
             <Modal title="Imprimir Nota de Venta" open={isTicketModalOpen} onOk={handleTicketOk} onCancel={handleTicketCancel} width={600}>
                 {
                     isLogoSelected ? // Si ya hay logo seleccionado, se pasa a la receta y se muestra en pdf
-                        <Ticket ingresos={ingresoForPrint} logo={'https://api.recreamed.com/images/' + logoHospital} hospital={nombreHospital} seller='Médico: ' buyer='Paciente: ' />
+                        <Ticket ingresos={ingresoForPrint} logo={'https://api.recreamed.com/images/' + logoHospital} hospital={nombreHospital} seller='Médico: ' buyer='Paciente: ' idHospital={idHospital}/>
                         :
                         <div>
                             <Card title='Selecciona un hospital' bordered={false}>
                                 {
                                     usuario.horarios.map((h) => {
-                                        return <Card.Grid style={{ width: '100%' }} onClick={() => { console.log(h.sucursal); setLogoHospital(h.sucursal.logo); setNombreHospital(h.sucursal.nombre); setIsLogoSelected(true) }} key={h._id}>
+                                        return <Card.Grid style={{ width: '100%' }} onClick={() => { console.log(h.sucursal); setIdHospital(h.sucursal._id); setLogoHospital(h.sucursal.logo); setNombreHospital(h.sucursal.nombre); setIsLogoSelected(true) }} key={h._id}>
                                             <Row align="middle">
                                                 <Col span={6} offset={4}><img width={64} src={'https://api.recreamed.com/images/' + h.sucursal.logo} alt="Logo" /></Col>
                                                 <Col span={10}>{h.sucursal.nombre} <br /> {h.horario}</Col>

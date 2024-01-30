@@ -76,10 +76,15 @@ export default function HospitalTab(props) {
                 medicos_asignados.map((m) => <li key={m._id}>{m.name}</li>)
             }</ul>
         },
+        // {
+        //     title: 'Correo',
+        //     dataIndex: 'email',
+        //     key: 'email',
+        // },
         {
-            title: 'Correo',
-            dataIndex: 'email',
-            key: 'email',
+            title: 'Fecha de creacion',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
         },
         {
             title: 'Telefono',
@@ -178,7 +183,7 @@ export default function HospitalTab(props) {
             addonAfter={<SearchOutlined />}
         />
         <div className='borderedTable'>
-            <Table dataSource={pacientesDataFiltered} columns={columns} pagination={false} size='small' />
+            <Table dataSource={pacientesDataFiltered} columns={columns}  size='small' />
         </div>
 
         <Modal width={1200} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>

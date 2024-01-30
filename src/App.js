@@ -14,6 +14,8 @@ import { KetaminaPublic, DepresionQidsPublic, DepresionEspanolPublic, HeadachePu
 const userType = localStorage.getItem('userType');
 
 // Changing Repo
+// Melissa Anton adm cidealr melissaanton59@gmail.com 4351063115
+// Marana Enferm mivg2509@gmail.com 4431460122
 
 export function App() {
 

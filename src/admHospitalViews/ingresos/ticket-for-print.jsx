@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
-
+import { getData } from '../../resources';
+import Logo from '../../assets/Logo.png'
 
 // Estilo para el ticket
 const styles = StyleSheet.create({
@@ -94,6 +95,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Helvetica',
         fontSize: 12,
         padding: 40,
+        flex: 1
     },
     header: {
         flexDirection: 'row',
@@ -107,6 +109,10 @@ const styles = StyleSheet.create({
         height: 'auto',
         marginRight: 10,
     },
+    image: {
+        width: 80,
+        paddingLeft: 16
+    },
     title: {
         fontSize: 20,
         marginLeft: 10,
@@ -115,15 +121,29 @@ const styles = StyleSheet.create({
         fontSize: 14,
         marginTop: 5,
         marginLeft: 10,
-    },
+    }
+
 });
 
 // Componente del ticket
-export default function Ticket({ ingresos, logo, hospital, seller, buyer }) {
+export default function Ticket({ ingresos, logo, hospital, idHospital, seller, buyer }) {
+
+    const [hospitalData, setHospitalData] = useState(null)
     console.log('Received for print ', ingresos)
 
     const { usuario: { name: userName } = {} } = ingresos[0]
     const { cita: { usuario: { name: citaName } = {} } = {} } = ingresos[0]
+
+    useEffect(() => {
+        const getHospitalData = () => {
+            getData(`sucursales/${idHospital}`).then((rs) => {
+                setHospitalData(rs[0])
+            })
+        }
+        getHospitalData()
+
+    }, [])
+
 
     return <PDFViewer height={500} width={550}>
         <Document>
@@ -157,7 +177,8 @@ export default function Ticket({ ingresos, logo, hospital, seller, buyer }) {
                         </View>
                         {ingresos.map((item) => (
                             <View style={styles.tableRow} key={item.id}>
-                                <Text style={styles.tableCol}>{item.concepto}</Text>
+                                {/* <Text style={styles.tableCol}>{item.concepto}</Text> */}
+                                <Text style={styles.tableCol}>{item.concepto.split(["-"])[0]}</Text>
                                 <Text style={styles.tableCol}>1</Text>
                                 <Text style={styles.tableCol}>${item.monto.toFixed(2)}</Text>
                                 <Text style={styles.tableCol}>
@@ -170,6 +191,26 @@ export default function Ticket({ ingresos, logo, hospital, seller, buyer }) {
                     <Text style={styles.total}>
                         Total: ${ingresos.reduce((acc, item) => acc + item.monto * 1, 0).toFixed(2)}
                     </Text>
+
+                </View>
+                <View style={{ flex: 1 }}></View>
+
+                <View style={{ borderTop: '1pt solid #000', paddingTop: 4, flexDirection: 'row', justifyContent: 'space-between' }}>
+                    {
+                        hospitalData && <View>
+                            <Text>{hospitalData.nombre} </Text>
+                            <Text>{hospitalData.calle} N.{hospitalData.num_exterior}</Text>
+                            <Text>Colonia {hospitalData.colonia}, {hospitalData.ciudad_municipio}, {hospitalData.estado}</Text>
+                            <Text>Telefono: {hospitalData.telefono}, Correo: {hospitalData.email}</Text>
+                            <Text>{hospitalData.sitio_web}</Text>
+                        </View>
+
+                    }
+
+                    <View style={{ textAlign: 'center' }}>
+                        <Image style={styles.image} src={Logo} />
+                        <Text style={{ fontSize: 10, }}>www.recreamed.com</Text>
+                    </View>
                 </View>
             </Page>
         </Document>

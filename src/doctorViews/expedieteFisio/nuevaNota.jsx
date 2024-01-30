@@ -31,7 +31,12 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
 
     const marks = { 0: '0', 10: '10' };
 
-    return <Modal title="Nuevo Expediente Fisioterapia" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+    const questLayout = {
+        labelCol: { span: 8 },
+        wrapperCol: { span: 16 },
+    }
+
+    return <Modal width={600} title="Nuevo Expediente Fisioterapia" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
         footer={[
             <Button onClick={() => setIsModalOpen(false)}>Cancelar</Button>,
             <Button type='primary' htmlType='submit' form='add_expediente_fisio'>Guardar</Button>
@@ -39,31 +44,34 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
     >
         <Form
             name="add_expediente_fisio"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
+            // labelCol={{ span: 12 }}
+            // wrapperCol={{ span: 12 }}
             initialValues={{ examenes: [{}], goniometria: [{}] }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
+        // layout='vertical'
         >
 
-            <Form.Item label="motivo" name="motivo" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Divider>Padecimiento Actual</Divider>
+
+            <Form.Item label="¿Cuál es el motivo de su consulta/Lesión/Patología?" name="motivo" rules={[{ required: true, message: 'Please input your username!' }]} >
                 <Input />
             </Form.Item>
 
-            <Form.Item label="tiempo" name="tiempo" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="¿Cuánto tiempo lleva con el problema?" name="tiempo" rules={[{ required: true, message: 'Please input your username!' }]}>
                 <Input />
             </Form.Item>
 
-            <Form.Item label="momento_dia" name="momento_dia" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="¿En qué momento del día le duele más?" name="momento_dia" rules={[{ required: true, message: 'Please input your username!' }]}>
                 <Input />
             </Form.Item>
 
-            <Form.Item label="movimientos" name="movimientos" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="¿Con qué movimientos aumenta el dolor?" name="movimientos" rules={[{ required: true, message: 'Please input your username!' }]}>
                 <Input />
             </Form.Item>
 
-            <Form.Item label="localizacion" name="localizacion" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="Localizacion del dolor" name="localizacion" rules={[{ required: true, message: 'Please input your username!' }]}>
                 <Select
                     onChange={(val) => console.log('selected ', val)}
                     options={[
@@ -83,11 +91,11 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                 />
             </Form.Item>
 
-            <Form.Item label="localizacion_es" name="localizacion_es" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="Especifique" name="localizacion_es" rules={[{ required: true, message: 'Please input your username!' }]}>
                 <Input />
             </Form.Item>
 
-            <Form.Item label="tipo" name="tipo" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="Tipo de dolor" name="tipo" rules={[{ required: true, message: 'Please input your username!' }]}>
                 <Select
                     onChange={(val) => console.log('selected ', val)}
                     options={[
@@ -123,13 +131,14 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                 />
             </Form.Item>
 
-            <Form.Item label="tipo_es" name="tipo_es" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="Especifique" name="tipo_es" rules={[{ required: true, message: 'Please input your username!' }]}>
                 <Input />
             </Form.Item>
 
-            <Form.Item label="ena" name="ena" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="Escala numerica analogica" name="ena" rules={[{ required: true, message: 'Please input your username!' }]}>
                 <Slider defaultValue={0} min={0} max={10} marks={marks} />
             </Form.Item>
+
 
             <Divider>Goniometria</Divider>
 
@@ -140,27 +149,30 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                             <div>
                                 <Form.Item
                                     {...restField}
-                                    label='articulacion'
+                                    label='Articulacion'
                                     name={[name, 'articulacion']}
                                     rules={[{ required: true, message: 'Missing first name' }]}
+                                    {...questLayout}                                    
                                 >
                                     <Input placeholder="articulacion" />
                                 </Form.Item>
 
                                 <Form.Item
                                     {...restField}
-                                    label='movimiento'
+                                    label='Movimiento'
                                     name={[name, 'movimiento']}
                                     rules={[{ required: true, message: 'Missing last name' }]}
+                                    {...questLayout}                                    
                                 >
                                     <Input placeholder="movimiento" />
                                 </Form.Item>
 
                                 <Form.Item
                                     {...restField}
-                                    label='completa'
+                                    label='Completa'
                                     name={[name, 'completa']}
                                     rules={[{ required: true, message: 'Missing first name' }]}
+                                    {...questLayout}                                    
                                 >
                                     <Radio.Group onChange={(val) => console.log('Selected ', val)} >
                                         <Radio value={true}>Si</Radio>
@@ -170,9 +182,10 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
 
                                 <Form.Item
                                     {...restField}
-                                    label='ayuda'
+                                    label='Ayuda'
                                     name={[name, 'ayuda']}
                                     rules={[{ required: true, message: 'Missing last name' }]}
+                                    {...questLayout}                                    
                                 >
                                     <Radio.Group onChange={(val) => console.log('Selected ', val)} >
                                         <Radio value={true}>Necesita ayuda</Radio>
@@ -182,9 +195,10 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
 
                                 <Form.Item
                                     {...restField}
-                                    label='dolor'
+                                    label='Dolor'
                                     name={[name, 'dolor']}
                                     rules={[{ required: true, message: 'Missing first name' }]}
+                                    {...questLayout}                                    
                                 >
                                     <Radio.Group onChange={(val) => console.log('Selected ', val)} >
                                         <Radio value={true}>Si</Radio>
@@ -194,11 +208,12 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
 
                                 <Form.Item
                                     {...restField}
-                                    label='grados'
+                                    label='Grados'
                                     name={[name, 'grados']}
                                     rules={[{ required: true, message: 'Missing last name' }]}
+                                    {...questLayout}                                    
                                 >
-                                    <InputNumber style={{width:'100%'}}/>
+                                    <InputNumber style={{ width: '100%' }} />
                                 </Form.Item>
 
 
@@ -216,25 +231,28 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                             <div>
                                 <Form.Item
                                     {...restField}
-                                    label='grupo'
+                                    label='Grupo muscular'
                                     name={[name, 'grupo']}
                                     rules={[{ required: true, message: 'Missing grupo' }]}
+                                    {...questLayout}                                    
                                 >
                                     <Input placeholder="grupo" />
                                 </Form.Item>
                                 <Form.Item
                                     {...restField}
-                                    label='referencia'
+                                    label='Referencia numerica'
                                     name={[name, 'referencia']}
                                     rules={[{ required: true, message: 'Missing referencia' }]}
+                                    {...questLayout}                                    
                                 >
-                                    <InputNumber style={{width:'100%'}}/>
+                                    <InputNumber style={{ width: '100%' }} />
                                 </Form.Item>
                                 <Form.Item
                                     {...restField}
-                                    label='dolor'
+                                    label='Dolor'
                                     name={[name, 'dolor']}
                                     rules={[{ required: true, message: 'Missing dolor' }]}
+                                    {...questLayout}                                    
                                 >
                                     <Radio.Group onChange={(val) => console.log('Selected ', val)} >
                                         <Radio value={true}>Si</Radio>
@@ -243,9 +261,10 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                 </Form.Item>
                                 <Form.Item
                                     {...restField}
-                                    label='dinamometro'
+                                    label='Dinamometro'
                                     name={[name, 'dinamometro']}
                                     rules={[{ required: true, message: 'Missing dinamometro' }]}
+                                    {...questLayout}                                    
                                 >
                                     <Input placeholder="dinamometro" />
                                 </Form.Item>

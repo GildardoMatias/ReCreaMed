@@ -79,24 +79,24 @@ function RegisterFisioForm({ paciente, setAdding, getPacientesData }) {
             <Input />
         </Form.Item>
 
-        <Divider >Datos de Historia</Divider>
+        <Divider >Historia Clinica</Divider>
 
-        <Form.Item name={['fisio_data', 'motivo_visita']} label="Motivo por el cual nos visita/padecimiento actual" rules={[{ required: false, message: 'Ingresa datos' }]} >
+        <Form.Item name={['fisio_data', 'motivo_visita']} label="Motivo por el cual nos visita/padecimiento actual" rules={[{ required: true, message: 'Ingresa datos' }]} >
             <Input />
         </Form.Item>
 
-        <Form.Item label="Viene referido por algún médico o entrenador?" rules={[{ required: false, message: 'Selecciona una opcion' }]} >
+        <Form.Item label="Viene referido por algún médico o entrenador?" rules={[{ required: true, message: 'Selecciona una opcion' }]} >
             <Radio.Group onChange={(val) => console.log('Selected ', val)} >
                 <Radio value={true}>Si</Radio>
                 <Radio value={false}>No</Radio>
             </Radio.Group>
         </Form.Item>
 
-        <Form.Item name={['fisio_data', 'referido_medico']} label="Especificar" rules={[{ required: false, message: 'Ingresa datos' }]} >
+        <Form.Item name={['fisio_data', 'referido_medico']} label="Especificar" rules={[{ required: true, message: 'Ingresa datos' }]} >
             <Input />
         </Form.Item>
 
-        <Form.Item name={['fisio_data', 'enterado_mosotros']} label="Cómo se enteró de nosotros?" rules={[{ required: false, message: 'Ingresa datos' }]} >
+        <Form.Item name={['fisio_data', 'enterado_mosotros']} label="Cómo se enteró de nosotros?" rules={[{ required: true, message: 'Ingresa datos' }]} >
             <Input />
         </Form.Item>
 

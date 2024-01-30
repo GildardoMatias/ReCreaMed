@@ -9,7 +9,7 @@ const { Dragger } = Upload;
 
 
 export default function Register(props) {
-  const [profilePic, setProfilePic] = useState('https://')
+  const [profilePic, setProfilePic] = useState(props.hospital && props.hospital.logo ? props.hospital.logo : 'https://')
 
   //Start upload props Upload File
   const dragDropProps = {

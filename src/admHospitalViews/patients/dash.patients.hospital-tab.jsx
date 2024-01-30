@@ -209,7 +209,7 @@ export default function HospitalTab(props) {
             addonAfter={<SearchOutlined />}
         />
 
-        <Table dataSource={pacientesDataFiltered} columns={columns} pagination={false} />
+        <Table dataSource={pacientesDataFiltered} columns={columns} />
 
         <Modal width={800} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
             <DetalleUsuario />

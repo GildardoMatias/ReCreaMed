@@ -136,7 +136,7 @@ export default function Ticket({ ingreso, logo, hospital, seller, buyer }) {
                         <View>
                             <Text style={styles.title}>Nota de Venta</Text>
                             <Text style={styles.company}>{hospital} </Text>
-                            <Text style={styles.company}>{new Date(ingreso.createdAt).toLocaleString()} </Text>
+                            <Text style={styles.company}>{new Date(ingreso.fecha_hora).toLocaleString('es-MX', { timeZone: 'America/Mexico_City' })} </Text>
                         </View>
                     </View>
                     <View style={styles.sellerBuyerInfo}>
