@@ -154,7 +154,7 @@ export default function Ticket({ ingresos, logo, hospital, idHospital, seller, b
                         <View>
                             <Text style={styles.title}>Nota de Venta</Text>
                             <Text style={styles.company}>{hospital} </Text>
-                            <Text style={styles.company}>{new Date(ingresos[0].createdAt).toLocaleString()} </Text>
+                            <Text style={styles.company}>{new Date(ingresos[0].fecha_hora).toLocaleString()} </Text>
                         </View>
                     </View>
                     <View style={styles.sellerBuyerInfo}>
