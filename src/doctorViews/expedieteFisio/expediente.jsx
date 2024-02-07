@@ -7,6 +7,7 @@ import DetalleHistoria from './historia';
 import NotaFisio from './nota';
 import Exoneracion from './exoneracion';
 import ExpedienteDocument from './expedienteDocument';
+import { usuario } from '../../resources';
 
 export default function ExpedienteFisio({ paciente, setIsEditModalOpen }) {
 
@@ -32,7 +33,7 @@ export default function ExpedienteFisio({ paciente, setIsEditModalOpen }) {
 
             <Exoneracion namePaciente={paciente.name} isModalOpen={isExoModalOpen} setIsModalOpen={setIsExoModalOpen} />
 
-            <ExpedienteDocument namePaciente={paciente.name} id_paciente={paciente._id} isModalOpen={isExpedientModalOpen} setIsModalOpen={setIsExpedientModalOpen} />
+            <ExpedienteDocument pacienteData={paciente}  id_paciente={paciente._id} idHospital={usuario.horarios[0].sucursal._id} isModalOpen={isExpedientModalOpen} setIsModalOpen={setIsExpedientModalOpen} />
 
         </div>
     )
