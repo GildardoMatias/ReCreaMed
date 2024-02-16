@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Modal } from 'antd'
 import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
@@ -7,12 +7,20 @@ import Arial from '../../assets/fonts/arial/arial.ttf'
 import Calibri from '../../assets/fonts/calibri/calibri.ttf'
 
 import Logo from '../../assets/Logo.png'
-import { usuario, IMAGE_API } from '../../resources';
+import { usuario, IMAGE_API, getData } from '../../resources';
 
-function ExoneracionDocument({  namePaciente, expedienteData, historia, notas, recetas }) {
+function ExoneracionDocument({ namePaciente, idHospital, historia, notas, recetas }) {
+
+    const [hospitalData, setHospitalData] = useState(null)
 
     useEffect(() => {
-        // console.log('receta props', props)
+        const getHospitalData = () => {
+            getData(`sucursales/${idHospital}`).then((rs) => {
+                console.log(hospitalData)
+                setHospitalData(rs[0])
+            })
+        }
+        getHospitalData()
     }, [])
 
     Font.register({ family: 'Arial', src: Arial });
@@ -23,11 +31,17 @@ function ExoneracionDocument({  namePaciente, expedienteData, historia, notas, r
             flex: 1,
             flexDirection: 'column',
             backgroundColor: 'white',
-            padding: 50
+            // padding: 50,
+            paddingHorizontal: 50,
+            paddingBottom: 50
         },
         parrafo: {
             fontSize: 12, fontFamily: 'Arial', textAlign: 'justify'
-        }
+        },
+        image: {
+            width: 80,
+            paddingLeft: 16
+        },
     });
 
     // Create Document Component
@@ -36,6 +50,10 @@ function ExoneracionDocument({  namePaciente, expedienteData, historia, notas, r
             <Page size="A4" orientation="vertical" style={styles.page}>
 
                 <view style={{ textAlign: 'center' }}>
+                    {
+                        hospitalData && hospitalData.logo &&
+                        <Image style={{ width: 100, height: 80, overflow: 'hidden' }} source={`https://api.recreamed.com/images/${hospitalData.logo}`} />
+                    }
                     <Text style={{ fontSize: 28, fontFamily: 'Calibri' }}>CARTA DE EXONERACION</Text>
                 </view>
 
@@ -65,7 +83,24 @@ function ExoneracionDocument({  namePaciente, expedienteData, historia, notas, r
                     {/* <Text style={{ fontSize: 14, fontFamily: 'Calibri' }}>Nombre, Fecha y firma del paciente</Text> */}
                 </View>
 
-                <View style={{ height: 12 }}></View>
+                <View style={{ height: 8 }}></View>
+
+                <View style={{ borderTop: '1pt solid #000', paddingTop: 4, flexDirection: 'row', justifyContent: 'space-between', fontSize: 10 }}>
+                    {
+                        hospitalData && <View>
+                            <Text>{hospitalData.nombre} </Text>
+                            <Text>{hospitalData.calle} N.{hospitalData.num_exterior}</Text>
+                            <Text>Colonia {hospitalData.colonia}, {hospitalData.ciudad_municipio}, {hospitalData.estado}</Text>
+                            <Text>Telefono: {hospitalData.telefono}, Correo: {hospitalData.email}</Text>
+                            {/* <Text>{hospitalData.sitio_web}</Text> */}
+                        </View>
+                    }
+
+                    <View style={{ textAlign: 'center' }}>
+                        <Image style={styles.image} src={Logo} />
+                        <Text >www.recreamed.com</Text>
+                    </View>
+                </View>
 
             </Page>
 
@@ -81,7 +116,7 @@ function ExoneracionDocument({  namePaciente, expedienteData, historia, notas, r
 
 
 
-export default function Exoneracion({ isModalOpen, setIsModalOpen, namePaciente }) {
+export default function Exoneracion({ isModalOpen, setIsModalOpen, namePaciente, idHospital }) {
 
 
     const handleOk = () => {
@@ -93,10 +128,10 @@ export default function Exoneracion({ isModalOpen, setIsModalOpen, namePaciente 
 
     return (
         <Modal title="Carta de exoneración" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={900}
-        footer={[
-            <Button type='primary' onClick={handleCancel}>Cerrar</Button>
-        ]}>
-            <ExoneracionDocument namePaciente={namePaciente}/>
+            footer={[
+                <Button type='primary' onClick={handleCancel}>Cerrar</Button>
+            ]}>
+            <ExoneracionDocument namePaciente={namePaciente} idHospital={idHospital} />
         </Modal>
     )
 }

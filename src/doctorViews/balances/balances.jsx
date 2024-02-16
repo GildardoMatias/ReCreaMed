@@ -139,7 +139,7 @@ export default function Balances() {
 
             {/* Ticket */}
             <Modal title="Imprimir Nota de Venta" open={isTicketModalOpen} onOk={handleTicketOk} onCancel={handleTicketCancel} width={600}>
-                <Ticket ingresos={ingresoForPrint} logo="https://api.recreamed.com/images/bd71d914-1f11-4bea-81e5-81b55e11a4e1.jpg" company='Hospital: ' seller='Médico: ' buyer='Paciente: ' />
+                <Ticket ingresos={ingresoForPrint} idHospital={usuario.horarios[0].sucursal._id} logo="https://api.recreamed.com/images/bd71d914-1f11-4bea-81e5-81b55e11a4e1.jpg" company='Hospital: ' seller='Médico: ' buyer='Paciente: ' />
             </Modal>
 
 

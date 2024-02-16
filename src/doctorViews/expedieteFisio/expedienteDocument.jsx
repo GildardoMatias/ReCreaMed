@@ -7,7 +7,7 @@ import Arial from '../../assets/fonts/arial/arial.ttf'
 import Calibri from '../../assets/fonts/calibri/calibri.ttf'
 
 import Logo from '../../assets/Logo.png'
-import { usuario, IMAGE_API, getData } from '../../resources';
+import { IMAGE_API, getData } from '../../resources';
 
 const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
 
@@ -18,15 +18,14 @@ function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
 
     const [hospitalData, setHospitalData] = useState(null)
 
-
     useEffect(() => {
         const getHospitalData = () => {
             getData(`sucursales/${idHospital}`).then((rs) => {
+                console.log(hospitalData)
                 setHospitalData(rs[0])
             })
         }
         getHospitalData()
-        console.log('PacienteData for print', pacienteData)
     }, [])
 
     const styles = StyleSheet.create({
@@ -127,7 +126,8 @@ function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
                                 <Text style={styles.text}>Fecha</Text>
                             </View>
                         </View>
-                        <View style={styles.tableRow}>
+
+                        {/* <View style={styles.tableRow}>
                             <View style={styles.tableCol7}>
                                 <Text style={styles.text}>Articulaxion 1</Text>
                             </View>
@@ -149,7 +149,7 @@ function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
                             <View style={styles.tableCol7}>
                                 <Text style={styles.text}>2024-01-24-T15:42:01.373Z</Text>
                             </View>
-                        </View>
+                        </View> */}
 
                         {
                             goniometria.map((row) => (
@@ -161,19 +161,19 @@ function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
                                         <Text style={styles.text}>{row.movimiento}</Text>
                                     </View>
                                     <View style={styles.tableCol7}>
-                                        <Text style={styles.text}>{row.completa}</Text>
+                                        <Text style={styles.text}>{row.completa ? 'Si' : 'No'}</Text>
                                     </View>
                                     <View style={styles.tableCol7}>
-                                        <Text style={styles.text}>{row.ayuda}</Text>
+                                        <Text style={styles.text}>{row.ayuda ? 'Si' : 'No'}</Text>
                                     </View>
                                     <View style={styles.tableCol7}>
-                                        <Text style={styles.text}>{row.dolor}</Text>
+                                        <Text style={styles.text}>{row.dolor ? 'Si' : 'No'}</Text>
                                     </View>
                                     <View style={styles.tableCol7}>
                                         <Text style={styles.text}>{row.grados}</Text>
                                     </View>
                                     <View style={styles.tableCol7}>
-                                        <Text style={styles.text}>{row.createdAt}</Text>
+                                        <Text style={styles.text}>{new Date(row.createdAt).toLocaleDateString()}</Text>
                                     </View>
                                 </View>
                             ))
@@ -211,7 +211,7 @@ function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
                         </View>
 
 
-                        <View style={styles.tableRow}>
+                        {/* <View style={styles.tableRow}>
                             <View style={styles.tableCol}>
                                 <Text style={styles.text}>Grupo 1</Text>
                             </View>
@@ -227,7 +227,7 @@ function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
                             <View style={styles.tableCol}>
                                 <Text style={styles.text}>2024-01-24-T15:42:01.373Z</Text>
                             </View>
-                        </View>
+                        </View> */}
 
                         {
                             examenes.map((row) => (
@@ -239,13 +239,13 @@ function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
                                         <Text style={styles.text}>{row.referencia}</Text>
                                     </View>
                                     <View style={styles.tableCol}>
-                                        <Text style={styles.text}>{row.dolor}</Text>
+                                        <Text style={styles.text}>{row.dolor ? 'Si' : 'No'}</Text>
                                     </View>
                                     <View style={styles.tableCol}>
                                         <Text style={styles.text}>{row.dinamometro}</Text>
                                     </View>
                                     <View style={styles.tableCol}>
-                                        <Text style={styles.text}>{row.createdAt}</Text>
+                                        <Text style={styles.text}>{new Date(row.createdAt).toLocaleDateString()}</Text>
                                     </View>
                                 </View>
                             ))
@@ -283,7 +283,7 @@ function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
                                 <Text style={styles.text}>Fisioterapeuta que atendió</Text>
                             </View>
                         </View>
-                        <View style={styles.tableRow}>
+                        {/* <View style={styles.tableRow}>
                             <View style={styles.tableCol7}>
                                 <Text style={styles.text}>Articulaxion 1</Text>
                             </View>
@@ -305,7 +305,7 @@ function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
                             <View style={styles.tableCol7}>
                                 <Text style={styles.text}>2024-01-24-T15:42:01.373Z</Text>
                             </View>
-                        </View>
+                        </View> */}
 
                         {
                             bitacoras.map((row) => (
@@ -329,7 +329,7 @@ function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
                                         <Text style={styles.text}>{row.estado_salida}</Text>
                                     </View>
                                     <View style={styles.tableCol7}>
-                                        <Text style={styles.text}>{row.fisioterapeuta}</Text>
+                                        <Text style={styles.text}>{new Date(row.createdAt).toLocaleDateString()}</Text>
                                     </View>
                                 </View>
                             ))
@@ -363,8 +363,15 @@ function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
         return <Document title={`${pacienteData.name}`}>
             <Page size="A4" orientation="vertical" style={styles.page}>
 
-                <View style={{ textAlign: 'center' }}>
-                    <Text style={{ fontSize: 28, fontFamily: 'Calibri' }}>EXPEDIENTE</Text>
+                <View style={{ textAlign: 'center', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <View>
+                        <Text style={{ fontSize: 28, fontFamily: 'Calibri' }}>EXPEDIENTE</Text>
+                        <Text>{new Date().toLocaleDateString('es-MX', dateOptions)}</Text>
+                    </View>
+                    {
+                        hospitalData && hospitalData.logo &&
+                        <Image style={{ width: 100, height: 80, overflow: 'hidden' }} source={`https://api.recreamed.com/images/${hospitalData.logo}`} />
+                    }
                 </View>
 
                 <View>
@@ -381,11 +388,13 @@ function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
 
                 <View>
                     <Text style={styles.subtitle}>Historia clinica</Text>
-                    <Question label='Fecha de refistro' resp={pacienteData.fisio_data.createdAt} bkg />
+                    <Question label='Fecha de registro' resp={new Date(pacienteData.createdAt).toLocaleDateString('es-MX', dateOptions)} bkg />
                     <Question label='Motivo por el cual nos visita/padecimiento actual' resp={pacienteData.fisio_data.motivo_visita} />
                     <Question label='Viene referido por algún médico o entrenador?' resp={pacienteData.fisio_data.referido_medico} bkg />
                     <Question label='Cómo se enteró de nosotros?' resp={pacienteData.fisio_data.enterado_mosotros} />
                 </View>
+
+                <Separator />
 
                 <View>
                     <Text style={styles.subtitle}>Antecedentes personales</Text>
@@ -428,41 +437,46 @@ function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
                     <Text style={{ fontSize: 22, fontFamily: 'Calibri' }}>Notas</Text>
                 </View>
 
+                {
+                    expedienteData.map((nota, index) => (
+                        <View>
+                            <View style={{ textAlign: 'left' }}>
+                                <Text style={{ fontSize: 18, fontFamily: 'Calibri' }}>Nota {index+1}</Text>
+                            </View>
+                            <View style={{ height: 12 }}></View>
+                            <View >
+                                <View style={{ flexDirection: 'row', backgroundColor: '#ebeff0' }}>
+                                    <View style={{ width: '55%' }}><Text style={styles.parrafo}>Fecha: </Text></View>
+                                    <View style={{ width: '45%' }}><Text style={styles.respuesta}>{new Date(nota.createdAt).toLocaleDateString('es-MX', dateOptions)}</Text></View>
+                                </View>
+                                <Question label='Cuál es el motivo de su consulta/lesión/patología?:' resp={nota.motivo} />
+                                <Question label='Cuanto tiempo lleva con el problema?:' resp={nota.tiempo} bkg />
+                                <Question label='En qué momento le duele más?:' resp={nota.momento_dia} />
+                                <Question label='Con qué movimientos aumenta el dolor?:' resp={nota.movimientos} bkg />
+                                <Question label='Localizaión del dolor:' resp={nota.localizacion} />
+                                <Question label='Especificar:' resp={nota.localizacion_es} bkg />
+                                <Question label='Tipo de dolor:' resp={nota.tipo} />
+                                <Question label='Especificar:' resp={nota.tipo_es} bkg />
+                                <Question label='Escala numerica analogica:' resp={nota.ena} />
+                            </View>
 
-                <View>
-                    <View style={{ textAlign: 'left' }}>
-                        <Text style={{ fontSize: 18, fontFamily: 'Calibri' }}>Nota 1</Text>
-                    </View>
-                    <View style={{ height: 12 }}></View>
-                    <View >
-                        <View style={{ flexDirection: 'row', backgroundColor: '#ebeff0' }}>
-                            <View style={{ width: '55%' }}><Text style={styles.parrafo}>Fecha: </Text></View>
-                            <View style={{ width: '45%' }}><Text style={styles.respuesta}>{new Date(expedienteData[0].createdAt).toLocaleDateString('es-MX', dateOptions)}</Text></View>
+                            <View style={styles.separator}></View>
+
+                            <Text style={{ fontSize: 14 }}>Rangos de movimiento/goniometria</Text>
+                            <GonioTable goniometria={nota.goniometria} />
+
+                            <View style={styles.separator}></View>
+                            <Text style={{ fontSize: 14 }}>Examen manual muscular</Text>
+                            <ExamenesTable examenes={nota.examenes} />
+
+                            <View style={styles.separator}></View>
+                            <Text style={{ fontSize: 14 }}>Bitacora</Text>
+                            <BitacoraTable bitacoras={nota.bitacoras} />
                         </View>
-                        <Question label='Cuál es el motivo de su consulta/lesión/patología?:' resp={expedienteData[0].motivo} />
-                        <Question label='Cuanto tiempo lleva con el problema?:' resp={expedienteData[0].tiempo} bkg />
-                        <Question label='En qué momento le duele más?:' resp={expedienteData[0].momento_dia} />
-                        <Question label='Con qué movimientos aumenta el dolor?:' resp={expedienteData[0].movimientos} bkg />
-                        <Question label='Localizaión del dolor:' resp={expedienteData[0].localizacion} />
-                        <Question label='Especificar:' resp={expedienteData[0].localizacion_es} bkg />
-                        <Question label='Tipo de dolor:' resp={expedienteData[0].tipo} />
-                        <Question label='Especificar:' resp={expedienteData[0].tipo_es} bkg />
-                        <Question label='Escala numerica analogica:' resp={expedienteData[0].ena} />
-                    </View>
+                    ))
+                }
 
-                    <View style={styles.separator}></View>
 
-                    <Text style={{ fontSize: 14 }}>Rangos de movimiento/goniometria</Text>
-                    <GonioTable goniometria={expedienteData[0].goniometria} />
-
-                    <View style={styles.separator}></View>
-                    <Text style={{ fontSize: 14 }}>Examen manual muscular</Text>
-                    <ExamenesTable examenes={expedienteData[0].examenes} />
-
-                    <View style={styles.separator}></View>
-                    <Text style={{ fontSize: 14 }}>Bitacora</Text>
-                    <BitacoraTable bitacoras={expedienteData[0].bitacoras} />
-                </View>
 
                 <View style={{ flex: 1 }}></View>
 

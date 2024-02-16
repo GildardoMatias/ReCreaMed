@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Button, Tabs, Row, Col, Modal, Space, message } from 'antd';
-import { getData, API, usuario } from '../../resources';
+import { Card, Button, Tabs, Row, Col, Modal, Space, message,Select } from 'antd';
+import { getData, API, usuario, updateData } from '../../resources';
 import { PlusOutlined } from '@ant-design/icons';
 import { NuevaNota } from './nuevaNota';
 import DetalleReceta from './detalleReceta';
 import LastCita from './lastCita'
 import NotasEvolucion from './notasEvolucion';
 import HojasEnfermeria from './hojasEnfermeria';
-
-
+import { diagnosticos } from '../../assets/diagnosticos2';
+const { Option, OptGroup } = Select;
 
 export default function DetalleNota(props) {
 
@@ -112,11 +112,11 @@ export default function DetalleNota(props) {
 
 
 
-    // const updateNota = (originalNota, field, newString) => {
-    //     originalNota[field] = newString;
-    //     console.log(originalNota)
-    //     updateData(`notas/update/${originalNota._id}`, originalNota).then((rs) => { getNotasData() })
-    // }
+    const updateNota = (originalNota, field, newString) => {
+        originalNota[field] = newString;
+        console.log(originalNota)
+        updateData(`notas/update/${originalNota._id}`, originalNota).then((rs) => { getNotasData() })
+    }
     // const onEntryFinish = (nota, values) => {
     //     console.log(values)
     //     console.log('Before:', nota)
@@ -158,7 +158,8 @@ export default function DetalleNota(props) {
     //     },
     // };
 
-    const items = notaData ? notaData.map((nota, i) => { return {
+    const items = notaData ? notaData.map((nota, i) => {
+        return {
             label: `Nota ${i + 1}`,
             key: nota._id,
             children: <Row gutter={8} style={{ backgroundColor: 'white' }}>
@@ -201,18 +202,18 @@ export default function DetalleNota(props) {
                         </Paragraph>
                     </Card> */}
 
-                    {/* <Card title='Diagnostico'>
+                    <Card title='Diagnostico (cie10)' style={{marginBottom: 6}}>
 
                         {
                             nota.diagnostico ? <div>{nota.diagnostico}</div> : <Select
                                 showSearch
                                 placeholder='Selecciona un diagnostico'
-                                style={{ width: 400 }}
+                                style={{ width: '100%' }}
                                 onChange={(newValue) => updateNota(nota, "diagnostico", newValue)}
                             >
                                 {
                                     Object.keys(diagnosticos).map((k) => {
-                                        return <OptGroup label={k}>
+                                        return <OptGroup label={k} >
                                             {Object.keys(diagnosticos[k]).map((sk) => {
                                                 return <Option value={diagnosticos[k][sk]}>{diagnosticos[k][sk]}</Option>
                                             })}
@@ -222,7 +223,7 @@ export default function DetalleNota(props) {
                                 }
                             </Select>
                         }
-                    </Card> */}
+                    </Card>
 
                     {/* <Card title='Entradas'>
                         {

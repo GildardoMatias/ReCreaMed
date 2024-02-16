@@ -5,6 +5,7 @@ import { Form, Select, Space, Button, Table, Modal } from 'antd';
 import EscalasCreateGeneralLink from '../escalasCreateGeneralLink';
 import getAllEscalas from '../getEscalas';
 import DolorDetails from './satisfaccionDetails';
+import SatisfacconStats from './satisfaccion_stats';
 const { Option } = Select;
 
 export default function SatisfaccionResults() {
@@ -285,6 +286,8 @@ export default function SatisfaccionResults() {
             {/* <Table columns={columns} dataSource={encuestasData} scroll={{ x: '200vw' }} bordered /> */}
             <Table columns={detailsColumns} dataSource={encuestasData} bordered />
 
+            <SatisfacconStats />
+            
             <Modal title="Crear Encuesta de satisfaccion" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
                 footer={[
                     <Button onClick={handleCancel}>Cerrar</Button>

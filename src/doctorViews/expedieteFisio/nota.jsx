@@ -15,6 +15,8 @@ import DetalleReceta from '../expedientes/detalleReceta'
 
 export default function NotaFisio({ id_paciente, pacienteData }) { // PacienteData is used for Recetas
 
+    const mobile = window.matchMedia("(max-width: 500px)").matches;
+
     const [expedienteData, setExpedienteData] = useState(null)
 
     const [addExpedienteModalOpen, setAddExpedienteModalOpen] = useState(false)
@@ -47,11 +49,7 @@ export default function NotaFisio({ id_paciente, pacienteData }) { // PacienteDa
                 {/* Mitad de la pantalla para Receta y last cita*/}
                 <Col span={5} >
 
-                    {/* <FDetalleReceta id_nota={nota._id} /> */}
-                    {/* <DetalleReceta id_nota={nota._id} paciente={pacienteData} recetas={nota.recetas}/> */}
-
-
-                    {/* Taken from psiq */}
+            
                     <LastCita paciente={id_paciente} />
 
                     <Bitacora bitacoras={nota.bitacoras} id_nota={nota._id} getExpedienteData={getExpedienteData} />
@@ -63,7 +61,7 @@ export default function NotaFisio({ id_paciente, pacienteData }) { // PacienteDa
 
                         <Padecimiento fisio_data={nota} />
 
-                        <div className='fila'>
+                        <div className={mobile ? 'columna' : 'fila'}>
                             <Goniometria id_expediente={nota._id} goniometria={nota.goniometria} getExpedienteData={getExpedienteData} />
                             <ExamenManMusc id_expediente={nota._id} examenes={nota.examenes} getExpedienteData={getExpedienteData} />
                         </div>
