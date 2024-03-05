@@ -4,58 +4,68 @@ import { Form, Button, Space, Select, message } from 'antd'
 import { usuario, ids_hospitales } from '../resources';
 import QRCode from "react-qr-code";
 import { toBlob, toPng } from 'html-to-image';
+import Loading from '../loading';
 const { Option } = Select;
 
 
 
 export default function EscalasCreateGeneralLink(props) {
 
-    const [misPacientes, setMisPacientes] = useState([])
-    const [selectedPatient, setSelectedPatient] = useState(null)
+    const [loading, setLoading] = useState(true)
+
     const [link, setLink] = useState('')
-    // Used to add a medico _id when the user is admin
-    const [medicosData, setMedicosData] = useState([])
-    const [medico, setMedico] = useState(null)
+    
+    // New Mode of first patient after medic selecting
+    const [medico, setMedico] = useState(null) // medico selected
+    const [medicos, setMedicos] = useState([]) // List of medicos able to select
+    const [selectedPatient, setSelectedPatient] = useState(null)
+    const [allPacientes, setAllPacientes] = useState([])
+    useEffect(() => {
+        const getAllMedicos = async () => {
+            await getData(`users/hospital/${ids_hospitales[0]}`).then(rs => { getAllPacientes(rs) })
+        }
+
+        usuario.rol === 'Medico' ? getPacientesOfDoctor(usuario._id) : getAllMedicos()
+
+    }, [])
+
+    const getAllPacientes = async (medicos) => {
+        const medicosFormatted = medicos.map(m => m._id)
+        await sendDataBody('pacientes/medicos', { medicos: medicosFormatted }).then(rs => { setAllPacientes(rs); setLoading(false) })
+    }
+
+    const handlePatientChange = (value) => {
+        setLink(null);
+        setSelectedPatient(value)
+        const found = allPacientes.find((p) => p._id === value);
+        if (found) {
+
+            let { medicos_asignados } = found
+            medicos_asignados.forEach((m) => {
+                m.label = m.name; m.value = m._id
+            });
+
+            setMedicos(medicos_asignados);
+
+        } else {
+            message.error('Paciente no encontrado')
+        }
+    };
+
+    const handleDoctorChange = (value) => { setMedico(value); setLink(null); };
+
+    const getPacientesOfDoctor = (_id) => { //Para el caso que la sesion sea de Medico
+        getData(`mispacientes/${_id}`).then(rs => { setSelectedPatient(null); setAllPacientes(rs); setLoading(false); console.log(`patients of ${_id}`, rs); })
+    }
+    // End New Mode of first patient after medic selecting
 
     const imageRef = useRef(null);
 
-
-    const getPacientesOfDoctor = (_id) => { //Para el caso que la sesion sea de Medico
-        getData(`mispacientes/${_id}`).then(rs => { setSelectedPatient(null); setMisPacientes(rs); console.log(`patients of ${_id}`, rs); })
-    }
-
-    // If administrator or reception, filter medicos of hospital
-    const getDoctorsData = () => { //Para el caso que la sesion sea de Administrador
-        // const body = { ids: usuario.medicos_asignados }
-        // sendDataBody(`users/getMany`, body).then(rs => { setMedicosData(rs); console.log('medicosData: ', rs); })
-        getData('users_by_rol/Medico').then((rs) => { setMedicosData(myDoctors(rs)) })
-    }
-
-    const myDoctors = (doctorsData) => {
-
-        let doctorsFound = [];
-        ids_hospitales.forEach(id_hospital => {
-            doctorsData.forEach(doctor => {
-                doctor.horarios.forEach(horario => {
-                    if (!doctorsFound.includes(doctor) && horario.sucursal._id === id_hospital) doctorsFound.push(doctor)
-                });
-            });
-            console.log(`Founds for ${id_hospital}: `, doctorsFound)
-        });
-
-        return doctorsFound;
-    }
-    // End of medicos filtering
-
-    useEffect(() => {
-        usuario.rol === 'Medico' ? getPacientesOfDoctor(usuario._id) : getDoctorsData()
-    }, [])
-
-    const handleDoctorChange = (value) => { setMedico(value); getPacientesOfDoctor(value) };
-    const handleChange = (value) => { setLink(null); setSelectedPatient(value) };
+    // Filter `option.label` match the user type `input`
+    const filterOption = (input, option) =>
+        (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
     const generateLink = () => {
-        // let usr = usuario.rol === 'Administrador' ? medico : usuario._id;
         let usr = (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') ? medico : usuario._id;
 
         let l = `https://sistema.recreamed.com/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}`
@@ -96,44 +106,62 @@ export default function EscalasCreateGeneralLink(props) {
             });
     }
 
+    if (loading) return <Loading />
 
     return (
         <div>
+
+            <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                style={{ alignItems: 'center', paddingTop: 20 }}
+                labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+               
+                <Select
+                    showSearch
+                    filterOption={filterOption}
+                    onChange={handlePatientChange}
+                    placeholder='Selecciona un paciente'
+                    value={selectedPatient}
+                    options={
+                        allPacientes.map((p) => (
+                            {
+                                ...p,
+                                key: p._id,
+                                value: p._id,
+                                label: p.name
+                            }
+                        ))
+                    }
+                />
+            </Form.Item>
+
+
             {
                 (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') &&
                 <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
-                    style={{ alignItems: 'center', paddingTop: 20 }}>
+                    style={{ alignItems: 'center', paddingTop: 20 }}
+                    labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+                    
                     <Select
                         showSearch
-                        style={{ width: 260, }}
+                        filterOption={filterOption}
                         onChange={handleDoctorChange}
                         placeholder='Selecciona un medico'
-                    >
-                        {
-                            medicosData.map((p) => {
-                                return <Option key={p._id} value={p._id}>{p.name}</Option>
-                            })
+                        options={
+                            medicos.map((p) => (
+                                {
+                                    ...p,
+                                    key: p._id,
+                                    value: p._id,
+                                    label: p.name
+                                }
+                            ))
                         }
-                    </Select>
+                    />
                 </Form.Item>
             }
 
-            <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
-                style={{ alignItems: 'center', paddingTop: 20 }}>
-                <Select
-                    style={{ width: 260, }}
-                    onChange={handleChange}
-                    placeholder='Selecciona un paciente'
-                    value={selectedPatient}
-                >
-                    {
-                        misPacientes.map((p) => {
-                            return <Option key={p._id} value={p._id}>{p.name}</Option>
-                        })
-                    }
-                </Select>
-            </Form.Item>
-            <Button onClick={generateLink} disabled={!selectedPatient} >Generar Enlace</Button>
+
+            <Button onClick={generateLink} disabled={usuario.rol === 'Medico' ? !selectedPatient : !medico} >Generar Enlace</Button>
 
 
             <br />

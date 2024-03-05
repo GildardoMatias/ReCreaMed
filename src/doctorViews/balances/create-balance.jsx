@@ -84,7 +84,7 @@ export default function CreateBalance(props) {
 
                 <Form.Item
                     label="Abono"
-                    // name="abono"
+                     name="abono"
                     rules={[{ required: true, message: 'Ingresa el abono' }]}
                 >
                     <InputNumber style={{ width: '100%' }} />

@@ -85,9 +85,10 @@ export default function DetalleHistoria({ historia, detalles_paciente }) {
                 </Form >
             </>
             :
-            <div>
-                <span style={{ whiteSpace: 'pre-line', textAlign: 'left', wordWrap: 'normal' }}>{historiaData[0].historial}</span>
+            <div style={{ overflow: 'auto', height: 200 }}>
+                <span style={{ whiteSpace: 'pre-line', textAlign: 'left', wordWrap: 'normal', overflowY: 'scroll' }}>{historiaData[0].historial}</span>
                 {
+                    // Agregar el modal de historia
                     isDoctor && <Button className='btnIconCentered' onClick={() => setEditing(true)} size='small' disabled={!historia} type="primary" shape="circle" icon={<FormOutlined className='sizedIcon' />} style={{ position: 'absolute', bottom: 18, right: 18 }} ghost />
                 }
             </div>

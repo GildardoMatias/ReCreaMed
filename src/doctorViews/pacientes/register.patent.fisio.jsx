@@ -31,7 +31,7 @@ function RegisterFisioForm({ paciente, setAdding, getPacientesData }) {
         labelCol={{ span: 12 }}
         wrapperCol={{ span: 12 }}
         size='small'
-        initialValues={{}}
+        initialValues={paciente || {}}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -261,7 +261,7 @@ export default function Register({ paciente, setIsModalOpen, isModalOpen, getPac
             <Button type="primary" htmlType="submit" form='register_patient_fisio'>
                 Guardar
             </Button>
-        ]} 
+        ]}
     >
         {/* ISFisio? */}
         <RegisterFisioForm paciente={paciente} setAdding={setIsModalOpen} getPacientesData={getPacientesData} />

@@ -4,7 +4,9 @@ import { FormOutlined, UserOutlined, MailOutlined, MobileOutlined } from '@ant-d
 import DetallesFisioModal from './detalles.fisio.modal';
 
 export default function DetallesPaciente({ paciente, setIsEditModalOpen }) {
-    const TYPE = 'fisio'
+
+    const TYPE = "fisio";
+
     return (<div style={{ marginTop: 16, paddingBottom: 4, display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: 'white', width: '25%', borderRadius: 8 }}>
 
         <div style={{ textAlign: 'center', marginTop: 8 }}>
@@ -17,12 +19,13 @@ export default function DetallesPaciente({ paciente, setIsEditModalOpen }) {
             <p className='nombre'><UserOutlined style={{ marginRight: 10 }} /> {paciente.name}</p>
             <p className='datos'><MailOutlined style={{ marginRight: 10 }} /> {paciente.email}</p>
             <p className='datos'><MobileOutlined style={{ marginRight: 10 }} /> {paciente.telefono}</p>
-            {/* {
+            {
                 TYPE === 'fisio' && <DetallesFisioModal userData={paciente} />
             }
+
             <div style={{ display: 'flex', flexDirection: 'row-reverse', paddingRight: 16 }}>
                 <Button className='btnIconCentered' onClick={() => setIsEditModalOpen(true)} size='small' type="primary" shape="circle" icon={<FormOutlined className='sizedIcon' />} ghost />
-            </div> */}
+            </div>
         </div>
 
     </div>)

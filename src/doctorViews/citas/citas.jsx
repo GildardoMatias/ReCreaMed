@@ -59,6 +59,7 @@ export default function Citas() {
 
             getData(`citas/medico/${usuario._id}`).then((rs) => {
                 rs.forEach(cita => {
+                    
                     const servicio = cita.id_servicio;
                     const servicioInfo = tratamientos_ofrecidos.find(servicioItem => servicioItem._id === servicio);
                     if (servicioInfo) {

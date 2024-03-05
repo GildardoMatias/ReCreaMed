@@ -103,7 +103,7 @@ export default function MainPacientes() {
 
       {
         TIPO === 'FISIO' ?
-          <ExpedienteFisio paciente={activePatient} /> :
+          <ExpedienteFisio paciente={activePatient} setIsEditModalOpen={setIsEditFisioModalOpen} /> :
           <Expedientes paciente={activePatient} setIsEditModalOpen={setIsEditModalOpen} />
       }
 
@@ -115,6 +115,9 @@ export default function MainPacientes() {
 
       {/* Modal For Register FISIO*/}
       <RegisterFisio setIsModalOpen={setIsRegisterFisioModal} isModalOpen={isRegisterFisioModal} getPacientesData={getPacientesData} />
+      
+      {/* Modal For Edit FISIO*/}
+      <RegisterFisio setIsModalOpen={setIsEditFisioModalOpen} isModalOpen={isEditFisioModalOpen} getPacientesData={getPacientesData} paciente={activePatient}/>
 
     </div >
   )
