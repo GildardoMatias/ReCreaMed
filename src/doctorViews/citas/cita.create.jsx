@@ -40,7 +40,7 @@ export function CreateCitaForm(props) {
     const onFinish = (values) => {
 
         values.medico = usuario._id;
-        // values.id_servicio = values.servicio.key;
+        values.id_servicio = values.servicio.key;
         values.servicio = values.servicio.label;
         // values.servicio = values.servicio.title +" - " + values.servicio.;
         delete values.tratamiento;
@@ -161,7 +161,7 @@ export function CreateCitaForm(props) {
 
         {
             usuario.configuracion && usuario.configuracion.tratamientos_ofrecidos &&
-            <Form.Item label="Servicio" name="servicio" rules={[{ required: false, message: 'Selecciona un servicio' }]} >
+            <Form.Item label="Servicio" name="servicio" rules={[{ required: true, message: 'Selecciona un servicio' }]} >
                 <Select
                     onChange={handleChange}
                     options={

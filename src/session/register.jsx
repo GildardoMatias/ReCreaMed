@@ -177,7 +177,7 @@ export function Register() {
               <Input addonBefore={prefixSelector} style={{ width: '100%', }} />
             </Form.Item>
 
-            <Form.Item label="horarios" rules={[{ required: false, message: 'Ingresa al menos un horario', },]}>
+            <Form.Item label="Horarios" rules={[{ required: false, message: 'Ingresa al menos un horario', },]}>
               <Form.List name="horarios" label="horarios list"
               // rules={[
               //   {

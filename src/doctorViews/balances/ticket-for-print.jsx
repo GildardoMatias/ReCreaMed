@@ -133,7 +133,7 @@ export default function Ticket({ ingresos, logo, idHospital, buyer }) {
         const getHospitalData = () => {
 
             getData(`sucursales/${idHospital}`).then((rs) => {
-                console.log(hospitalData)
+                console.log('HospitalData',hospitalData)
                 setHospitalData(rs[0])
             })
         }
@@ -156,7 +156,7 @@ export default function Ticket({ ingresos, logo, idHospital, buyer }) {
 
                         <View>
                             <Text style={styles.title}>Nota de Venta</Text>
-                            <Text style={styles.company}>Hospital: </Text>
+                            <Text style={styles.company}>Hospital: {hospitalData.nombre}</Text>
                             <Text style={styles.company}>{new Date(ingresos[0].createdAt).toLocaleString()} </Text>
                         </View>
                     </View>
@@ -180,19 +180,20 @@ export default function Ticket({ ingresos, logo, idHospital, buyer }) {
                         </View>
                         {ingresos.map((item) => (
                             <View style={styles.tableRow} key={item.id}>
-                               
-                                <Text style={styles.tableCol}>{item.concepto || item.cita.servicio}</Text>
+
+                                <Text style={styles.tableCol}>{item.concepto ? item.concepto.split(["-"])[0] : item.cita.servicio.split(["-"])[0]}</Text>
                                 <Text style={styles.tableCol}>1</Text>
-                                <Text style={styles.tableCol}>${item.monto.toFixed(2)}</Text>
+                                <Text style={styles.tableCol}>{item.monto ? `$${item.monto.toFixed(2)}` : item.cita.servicio.split("-")[1]}</Text>
                                 <Text style={styles.tableCol}>
                                     {/* ${(item.monto * item.quantity).toFixed(2)} */}
-                                    ${item.monto.toFixed(2)}
+                                    {item.monto ? `$${item.monto.toFixed(2)}` : item.cita.servicio.split("-")[1]}
                                 </Text>
                             </View>
                         ))}
                     </View>
                     <Text style={styles.total}>
-                        Total: ${ingresos.reduce((acc, item) => acc + item.monto * 1, 0).toFixed(2)}
+                        {/* Total: ${ingresos.reduce((acc, item) => acc + item.monto * 1, 0).toFixed(2)} */}
+                        Total: {ingresos[0].monto ? `$${ingresos[0].monto.toFixed(2)}` : ingresos[0].cita.servicio.split("-")[1]}
                     </Text>
                 </View>
 

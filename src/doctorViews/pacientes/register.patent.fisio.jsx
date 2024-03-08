@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Select, Form, Input, InputNumber, Divider, Modal, Radio, message } from 'antd';
 import { registerProfile, usuario } from '../../resources';
 const { Option } = Select;
 
 
 function RegisterFisioForm({ paciente, setAdding, getPacientesData }) {
+
+    const [referido, setReferido] = useState(false)
 
     const onFinish = (values) => {
         values.tipo = 'FISIO'
@@ -42,7 +44,7 @@ function RegisterFisioForm({ paciente, setAdding, getPacientesData }) {
             <Input />
         </Form.Item>
 
-        <Form.Item name="sexo" label="sexo" rules={[{ required: false, message: 'Selecciona una opcion' }]}>
+        <Form.Item name="sexo" label="Sexo" rules={[{ required: true, message: 'Selecciona una opcion' }]}>
             <Select placeholder="Elije el sexo" >
                 <Option value="H">H</Option>
                 <Option value="M">M</Option>
@@ -50,7 +52,7 @@ function RegisterFisioForm({ paciente, setAdding, getPacientesData }) {
             </Select>
         </Form.Item>
 
-        <Form.Item name="edad" label="Edad" rules={[{ required: false, message: 'Ingresa edad' }]} >
+        <Form.Item name="edad" label="Edad" rules={[{ required: true, message: 'Ingresa edad' }]} >
             <InputNumber min={1} max={120} />
         </Form.Item>
 
@@ -85,17 +87,19 @@ function RegisterFisioForm({ paciente, setAdding, getPacientesData }) {
             <Input />
         </Form.Item>
 
-        <Form.Item label="Viene referido por algún médico o entrenador?" rules={[{ required: true, message: 'Selecciona una opcion' }]} >
-            <Radio.Group onChange={(val) => console.log('Selected ', val)} >
+        <Form.Item label="Viene referido por algún médico o entrenador?" rules={[{ required: false, message: 'Selecciona una opcion' }]} >
+            <Radio.Group onChange={val => { console.log('Selected ', val); setReferido(val.target.value) }} >
                 <Radio value={true}>Si</Radio>
                 <Radio value={false}>No</Radio>
             </Radio.Group>
         </Form.Item>
 
-        <Form.Item name={['fisio_data', 'referido_medico']} label="Especificar" rules={[{ required: true, message: 'Ingresa datos' }]} >
-            <Input />
-        </Form.Item>
-
+        {
+            referido && <Form.Item name={['fisio_data', 'referido_medico']} label="Especificar" rules={[{ required: false, message: 'Ingresa datos' }]} >
+                <Input />
+            </Form.Item>
+        }
+        
         <Form.Item name={['fisio_data', 'enterado_mosotros']} label="Cómo se enteró de nosotros?" rules={[{ required: true, message: 'Ingresa datos' }]} >
             <Input />
         </Form.Item>

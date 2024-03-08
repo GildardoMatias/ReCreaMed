@@ -215,7 +215,7 @@ export default function PerfilEdit(props) {
             </Form.Item>
 
 
-            <Form.Item label="horarios" rules={[{ required: true, message: 'Ingresa al menos un horario', },]}>
+            <Form.Item label="Horarios" rules={[{ required: true, message: 'Ingresa al menos un horario', },]}>
               <Form.List name="horarios" label="horarios list"
               >
                 {(fields, { add, remove }) => (

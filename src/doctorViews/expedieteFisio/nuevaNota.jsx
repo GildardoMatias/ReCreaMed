@@ -26,6 +26,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
         console.log('New Exp:', values);
     };
     const onFinishFailed = (errorInfo) => {
+        message.error('Revise los datos del formulario')
         console.log('Failed:', errorInfo);
     };
 
@@ -35,6 +36,100 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
         labelCol: { span: 8 },
         wrapperCol: { span: 16 },
     }
+
+    const dolorTypes = [
+        {
+            value: 'Muscular',
+            label: 'Muscular',
+        },
+        {
+            value: 'Superficial',
+            label: 'Superficial',
+        },
+        {
+            value: 'Punzante',
+            label: 'Punzante',
+        },
+        {
+            value: 'Profundo',
+            label: 'Profundo',
+        },
+        {
+            value: 'Ardor',
+            label: 'Ardor',
+        },
+        {
+            value: 'Hormigueo',
+            label: 'Hormigueo',
+        },
+        {
+            value: 'Articular',
+            label: 'Articular',
+        },
+    ];
+
+    const newDolorTypes = [
+        {
+            label: <span>Tipo 1</span>,
+            title: 'Tipo1',
+            options: [
+                {
+                    label: <span>Superficial</span>,
+                    value: 'Superficial',
+                },
+                {
+                    label: <span>Profundo</span>,
+                    value: 'Profundo',
+                },
+            ],
+        },
+        {
+            label: <span>Tipo 2</span>,
+            title: 'Tipo2',
+            options: [
+                {
+                    label: <span>Muscular</span>,
+                    value: 'Muscular',
+                },
+                {
+                    label: <span>Tendonoso</span>,
+                    value: 'Tendonoso',
+                },
+                {
+                    label: <span>Ligamentario</span>,
+                    value: 'Ligamentario',
+                },
+                {
+                    label: <span>Articular</span>,
+                    value: 'Articular',
+                },
+            ],
+        },
+        {
+            label: <span>Tipo 3</span>,
+            title: 'Tipo3',
+            options: [
+                {
+                    label: <span>Neuropatico</span>,
+                    value: 'Neuropatico',
+                },
+                {
+                    label: <span>Vascular</span>,
+                    value: 'Vascular',
+                },
+            ],
+        },
+        {
+            label: <span>Otro</span>,
+            title: 'Otro',
+            options: [
+                {
+                    label: <span>Otro</span>,
+                    value: 'Otro',
+                }
+            ],
+        },
+    ];
 
     return <Modal width={600} title="Nuevo Expediente Fisioterapia" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
         footer={[
@@ -98,36 +193,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
             <Form.Item label="Tipo de dolor" name="tipo" rules={[{ required: true, message: 'Please input your username!' }]}>
                 <Select
                     onChange={(val) => console.log('selected ', val)}
-                    options={[
-                        {
-                            value: 'Muscular',
-                            label: 'Muscular',
-                        },
-                        {
-                            value: 'Superficial',
-                            label: 'Superficial',
-                        },
-                        {
-                            value: 'Punzante',
-                            label: 'Punzante',
-                        },
-                        {
-                            value: 'Profundo',
-                            label: 'Profundo',
-                        },
-                        {
-                            value: 'Ardor',
-                            label: 'Ardor',
-                        },
-                        {
-                            value: 'Hormigueo',
-                            label: 'Hormigueo',
-                        },
-                        {
-                            value: 'Articular',
-                            label: 'Articular',
-                        },
-                    ]}
+                    options={newDolorTypes}
                 />
             </Form.Item>
 
@@ -135,7 +201,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                 <Input />
             </Form.Item>
 
-            <Form.Item label="Escala numerica analogica" name="ena" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="Escala numerica analogica" name="ena" rules={[{ required: true, message: 'Seleccione un número en la escala' }]}>
                 <Slider defaultValue={0} min={0} max={10} marks={marks} />
             </Form.Item>
 
@@ -152,7 +218,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     label='Articulacion'
                                     name={[name, 'articulacion']}
                                     rules={[{ required: true, message: 'Missing first name' }]}
-                                    {...questLayout}                                    
+                                    {...questLayout}
                                 >
                                     <Input placeholder="articulacion" />
                                 </Form.Item>
@@ -162,7 +228,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     label='Movimiento'
                                     name={[name, 'movimiento']}
                                     rules={[{ required: true, message: 'Missing last name' }]}
-                                    {...questLayout}                                    
+                                    {...questLayout}
                                 >
                                     <Input placeholder="movimiento" />
                                 </Form.Item>
@@ -172,7 +238,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     label='Completa'
                                     name={[name, 'completa']}
                                     rules={[{ required: true, message: 'Missing first name' }]}
-                                    {...questLayout}                                    
+                                    {...questLayout}
                                 >
                                     <Radio.Group onChange={(val) => console.log('Selected ', val)} >
                                         <Radio value={true}>Si</Radio>
@@ -185,7 +251,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     label='Ayuda'
                                     name={[name, 'ayuda']}
                                     rules={[{ required: true, message: 'Missing last name' }]}
-                                    {...questLayout}                                    
+                                    {...questLayout}
                                 >
                                     <Radio.Group onChange={(val) => console.log('Selected ', val)} >
                                         <Radio value={true}>Necesita ayuda</Radio>
@@ -198,7 +264,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     label='Dolor'
                                     name={[name, 'dolor']}
                                     rules={[{ required: true, message: 'Missing first name' }]}
-                                    {...questLayout}                                    
+                                    {...questLayout}
                                 >
                                     <Radio.Group onChange={(val) => console.log('Selected ', val)} >
                                         <Radio value={true}>Si</Radio>
@@ -210,8 +276,8 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     {...restField}
                                     label='Grados'
                                     name={[name, 'grados']}
-                                    rules={[{ required: true, message: 'Missing last name' }]}
-                                    {...questLayout}                                    
+                                    rules={[{ required: true, message: 'Ingrese un número' }]}
+                                    {...questLayout}
                                 >
                                     <InputNumber style={{ width: '100%' }} />
                                 </Form.Item>
@@ -234,7 +300,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     label='Grupo muscular'
                                     name={[name, 'grupo']}
                                     rules={[{ required: true, message: 'Missing grupo' }]}
-                                    {...questLayout}                                    
+                                    {...questLayout}
                                 >
                                     <Input placeholder="grupo" />
                                 </Form.Item>
@@ -242,17 +308,17 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     {...restField}
                                     label='Referencia numerica'
                                     name={[name, 'referencia']}
-                                    rules={[{ required: true, message: 'Missing referencia' }]}
-                                    {...questLayout}                                    
+                                    rules={[{ required: true, message: 'Ingrese un número entre 1 y 10' }]}
+                                    {...questLayout}
                                 >
-                                    <InputNumber style={{ width: '100%' }} />
+                                    <InputNumber style={{ width: '100%' }} max={10} />
                                 </Form.Item>
                                 <Form.Item
                                     {...restField}
                                     label='Dolor'
                                     name={[name, 'dolor']}
                                     rules={[{ required: true, message: 'Missing dolor' }]}
-                                    {...questLayout}                                    
+                                    {...questLayout}
                                 >
                                     <Radio.Group onChange={(val) => console.log('Selected ', val)} >
                                         <Radio value={true}>Si</Radio>
@@ -264,7 +330,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     label='Dinamometro'
                                     name={[name, 'dinamometro']}
                                     rules={[{ required: true, message: 'Missing dinamometro' }]}
-                                    {...questLayout}                                    
+                                    {...questLayout}
                                 >
                                     <Input placeholder="dinamometro" />
                                 </Form.Item>
@@ -275,6 +341,20 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                     </>
                 )}
             </Form.List>
+
+            <Divider></Divider>
+            <Form.Item label="Observaciones" name="observaciones" rules={[{ required: false, message: 'Please input your username!' }]}>
+                <Input />
+            </Form.Item>
+            <Form.Item label="Diagnostico fisioterapeutico" name="diagnostico" rules={[{ required: false, message: 'Please input your username!' }]}>
+                <Input />
+            </Form.Item>
+            <Form.Item label="Objetivos" name="objetivos" rules={[{ required: false, message: 'Please input your username!' }]}>
+                <Input />
+            </Form.Item>
+            <Form.Item label="Plan de tratamiento" name="plan_tratamiento" rules={[{ required: false, message: 'Please input your username!' }]}>
+                <Input />
+            </Form.Item>
 
         </Form>
     </Modal>

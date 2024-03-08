@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { Card, Modal, Form, Input, Button, message, Row, Col } from 'antd'
+import { Card, Modal, Form, Input, Button, message, Row, Col, Select } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { updateData } from '../../resources';
+
+// APARATOLOGIA WILL VE THE ONE THAT BE USED INSTEAD OF ALL OTHERS TECNICAS, EJERCICIOS, ETC
 
 export default function Bitacora({ bitacoras, id_nota, getExpedienteData }) {
 
@@ -15,24 +17,30 @@ export default function Bitacora({ bitacoras, id_nota, getExpedienteData }) {
     const handleDetailsOk = () => { setIsDetailsModalOpen(false) };
     const handleDetailsCancel = () => { setIsDetailsModalOpen(false) };
 
+    const [othersEnabled, setOthersEnabled] = useState(false)
+    const handleChange = (val) => {
+        // alert(`Val selected: ${val}`)
+        setOthersEnabled(val === 'Otros')
+    }
+
     const onFinish = (values) => {
         console.log('new Data', values)
 
         const newBitacoras = [...bitacoras, values]
-        console.log('allNewData ', newBitacoras)
-        updateData(`fexpedientes/update/${id_nota}`, { bitacoras: newBitacoras }).then((rs) => {
-            if (rs.message && rs.message === 'Datos actualizados correctamente') {
-                getExpedienteData()
-                setIsCreateModalOpen(false)
-            } else message.error(rs.error)
-        })
+        console.log('AllNewBitacora ', newBitacoras)
+        // updateData(`fexpedientes/update/${id_nota}`, { bitacoras: newBitacoras }).then((rs) => {
+        //     if (rs.message && rs.message === 'Datos actualizados correctamente') {
+        //         getExpedienteData()
+        //         setIsCreateModalOpen(false)
+        //     } else message.error(rs.error)
+        // })
     }
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
     const Question = ({ label, answer }) => {
-        return <Row style={{ height: 30, borderBottom: '1px solid #d9d9d9',marginBottom: 6 }}>
+        return <Row style={{ height: 30, borderBottom: '1px solid #d9d9d9', marginBottom: 6 }}>
             <Col span={11} className='desc'>{label}</Col>
             <Col >{answer}</Col>
         </Row>
@@ -46,7 +54,7 @@ export default function Bitacora({ bitacoras, id_nota, getExpedienteData }) {
 
         {
             bitacoras.map((btc, i) => {
-                return <Button key={i} type='link' onClick={() => { setbitacoraForDetails(btc); showDetailsModal() }}>Aplicacion {i + 1}  {new Date(btc.createdAt).toLocaleDateString('es-MX')}</Button>
+                return <Button key={i} type='link' onClick={() => { setbitacoraForDetails(btc); showDetailsModal() }}>Aplicación {i + 1}  {new Date(btc.createdAt).toLocaleDateString('es-MX')}</Button>
             })
         }
 
@@ -83,7 +91,55 @@ export default function Bitacora({ bitacoras, id_nota, getExpedienteData }) {
                 autoComplete="off"
             >
 
-                <Form.Item label="Aparatologia" name="aparatologia" rules={[{ required: true, message: 'Please input your aparatologia' }]}>
+                <Form.Item label="Seleccione" name="aparatologia" rules={[{ required: true, message: 'Please input your aparatologia' }]}>
+                    <Select
+                        onChange={handleChange}
+                        options={[
+                            {
+                                value: 'Aparatologia',
+                                label: 'Aparatologia',
+                            },
+                            {
+                                value: 'Electroterapia',
+                                label: 'Electroterapia',
+                            },
+                            {
+                                value: 'Ultrasonido',
+                                label: 'Ultrasonido',
+                            },
+                            {
+                                value: 'Laser',
+                                label: 'Laser',
+                            },
+                            {
+                                value: 'Radiofrecuencia',
+                                label: 'Radiofrecuencia',
+                            },
+                            {
+                                value: 'Ondas de choque',
+                                label: 'Ondas de choque',
+                            },
+                            {
+                                value: 'Laser',
+                                label: 'Laser',
+                            },
+                            {
+                                value: 'Galvaniz. spa.',
+                                label: 'Galvaniz. spa.',
+                            },
+                            {
+                                value: 'Microc.',
+                                label: 'Microc.',
+                            },
+                            {
+                                value: 'Otros',
+                                label: 'Otros',
+                            },
+                        ]}
+                    />
+
+                </Form.Item>
+                {/* <Form.Item label="Aparatologia" name="aparatologia" rules={[{ required: true, message: 'Please input your aparatologia' }]}>
                     <Input />
                 </Form.Item>
                 <Form.Item label="Tecnicas manuales" name="tecnicas" rules={[{ required: true, message: 'Please input your username!' }]}>
@@ -91,11 +147,14 @@ export default function Bitacora({ bitacoras, id_nota, getExpedienteData }) {
                 </Form.Item>
                 <Form.Item label="Ejercicio" name="ejercicio" rules={[{ required: true, message: 'Please input your username!' }]}>
                     <Input />
-                </Form.Item>
-                <Form.Item label="Otros" name="otros" rules={[{ required: true, message: 'Please input your username!' }]}>
-                    <Input />
-                </Form.Item>
-                <Form.Item label="Estado en el que llega el paciente" name="estado_llegada" rules={[{ required: true, message: 'Please input your username!' }]}>
+                </Form.Item> */}
+
+                {
+                    othersEnabled && <Form.Item label="Otros" name="otros" rules={[{ required: true, message: 'Please input your username!' }]}>
+                        <Input />
+                    </Form.Item>
+                }
+                {/* <Form.Item label="Estado en el que llega el paciente" name="estado_llegada" rules={[{ required: true, message: 'Please input your username!' }]}>
                     <Input />
                 </Form.Item>
                 <Form.Item label="Estado en el que se retira el paciente" name="estado_salida" rules={[{ required: true, message: 'Please input your username!' }]}>
@@ -103,7 +162,7 @@ export default function Bitacora({ bitacoras, id_nota, getExpedienteData }) {
                 </Form.Item>
                 <Form.Item label="Fisioterapeuta que atendió" name="fisioterapeuta" rules={[{ required: true, message: 'Please input your username!' }]}>
                     <Input />
-                </Form.Item>
+                </Form.Item> */}
 
             </Form>
 

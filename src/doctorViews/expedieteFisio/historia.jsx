@@ -16,7 +16,7 @@ export default function DetalleHistoria({ paciente }) {
         <h5>Historia clínica</h5>
         <Question label='Fecha:' answer={new Date(createdAt).toLocaleString()} />
         <Question label='Motivo de su visita/padecimiento actual:' answer={motivo_visita} />
-        <Question label='Viene referido por algún médico o entrenador?:' answer={referido_medico} />
+        {referido_medico && <Question label='Viene referido por algún médico o entrenador?:' answer={referido_medico} />}
         <Question label='Cómo se enteró de nosotros?:' answer={enterado_mosotros} />
     </Card>
 }

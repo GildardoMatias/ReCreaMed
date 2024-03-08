@@ -105,7 +105,7 @@ export default function ExamenManMusc({ id_expediente, examenes, getExpedienteDa
 
     return <div>
 
-        <Table columns={columns} dataSource={examenes} size='small' bordered pagination={false} title={() => <span className='desc' style={{ display: 'flex', alignContent: 'center',gap: 6 }}>Examen manual muscular  <PlusCircleOutlined onClick={showModal} /></span>} style={{ marginTop: 4 }} />
+        <Table columns={columns} dataSource={examenes} size='small' bordered pagination={false} title={() => <span className='desc' style={{ display: 'flex', alignContent: 'center',gap: 6 }}>Examen manual muscular  <PlusCircleOutlined onClick={showModal} /></span>}  />
       
 
         <Modal title='Agregar examen manual muscular' open={isModalOpen} onOk={handleOk} onCancel={handleCancel}

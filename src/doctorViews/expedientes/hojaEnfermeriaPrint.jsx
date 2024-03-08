@@ -132,7 +132,7 @@ export default function HojaDocument({ nombreHospital, logoHospital, receta, dat
                 </View>
 
                 <View style={styles.content}>
-                    <Text style={styles.text}>APLICACION: {aplicacion + 1}</Text>
+                    <Text style={styles.text}>APLICACIÓN: {aplicacion + 1}</Text>
                     <Text style={styles.text}>PESO: {peso}</Text>
                     <Text style={styles.text}>DOSIS: {dosis}</Text>
                 </View>

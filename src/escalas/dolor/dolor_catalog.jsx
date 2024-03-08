@@ -1,10 +1,10 @@
 export const dolor_catalog = [
-    {
-        'n': 1,
-        'tipo': 'multiple',
-        'pregunta': '1. Indique en el diagrama las zonas donde siente dolor sombreando la parte afectada. Marque una cruz en la zona que más le duele.',
-        'respuestas': ['Delante Derecha', 'Delante Izquierda', 'Detras Derecha', 'Detras Izquierda']
-    },
+    // {
+    //     'n': 1,
+    //     'tipo': 'multiple',
+    //     'pregunta': '1. Indique en el diagrama las zonas donde siente dolor sombreando la parte afectada. Marque una cruz en la zona que más le duele.',
+    //     'respuestas': ['Delante Derecha', 'Delante Izquierda', 'Detras Derecha', 'Detras Izquierda']
+    // },
     {
         'n': 2,
         'tipo': 'metrica',

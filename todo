@@ -1,31 +1,62 @@
+ftmarianaleal@gmail.com
+4432151757
+
+FISIO
+
+-imprimir expe
+-Recibos agregar toda la info
+-Al guardar sucursal se borra el logo
+-Quitar RFC
+-Pacientes tarda en cargar
+-Nota de venta omitir observaciones de servicios, 
+-datos del hospital
+-Campos opcionales y oligatorios al regustrar pacientes
+-Los 3 de abajo
+-en escalas solo dejar escala del dolor y de satisfacción
+-Escala de dolor no se ven imagenes
+-No -> non obligatoru especific (trainer refered)
+-Poner estas tres listas y agregar un campo de otro -> punzante, otro
+-Colores de citas fisio
+
+Agregar estas opciones a la bitácora en modo de lista -.> aparatologia laser
+
+recetas FISO
+
+ususario recepción, se puede hacer que no elimine citas, no modifique precios
+
+
+Bitacora agregar escala en doloor
+
+Editar bitacora
+
+poder generar codigo QR para que el paciente se registre y que pueda agregar una foto
+
+Revisar ena , grados y referencia numeroica al crear nota, message de error en rojo -> Revisar todas las advertencias
+
+imprimir nota
+------------------------------------------------
 WHEN UPLOAD BALANCES WITH NEW POPULATE, CHANGE MATCH PATIENT FOR RECORD.CITA.USUARIO.NAME
 
 barra de respuesta
 fecha en lista de respuestas y ordenar en lista de pacientes
 
-seleccionar fisioterapio tipo de clinica
-ocultar o mostrar inputs de datos personales para cada tipop de clinica
+-seleccionar fisioterapio tipo de clinica
+-ocultar o mostrar inputs de datos personales para cada tipop de clinica
 
 --imprimir hoja enf
-nomb enf
+-nomb enf
 seleccionar fecha al crear hoja de enferm
 
-fechas en nota de evo
+-fechas en nota de evo
 enfermero no can historia ni rece
 hoja de enfermeria can imprimir
-detalles de la escala
+-detalles de la escala
 
-recep enfermero ingresar no sacar
+-recep enfermero ingresar no sacar
 
-cideralt
+-etiquetas e hoja de enfermeria acento aplicacion fecha: 
 
-recepcion@clinicawh.com
-
-etiquetas e hoja de enfermeria acento aplicacion fecha: 
-
-enferm no can jistoria ni recetas
-
-escalas priority
+-enferm no can jistoria ni recetas
 
 resultados poder filtrar por fechas
 
@@ -42,7 +73,7 @@ PRIORIDAD CORTES
 
 --recepcion edita estado del ingreso no la cantidaad
 
-agregar monto total - abobo  - adeudo
+-agregar monto total - abobo  - adeudo
 
 generate enlace desde todos los pacientes
 
@@ -50,7 +81,7 @@ generate enlace desde todos los pacientes
 
 -- cantidad total a lado de medico
 
-1st nota se crea auto
+-1st nota se crea auto
 
 --indicar conceptos que se estan cobrabndo
 
@@ -58,11 +89,11 @@ generate enlace desde todos los pacientes
 
 --servicio medico + observaciones
 
-cedula de cada carrera certificacion de cada carrera opcional y mostrar en la receta
+-cedula de cada carrera certificacion de cada carrera opcional y mostrar en la receta
 
-acentos y horarios mayus
+-acentos y horarios mayus
 
-imprimir corte
+-imprimir corte
 
 el corte ultimo es el que esta corriendo y ingresos se muestran solamente desde la fecha de ultimo corte
 
@@ -71,30 +102,30 @@ indicar corte que se trata en la tabla de ingresos y generar corte desde ingreso
 recepcionista hace cortes por medico
 
 --------------------------------------------------
-when no expeden create one
-recets
-escala sceemshots
-regste medc w unvestrys
-dr name
+-when no expeden create one
+-recets
+-escala sceemshots
+-regste medc w unvestrys
+-dr name
 
 fech nac pace
 exped ulma escala
 xped modff ul esca
 vstta medcs en recep
-new scala
+-new scala
 
-Y en ese respecto, estaba pensando que a la recepcionista le puede aparecer una primera sección, los las consultas pendientes de pago, y poner una dicisión y abajo las consultas pagadas
+Y en ese respecto, estaba pensando que a la recepcionista le puede aparecer una primera sección, los las consultas pendientes de pago, y poner una división y abajo las consultas pagadas
 
 nota de enfermeria martes 9 may
 
-Ya nada más en las escalas falta filtrar por paciente, sin usar medico
+-Ya nada más en las escalas falta filtrar por paciente, sin usar medico
 Y en los datos del paciente mostrar de que médico es
 
 domicilio y datos del medico
 medico editar ultima citas
-opcion toda carta o media
+-opcion toda carta o media
 
-Lista de deudores
+-Lista de deudores
 cuando regrese el paciente checar que deben
 Balance del dia y mes
 

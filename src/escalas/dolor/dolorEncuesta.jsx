@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { dolor_catalog, initialDolorValues } from './dolor_catalog';
-import { Form, Input, Button, Slider, Checkbox, Radio, message } from 'antd';
+import { Form, Input, Button, Slider, Checkbox, Radio, message, Row } from 'antd';
 import { getData, sendDataBody } from '../../resources';
 import logo from "../../assets/Logo.png";
+import head from '../../assets/head.jpg';
 
 export default function DolorEncuesta(props) {
     // For check if the encuesta existts on db
@@ -37,10 +38,10 @@ export default function DolorEncuesta(props) {
             uuid: props.token
         }
         console.log('Body:', body);
-        sendDataBody('encuestas/add', body).then((rs) => {
-            console.log('add enc resp', rs)
-            message.success(rs.message)
-        }).then(() => checkEncuesta())
+        // sendDataBody('encuestas/add', body).then((rs) => {
+        //     console.log('add enc resp', rs)
+        //     message.success(rs.message)
+        // }).then(() => checkEncuesta())
     };
     const onFinishFailed = (errorInfo) => {
         console.log('init', initialDolorValues)
@@ -77,7 +78,7 @@ export default function DolorEncuesta(props) {
             <br />
             <Form
                 layout='vertical'
-                name="basic"
+                name="dolor_esc"
                 // labelCol={{ span: 24 }}
                 // wrapperCol={{ span: 24 }}
                 initialValues={initialDolorValues}
@@ -85,6 +86,54 @@ export default function DolorEncuesta(props) {
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
+
+
+
+                <Form.Item
+                    key={1}
+                    label='1. Indique en el diagrama las zonas donde siente dolor sombreando la parte afectada. Marque una cruz en la zona que más le duele.'
+                    name={1}
+                    rules={[{ required: true, message: 'Conteste correctamente' }]}
+                >
+                    {/* <Checkbox.Group options={['Delante Derecha', 'Delante Izquierda', 'Detras Derecha', 'Detras Izquierda']} defaultValue={['Apple']} onChange={onChange} /> */}
+                    <Checkbox.Group
+                        style={{
+                            width: '100%',
+                        }}
+                        onChange={onChange}
+                    >
+                        <Row>
+                            <div className='columna'>
+                                <br />
+                                <br />
+                                <Checkbox value="Delante Izquierda">Delante Izquierda</Checkbox>
+                                <br />
+                                <br />
+                                <br />
+                                <Checkbox value="Detras Izquierda">Detras Izquierda</Checkbox>
+                            </div>
+                            <div>
+                                <img
+                                    src={head}
+                                    width="140"
+                                    height="160"
+                                    // className="d-inline-block align-top"
+                                    alt="Head diagram"
+                                />
+                            </div>
+                            <div className='columna'>
+                                <br />
+                                <br />
+                                <Checkbox value="Delante Derecha">Delante Derecha</Checkbox>
+                                <br />
+                                <br />
+                                <br />
+                                <Checkbox value="Detras Derecha">Detras Derecha</Checkbox>
+                            </div>
+                        </Row>
+                    </Checkbox.Group>
+                </Form.Item>
+
                 {
                     dolor_catalog.map((p) => {
                         let input;
@@ -125,7 +174,7 @@ export default function DolorEncuesta(props) {
                         span: 16,
                     }}
                 >
-                    <Button type="primary" htmlType="submit">
+                    <Button form='dolor_esc' type="primary" htmlType="submit">
                         Guardar
                     </Button>
                 </Form.Item>

@@ -222,7 +222,7 @@ export default function Register(props) {
               <Input addonBefore={prefixSelector} style={{ width: '100%', }} />
             </Form.Item>
 
-            <Form.Item label="horarios" rules={[{ required: true, message: 'Ingresa al menos un horario', },]}>
+            <Form.Item label="Horarios" rules={[{ required: true, message: 'Ingresa al menos un horario', },]}>
               <Form.List name="horarios" label="horarios list"
               >
                 {(fields, { add, remove }) => (

@@ -81,7 +81,7 @@ export default function HojasEnfermeria({ hojas_enfermeria, id_nota, datosPacien
             {
                 hojaEdit && <div>
                     <div style={{ display: 'flex', flexDirection: 'row', gap: 32, fontSize: 15, fontWeight: '500' }}>
-                        <span>Aplicacion {hojaEdit.aplicacion + 1}</span>
+                        <span>Aplicación {hojaEdit.aplicacion + 1}</span>
                         <span>Peso: {hojaEdit.peso}kg</span>
                         <span>Dosis: {hojaEdit.dosis}</span>
                         <span>{new Date(hojaEdit.createdAt).toLocaleDateString('es-Mx')}</span>
@@ -188,7 +188,7 @@ export default function HojasEnfermeria({ hojas_enfermeria, id_nota, datosPacien
                 <div style={{ display: 'flex', flexDirection: 'row', columnGap: '10px' }}>
                     <span style={{ width: 100, }}>INTERMEDIO</span>
                     <Form.Item name={['intermedio', 'hora']} rules={[{ required: true }]} >
-                        <TimePicker format='HH:mm' placeholder='Hora de aplicacion' locale={locale} />
+                        <TimePicker format='HH:mm' placeholder='Hora de aplicación' locale={locale} />
                     </Form.Item>
                     <Form.Item name={['intermedio', 'temperatura']} rules={[{ required: true }]}>
                         <InputNumber />
@@ -210,7 +210,7 @@ export default function HojasEnfermeria({ hojas_enfermeria, id_nota, datosPacien
                 <div style={{ display: 'flex', flexDirection: 'row', columnGap: '10px' }}>
                     <span style={{ width: 100, }}>TERMINO</span>
                     <Form.Item name={['termino', 'hora']} rules={[{ required: true }]} >
-                        <TimePicker format='HH:mm' placeholder='Hora de aplicacion' locale={locale} />
+                        <TimePicker format='HH:mm' placeholder='Hora de aplicación' locale={locale} />
                     </Form.Item>
                     <Form.Item name={['termino', 'temperatura']} rules={[{ required: true }]}>
                         <InputNumber />
