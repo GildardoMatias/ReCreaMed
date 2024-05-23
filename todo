@@ -1,6 +1,39 @@
 ftmarianaleal@gmail.com
 4432151757
 
+mivg -> enf
+4431460122
+
+melissaanton59@gmail.com -> Adm Cideralt
+4351063115
+
+Hospitals solo para los asignados. Superadmin puede ver todos los hospitales
+-Imprimir corte en pdf y excel
+Porcentajes de pacientes en administrador y recepcion
+Escalas agrupadas
+
+----------------------------------------------------------
+PatientsChart - admin
+
+al editar, se ponmga automaticamente el médico
+
+Enfermeria, al registrar cita, no crear forma de pago, hasta después cuando se modifique   -> Reverse instead on oncreate move to onedit
+
+entrar a la cita y poner un botón de registrar pago
+
+Habilitar expediente para administrador
+
+En los datos del paciente, agregar quién los refirió con el centro
+
+Sincronizar con google calendar
+
+Ver historial de pagos que ha hecho un paciente
+
+Enfermero no debe de poder ver balances, Capturar pagos si, Pero ver balances no, imprimir nota si
+
+
+
+------------------------------------------------------------
 FISIO
 
 -imprimir expe
@@ -14,26 +47,21 @@ FISIO
 -Los 3 de abajo
 -en escalas solo dejar escala del dolor y de satisfacción
 -Escala de dolor no se ven imagenes
--No -> non obligatoru especific (trainer refered)
+-No -> non  obligatoru especific (trainer refered)
 -Poner estas tres listas y agregar un campo de otro -> punzante, otro
 -Colores de citas fisio
-
-Agregar estas opciones a la bitácora en modo de lista -.> aparatologia laser
-
-recetas FISO
+-recetas FISO
++Agregar estas opciones a la bitácora en modo de lista -.> aparatologia laser
+-Revisar ena , grados y referencia numeroica al crear nota, message de error en rojo -> Revisar todas las advertencias
+-poder generar codigo QR para que el paciente se registre y que pueda agregar una foto
+-imprimir nota
 
 ususario recepción, se puede hacer que no elimine citas, no modifique precios
-
 
 Bitacora agregar escala en doloor
 
 Editar bitacora
-
-poder generar codigo QR para que el paciente se registre y que pueda agregar una foto
-
-Revisar ena , grados y referencia numeroica al crear nota, message de error en rojo -> Revisar todas las advertencias
-
-imprimir nota
+      
 ------------------------------------------------
 WHEN UPLOAD BALANCES WITH NEW POPULATE, CHANGE MATCH PATIENT FOR RECORD.CITA.USUARIO.NAME
 

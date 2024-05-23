@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { getData, updateData } from '../../resources'
 import { Card, Typography } from 'antd'
 import { CalendarOutlined, ClockCircleOutlined, DollarOutlined } from '@ant-design/icons'
+import HistorialCitas from './historialCitas';
 const { Paragraph } = Typography;
 
 
 export default function LastCita(props) {
 
     const [cita, setCita] = useState({})
+    const [citasData, setCitasData] = useState({})
     const [lastBalance, setLastBalance] = useState([])
     // const [editableStr, setEditableStr] = useState('Sin costo registrado');
     const [loading, setLoading] = useState(true)
@@ -46,6 +48,7 @@ export default function LastCita(props) {
             const ultimaCita = getLastCta(rs);
             // console.log('lsat cita', ultimaCita)
             setCita(ultimaCita)
+            setCitasData(rs)
             return ultimaCita
         }).then((last) => {
             return getData('balances/cita/' + last?._id)
@@ -60,24 +63,27 @@ export default function LastCita(props) {
             {
                 lastBalance && lastBalance.monto ?
                     (
-                        // <div >
+                        <div >
 
-                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', columnGap: '10px' }}>
-                            <DollarOutlined style={{}} />
-                            Costo:
-                            <Paragraph
-                                style={{ marginTop: 14 }}
-                                editable={{
-                                    onChange: updateLastBalance,
-                                }}
-                            >
-                                {lastBalance.monto}
-                            </Paragraph>
+                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', columnGap: '10px' }}>
+                                <DollarOutlined style={{}} />
+                                Costo:
+                                <Paragraph
+                                    style={{ marginTop: 14 }}
+                                    editable={{
+                                        onChange: updateLastBalance,
+                                    }}
+                                >
+                                    {lastBalance.monto}
+                                </Paragraph>
+
+
+                            </div>
+                            <HistorialCitas historial={citasData} />
+                            {/* <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', columnGap: '10px' }}>
+                             <CalendarOutlined /> {new Date(lastBalance.createdAt).toLocaleDateString()}
+                         </div> */}
                         </div>
-                        // <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', columnGap: '10px' }}>
-                        //     <CalendarOutlined /> {new Date(lastBalance.createdAt).toLocaleDateString()}
-                        // </div>
-                        // </div>
                     ) : (
                         <p>Sin Ultimo Balance</p>
                     )

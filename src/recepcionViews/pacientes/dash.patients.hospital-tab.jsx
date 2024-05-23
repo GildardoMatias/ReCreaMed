@@ -97,7 +97,7 @@ export default function HospitalTab(props) {
             render: (text, record) => (
                 <Space size="middle">
                     <Button onClick={() => { setPaciente(record); showModal(); }}>
-                        {usuario.rol === 'Enfermero' ? "Epediente" : "Detalles"}
+                        {usuario.rol === 'Enfermero' ? "Expediente" : "Detalles"}
                     </Button>
                     <Popconfirm
                         title="Borrar Paciente"
@@ -183,7 +183,7 @@ export default function HospitalTab(props) {
             addonAfter={<SearchOutlined />}
         />
         <div className='borderedTable'>
-            <Table dataSource={pacientesDataFiltered} columns={columns}  size='small' />
+            <Table dataSource={pacientesDataFiltered} columns={columns} size='small' />
         </div>
 
         <Modal width={1200} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>

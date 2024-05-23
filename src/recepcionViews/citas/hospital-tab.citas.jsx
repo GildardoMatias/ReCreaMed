@@ -6,11 +6,14 @@ import { Modal, Popconfirm, Button } from 'antd'
 import dayjs from 'dayjs';
 import CreateCita, { CreateCitaForm } from './create-cita-for-medic';
 import Loading from '../../loading';
+import RegisterPatientReception from './register.patient';
 
 const localizer = dayjsLocalizer(dayjs)
 
 // admin and receipt shares hospital-tab.citas and create-cita-for-medic
 // ONLY RECEIPT CANT DELETE, SO, FIRST EDIT RECEIPTIONIST
+
+//New Diference: button for confirm payment
 
 const HospitalTab = ({ id_hospital, hospital }) => {
 
@@ -38,6 +41,10 @@ const HospitalTab = ({ id_hospital, hospital }) => {
 
 
     useEffect(() => {
+        getPatientsData()
+    }, []);
+
+    const getPatientsData = () => {
         fetch(API + `users/hospital/${id_hospital}`)
             .then(response => response.json())
             .then(medicosResponse => {
@@ -68,8 +75,8 @@ const HospitalTab = ({ id_hospital, hospital }) => {
             .catch(error => {
                 // Manejar errores
                 console.error('Error:', error);
-            });
-    }, []);
+            })
+    }
 
 
     useEffect(() => {
@@ -170,6 +177,8 @@ const HospitalTab = ({ id_hospital, hospital }) => {
         return (
             <div>
 
+                <RegisterPatientReception getPacientesData={getPatientsData} />
+
                 <Calendar
                     scrollToTime={new Date(Date.now())}
                     selectable='true'
@@ -214,6 +223,7 @@ const HospitalTab = ({ id_hospital, hospital }) => {
                             <Button danger>Eliminar</Button>
                         </Popconfirm>,
                         <Button onClick={() => setEditingCita(!editingCita)}>{editingCita ? "Cancelar" : "Modificar"}</Button>,
+                        // <Button onClick={handleCancel}>Confirmar pago</Button>,
                         <Button onClick={handleCancel}>Cerrar</Button>
                     ]}>
 

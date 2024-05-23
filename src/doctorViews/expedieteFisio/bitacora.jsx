@@ -4,6 +4,7 @@ import { PlusCircleOutlined } from '@ant-design/icons'
 import { updateData } from '../../resources';
 
 // APARATOLOGIA WILL VE THE ONE THAT BE USED INSTEAD OF ALL OTHERS TECNICAS, EJERCICIOS, ETC
+//Aparatologia as BITACORA.ENTRY
 
 export default function Bitacora({ bitacoras, id_nota, getExpedienteData }) {
 
@@ -25,22 +26,23 @@ export default function Bitacora({ bitacoras, id_nota, getExpedienteData }) {
 
     const onFinish = (values) => {
         console.log('new Data', values)
-
-        const newBitacoras = [...bitacoras, values]
+        const newBitacora = othersEnabled ? { aparatologia: values.otros } : { aparatologia: values.aparatologia }
+        const newBitacoras = [...bitacoras, newBitacora]
         console.log('AllNewBitacora ', newBitacoras)
-        // updateData(`fexpedientes/update/${id_nota}`, { bitacoras: newBitacoras }).then((rs) => {
-        //     if (rs.message && rs.message === 'Datos actualizados correctamente') {
-        //         getExpedienteData()
-        //         setIsCreateModalOpen(false)
-        //     } else message.error(rs.error)
-        // })
+        updateData(`fexpedientes/update/${id_nota}`, { bitacoras: newBitacoras }).then((rs) => {
+            if (rs.message && rs.message === 'Datos actualizados correctamente') {
+                getExpedienteData()
+                setIsCreateModalOpen(false)
+            } else message.error(rs.error)
+        })
     }
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
     const Question = ({ label, answer }) => {
-        return <Row style={{ height: 30, borderBottom: '1px solid #d9d9d9', marginBottom: 6 }}>
+        // return <Row style={{ height: 30, borderBottom: '1px solid #d9d9d9', marginBottom: 6 }}> Used when multiple
+        return <Row style={{ height: 30, borderBottom: '1px solid #d9d9d9',borderTop: '1px solid #d9d9d9', marginBottom: 6 }}>
             <Col span={11} className='desc'>{label}</Col>
             <Col >{answer}</Col>
         </Row>
@@ -62,13 +64,13 @@ export default function Bitacora({ bitacoras, id_nota, getExpedienteData }) {
             footer={[<Button onClick={handleDetailsOk} type='primary'>Ok</Button>]}>
             {
                 bitacoraForDetails && <div>
-                    <Question label='Aparatologia' answer={bitacoraForDetails.aparatologia} />
-                    <Question label='Tecnicas manuales' answer={bitacoraForDetails.tecnicas} />
+                    <Question label='Registro de bitácora:' answer={bitacoraForDetails.aparatologia} />
+                    {/* <Question label='Tecnicas manuales' answer={bitacoraForDetails.tecnicas} />
                     <Question label='Ejercicio' answer={bitacoraForDetails.ejercicio} />
                     <Question label='Otros' answer={bitacoraForDetails.otros} />
                     <Question label='Estado en el que llega el paciente' answer={bitacoraForDetails.estado_llegada} />
                     <Question label='Estado en el que se retira el paciente' answer={bitacoraForDetails.estado_salida} />
-                    <Question label='Fisioterapeuta que atendió' answer={bitacoraForDetails.fisioterapeuta} />
+                    <Question label='Fisioterapeuta que atendió' answer={bitacoraForDetails.fisioterapeuta} /> */}
                 </div>
             }
 

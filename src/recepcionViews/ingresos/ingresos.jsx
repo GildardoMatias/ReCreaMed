@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Tag, Button, Typography, Card, Modal, Row, Col } from 'antd';
+import { Table, Tag, Button, Typography, Card, Modal, Row, Col, Switch, Select } from 'antd';
 import { CheckCircleTwoTone } from '@ant-design/icons'
 import { getData, usuario, sendDataBody, ids_hospitales, deleteData } from '../../resources';
 import CreateBalance from './create-ingreso';
@@ -35,6 +35,16 @@ export default function Ingresos() {
     // Modal For Add/Edit Gasto
     const [isEgresoModalOpen, setIsEgresoModalOpen] = useState(false)
     const showEgresoModal = () => { setIsEgresoModalOpen(true) };
+
+    // Toggles between for medic/for hospital
+    const [viewTipeMedics, setViewTipeMedics] = useState(false)
+
+    const [lastFecha, setLastFecha] = useState("")
+    const [firstFecha, setFirstFecha] = useState("")
+
+
+    function subtractMonths(date, months) { date.setMonth(date.getMonth() - months); return date; }
+
 
     useEffect(() => {
         getIngresos()
@@ -165,19 +175,47 @@ export default function Ingresos() {
         },
     ];
 
-    const ingresos = [
-        { id: 1, product: 'Ketamina 1', quantity: 1, price: 1200 },
-    ];
+    const getBalancesData = (medicos) => {
+        const body = {
+            fecha_inicio: subtractMonths(new Date(), 2),
+            medico: medicos
+        }
+        // console.log('Balances body',body)
+        sendDataBody('balances', body).then((rs) => {
+            console.log('alances', rs)
+            rs.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
+            setIngresosData(rs)
+        }).finally(() => setLoading(false))
+    }
+
+    // Toggle View Tipe medic/for all
+    const onSwitchChange = (checked) => {
+        setViewTipeMedics(checked)
+        console.log(`switch to ${checked}`);
+        if (!checked) getIngresos()
+    };
+
+    const handleDoctorChange = (value) => { setMedico(value); getBalancesData([value]); };
 
     if (loading) return <Loading />
 
     return (
         <div className='mainContainer'>
-            <h4>Ingresos de todos los medicos</h4>
-            <br />
 
-            <Button onClick={showModal} type='primary' style={{ marginBottom: 22 }} >Agregar Nuevo Ingreso</Button>
-            {/* <Button ghost onClick={showEgresoModal} type='primary' style={{ marginBottom: 22, marginLeft: 6 }} >Agregar Nuevo Gasto</Button> */}
+            <div className='fila'>
+                <h4>Ingresos de todos los medicos</h4>
+                <Button size='small' onClick={showModal} type='primary' >Agregar Nuevo Ingreso</Button>
+                {/* <Button ghost onClick={showEgresoModal} type='primary' style={{ marginBottom: 22, marginLeft: 6 }} >Agregar Nuevo Gasto</Button> */}
+            </div>
+
+            <div>
+                Hospital <Switch onChange={onSwitchChange} /> Medico
+                {
+                    viewTipeMedics && <Select options={medicosData} onChange={handleDoctorChange} style={{ width: 240, marginLeft: 16 }} placeholder='Seleccione medico' />
+                }
+            </div>
+
+            <br />
 
             <Table columns={columns} dataSource={ingresosData}
             // scroll={{ x: 950, y: "calc(100vh - 220px)" }}

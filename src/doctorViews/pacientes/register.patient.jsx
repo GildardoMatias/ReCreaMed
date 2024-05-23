@@ -160,7 +160,9 @@ function RegisterForm(props) {
           <Button type="dashed" icon={<UploadOutlined style={{ fontSize: 24, color: '#0d6efd' }} />} style={{ width: 400, height: 80 }} block>Selecciona la foto de perfil</Button>
         </Upload>
       </div>
+      
       <br />
+     
       <Form
         // {...formItemLayout}
         labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}

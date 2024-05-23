@@ -1,0 +1,43 @@
+const mongoose = require('mongoose');
+const Paciente = mongoose.model('Paciente');  // Asegúrate de tener tu modelo de Paciente definido
+const Medico = mongoose.model('Medico');      // Asegúrate de tener tu modelo de Medico definido
+
+// Supongamos que req.body.medicos es un array de ObjectId de los médicos
+const medicos = req.body.medicos;
+
+Paciente.find({ medicos_asignados: { $in: medicos }, 'rol': 'Paciente' })
+    .then(pacientes => {
+        const totalPacientes = pacientes.length;
+        if (totalPacientes === 0) {
+            return medicos.map(medico => ({ medico, porcentaje: 0 }));
+        }
+
+        const conteoPorMedico = medicos.reduce((acc, medico) => {
+            acc[medico] = 0;
+            return acc;
+        }, {});
+
+        pacientes.forEach(paciente => {
+            paciente.medicos_asignados.forEach(medico => {
+                if (medicos.includes(medico.toString())) {
+                    conteoPorMedico[medico] += 1;
+                }
+            });
+        });
+
+        const porcentajes = medicos.map(medico => {
+            return {
+                medico,
+                porcentaje: (conteoPorMedico[medico] / totalPacientes) * 100
+            };
+        });
+
+        return porcentajes;
+    })
+    .then(porcentajes => {
+        // Maneja el resultado como desees
+        console.log(porcentajes);
+    })
+    .catch(err => {
+        console.error(err);
+    });

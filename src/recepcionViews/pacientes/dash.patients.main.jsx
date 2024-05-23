@@ -18,7 +18,7 @@ export default function Dash() {
     return (
         <div className='mainContainer'>
 
-            <h4>Pacientes de los diferentes hospitaels</h4>
+            <h4>Pacientes de los diferentes hospitales</h4>
 
             <Tabs defaultActiveKey="1" items={myHospitals} onChange={onChange} />
 

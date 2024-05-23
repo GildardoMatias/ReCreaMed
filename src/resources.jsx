@@ -66,7 +66,7 @@ export async function updateData(endpoint, values) {
         body: JSON.stringify(values)
     }).then(res => res.json())
         .then(response => {
-            // console.log('Success:', response);
+            console.log('Updated:', response);
             message.success(response.message || response.error);
             return response;
         })
@@ -149,3 +149,5 @@ export const pre_colors = [
     '5CD0E3',   // Color adicional 9
     'A0E03C',   // Color adicional 10
 ];
+
+export const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };

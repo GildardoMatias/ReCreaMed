@@ -42,7 +42,7 @@ function Navigator() {
           <Nav.Link href="/citas">Citas</Nav.Link>
           <Nav.Link href="/escalas">Escalas</Nav.Link>
           {/* <Nav.Link href="/horarios">Horarios</Nav.Link> */}
-          <Nav.Link href="/balances">Balances</Nav.Link>
+          {/* <Nav.Link href="/balances">Balances</Nav.Link> */}
           {/* <Nav.Link href="/expedientes">Expedientes</Nav.Link> */}
           {/* <Nav.Link href="/recetas">Recetas</Nav.Link> */}
           {/* <Nav.Link href="/notas">Notas</Nav.Link> */}

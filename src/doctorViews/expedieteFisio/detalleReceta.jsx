@@ -82,28 +82,29 @@ export default function FDetalleReceta({ id_nota, paciente }) {
 
                         recetasData.map((r) => {
                             return <div key={r._id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <p style={{ whiteSpace: 'pre' }}>{r.prescripcion} </p>
-                                <div>
+                                <span style={{ whiteSpace: 'pre' }}>{r.prescripcion} </span>
+                                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
 
-                                    <Button style={{ marginLeft: 8 }} onClick={() => editReceta(r)} size='small' type="primary" shape="circle" icon={<FormOutlined />} className='btnIconCentered' ghost />
+                                    <Button style={{ marginLeft: 6 }} onClick={() => editReceta(r)} size='small' type="primary" shape="circle" icon={<FormOutlined />} className='btnIconCentered' ghost />
 
-                                    <Button style={{ marginLeft: 8 }} onClick={() => printReceta(r)} size='small' type="primary" shape="circle" icon={<PrinterOutlined />} className='btnIconCentered' ghost />
+                                    <Button style={{ marginLeft: 4 }} onClick={() => printReceta(r)} size='small' type="primary" shape="circle" icon={<PrinterOutlined />} className='btnIconCentered' ghost />
                                 </div>
                             </div>
                         })
                         :
                         <h6>No hay una receta asignada</h6>
             }
-        </Card>
+        </Card >
 
         {/* Redundant from recetas PSIQ */}
-        <Modal title="Nueva Receta" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}
-            footer={[
-                <Button type="primary" htmlType="submit" form='create_receta_medic'>
-                    Guardar
-                </Button>,
-                <Button onClick={handleCancel}>Cancelar</Button>
-            ]}>
+        < Modal title="Nueva Receta" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}
+            footer={
+                [
+                    <Button type="primary" htmlType="submit" form='create_receta_medic'>
+                        Guardar
+                    </Button>,
+                    <Button onClick={handleCancel}>Cancelar</Button>
+                ]} >
             <Form
                 name="create_receta_medic"
                 labelCol={{ span: 8 }}
@@ -122,7 +123,7 @@ export default function FDetalleReceta({ id_nota, paciente }) {
                 </Form.Item>
 
             </Form>
-        </Modal>
+        </Modal >
 
         <Modal title="Editar Receta" open={isEditingModalVisible} onOk={handleEditOk} onCancel={handleEditCancel} destroyOnClose
             footer={[
@@ -177,5 +178,5 @@ export default function FDetalleReceta({ id_nota, paciente }) {
                     </div>
             }
         </Modal>
-    </div>
+    </div >
 }

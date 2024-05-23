@@ -209,7 +209,7 @@ export function CreateCitaForm(props) {
         </Form.Item>
 
         {
-            isCreating && <div>
+            !isCreating && <div>
 
                 <Form.Item label="Tipo de pago" name="tipo_pago" rules={[{ required: true, message: 'Selecciona tipo de pago' }]} >
                     <Select options={paymentOptions} />
@@ -245,7 +245,7 @@ export function CreateCitaForm(props) {
                     }}
                 >
                     <Button type="primary" htmlType="submit" form='nueva_cita_admin' disabled={!enableCreateCita}>
-                        Guardar
+                        Confirmar pago y guardar
                     </Button>
                 </Form.Item>
             </div>

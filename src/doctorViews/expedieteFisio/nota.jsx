@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Tabs, Row, Col, Button } from 'antd';
 import Padecimiento from './padecimiento';
-import { getData } from '../../resources'
+import { getData, ids_hospitales } from '../../resources'
 import { PlusOutlined } from '@ant-design/icons';
 import NuevaNota from './nuevaNota';
 import FDetalleReceta from './detalleReceta';
@@ -9,11 +9,12 @@ import LastCita from '../expedientes/lastCita';
 import Bitacora from './bitacora';
 import Goniometria from './goniometria';
 import ExamenManMusc from './examenManMusc';
+import PrintNota from './printNota';
 
 // It's called nota, but actually is the complete expedient 
 // The expedient as it, is a list of notas or expediente_fisio
 
-export default function NotaFisio({ id_paciente, pacienteData }) { // PacienteData is used for Recetas
+export default function NotaFisio({ id_paciente, pacienteData }) { // PacienteData is used for printNota
 
     const mobile = window.matchMedia("(max-width: 500px)").matches;
 
@@ -58,7 +59,7 @@ export default function NotaFisio({ id_paciente, pacienteData }) { // PacienteDa
 
                     <LastCita paciente={id_paciente} />
 
-                    <FDetalleReceta id_nota={nota._id} paciente={id_paciente} key='DetRecFisio'/>
+                    <FDetalleReceta id_nota={nota._id} paciente={id_paciente} key='DetRecFisio' />
 
                     <Bitacora bitacoras={nota.bitacoras} id_nota={nota._id} getExpedienteData={getExpedienteData} />
                 </Col>
@@ -74,7 +75,7 @@ export default function NotaFisio({ id_paciente, pacienteData }) { // PacienteDa
                             <ExamenManMusc id_expediente={nota._id} examenes={nota.examenes} getExpedienteData={getExpedienteData} />
                         </div>
 
-                        <div style={{marginTop: 10}}>
+                        <div style={{ marginTop: 10 }}>
                             {nota.observaciones && <Question label='Observaciones o comentarios' answer={nota.observaciones} bkg />}
                             {nota.diagnostico && <Question label='Diagnostico fisioterapeutico' answer={nota.diagnostico} />}
                             {nota.objetivos && <Question label='Objetivos' answer={nota.objetivos} bkg />}
@@ -82,6 +83,7 @@ export default function NotaFisio({ id_paciente, pacienteData }) { // PacienteDa
                         </div>
 
                     </Card>
+                    <PrintNota nota={nota} idHospital={ids_hospitales[0]} pacienteData={pacienteData}/>
                 </Col>
 
             </Row>

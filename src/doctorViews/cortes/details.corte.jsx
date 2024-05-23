@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Modal, Typography, Table } from 'antd'
 import * as FileSaver from 'file-saver';
 import XLSX from "sheetjs-style";
-import { sendDataBody, getData, usuario, deleteData } from '../../resources'
+import { sendDataBody, getData, usuario, myHospitals } from '../../resources'
 import CorteDocument from "./corteForPrint";
 const { Text } = Typography;
 
@@ -10,6 +10,7 @@ export default function Detalles(props) {
     const [pacientesData, setPacientesData] = useState([])
     const [isPrinting, setIsPrinting] = useState(false)
 
+    const [ingresos, setIngresos] = useState({})
     const [totales, setTotales] = useState({})
     const handleOk = () => { props.setIsModalOpen(false) };
 
@@ -24,15 +25,36 @@ export default function Detalles(props) {
             let totalCobros = rs.length;
             let totalPagados = 0;
             let totalPendientes = 0;
+            let totalEfectivo = 0;
+            let totalTarjeta = 0;
+            let totalTransferencia = 0;
             let listOfDeudors = [];
             rs.forEach(c => {
-                if (c && c.estado === 'pagado') {
+
+
+                if (c.abono === c.monto || c.estado === 'pagado') {
+
+                    switch (c.forma_de_pago) {
+                        case 'efectivo':
+                            totalEfectivo += c.monto;
+                            break;
+                        case 'transferencia':
+                            totalTransferencia += c.monto;
+                            break;
+                        case 'tarjeta':
+                            totalTarjeta += c.monto;
+                            break;
+                        default:
+                            break;
+                    }
+
+
                     totalIngresos += c.monto;
                     totalPagados++
                 } else {
                     totalPendiente += c.monto;
                     totalPendientes++;
-                    listOfDeudors.push(c)
+                    // listOfDeudors.push(c)
                 }
             });
             const totales = {
@@ -41,8 +63,12 @@ export default function Detalles(props) {
                 cobrosTotales: totalCobros,
                 pagados: totalPagados,
                 pendientes: totalPendientes,
-                listOfDeudors: listOfDeudors
+                totalEfectivo,
+                totalTarjeta,
+                totalTransferencia,
+                // listOfDeudors
             }
+            setIngresos(rs)
             setTotales(totales)
         })
 
@@ -90,6 +116,17 @@ export default function Detalles(props) {
     const exportToExcel = async () => {
         const ws = XLSX.utils.json_to_sheet([totales]);
         const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+
+        // Aplicar estilo a una celda específica (ejemplo: primera fila)
+        ws['A1'].s= {
+            font: { bold: true, color: { rgb: '000000' } },
+            fill: { fgColor: { rgb: 'FFFF00' } }
+        };
+        ws['A2'].s= {
+            font: { bold: true, color: { rgb: '000000' } },
+            fill: { fgColor: { rgb: 'FFFF00' } }
+        };
+
         const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
         const data = new Blob([excelBuffer], { type: filetype })
         FileSaver.saveAs(data, 'corte' + new Date().toLocaleDateString() + fileExtextension)
@@ -102,9 +139,17 @@ export default function Detalles(props) {
             <Button onClick={handleOk}>Cerrar</Button>
         ]}
     >
+
+        {
+            // JSON.stringify(ingresos)
+        }
+        {
+            // JSON.stringify(totales)
+        }
+
         {isPrinting
             ?
-            <CorteDocument totales={totales} logo="https://api.recreamed.com/images/bd71d914-1f11-4bea-81e5-81b55e11a4e1.jpg" company='Hospital: ' seller='Médico: ' buyer='Paciente: ' /> :
+            <CorteDocument corte={props.corte} ingresos={ingresos} totales={totales} logo={`https://api.recreamed.com/images/${myHospitals[0].logo}`} hospital={myHospitals[0].nombre} /> :
             <div>
 
                 <h5>Ingresos </h5>

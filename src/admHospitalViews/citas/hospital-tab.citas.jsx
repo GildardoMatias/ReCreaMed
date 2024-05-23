@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { API, deleteData, sendDataBody } from '../../resources';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Modal, Popconfirm, Button } from 'antd'
+import { Modal, Popconfirm, Button, Select } from 'antd'
 import dayjs from 'dayjs';
 import CreateCita, { CreateCitaForm } from './create-cita-for-medic';
 import Loading from '../../loading';
@@ -200,6 +200,7 @@ const HospitalTab = ({ id_hospital, hospital }) => {
 
                     }}
                 />
+                
 
                 <Modal title="Detalles Cita" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose width={900}
                     footer={[

@@ -106,7 +106,7 @@ export default function Detalles(props) {
         FileSaver.saveAs(data, 'corte' + new Date().toLocaleDateString() + fileExtextension)
     }
 
-    return <Modal title="Detalles del corte" open={props.isModalOpen} onCancel={handleOk} destroyOnClose
+    return <Modal title="Detalles del corte" open={props.isModalOpen} onCancel={handleOk} width={600} destroyOnClose
         footer={[
             <Button onClick={() => setIsPrinting(!isPrinting)}>{isPrinting ? "Cancelar Impresion" : "Imprimir PDF"}</Button>,
             <Button onClick={() => exportToExcel()}>Exportar a excel</Button>,

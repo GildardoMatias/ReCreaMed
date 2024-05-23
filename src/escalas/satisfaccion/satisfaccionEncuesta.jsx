@@ -34,7 +34,8 @@ export default function SatisfaccionEncuesta(props) {
             medico: props.idmedico,
             encuesta_satisfaccion: values,
             tipo: 'satisfaccion',
-            uuid: props.token
+            uuid: props.token,
+            cat: [props.protocolo, props.momento]
         }
         console.log('Body:', body);
         sendDataBody('encuestas/add', body).then((rs) => {

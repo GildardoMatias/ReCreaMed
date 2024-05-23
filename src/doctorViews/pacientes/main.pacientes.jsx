@@ -11,6 +11,7 @@ import { PlusOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs'
 import ExpedienteFisio from '../expedieteFisio/expediente'
 import RegisterFisio from './register.patent.fisio'
+import CodeGenerate from './code.generate'
 const { Option } = Select;
 
 export default function MainPacientes() {
@@ -33,7 +34,7 @@ export default function MainPacientes() {
 
   useEffect(() => {
     getPacientesData()
-  }, [isRegisterModalOpen])
+  }, [isRegisterModalOpen,isRegisterFisioModal,isEditFisioModalOpen])
 
   const getPacientesData = () => {
     fetch(API + `mispacientes/${usuario._id}`)
@@ -94,7 +95,11 @@ export default function MainPacientes() {
         </Col>
         <Col style={{ marginLeft: 12 }}>
           {TIPO === 'FISIO' ?
-            <Button className='btnIconCentered' style={{ height: 30 }} onClick={() => setIsRegisterFisioModal(!isRegisterFisioModal)} size='small' icon={<PlusOutlined />} shape='round' type="primary" title='Agregar paciente' >Agregar Paciente</Button> :
+            <div className='fila'>
+              <Button className='btnIconCentered' style={{ height: 30 }} onClick={() => setIsRegisterFisioModal(!isRegisterFisioModal)} size='small' icon={<PlusOutlined />} shape='round' type="primary"  >Agregar Paciente</Button>
+              <CodeGenerate />
+            </div>
+            :
             <Button className='btnIconCentered' style={{ height: 30 }} onClick={() => setIsRegisterModalOpen(!isRegisterModalOpen)} size='small' icon={<PlusOutlined />} shape='round' type="primary" title='Agregar paciente' >Agregar Paciente</Button>
           }
         </Col>
@@ -115,9 +120,9 @@ export default function MainPacientes() {
 
       {/* Modal For Register FISIO*/}
       <RegisterFisio setIsModalOpen={setIsRegisterFisioModal} isModalOpen={isRegisterFisioModal} getPacientesData={getPacientesData} />
-      
+
       {/* Modal For Edit FISIO*/}
-      <RegisterFisio setIsModalOpen={setIsEditFisioModalOpen} isModalOpen={isEditFisioModalOpen} getPacientesData={getPacientesData} paciente={activePatient}/>
+      <RegisterFisio setIsModalOpen={setIsEditFisioModalOpen} isModalOpen={isEditFisioModalOpen} getPacientesData={getPacientesData} paciente={activePatient} />
 
     </div >
   )

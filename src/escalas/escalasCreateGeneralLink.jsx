@@ -14,12 +14,17 @@ export default function EscalasCreateGeneralLink(props) {
     const [loading, setLoading] = useState(true)
 
     const [link, setLink] = useState('')
-    
+
     // New Mode of first patient after medic selecting
     const [medico, setMedico] = useState(null) // medico selected
     const [medicos, setMedicos] = useState([]) // List of medicos able to select
     const [selectedPatient, setSelectedPatient] = useState(null)
     const [allPacientes, setAllPacientes] = useState([])
+
+    // Added to determine the protocol and moment of application
+    const [protocolo, setProtocolo] = useState('default')
+    const [momento, setMomento] = useState('default')
+
     useEffect(() => {
         const getAllMedicos = async () => {
             await getData(`users/hospital/${ids_hospitales[0]}`).then(rs => { getAllPacientes(rs) })
@@ -52,6 +57,9 @@ export default function EscalasCreateGeneralLink(props) {
         }
     };
 
+    const handleProtocolChange = value => setProtocolo(value)
+    const handleMomentoChange = value => setMomento(value)
+
     const handleDoctorChange = (value) => { setMedico(value); setLink(null); };
 
     const getPacientesOfDoctor = (_id) => { //Para el caso que la sesion sea de Medico
@@ -68,8 +76,8 @@ export default function EscalasCreateGeneralLink(props) {
     const generateLink = () => {
         let usr = (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') ? medico : usuario._id;
 
-        let l = `https://sistema.recreamed.com/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}`
-        // let l = `http://localhost:3000/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}`
+        let l = `https://sistema.recreamed.com/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}/${protocolo}/${momento}`
+        // let l = `http://localhost:3000/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}/${protocolo}/${momento}`
         setLink(l)
     }
     const copyLink = () => {
@@ -114,7 +122,7 @@ export default function EscalasCreateGeneralLink(props) {
             <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
                 style={{ alignItems: 'center', paddingTop: 20 }}
                 labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
-               
+
                 <Select
                     showSearch
                     filterOption={filterOption}
@@ -140,7 +148,7 @@ export default function EscalasCreateGeneralLink(props) {
                 <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
                     style={{ alignItems: 'center', paddingTop: 20 }}
                     labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
-                    
+
                     <Select
                         showSearch
                         filterOption={filterOption}
@@ -161,15 +169,113 @@ export default function EscalasCreateGeneralLink(props) {
             }
 
 
-            <Button onClick={generateLink} disabled={usuario.rol === 'Medico' ? !selectedPatient : !medico} >Generar Enlace</Button>
+            <Form.Item label="Protocolo" name="protocolo" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                style={{ alignItems: 'center', paddingTop: 20 }}
+                labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+
+                <Select
+                    showSearch
+                    filterOption={filterOption}
+                    onChange={handleProtocolChange}
+                    placeholder='Selecciona protocolo'
+                    value={selectedPatient}
+                    options={[
+                        {
+                           
+                            key: 'p1',
+                            value: 'depreres',
+                            label:"Depresón resistente al tratamiento"
+                        },
+                        {
+                           
+                            key: 'p2',
+                            value: 'Tinnitus',
+                            label:"Tinnitus"
+                        },
+                        {
+                           
+                            key: 'p3',
+                            value: 'Toc',
+                            label:"Trastorno obsesivo compulsivo (TOC)"
+                        },
+                         {
+                           
+                            key: 'p4',
+                            value: 'Alcoholismo',
+                            label:"Alcoholismo"
+                        },
+                        {
+                           
+                            key: 'p5',
+                            value: 'Opioides',
+                            label:"Opioides"
+                        },
+                        {
+                           
+                            key: 'p6',
+                            value: 'Dolor',
+                            label:"Dolor"
+                        },
+                        {
+                           
+                            key: 'p7',
+                            value: 'estrespt',
+                            label:"Estrés post traumatico"
+                        },
+                       
+                    ]}
+                />
+            </Form.Item>
+
+
+            <Form.Item label="Momento" name="momento" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                style={{ alignItems: 'center', paddingTop: 20 }}
+                labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+
+                <Select
+                    showSearch
+                    filterOption={filterOption}
+                    onChange={handleMomentoChange}
+                    placeholder='Selecciona momento de la aplicación'
+                    value={selectedPatient}
+                    options={[
+                        {
+                           
+                            key: 'm1',
+                            value: 'inicial',
+                            label:"Aplicación inicial"
+                        },
+                        {
+                           
+                            key: 'm2',
+                            value: 'final',
+                            label:"Aplicación final"
+                        },
+                        {
+                           
+                            key: 'm3',
+                            value: 'mant1',
+                            label:"Aplicación inicio manenimiento"
+                        },
+                        {
+                           
+                            key: 'm4',
+                            value: 'mant2',
+                            label:"Aplicación final manenimiento"
+                        },
+                    ]}
+                />
+            </Form.Item>
+
+
+            <Button style={{alignSelf: 'flex-end'}} onClick={generateLink} disabled={usuario.rol === 'Medico' ? !selectedPatient : !medico} >Generar Enlace</Button>
 
 
             <br />
 
             {
                 selectedPatient && link ? <div>
-                    <Space align='center'>
-                    </Space>
+
                     <p style={{ paddingTop: 16, color: '#1890ff' }} >{link}</p>
                     <Button onClick={copyLink}>Copiar Link</Button>
 
@@ -178,9 +284,15 @@ export default function EscalasCreateGeneralLink(props) {
                     }
 
                     <br />
-                    <div ref={imageRef} style={{ background: 'white', padding: '16px' }}> <QRCode value={link} /> </div>
-                    <Button onClick={handleDownload}>Descargar Codigo</Button>
-                    <Button onClick={handleCopy} style={{ marginLeft: 12 }}>Copiar Codigo</Button>
+                    
+                    <div className='columna'>
+                        <div ref={imageRef} style={{ background: 'white', padding: '16px' }}> <QRCode value={link} /> </div>
+                        <div>
+                            <Button onClick={handleDownload}>Descargar Codigo</Button>
+                            <Button onClick={handleCopy} style={{ marginLeft: 12 }}>Copiar Codigo</Button>
+                        </div>
+                    </div>
+
                 </div> : <></>
             }
 

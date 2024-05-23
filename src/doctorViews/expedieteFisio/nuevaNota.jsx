@@ -150,23 +150,23 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
 
             <Divider>Padecimiento Actual</Divider>
 
-            <Form.Item label="¿Cuál es el motivo de su consulta/Lesión/Patología?" name="motivo" rules={[{ required: true, message: 'Please input your username!' }]} >
+            <Form.Item label="¿Cuál es el motivo de su consulta/Lesión/Patología?" name="motivo" rules={[{ required: true, message: 'Ingrese respuesta' }]} >
                 <Input />
             </Form.Item>
 
-            <Form.Item label="¿Cuánto tiempo lleva con el problema?" name="tiempo" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="¿Cuánto tiempo lleva con el problema?" name="tiempo" rules={[{ required: true, message: 'Ingrese respuesta' }]}>
                 <Input />
             </Form.Item>
 
-            <Form.Item label="¿En qué momento del día le duele más?" name="momento_dia" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="¿En qué momento del día le duele más?" name="momento_dia" rules={[{ required: true, message: 'Ingrese respuesta' }]}>
                 <Input />
             </Form.Item>
 
-            <Form.Item label="¿Con qué movimientos aumenta el dolor?" name="movimientos" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="¿Con qué movimientos aumenta el dolor?" name="movimientos" rules={[{ required: true, message: 'Ingrese respuesta' }]}>
                 <Input />
             </Form.Item>
 
-            <Form.Item label="Localizacion del dolor" name="localizacion" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="Localizacion del dolor" name="localizacion" rules={[{ required: true, message: 'Seleccione una opción' }]}>
                 <Select
                     onChange={(val) => console.log('selected ', val)}
                     options={[
@@ -186,18 +186,18 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                 />
             </Form.Item>
 
-            <Form.Item label="Especifique" name="localizacion_es" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="Especifique" name="localizacion_es" rules={[{ required: true, message: 'Ingrese respuesta' }]}>
                 <Input />
             </Form.Item>
 
-            <Form.Item label="Tipo de dolor" name="tipo" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="Tipo de dolor" name="tipo" rules={[{ required: true, message: 'Seleccione una opción' }]}>
                 <Select
                     onChange={(val) => console.log('selected ', val)}
                     options={newDolorTypes}
                 />
             </Form.Item>
 
-            <Form.Item label="Especifique" name="tipo_es" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="Especifique" name="tipo_es" rules={[{ required: true, message: 'Ingrese respuesta' }]}>
                 <Input />
             </Form.Item>
 
@@ -217,7 +217,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     {...restField}
                                     label='Articulacion'
                                     name={[name, 'articulacion']}
-                                    rules={[{ required: true, message: 'Missing first name' }]}
+                                    rules={[{ required: true, message: 'Ingrese respuesta' }]}
                                     {...questLayout}
                                 >
                                     <Input placeholder="articulacion" />
@@ -227,7 +227,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     {...restField}
                                     label='Movimiento'
                                     name={[name, 'movimiento']}
-                                    rules={[{ required: true, message: 'Missing last name' }]}
+                                    rules={[{ required: true, message: 'Ingrese respuesta' }]}
                                     {...questLayout}
                                 >
                                     <Input placeholder="movimiento" />
@@ -237,7 +237,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     {...restField}
                                     label='Completa'
                                     name={[name, 'completa']}
-                                    rules={[{ required: true, message: 'Missing first name' }]}
+                                    rules={[{ required: true, message: 'Seleccione una opción' }]}
                                     {...questLayout}
                                 >
                                     <Radio.Group onChange={(val) => console.log('Selected ', val)} >
@@ -250,7 +250,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     {...restField}
                                     label='Ayuda'
                                     name={[name, 'ayuda']}
-                                    rules={[{ required: true, message: 'Missing last name' }]}
+                                    rules={[{ required: true, message: 'seleccione una opción' }]}
                                     {...questLayout}
                                 >
                                     <Radio.Group onChange={(val) => console.log('Selected ', val)} >
@@ -263,7 +263,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     {...restField}
                                     label='Dolor'
                                     name={[name, 'dolor']}
-                                    rules={[{ required: true, message: 'Missing first name' }]}
+                                    rules={[{ required: true, message: 'Seleccione una opción' }]}
                                     {...questLayout}
                                 >
                                     <Radio.Group onChange={(val) => console.log('Selected ', val)} >
@@ -299,7 +299,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     {...restField}
                                     label='Grupo muscular'
                                     name={[name, 'grupo']}
-                                    rules={[{ required: true, message: 'Missing grupo' }]}
+                                    rules={[{ required: true, message: 'Ingrese respuesta' }]}
                                     {...questLayout}
                                 >
                                     <Input placeholder="grupo" />
@@ -317,7 +317,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     {...restField}
                                     label='Dolor'
                                     name={[name, 'dolor']}
-                                    rules={[{ required: true, message: 'Missing dolor' }]}
+                                    rules={[{ required: true, message: 'Seleccione una opción' }]}
                                     {...questLayout}
                                 >
                                     <Radio.Group onChange={(val) => console.log('Selected ', val)} >
@@ -329,7 +329,7 @@ export default function NuevaNota({ isModalOpen, setIsModalOpen, id_paciente }) 
                                     {...restField}
                                     label='Dinamometro'
                                     name={[name, 'dinamometro']}
-                                    rules={[{ required: true, message: 'Missing dinamometro' }]}
+                                    rules={[{ required: true, message: 'Ingrese respuesta' }]}
                                     {...questLayout}
                                 >
                                     <Input placeholder="dinamometro" />

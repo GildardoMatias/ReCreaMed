@@ -38,10 +38,10 @@ export default function DolorEncuesta(props) {
             uuid: props.token
         }
         console.log('Body:', body);
-        // sendDataBody('encuestas/add', body).then((rs) => {
-        //     console.log('add enc resp', rs)
-        //     message.success(rs.message)
-        // }).then(() => checkEncuesta())
+        sendDataBody('encuestas/add', body).then((rs) => {
+            console.log('add enc resp', rs)
+            message.success(rs.message)
+        }).then(() => checkEncuesta())
     };
     const onFinishFailed = (errorInfo) => {
         console.log('init', initialDolorValues)

@@ -7,9 +7,8 @@ import Arial from '../../assets/fonts/arial/arial.ttf'
 import Calibri from '../../assets/fonts/calibri/calibri.ttf'
 
 import Logo from '../../assets/Logo.png'
-import { IMAGE_API, getData } from '../../resources';
+import { dateOptions, getData } from '../../resources';
 
-const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
 
 function ExpedientePDF({ pacienteData, expedienteData, idHospital }) {
 

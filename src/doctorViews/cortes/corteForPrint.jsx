@@ -1,6 +1,7 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
+import { dateOptions } from '../../resources';
 
 
 // Estilo para el ticket
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     sellerBuyerInfo: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 10,
+        // marginBottom: 10,
     },
     infoTitle: {
         fontFamily: 'Helvetica-Bold',
@@ -45,6 +46,7 @@ const styles = StyleSheet.create({
         display: 'table',
         width: 'auto',
         marginTop: 10,
+        marginBottom: 10,
         borderStyle: 'solid',
         borderWidth: 1,
         borderColor: '#bfbfbf',
@@ -98,14 +100,20 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
+        //justifyContent: 'space-between', 
+        borderBottom: '1pt solid #000',
+        paddingBottom: 10,
+        marginBottom: 10,
+    },
+    lineDivider: {
         borderBottom: '1pt solid #000',
         paddingBottom: 10,
         marginBottom: 10,
     },
     logo: {
-        width: 50,
-        height: 50,
-        marginRight: 10,
+        width: 60,
+        height: 60,
+        marginRight: 14,
     },
     title: {
         fontSize: 20,
@@ -118,52 +126,117 @@ const styles = StyleSheet.create({
     },
 });
 
+// Estilo para la tabla de totales
+const tableStyles = StyleSheet.create({
+    table: {
+        display: 'table',
+        width: 'auto',
+        marginTop: 10,
+        marginBottom: 10,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: '#bfbfbf',
+    },
+    tableRow: {
+        margin: 'auto',
+        flexDirection: 'row',
+        // height: 14
+    },
+    tableCol: {
+        width: '50%',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: '#bfbfbf',
+        textAlign: 'center',
+        fontFamily: 'Helvetica',
+        fontSize: 10,
+        paddingTop: 5,
+        paddingBottom: 5,
+    },
+    tableColLeft: {
+        width: '50%',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: '#bfbfbf',
+        textAlign: 'center',
+        fontFamily: 'Helvetica-Bold',
+        fontSize: 10,
+        paddingTop: 5,
+        paddingBottom: 5,
+    },
+})
+
 // Componente del ticket
-export default function CorteDocument({ totales, logo, company, seller, buyer }) {
+export default function CorteDocument({ corte, totales, logo, ingresos, hospital }) {
     console.log('Received for print ', totales)
     return <PDFViewer height={500} width={550}>
         <Document>
             <Page size="A4" style={styles.page}>
                 <View>
+
                     <View style={styles.header}>
                         <Image style={styles.logo} src={logo} />
                         <View>
                             <Text style={styles.title}>Corte</Text>
-                            {/* <Text style={styles.company}>Hospital: </Text> */}
-                            <Text style={styles.company}>{new Date().toLocaleString()} </Text>
+                            <Text style={styles.company}>Del {new Date(corte.fecha_inicio).toLocaleString('es-MX', dateOptions)}</Text>
+                            <Text style={styles.company}>al {new Date(corte.fecha_cierre).toLocaleString('es-MX', dateOptions)} </Text>
+                            <Text style={styles.company}>{hospital}</Text>
                         </View>
                     </View>
-                    <View style={styles.sellerBuyerInfo}>
-                        <View>
-                            <Text style={styles.infoTitle}>Ingresos Totales:</Text>
-                            <Text style={styles.infoText}>{totales.ingresosTotales}</Text>
-                        </View>
-                        <View>
-                            <Text style={styles.infoTitle}>Sin pagar:</Text>
-                            <Text style={styles.infoText}>{totales.totalPendiente}</Text>
-                        </View>
-                    </View>
+
+
+
+                    <Text style={styles.infoTitle}>Lista de ingresos</Text>
+
                     <View style={styles.table}>
+                        {/* TABLA ORIGINAL */}
                         <View style={styles.tableRow}>
-                            <Text style={styles.tableColHeader}>Cobros</Text>
-                            <Text style={styles.tableColHeader}>Pagados</Text>
-                            <Text style={styles.tableColHeader}>Precio Unitario</Text>
-                            <Text style={styles.tableColHeader}>Pendientes</Text>
+                            <Text style={styles.tableColHeader}>FechaHora</Text>
+                            <Text style={styles.tableColHeader}>Forma de pago</Text>
+                            <Text style={styles.tableColHeader}>Monto</Text>
+                            <Text style={styles.tableColHeader}>Estado</Text>
                         </View>
-                        {/* {totales.map((item) => ( */}
-                        <View style={styles.tableRow} key={totales.totalCobros}>
-                            <Text style={styles.tableCol}>{totales.totalPagados}</Text>
-                            <Text style={styles.tableCol}>1</Text>
-                            <Text style={styles.tableCol}>${totales.totalPendientes}</Text>
-                            <Text style={styles.tableCol}>
-                                Another Text
-                            </Text>
-                        </View>
-                        {/* ))} */}
+                        {ingresos.map((item) => (
+                            <View style={styles.tableRow} key={item._id}>
+                                <Text style={styles.tableCol}>{new Date(item.fecha_hora).toLocaleDateString('es-MX', dateOptions)}</Text>
+                                <Text style={styles.tableCol}>{item.forma_de_pago}</Text>
+                                <Text style={styles.tableCol}>${item.monto}</Text>
+                                <Text style={styles.tableCol}>{item.estado}</Text>
+                            </View>
+                        ))}
                     </View>
-                    <Text style={styles.total}>
+
+                    <br />
+
+
+                    <Text style={styles.infoTitle}>TOTALES</Text>
+
+                    {/* TOTALES */}
+                    <View style={tableStyles.table}>
+                        <View style={tableStyles.tableRow}>
+                            <Text style={tableStyles.tableCol}>Ingresos con tarjeta</Text>
+                            <Text style={tableStyles.tableCol}>${totales.totalTarjeta}</Text>
+                        </View>
+                        <View style={tableStyles.tableRow}>
+                            <Text style={tableStyles.tableCol}>Ingresos por transferencia</Text>
+                            <Text style={tableStyles.tableCol}>${totales.totalTransferencia}</Text>
+                        </View>
+                        <View style={tableStyles.tableRow}>
+                            <Text style={tableStyles.tableCol}>Ingresos efectivo</Text>
+                            <Text style={tableStyles.tableCol}>${totales.totalEfectivo}</Text>
+                        </View>
+                        <View style={tableStyles.tableRow}>
+                            <Text style={tableStyles.tableColLeft}>Ingresos totales</Text>
+                            <Text style={tableStyles.tableColLeft}>${totales.ingresosTotales}</Text>
+                        </View>
+                    </View>
+
+
+
+
+                    {/* <Text style={styles.total}>
                         Total:
-                    </Text>
+                    </Text> */}
                 </View>
             </Page>
         </Document>

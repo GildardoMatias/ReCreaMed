@@ -8,6 +8,7 @@ import CreateBalance from './create-ingreso';
 import Loading from '../../loading';
 import Ticket from './ticket-for-print';
 import IngersosHosptal from './ingresos.hospital';
+import PatientsChart from './patients-chart';
 
 const { Text } = Typography;
 
@@ -18,6 +19,7 @@ export default function Ingresos() {
     const [ingresosData, setIngresosData] = useState([])
     const [ingresoForEdit, setIngresoForEdit] = useState({})
     const [ingresoForPrint, setIngresoForPrint] = useState([])
+    const [idsMedicos, setIdsMedicos] = useState({})
 
     // Modal For Add/Edit Inreso
     const [isIngresoModalOpen, setIsIngresoModalOpen] = useState(false);
@@ -48,9 +50,9 @@ export default function Ingresos() {
         getLastFechaCierre()
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         getIngresos()
-    },[lastFecha])
+    }, [lastFecha])
 
     function subtractMonths(date, months) { date.setMonth(date.getMonth() - months); return date; }
 
@@ -77,7 +79,10 @@ export default function Ingresos() {
         const ids = medicos.map(doc => {
             return doc._id
         });
+
         getBalancesData(ids)
+
+        setIdsMedicos(ids); // Used to get the percents to create the pie chart
     }
 
     const getBalancesData = (medicos) => {
@@ -87,7 +92,7 @@ export default function Ingresos() {
         }
         // console.log('Balances body',body)
         sendDataBody('balances', body).then((rs) => {
-            console.log('alances',rs)
+            console.log('alances', rs)
             rs.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
             setIngresosData(rs)
         }).finally(() => setLoading(false))
@@ -224,6 +229,8 @@ export default function Ingresos() {
                 <Button ghost size='small' onClick={showEgresoModal} type='primary'  >Agregar Nuevo Gasto</Button>
             </div>
 
+            <br />
+
             <div>
                 Hospital <Switch onChange={onSwitchChange} /> Medico
                 {
@@ -234,6 +241,8 @@ export default function Ingresos() {
             <br />
 
             <Table columns={columns} dataSource={ingresosData} size='small' />
+
+            <PatientsChart ids_medicos={idsMedicos}/>
 
             <IngersosHosptal ids_hospitales={ids_hospitales} />
 
@@ -246,7 +255,7 @@ export default function Ingresos() {
             <Modal title="Imprimir Nota de Venta" open={isTicketModalOpen} onOk={handleTicketOk} onCancel={handleTicketCancel} width={600}>
                 {
                     isLogoSelected ? // Si ya hay logo seleccionado, se pasa a la receta y se muestra en pdf
-                        <Ticket ingresos={ingresoForPrint} logo={'https://api.recreamed.com/images/' + logoHospital} hospital={nombreHospital} seller='Médico: ' buyer='Paciente: ' idHospital={idHospital}/>
+                        <Ticket ingresos={ingresoForPrint} logo={'https://api.recreamed.com/images/' + logoHospital} hospital={nombreHospital} seller='Médico: ' buyer='Paciente: ' idHospital={idHospital} />
                         :
                         <div>
                             <Card title='Selecciona un hospital' bordered={false}>
