@@ -9,7 +9,7 @@ import RecepcionApp from "./recepcionViews/recepcionApp";
 import PatientApp from "./patientViews/patientApp";
 import AdminHospitalApp from "./admHospitalViews/adminHospitalApp";
 import SuperAdminApp from "./superAdminViews/superAdminApp";
-import { KetaminaPublic, DepresionQidsPublic, DepresionEspanolPublic, HeadachePublic, PostTraumaticoPublic, PostTraumaticoClinicoPublic, PostTraumaticoMX, SatisfaccionPublic, Gad7Public, PHQ9PPublic, CssrsPublic, ThiPublic, EmcaPublic, OwsPublic, SowsPublic, DocsPublic, Pcl5Public } from './session/public_escalas_routes';
+import { KetaminaPublic, DepresionQidsPublic, DepresionEspanolPublic, HeadachePublic, PostTraumaticoPublic, PostTraumaticoClinicoPublic, PostTraumaticoMX, SatisfaccionPublic, Gad7Public, PHQ9PPublic, CssrsPublic, ThiPublic, EmcaPublic, OwsPublic, SowsPublic, DocsPublic, Pcl5Public, Dolor2Public } from './session/public_escalas_routes';
 import RegisterPatientFisio from "./session/register_patient_fisio";
 
 const userType = localStorage.getItem('userType');
@@ -64,7 +64,7 @@ export function App() {
           <ThiPublic />
         </Route>
         <Route path="/docs_public/:idmedico/:idpaciente/:key/:protocolo/:momento">
-          <DocsPublic/>
+          <DocsPublic />
         </Route>
         <Route path="/emca_public/:idmedico/:idpaciente/:key/:protocolo/:momento">
           <EmcaPublic />
@@ -74,6 +74,9 @@ export function App() {
         </Route>
         <Route path="/sows_public/:idmedico/:idpaciente/:key/:protocolo/:momento">
           <SowsPublic />
+        </Route>
+        <Route path="/dolor_2_public/:idmedico/:idpaciente/:key/:protocolo/:momento">
+          <Dolor2Public />
         </Route>
         <Route path="/pcl_5_public/:idmedico/:idpaciente/:key/:protocolo/:momento">
           <Pcl5Public />

@@ -50,6 +50,11 @@ export default function OwsEncuesta({ idpaciente, idmedico, token,protocolo,mome
             <h5>Medico: {medicoData.name}</h5>
             <h5>Paciente: {pacienteData.name}</h5>
             <br />
+            <h5>Escala de abstinencia de opiáceos (Opiate Withdrawal Scale, OWS)</h5>
+            <br />
+            <h6>Seleccione el nivel de presencia de los siguientes sintomas/signos</h6>
+            <br />
+
             <Form
                 layout='vertical'
                 name="ows_enc"

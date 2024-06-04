@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Input, Button, message, Space, Divider, Upload, Switch, DatePicker } from 'antd'
-import { InputNumber, Select, Modal } from 'antd';
+import { InputNumber, Select } from 'antd';
 import { S_API, API, getData } from '../../resources'
 import { usuario, estados } from '../../resources'
 import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
@@ -124,7 +124,6 @@ export default function Register(props) {
 
       })
       .catch(error => console.error('Error:', error))
-      .finally(() => { if (props.getPacientesData) props.getPacientesData() })
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -202,16 +201,12 @@ export default function Register(props) {
           <Input />
         </Form.Item>
 
-
         <Form.Item
           name="telefono"
           label="Telefono"
-          rules={[{ required: true, message: 'Ingresa tu numero de telefono' }]}
+          rules={[{ required: true, message: 'Ingresa tu numero de telefono' },]}
         >
-          <InputNumber
-            // addonBefore={prefixSelector}
-            style={{ width: '100%' }}
-          />
+          <InputNumber maxLength={10} minLength={10} style={{ width: '100%' }} />
         </Form.Item>
 
         {/* Start Adding Medicos ASignados */}
@@ -367,7 +362,7 @@ export default function Register(props) {
         </Form.Item>
 
         <Form.Item name="fecha_nacimiento" label="Fecha De Nacimiento" rules={[{ required: false, message: 'Ingresa la fecha de nacimiento' }]} >
-          <DatePicker />
+          <DatePicker/>
         </Form.Item>
 
         <Form.Item name="ciudad" label="Ciudad de residencia" rules={[{ required: false, message: 'Ingresa ciudad' }]} >
@@ -507,28 +502,4 @@ export default function Register(props) {
       </Form>
     </div>
   )
-}
-
-
-export function RegisterModal({ paciente, setIsModalOpen, isModalOpen, getPacientesData }) {
-
-  // copyng the medic register patient technique 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  return <Modal width={800} title={paciente ? 'Editar Paciente' : 'Registrar Paciente'} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose
-    footer={[
-      // <Button onClick={() => setIsModalOpen(false)}>Cancelar</Button>,
-      // <Button type="primary" htmlType="submit" form='register_patient_medic'>
-      //   Guardar
-      // </Button>
-    ]}
-  >
-    <Register paciente={paciente} setAdding={setIsModalOpen} getPacientesData={getPacientesData} />
-  </Modal>
-
 }

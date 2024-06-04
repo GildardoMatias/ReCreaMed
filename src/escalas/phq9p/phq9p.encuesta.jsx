@@ -29,10 +29,10 @@ export default function Phq9pEncuesta({ idpaciente, idmedico, token, protocolo, 
             cat: [protocolo, momento]
         }
         console.log('Body:', body);
-        sendDataBody('encuestas/add', body).then((rs) => {
-            console.log('add enc resp', rs)
-            message.success(rs.message)
-        }).then(() => init())
+        // sendDataBody('encuestas/add', body).then((rs) => {
+        //     console.log('add enc resp', rs)
+        //     message.success(rs.message)
+        // }).then(() => init())
     };
 
     const onChange = (e) => {
@@ -49,6 +49,10 @@ export default function Phq9pEncuesta({ idpaciente, idmedico, token, protocolo, 
             <br />
             <h5>Medico: {medicoData.name}</h5>
             <h5>Paciente: {pacienteData.name}</h5>
+
+            <br />
+            <h5>Cuestionario sobre la salud del paciente-9</h5>
+            <h6>(US Spanish version of the PHQ)</h6>
             <br />
 
             <p className='name'>Durante las ultimas dos semanas, ¿qué tan seguido ha tenido molestias por alguna de las siguientes dificultades?</p>
@@ -76,13 +80,31 @@ export default function Phq9pEncuesta({ idpaciente, idmedico, token, protocolo, 
                         ]}
                     >
                         <Radio.Group onChange={onChange} >
-                            <Radio value={0}>No del todo</Radio>
-                            <Radio value={1}>Varios días</Radio>
-                            <Radio value={2}>Más de la mitad de los días</Radio>
-                            <Radio value={3}>Casi todos los días</Radio>
+                            <Radio value={0}>"No del todo"</Radio>
+                            <Radio value={1}>"Varios días"</Radio>
+                            <Radio value={2}>"Más de la mitad de los días"</Radio>
+                            <Radio value={3}>"Casi todos los días"</Radio>
                         </Radio.Group>
                     </Form.Item>)
                 }
+
+                <Form.Item
+                    label="Si usted marcó cualquiera de los problemas, ¿qué tan difícil han afectado estos problemas en hacer su trabajo, encargarse de tareas del hogar, o llevarse bien con otras personas?"
+                    name={9}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your username!',
+                        },
+                    ]}
+                >
+                    <Radio.Group onChange={onChange} >
+                        <Radio value={0}>Para nada dificil</Radio>
+                        <Radio value={1}>Un poco difícil</Radio>
+                        <Radio value={2}>Muy difícil</Radio>
+                        <Radio value={3}>Extremaadamente difícil</Radio>
+                    </Radio.Group>
+                </Form.Item>
 
                 <Form.Item
                     wrapperCol={{

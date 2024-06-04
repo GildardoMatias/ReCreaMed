@@ -6,11 +6,11 @@ export default function EmcaDetails({ isModalOpen, handleOk, handleCancel, escal
 
     const rss = [
         "",
-        "Muy de acuerdo",
-        "Bastante de acuerdo",
-        "Ni de acuerdo ni en desacuerdo",
+        "Muy en desacuerdo",
         "Bastante en desacuerdo",
-        "Muy en desacuerdo"
+        "Ni de acuerdo ni en desacuerdo",
+        "Bastante de acuerdo",
+        "Muy de acuerdo",
     ]
 
     return (

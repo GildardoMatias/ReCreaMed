@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Modal, Form, Select, Input, Button, message, Switch, DatePicker } from 'antd'
 import { sendDataBody, updateData, ids_hospitales } from '../../resources';
 
-// admin and receipt shares citas and create citas
+// admin and receipt shares create-cita, hospital-tab.citas and create-cita-for-medic
 // ONLY RECEIPT CANT DELETE, SO, FIRST EDIT RECEIPTIONIST
+// Last time, edited first admin
 
 export function CreateCitaForm(props) {
 
@@ -61,7 +62,7 @@ export function CreateCitaForm(props) {
         } else {
             sendDataBody('citas/add', values).then((response) => {
                 message.success(response.message || response.error);
-                createBalance(response.id_nueva_cita, values.medico, values.fecha_hora, tipo_pago, values.servicio)
+                // createBalance(response.id_nueva_cita, values.medico, values.fecha_hora, tipo_pago, values.servicio)
             }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
         }
     }
@@ -208,8 +209,8 @@ export function CreateCitaForm(props) {
             <Select options={servicios} onChange={handleServicioChange} labelInValue />
         </Form.Item>
 
-        {
-            !isCreating && <div>
+        {/* {
+            isCreating && <div>
 
                 <Form.Item label="Tipo de pago" name="tipo_pago" rules={[{ required: true, message: 'Selecciona tipo de pago' }]} >
                     <Select options={paymentOptions} />
@@ -231,7 +232,7 @@ export function CreateCitaForm(props) {
                 </Form.Item>
 
             </div>
-        }
+        } */}
 
         {
             // Only if updating cita
@@ -245,7 +246,7 @@ export function CreateCitaForm(props) {
                     }}
                 >
                     <Button type="primary" htmlType="submit" form='nueva_cita_admin' disabled={!enableCreateCita}>
-                        Confirmar pago y guardar
+                        Guardar
                     </Button>
                 </Form.Item>
             </div>

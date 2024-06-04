@@ -50,6 +50,8 @@ export default function EmcaEncuesta({ idpaciente, idmedico, token, protocolo, m
             <h5>Medico: {medicoData.name}</h5>
             <h5>Paciente: {pacienteData.name}</h5>
             <br />
+            <h5>Escala Multidimensional de Craving de Alcohol (EMCA)</h5>
+            <p>Durante la última semana...</p>
             <Form
                 layout='vertical'
                 name="emca_enc"

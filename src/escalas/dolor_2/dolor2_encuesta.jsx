@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { EncuestaLoading, ThanksMessage, checkEncuesta, onFinishFailed } from '../utils'
 import { Form, Input, Button, message, Radio } from 'antd'
 import { sendDataBody } from '../../resources'
-import { gad7_catalog } from './gad7.catalog'
-export default function Gad7Encuesta({ idpaciente, idmedico, token, protocolo, momento }) {
+import { d2_catalog_1, d2_catalog_2 } from './dolor2_catalog'
+import PainZoneSelector from './dolor2_selector'
+
+export default function Dolor2Encuesta({ idpaciente, idmedico, token, protocolo, momento }) {
 
     const [encuestaNotExists, setEncuestaNotExists] = useState(null)
     const [checking, setChecking] = useState(true)
@@ -23,16 +25,16 @@ export default function Gad7Encuesta({ idpaciente, idmedico, token, protocolo, m
         const body = {
             usuario: idpaciente,
             medico: idmedico,
-            gad_7: Object.values(values),
-            tipo: 'gad_7',
+            dolor_2: Object.values(values),
+            tipo: 'dolor_2',
             uuid: token,
             cat: [protocolo, momento]
         }
         console.log('Body:', body);
-        sendDataBody('encuestas/add', body).then((rs) => {
-            console.log('add enc resp', rs)
-            message.success(rs.message)
-        }).then(() => init())
+        // sendDataBody('encuestas/add', body).then((rs) => {
+        //     console.log('add enc resp', rs)
+        //     message.success(rs.message)
+        // }).then(() => init())
     };
 
     const onChange = (e) => {
@@ -52,7 +54,7 @@ export default function Gad7Encuesta({ idpaciente, idmedico, token, protocolo, m
 
     return (
         <div className='mainContainer'>
-            <h4>Encuesta GAD-7</h4>
+            <h4>Encuesta de Dolor</h4>
             <br />
             <h5>Medico: {medicoData.name}</h5>
             <h5>Paciente: {pacienteData.name}</h5>
@@ -62,7 +64,7 @@ export default function Gad7Encuesta({ idpaciente, idmedico, token, protocolo, m
 
             <Form
                 layout='vertical'
-                name="gad7_enc"
+                name="dolor_2_enc"
                 // labelCol={{ span: 24 }}
                 // wrapperCol={{ span: 24 }}
                 initialValues={[]}
@@ -72,7 +74,30 @@ export default function Gad7Encuesta({ idpaciente, idmedico, token, protocolo, m
             >
 
                 {
-                    gad7_catalog.map((q, i) => <Form.Item
+                    d2_catalog_1.map((q, i) => <Form.Item
+                        label={q}
+                        name={i}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your username!',
+                            },
+                        ]}
+                    >
+                        <Radio.Group onChange={onChange} >
+                            <Radio value={0}>Ningún día</Radio>
+                            <Radio value={1}>Varios días</Radio>
+                            <Radio value={2}>Más de la mitad de los días</Radio>
+                            <Radio value={3}>Casi todos los días</Radio>
+                        </Radio.Group>
+                    </Form.Item>)
+                }
+
+                <PainZoneSelector />
+
+
+                {
+                    d2_catalog_2.map((q, i) => <Form.Item
                         label={q}
                         name={i}
                         rules={[
@@ -97,7 +122,7 @@ export default function Gad7Encuesta({ idpaciente, idmedico, token, protocolo, m
                         span: 16,
                     }}
                 >
-                    <Button form='gad7_enc' type="primary" htmlType="submit">
+                    <Button form='dolor_2_enc' type="primary" htmlType="submit">
                         Guardar
                     </Button>
                 </Form.Item>

@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Modal, Form, Select, Input, Button, message, Switch, DatePicker } from 'antd'
 import { sendDataBody, updateData, ids_hospitales } from '../../resources';
 
+// admin and receipt shares citas and create citas
+// ONLY RECEIPT CANT DELETE, SO, FIRST EDIT RECEIPTIONIST
+
 export function CreateCitaForm(props) {
+
+    const isCreating = !props.cita || Object.keys(props.cita).length === 0;
 
     // const [medicosLoading, setMedicosLoading] = useState(true)
     const [medicos, setMedicos] = useState([])//Set Medicos for select
@@ -38,10 +43,12 @@ export function CreateCitaForm(props) {
 
     // Form Methods
     const onFinish = (values) => {
+        const tipo_pago = values.tipo_pago;
         values.sucursal = props.hospital;
         delete values.tratamiento;
-        values.servicio = values.servicio.title;
-        // delete values.servicio;
+        values.id_servicio = values.servicio.key;
+        values.servicio = values.servicio.label;
+        delete values.tipo_pago;
 
         // Handle if its updating or creating cita
         console.log('cita ready', values)
@@ -54,18 +61,18 @@ export function CreateCitaForm(props) {
         } else {
             sendDataBody('citas/add', values).then((response) => {
                 message.success(response.message || response.error);
-                createBalance(response.id_nueva_cita, values.medico, values.fecha_hora, values.servicio)
+                createBalance(response.id_nueva_cita, values.medico, values.fecha_hora, tipo_pago, values.servicio)
             }).finally(() => { props.getCitasData(); props.setIsModalOpen(false) })
         }
     }
 
-    const createBalance = (_cita, medico, _fecha_hora, _concepto) => {
+    const createBalance = (_cita, medico, _fecha_hora, tipo_pago, _concepto) => {
         const balanceBody = {
             tipo: 'ingreso',
             medico: medico,
             cita: _cita,
             monto: costo,
-            forma_de_pago: 'efectivo',
+            forma_de_pago: tipo_pago,
             fecha_hora: _fecha_hora,
             estado: 'pendiente',
             concepto: _concepto
@@ -113,7 +120,7 @@ export function CreateCitaForm(props) {
                 let { configuracion: { tratamientos_ofrecidos } } = found;
                 console.log("found tr", tratamientos_ofrecidos)
                 tratamientos_ofrecidos.forEach(t => {
-                    t.label = `${t.tratamiento} - $${t.costo}`; t.value = t.costo; t.title = t.tratamiento;
+                    t.key = t._id; t.label = `${t.tratamiento} - $${t.costo} - ${t.observaciones ?? ""}`; t.value = t.costo + "-" + t._id; t.title = t.tratamiento; 
                 });
                 const { configuracion: { costo_cita = 0 } } = found;
                 setCostoBaseCita(costo_cita)
@@ -135,9 +142,10 @@ export function CreateCitaForm(props) {
 
     // Handle change for select servicio
     const handleServicioChange = (selected) => {
-
-        setCosto(selected.value)
+        var cobro = selected.value.split("-")[0];
+        setCosto(cobro)
         console.log(`selected service`, selected);
+        console.log(`selected cobro`, cobro);
     };
 
     const onSwitchCosoBase = (checked) => {
@@ -159,7 +167,13 @@ export function CreateCitaForm(props) {
         { label: 'Cinco Horas y Media', value: 300 },
     ]
 
-    return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
+    const paymentOptions = [
+        { value: 'efectivo', label: 'Efectivo' },
+        { value: 'tarjeta', label: 'Tarjeta' },
+        { value: 'transferencia', label: 'Transferencia' },
+    ]
+
+    return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 14 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
         initialValues={props.cita ? props.cita : { isOnline: false, tratamiento: 'Sin servicio', fecha_hora: props.fecha_hora, duracion: 60 }}>
 
         <div>{errorMessage}</div>
@@ -194,20 +208,30 @@ export function CreateCitaForm(props) {
             <Select options={servicios} onChange={handleServicioChange} labelInValue />
         </Form.Item>
 
-        <Form.Item label={`costo de la cita $${costoBaseCita}`} >
-            <Switch onChange={onSwitchCosoBase} />
-        </Form.Item>
+        {
+            !isCreating && <div>
 
-        <Form.Item
-            wrapperCol={{
-                offset: 8,
-                span: 16,
-            }}
-        >
-            <div className='fila'>
-                <h6>Costo Total: ${usesCostoBase ? (costo + costoBaseCita) : costo} </h6>
+                <Form.Item label="Tipo de pago" name="tipo_pago" rules={[{ required: true, message: 'Selecciona tipo de pago' }]} >
+                    <Select options={paymentOptions} />
+                </Form.Item>
+
+                <Form.Item label={`costo de la cita $${costoBaseCita}`} >
+                    <Switch onChange={onSwitchCosoBase} />
+                </Form.Item>
+
+                <Form.Item
+                    wrapperCol={{
+                        offset: 8,
+                        span: 16,
+                    }}
+                >
+                    <div className='fila'>
+                        <h6>Costo Total: ${usesCostoBase ? (costo + costoBaseCita) : costo} </h6>
+                    </div>
+                </Form.Item>
+
             </div>
-        </Form.Item>
+        }
 
         {
             // Only if updating cita
@@ -221,7 +245,7 @@ export function CreateCitaForm(props) {
                     }}
                 >
                     <Button type="primary" htmlType="submit" form='nueva_cita_admin' disabled={!enableCreateCita}>
-                        Guardar
+                        Confirmar pago y guardar
                     </Button>
                 </Form.Item>
             </div>
@@ -239,7 +263,7 @@ export default function CreateCita(props) {
 
 
     return (
-        <Modal title="Nueva Cita" open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose
+        <Modal title="Nueva Cita" open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose width={600}
             footer={[
                 <Button onClick={handCreateleCancel}>Cancelar</Button>,
                 <Button type="primary" htmlType="submit" form='nueva_cita_admin' disabled={!enableCreate}>
@@ -255,15 +279,15 @@ export default function CreateCita(props) {
 }
 
 
-    // Create the respective balance for cita
-    // const createBalance = (_cita, monto) => {
-    //     const balanceBody = {
-    //         medico: medico,
-    //         cita: _cita,
-    //         monto: monto,
-    //         forma_de_pago: 'efectivo',
-    //         estado: 'pendiente',
-    //     }
-    //     console.log('Balance ready to send: ', balanceBody)
-    //     sendDataBody('balances/add', balanceBody).then((rs) => console.log(rs))
-    // }
+// Create the respective balance for cita
+// const createBalance = (_cita, monto) => {
+//     const balanceBody = {
+//         medico: medico,
+//         cita: _cita,
+//         monto: monto,
+//         forma_de_pago: 'efectivo',
+//         estado: 'pendiente',
+//     }
+//     console.log('Balance ready to send: ', balanceBody)
+//     sendDataBody('balances/add', balanceBody).then((rs) => console.log(rs))
+// }

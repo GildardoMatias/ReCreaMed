@@ -102,7 +102,7 @@ export default function SatisfaccionEncuesta(props) {
                                 break;
                             case 'seleccion':
                                 input = <Radio.Group>
-                                    {p.respuestas.map((r, i) => { return <Radio value={i === 0 ? false : true}>{r} val: {i === 0 ? 'false' : 'true'}</Radio> })}
+                                    {p.respuestas.map((r, i) => { return <Radio value={i === 0 ? false : true}>{r}</Radio> })}
                                 </Radio.Group>;
                                 break;
                             case 'texto':

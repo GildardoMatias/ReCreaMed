@@ -137,7 +137,7 @@ export default function Citas() {
         {/* <CitaGoogle />
         <br /> */}
 
-        {/* <AuthButton /> WWWWWW */}
+        <AuthButton />
 
         {/* <Button icon={<GoogleOutlined />} >
             Sincronzar calendario

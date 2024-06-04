@@ -16,6 +16,7 @@ import SowsResults from './sows/sows.results';
 import PatientsResults from './results/patients.results';
 import DocsResults from './docs/docs.results';
 import Pcl5Results from './pcl5/pcl5.results';
+import Dolor2Results from './dolor_2/dolor2_results';
 
 const onChange = (key) => { console.log(key) };
 
@@ -36,7 +37,7 @@ const escalasPsiqMenuItems = [
     { label: 'EMCA', key: 'item-12', children: <EmcaResults /> },
     { label: 'OWS', key: 'item-13', children: <OwsResults /> },
     { label: 'SOWS', key: 'item-14', children: <SowsResults /> },
-    { label: 'Dolor 2', key: 'item-15', children: <SowsResults /> },
+    { label: 'Dolor 2', key: 'item-15', children: <Dolor2Results /> },
     { label: 'PCL-5', key: 'item-16', children: <Pcl5Results/> },
 ];
 const escalasFisioMenuItems = [

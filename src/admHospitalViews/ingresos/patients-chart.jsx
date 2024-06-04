@@ -43,6 +43,7 @@ export default function PatientsChart({ ids_medicos }) {
     <div >
       <h5>Pacientes de los diferentes médicos</h5>
 
+      {JSON.stringify(ids_medicos)}
       {JSON.stringify(percentsData)}
 
       <div className='fila'>

@@ -50,6 +50,11 @@ export default function SowsEncuesta({ idpaciente, idmedico, token, protocolo, m
             <h5>Medico: {medicoData.name}</h5>
             <h5>Paciente: {pacienteData.name}</h5>
             <br />
+            <h5>Escala breve de Abstinencia de Opiáceos</h5>
+            <h6>(Short Opiate Withdrawal Scale, SOWS)</h6>
+            <br />
+            <h6>Seleccione el nivel de presencia de los siguientes sintomas/signos</h6>
+            <br />
             <Form
                 layout='vertical'
                 name="sows_enc"

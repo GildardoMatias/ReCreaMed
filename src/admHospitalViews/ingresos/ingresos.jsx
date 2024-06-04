@@ -242,7 +242,7 @@ export default function Ingresos() {
 
             <Table columns={columns} dataSource={ingresosData} size='small' />
 
-            <PatientsChart ids_medicos={idsMedicos}/>
+            {/* <PatientsChart ids_medicos={idsMedicos}/> */}
 
             <IngersosHosptal ids_hospitales={ids_hospitales} />
 

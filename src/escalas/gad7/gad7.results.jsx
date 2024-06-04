@@ -65,7 +65,7 @@ export default function Gad7Results() {
             <h4>Detalles de encuestas</h4>
             <Table columns={detailsColumns} dataSource={encuestasData} bordered />
 
-            <Modal title="Crear Encuesta de satisfaccion" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+            <Modal title="Crear Encuesta GAD-7" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
                 footer={[
                     <Button onClick={handleCancel}>Cerrar</Button>
                 ]} destroyOnClose >

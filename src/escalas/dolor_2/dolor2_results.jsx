@@ -3,10 +3,10 @@ import { getData, usuario } from '../../resources'
 import getAllEscalas from '../getEscalas'
 import { Button, Table, Modal } from 'antd'
 import EscalasCreateGeneralLink from '../escalasCreateGeneralLink'
-import SowsDetails from './sows.details'
 
 
-export default function SowsResults() {
+
+export default function Dolor2Results() {
 
     const [encuestasData, setEncuestasData] = useState([])
     const [loading, setLoading] = useState(true)
@@ -25,11 +25,11 @@ export default function SowsResults() {
     const handleDetailsCancel = () => { setIsDetailsModalOpen(false) };
 
     useEffect(() => {
-        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') ? getAllEscalas('sows', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
+        (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') ? getAllEscalas('dolor_2', setEncuestasData, setLoading) : getEncuestasData(usuario._id)
     }, [])
 
     const getEncuestasData = (medico) => {
-        getData(`encuestas/byDoctorAndTipo/${medico}/sows`).then((rs) => {
+        getData(`encuestas/byDoctorAndTipo/${medico}/dolor_2`).then((rs) => {
             console.log(rs);
             setEncuestasData(rs)
         })
@@ -47,17 +47,17 @@ export default function SowsResults() {
             title: 'Acciones',
             key: 'actions',
             dataIndex: 'actions',
-            render: (_, { sows }) => (<>
-                <Button onClick={() => { setEscalaForDetails(sows); showDetailsModal() }}>Ver detalles</Button>
+            render: (_, { emca }) => (<>
+                <Button onClick={() => { setEscalaForDetails(emca); showDetailsModal() }}>Ver detalles</Button>
             </>),
         },
     ]
 
     return (
         <div>
-            <h4 className='spacedTitle'>Resultados de encuestas SOWS</h4>
+            <h4 className='spacedTitle'>Resultados de encuestas de Dolor</h4>
             <Button type="primary" onClick={showModal}>
-                Crear Link Encuesta SOWS
+                Crear Link Encuesta de Dolor
             </Button>
 
             <br /><br />
@@ -65,14 +65,14 @@ export default function SowsResults() {
             <h4>Detalles de encuestas</h4>
             <Table columns={detailsColumns} dataSource={encuestasData} bordered />
 
-            <Modal title="Crear Encuesta SOWS" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+            <Modal title="Crear Encuesta de Dolor" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
                 footer={[
                     <Button onClick={handleCancel}>Cerrar</Button>
                 ]}>
-                <EscalasCreateGeneralLink tipo='sows' />
+                <EscalasCreateGeneralLink tipo='dolor_2' />
             </Modal>
 
-            <SowsDetails escalaDetails={escalaForDetails} handleCancel={handleDetailsCancel} handleOk={handleDetailsOk} isModalOpen={isDetailsModalOpen} />
+            {/* <EmcaDetails escalaDetails={escalaForDetails} handleCancel={handleDetailsCancel} handleOk={handleDetailsOk} isModalOpen={isDetailsModalOpen} /> */}
 
         </div>
     )

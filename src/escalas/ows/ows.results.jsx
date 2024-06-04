@@ -55,7 +55,7 @@ export default function OwsResults() {
 
     return (
         <div>
-            <h4 className='spacedTitle'>Resultados de encuestas OWs</h4>
+            <h4 className='spacedTitle'>Resultados de encuestas OWS</h4>
             <Button type="primary" onClick={showModal}>
                 Crear Link Encuesta OWS
             </Button>

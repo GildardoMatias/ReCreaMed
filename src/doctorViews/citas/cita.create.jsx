@@ -54,7 +54,7 @@ export function CreateCitaForm(props) {
             }).finally(() => { props.getCitasData(); props.setIsModalOpen(false); props.setEditingCita(false) })
         } else {
 
-            // createEvent(values.fecha_hora, values.duracion, values.servicio.title || values.servicio) // Create cita google W
+              createEvent(values.fecha_hora, values.duracion, values.servicio.title || values.servicio) // Create cita google W
 
             sendDataBody('citas/add', values).then((response) => {
                 message.success(response.message || response.error);

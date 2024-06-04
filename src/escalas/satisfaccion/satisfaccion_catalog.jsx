@@ -3,7 +3,7 @@ export const satisfaccion_catalog = [
         'n': "experencia_1",
         'tipo': 'radioButton',
         'pregunta': '1. ¿Cómo ha sido tu experiencia con nuestro servicio desde el momento de agendar la cita? ',
-        'respuestas': ['Muy Insatisfecho', 'Satisfecho', 'Neutral', 'Satisfecho', 'Muy Satisfecho']
+        'respuestas': ['Muy Insatisfecho', 'Insatisfecho', 'Neutral', 'Satisfecho', 'Muy Satisfecho']
     },
 
     {
@@ -69,7 +69,7 @@ export const satisfaccion_catalog = [
         'n': "valoracion_10",
         'tipo': 'radioButton',
         'pregunta': '10. ¿Cómo valorarías la atención en general de CIDERALT?',
-        'respuestas': ['Muy Insatisfecho', 'Satisfecho', 'Neutral', 'Satisfecho', 'Muy Satisfecho']
+        'respuestas': ['Muy Insatisfecho', 'Insatisfecho', 'Neutral', 'Satisfecho', 'Muy Satisfecho']
 
     },
 ]

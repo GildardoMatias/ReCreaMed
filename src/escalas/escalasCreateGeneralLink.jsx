@@ -76,8 +76,8 @@ export default function EscalasCreateGeneralLink(props) {
     const generateLink = () => {
         let usr = (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') ? medico : usuario._id;
 
-        let l = `https://sistema.recreamed.com/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}/${protocolo}/${momento}`
-        // let l = `http://localhost:3000/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}/${protocolo}/${momento}`
+        // let l = `https://sistema.recreamed.com/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}/${protocolo}/${momento}`
+        let l = `http://localhost:3000/${props.tipo}_public/${usr}/${selectedPatient}/${Date.now()}/${protocolo}/${momento}`
         setLink(l)
     }
     const copyLink = () => {
@@ -255,13 +255,13 @@ export default function EscalasCreateGeneralLink(props) {
                            
                             key: 'm3',
                             value: 'mant1',
-                            label:"Aplicación inicio manenimiento"
+                            label:"Aplicación inicio mantenimiento"
                         },
                         {
                            
                             key: 'm4',
                             value: 'mant2',
-                            label:"Aplicación final manenimiento"
+                            label:"Aplicación final mantenimiento"
                         },
                     ]}
                 />

@@ -1,9 +1,5 @@
 export const ows_catalog = [
 "Se siente enfermo",
-"Ausente",
-"Leve",
-"Moderado",
-"Severo",
 "Vómitos",
 "Falta de apetito",
 "Boca seca",

@@ -18,6 +18,7 @@ import OwsEncuesta from '../escalas/ows/ows.encuesta';
 import SowsEncuesta from '../escalas/sows/sows.encuesta';
 import DocsEncuesta from '../escalas/docs/docs.encuesta';
 import Pcl5Encuesta from '../escalas/pcl5/pcl5.encuesta';
+import Dolor2Encuesta from '../escalas/dolor_2/dolor2_encuesta';
 
 // Ketamina
 export function KetaminaPublic() {
@@ -170,6 +171,14 @@ export function SowsPublic() {
     let { idmedico, idpaciente, key, protocolo, momento } = useParams();
     return <div>
         <SowsEncuesta idmedico={idmedico} idpaciente={idpaciente} token={key}  protocolo={protocolo} momento={momento}/>
+    </div>
+}
+
+// DOLOR 2
+export function Dolor2Public() {
+    let { idmedico, idpaciente, key, protocolo, momento } = useParams();
+    return <div>
+        <Dolor2Encuesta  idmedico={idmedico} idpaciente={idpaciente} token={key}  protocolo={protocolo} momento={momento} />
     </div>
 }
 

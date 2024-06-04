@@ -2,28 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { API, deleteData, sendDataBody } from '../../resources';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Modal, Popconfirm, Button } from 'antd'
+import { Modal, Popconfirm, Button, Select } from 'antd'
 import dayjs from 'dayjs';
 import CreateCita, { CreateCitaForm } from './create-cita-for-medic';
 import Loading from '../../loading';
+import DetailsCita from './details-cita';
 import RegisterPatientReception from './register.patient';
 
 const localizer = dayjsLocalizer(dayjs)
 
-// admin and receipt shares hospital-tab.citas and create-cita-for-medic
+// admin and receipt shares hospital-tab.citas and create-cita-for-medic and details.cita
 // ONLY RECEIPT CANT DELETE, SO, FIRST EDIT RECEIPTIONIST
-
-//New Diference: button for confirm payment
 
 const HospitalTab = ({ id_hospital, hospital }) => {
 
     const [citaForEdit, setCitaForEdit] = useState({})
-    const [loading, setLoading] = useState(true)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => { setIsModalOpen(true) }
-    const handleOk = () => { setIsModalOpen(false); setEditingCita(false) }
-    const handleCancel = () => { setIsModalOpen(false); setEditingCita(false) }
-    const [editingCita, setEditingCita] = useState(false)
+
 
     // Tools for createCita Modal
     const [fecha_hora, setFecha_hora] = useState('')
@@ -43,6 +39,7 @@ const HospitalTab = ({ id_hospital, hospital }) => {
     useEffect(() => {
         getPatientsData()
     }, []);
+
 
     const getPatientsData = () => {
         fetch(API + `users/hospital/${id_hospital}`)
@@ -77,6 +74,7 @@ const HospitalTab = ({ id_hospital, hospital }) => {
                 console.error('Error:', error);
             })
     }
+
 
 
     useEffect(() => {
@@ -144,14 +142,6 @@ const HospitalTab = ({ id_hospital, hospital }) => {
         return { style: { backgroundColor: 'red' } };
     };
 
-    // Delete button
-    const confirm = (e) => {
-        deleteData(`citas/remove/${citaForEdit._id}`).then((rs) => { console.log(rs); getCitasData(); handleCancel() })
-        deleteData(`balances/remove/cita/${citaForEdit._id}`)
-    };
-
-    const cancel = (e) => { console.log(e) }
-
     const eventStyleGetter = (event, start, end, isSelected) => {
 
         var style = {
@@ -210,41 +200,7 @@ const HospitalTab = ({ id_hospital, hospital }) => {
                     }}
                 />
 
-                <Modal title="Detalles Cita" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} destroyOnClose width={900}
-                    footer={[
-                        <Popconfirm
-                            title="Eliminar Cita"
-                            description="Seguro que quiere eliminar la cita?"
-                            onConfirm={confirm}
-                            onCancel={cancel}
-                            okText="Si"
-                            cancelText="No"
-                        >
-                            <Button danger>Eliminar</Button>
-                        </Popconfirm>,
-                        <Button onClick={() => setEditingCita(!editingCita)}>{editingCita ? "Cancelar" : "Modificar"}</Button>,
-                        // <Button onClick={handleCancel}>Confirmar pago</Button>,
-                        <Button onClick={handleCancel}>Cerrar</Button>
-                    ]}>
-
-
-                    {editingCita ?
-                        <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsModalOpen} getCitasData={getCitasData} setEditingCita={setEditingCita} hospital={id_hospital} pacientesData={pacientesData} />
-                        : <div>{citaForEdit && <div>
-                            <p><strong>Medico </strong>{citaForEdit.doctor ? citaForEdit.doctor.name : 'Sin medico'}</p>
-                            <p><strong>Paciente </strong>{citaForEdit.paciente ? citaForEdit.paciente.name : 'Sin paciente'}</p>
-                            <p><strong>Fecha </strong>{new Date(citaForEdit.fecha_hora).toLocaleDateString()}</p>
-                            <p><strong>Hora </strong>{new Date(citaForEdit.fecha_hora).toLocaleTimeString()}</p>
-                            <p><strong>Servicio </strong>{citaForEdit.servicio}</p>
-                            <p><strong>Comentarios </strong>{citaForEdit.comentarios}</p>
-                            {/* <p><strong>Servicio ID </strong>{citaForEdit.id_servicio}</p> */}
-                            <p><strong>Color </strong> <div style={{ width: 18, height: 8, backgroundColor: citaForEdit.color }}></div> </p>
-                            {/* <Button type='primary' onClick={confirmService}>Confirmar Servicio</Button>, */}
-                        </div>
-                        }
-                        </div>
-                    }
-                </Modal>
+                <DetailsCita citaForEdit={citaForEdit} getCitasData={getCitasData} id_hospital={id_hospital} isModalOpen={isModalOpen} pacientesData={pacientesData} setIsModalOpen={setIsModalOpen} />
 
                 <CreateCita setIsModalOpen={setIsCreateModalOpen} isOpenModal={isCreateModalOpen} hospital={id_hospital} fecha_hora={fecha_hora} getCitasData={getCitasData} pacientesData={pacientesData} />
 
@@ -254,6 +210,6 @@ const HospitalTab = ({ id_hospital, hospital }) => {
 
     // Si los datos no cargaron correctamente, muestra un mensaje de error
     return <p>Citas no cargadas correctamente</p>;
-};
+}
 
 export default HospitalTab;

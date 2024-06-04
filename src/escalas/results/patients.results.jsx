@@ -295,7 +295,7 @@ export default function PatientsResults() {
         ];
 
         return <div>
-            <h6>Alcoholsmo</h6>
+            <h6>Alcoholismo</h6>
             <Table dataSource={dataSource} columns={columns} />
         </div>
     }
