@@ -1,7 +1,7 @@
-ftmarianaleal@gmail.com
+ftmarianaleal@gmail.com -> med cdefis
 4432151757
 
-mivg -> enf
+mivg -> enf cideralt
 4431460122
 
 melissaanton59@gmail.com -> Adm Cideralt
@@ -17,11 +17,13 @@ PatientsChart - admin
 
 al editar, se ponmga automaticamente el médico
 
-Enfermeria, al registrar cita, no crear forma de pago, hasta después cuando se modifique   -> Reverse instead on oncreate move to onedit
+-Enfermeria, al registrar cita, no crear forma de pago, hasta después cuando se modifique   -> Reverse instead on oncreate move to onedit
 
-entrar a la cita y poner un botón de registrar pago
+-entrar a la cita y poner un botón de registrar pago
 
-Habilitar expediente para administrador
+---Habilitar expediente para administrador
+
+dolor results
 
 En los datos del paciente, agregar quién los refirió con el centro
 

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { getData, deleteData, usuario, sendDataBody, } from '../../resources'
+import { getData, deleteData, sendDataBody, } from '../../resources'
 import Loading from '../../loading'
 import { Table, Avatar, Space, Button, Popconfirm, Modal, Card, Input } from 'antd'
 import { UserOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons'
 import Register, { RegisterModal } from './register.user'
 import Expedientes from '../../doctorViews/expedientes/expedientes'
+
+// SHARED WITH RECEPTION / ENFERM
 
 export default function HospitalTab(props) {
     const [value, setValue] = useState(''); // For search input
@@ -97,7 +99,7 @@ export default function HospitalTab(props) {
             render: (text, record) => (
                 <Space size="middle">
                     <Button onClick={() => { setPaciente(record); showModal(); }}>
-                        {usuario.rol === 'Enfermero' ? "Expediente" : "Detalles"}
+                        Expediente
                     </Button>
                     <Popconfirm
                         title="Borrar Paciente"
@@ -187,12 +189,9 @@ export default function HospitalTab(props) {
         </div>
 
         <Modal width={1200} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
-            {
-                usuario.rol === "Enfermero" ?
-                    <Expedientes paciente={paciente} setIsEditModalOpen={setIsEditModalOpen} /> //points to expedient of medico
-                    :
-                    <DetalleUsuario />
-            }
+
+            <Expedientes paciente={paciente} setIsEditModalOpen={setIsEditModalOpen} />
+
         </Modal>
 
         {/* Modal For Edit */}

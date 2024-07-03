@@ -36,7 +36,7 @@ export default function EscalasCreateGeneralLink(props) {
 
     const getAllPacientes = async (medicos) => {
         const medicosFormatted = medicos.map(m => m._id)
-        await sendDataBody('pacientes/medicos', { medicos: medicosFormatted }).then(rs => { setAllPacientes(rs); setLoading(false) })
+        await sendDataBody('pacientes/simple/medicos', { medicos: medicosFormatted }).then(rs => { setAllPacientes(rs); setLoading(false) })
     }
 
     const handlePatientChange = (value) => {

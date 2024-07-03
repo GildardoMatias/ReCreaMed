@@ -109,7 +109,7 @@ export default function CssrsEncuesta({ idpaciente, idmedico, token, protocolo, 
                     }}
                 >
                     <Button form='cssrs_enc' type="primary" htmlType="submit">
-                        Guardar
+                        Enviar respuestas
                     </Button>
                 </Form.Item>
             </Form>

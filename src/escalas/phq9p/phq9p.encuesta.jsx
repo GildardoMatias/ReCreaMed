@@ -113,7 +113,7 @@ export default function Phq9pEncuesta({ idpaciente, idmedico, token, protocolo, 
                     }}
                 >
                     <Button form='phq9p_enc' type="primary" htmlType="submit">
-                        Guardar
+                        Enviar respuestas
                     </Button>
                 </Form.Item>
             </Form>

@@ -1,26 +1,34 @@
 import React, { useEffect, useState } from 'react'
-import { getData, deleteData, sendDataBody, } from '../../resources'
-import Loading from '../../loading'
+import { getData, deleteData, sendDataBody } from '../../resources'
 import { Table, Avatar, Space, Button, Popconfirm, Modal, Card, Input } from 'antd'
 import { UserOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons'
-import Register, { RegisterModal } from './register.user'
-import Expedientes from '../../doctorViews/expedientes/expedientes'
-
-// SHARED WITH RECEPTION / ENFERM
+import Register from './register.user'
+import Loading from '../../loading'
 
 export default function HospitalTab(props) {
+    const [loading, setLoading] = useState(true)
     const [value, setValue] = useState(''); // For search input
     const [pacientesData, setPacientesData] = useState([])
+    const [searchText, setSearchText] = useState('');//For search input
     const [paciente, setPaciente] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false) //For Edit patient
-    const [loading, setLoading] = useState(true)
     const [editingProfile, setEditingProfile] = useState(false)
     const showModal = () => { setIsModalVisible(true); };
     const handleOk = () => { setIsModalVisible(false); };
     const handleCancel = () => { setIsModalVisible(false); setEditingProfile(false) };
-    const [searchText, setSearchText] = useState('');//For search input
 
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const response = await getData('users_by_rol/Paciente');
+    //         setPacientesData(response);
+    //         setLoading(false)
+    //     };
+    //     fetchData();
+    // }, []);
+
+
+    // New method
     useEffect(() => {
         getPacientes()
     }, [])
@@ -32,7 +40,6 @@ export default function HospitalTab(props) {
         const idmeds = meds.map(doc => {
             return doc._id
         })
-
 
         sendDataBody('pacientes/medicos', { medicos: idmeds }).then((rs) => {
             setPacientesData(rs)
@@ -61,8 +68,8 @@ export default function HospitalTab(props) {
             key: 'avatar',
             render: (_, { avatar }) => {
                 return avatar.length > 9 ?
-                    <img width={48} src={'https://api.recreamed.com/images/' + avatar} alt='ProfilePic' /> :
-                    <Avatar size={48} className='btnIconCentered' icon={<UserOutlined />} />
+                    <img width={64} src={'https://api.recreamed.com/images/' + avatar} alt='ProfilePic' /> :
+                    <Avatar size={64} icon={<UserOutlined />} className='btnIconCentered' />
             }
         },
         {
@@ -78,15 +85,10 @@ export default function HospitalTab(props) {
                 medicos_asignados.map((m) => <li key={m._id}>{m.name}</li>)
             }</ul>
         },
-        // {
-        //     title: 'Correo',
-        //     dataIndex: 'email',
-        //     key: 'email',
-        // },
         {
-            title: 'Fecha de creacion',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
+            title: 'Correo',
+            dataIndex: 'email',
+            key: 'email',
         },
         {
             title: 'Telefono',
@@ -98,9 +100,7 @@ export default function HospitalTab(props) {
             key: 'detalles',
             render: (text, record) => (
                 <Space size="middle">
-                    <Button onClick={() => { setPaciente(record); showModal(); }}>
-                        Expediente
-                    </Button>
+                    <Button onClick={() => { setPaciente(record); showModal(); }}>Detalles</Button>
                     <Popconfirm
                         title="Borrar Paciente"
                         description="Esta seguro que quiere eliminar al paciente?"
@@ -116,10 +116,34 @@ export default function HospitalTab(props) {
         }
     ];
 
+    // Populate table
+    // Find my patients by medico asignado
+    // const findPatientsOfMyMedicos = (id_hospital) => {
+    //     let dl = [];
+    //     // Check on each horario of each medico of medicos asignados of patient to see if share sucursal with my horarios as admin
+    //     pacientesData.forEach(paciente => {
+    //         paciente.medicos_asignados.forEach(med => {
+    //             med.horarios.forEach(h => {
+    //                if (h.sucursal === id_hospital && !dl.includes(paciente) && paciente.name.toLowerCase().includes(searchText.toLowerCase())) { console.log(paciente); dl.push(paciente) }
+    //             })
+    //         });
+    //     });
+    //     return dl;
+    // }
+
+    // Populate table new Form
+    const findPatientsOfMyMedicos = () => {
+        let dl = [];
+        pacientesData.forEach(paciente => {
+            if (!dl.includes(paciente) && paciente.name.toLowerCase().includes(searchText.toLowerCase())) { dl.push(paciente) }
+        });
+        return dl;
+    }
+
+    // const pacientesDataFiltered = findPatientsOfMyMedicos(); // Get medicos data before render TAble
     const pacientesDataFiltered = pacientesData.filter((paciente) =>
         paciente.name.toLowerCase().includes(searchText.toLowerCase())
     );
-
     // Fill Modal
     const gridStyle = {
         width: '50%',
@@ -184,18 +208,11 @@ export default function HospitalTab(props) {
             onChange={handleSearch}
             addonAfter={<SearchOutlined />}
         />
-        <div className='borderedTable'>
-            <Table dataSource={pacientesDataFiltered} columns={columns} size='small' />
-        </div>
 
-        <Modal width={1200} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
+        <Table dataSource={pacientesDataFiltered} columns={columns} />
 
-            <Expedientes paciente={paciente} setIsEditModalOpen={setIsEditModalOpen} />
-
+        <Modal width={800} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
+            <DetalleUsuario />
         </Modal>
-
-        {/* Modal For Edit */}
-        <RegisterModal getPacientesData={getPacientes} isModalOpen={isEditModalOpen} paciente={paciente} setIsModalOpen={setIsEditModalOpen} />
-
-    </div >
+    </div>
 }

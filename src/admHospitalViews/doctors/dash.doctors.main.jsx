@@ -14,7 +14,7 @@ export default function Dash() {
 
     return (
         <div>
-            <h4 className='spacedTitle'>Recepcionistas de los diferentes hospitales</h4>
+            <h4 className='spacedTitle'>Médicos de los diferentes hospitales</h4>
             <Tabs defaultActiveKey="1" items={myHospitals} />
         </div>
     )

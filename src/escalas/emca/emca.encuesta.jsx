@@ -91,7 +91,7 @@ export default function EmcaEncuesta({ idpaciente, idmedico, token, protocolo, m
                     }}
                 >
                     <Button form='emca_enc' type="primary" htmlType="submit">
-                        Guardar
+                        Enviar respuestas
                     </Button>
                 </Form.Item>
             </Form>

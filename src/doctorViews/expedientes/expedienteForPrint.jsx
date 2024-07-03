@@ -4,7 +4,11 @@ import { PDFViewer } from '@react-pdf/renderer';
 import Logo from '../../assets/Logo.png'
 import { usuario, IMAGE_API } from '../../resources';
 
-export default function ExpedienteDocument({ pacienteData, expedienteData, historia, notas, recetas }) {
+export default function ExpedienteDocument({ pacienteData, expedienteData, historia, notas, recetas, citas }) {
+
+
+    const { historial = "" } = historia[0];
+    const lines = historial.split('\n');
 
     useEffect(() => {
         // console.log('receta props', props)
@@ -38,15 +42,16 @@ export default function ExpedienteDocument({ pacienteData, expedienteData, histo
     const styles = StyleSheet.create({
         page: {
             flexDirection: 'column',
-            backgroundColor: 'white'
+            backgroundColor: 'white',
+            margin: 15
         },
         block: {
             flexDirection: 'row',
             justifyContent: 'space-between'
         },
         sectionFull: {
-            marginHorizontal: 55,
-            // padding: 10,
+            margin: 10,
+            padding: 10,
             flexGrow: 1
         },
         section: {
@@ -64,40 +69,64 @@ export default function ExpedienteDocument({ pacienteData, expedienteData, histo
         },
         prescription: {
             fontSize: 16
-        },
+        }
     });
+
+    const Divider = () => {
+        return <View style={{ color: 'black', width: '94%', backgroundColor: 'black', borderBottomColor: '#9bb4df', borderBottomWidth: 1, marginHorizontal: 10 }}></View>
+    }
+
     // Create Document Component
     function Receta() {
         return <Document>
             <Page size="A4" orientation="vertical" style={styles.page}>
 
-                <View style={styles.block}>
-                    <View style={[styles.section, { alignItems: 'center' }]}>
-                        <Text style={styles.footText}>Dr. {usuario.name}</Text>
-                        <View style={{ color: 'black', width: '60%', backgroundColor: 'black', borderBottomColor: '#9bb4df', borderBottomWidth: 1 }}></View>
-                        {usuario.especialidad && <Text style={styles.footText}>{usuario.especialidad}</Text>}
-                    </View>
-                    <View style={[styles.section, { alignItems: 'center' }]}>
-                        {
-                            usuario.universidades && usuario.universidades.map((u) => <View style={{ alignItems: 'center' }}>
-                                <Text style={(usuario.universidades && usuario.universidades.length) > 1 ? styles.desc : styles.footText}>{u.carrera}</Text>
-                                <Text style={(usuario.universidades && usuario.universidades.length) > 1 ? styles.desc : styles.footText}>{u.universidad.toUpperCase()}</Text>
-                            </View>)
-                        }
-                        <Text style={(usuario.universidades && usuario.universidades.length) > 1 ? styles.desc : styles.footText}>Ced. Prof.: {usuario.cedula}</Text>
-                    </View>
+                <View style={styles.section}>
+                    <Text>EXPEDIENTE</Text>
                 </View>
 
-                <View style={styles.sectionFull}>
-                    <Text style={styles.footText}>Expediente del paciente: {pacienteData.name}</Text>
+                <View style={styles.section}>
+                    <Text style={styles.footText}>Paciente: {pacienteData.name}</Text>
                     {/* <Text style={styles.footText}>Fecha: {new Date().toLocaleString()}</Text> */}
                 </View>
 
+
+                <Divider />
+
+
                 <View style={styles.sectionFull}>
-                    <Text style={[styles.prescription, { lineHeight: 2 }]}>{JSON.stringify(expedienteData)}</Text>
+
+
+                    <View style={styles.section}>
+                        <Text style={styles.footText}>Historia clinica</Text>
+                        {historial && lines.map((line, index) => (
+                            <Text key={index} style={styles.desc}>
+                                {line}
+                            </Text>
+                        ))}
+                    </View>
+
+                    <View style={styles.section}>
+                        <Text style={styles.footText}>Citas</Text>
+                        {
+                            citas.length > 0 ? citas.map((cita) => {
+                                return <View style={{marginBottom: 6}}>
+
+                                    <Text style={styles.desc}>Fecha y hora: {cita.fecha_hora}</Text>
+                                    <Text style={styles.desc}>Medico: {cita.medico.name}</Text>
+                                    <Text style={styles.desc}>Paciente: {cita.medico.name}</Text>
+                                    <Text style={styles.desc}>Servicio: {cita.servicio}</Text>
+                                    <Text style={styles.desc}>Comentarios: {cita.comentarios}</Text>
+                                </View>
+                            }) : <Text style={styles.desc}>Sin citas registradas</Text>
+                        }
+                    </View>
+
                 </View>
 
-                <View style={{ color: 'black', width: '94%', backgroundColor: 'black', borderBottomColor: '#9bb4df', borderBottomWidth: 1, marginHorizontal: 20 }}></View>
+
+                <Divider />
+
                 <View style={styles.block}>
                     <View style={styles.section}>
                         {/* <Text style={styles.footText}>José Rubén Romero #103, Bosque Camelinas</Text>

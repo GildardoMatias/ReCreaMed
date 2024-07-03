@@ -89,7 +89,7 @@ export default function ThiEncuesta({ idpaciente, idmedico, token, protocolo, mo
                     }}
                 >
                     <Button form='thi_enc' type="primary" htmlType="submit">
-                        Guardar
+                        Enviar respuestas
                     </Button>
                 </Form.Item>
             </Form>

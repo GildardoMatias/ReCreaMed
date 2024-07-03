@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Button, Modal } from 'antd'
+import React, { useState } from 'react';
+import { Button } from 'antd';
 import { RegisterModal } from '../patients/register.user';
 
 export default function RegisterPatientReception({getPacientesData}) {
@@ -7,12 +7,6 @@ export default function RegisterPatientReception({getPacientesData}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
         setIsModalOpen(true);
-    };
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
-    const handleCancel = () => {
-        setIsModalOpen(false);
     };
 
     return (

@@ -3,6 +3,7 @@ import { getData, usuario } from '../../resources'
 import getAllEscalas from '../getEscalas'
 import { Button, Table, Modal } from 'antd'
 import EscalasCreateGeneralLink from '../escalasCreateGeneralLink'
+import Dolor2Details from './dolor2_details'
 
 
 
@@ -47,10 +48,15 @@ export default function Dolor2Results() {
             title: 'Acciones',
             key: 'actions',
             dataIndex: 'actions',
-            render: (_, { emca }) => (<>
-                <Button onClick={() => { setEscalaForDetails(emca); showDetailsModal() }}>Ver detalles</Button>
+            render: (_, { dolor_2 }) => (<>
+                <Button onClick={() => { setEscalaForDetails(dolor_2); showDetailsModal() }}>Ver detalles</Button>
             </>),
         },
+        // {
+        //     title: 'IDEncuesta',
+        //     key: 'idEncuesta',
+        //     dataIndex: '_id',
+        // },
     ]
 
     return (
@@ -72,7 +78,7 @@ export default function Dolor2Results() {
                 <EscalasCreateGeneralLink tipo='dolor_2' />
             </Modal>
 
-            {/* <EmcaDetails escalaDetails={escalaForDetails} handleCancel={handleDetailsCancel} handleOk={handleDetailsOk} isModalOpen={isDetailsModalOpen} /> */}
+            <Dolor2Details escalaDetails={escalaForDetails} handleCancel={handleDetailsCancel} handleOk={handleDetailsOk} isModalOpen={isDetailsModalOpen} />
 
         </div>
     )

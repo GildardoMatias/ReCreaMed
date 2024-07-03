@@ -93,7 +93,7 @@ export default function SowsEncuesta({ idpaciente, idmedico, token, protocolo, m
                     }}
                 >
                     <Button form='sows_enc' type="primary" htmlType="submit">
-                        Guardar
+                        Enviar respuestas
                     </Button>
                 </Form.Item>
             </Form>

@@ -162,7 +162,7 @@ export default function PostTraumaticoEncuesta(props) {
                     wrapperCol={{ offset: 8, span: 16 }}
                 >
                     <Button type="primary" htmlType="submit">
-                        Guardar
+                    Enviar respuestas
                     </Button>
                 </Form.Item>
             </Form>

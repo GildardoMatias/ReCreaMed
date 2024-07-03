@@ -131,7 +131,7 @@ export default function SatisfaccionEncuesta(props) {
                     }}
                 >
                     <Button type="primary" htmlType="submit">
-                        Guardar
+                        Enviar respuestas
                     </Button>
                 </Form.Item>
             </Form>

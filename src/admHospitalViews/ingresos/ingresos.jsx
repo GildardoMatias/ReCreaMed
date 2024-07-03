@@ -19,7 +19,7 @@ export default function Ingresos() {
     const [ingresosData, setIngresosData] = useState([])
     const [ingresoForEdit, setIngresoForEdit] = useState({})
     const [ingresoForPrint, setIngresoForPrint] = useState([])
-    const [idsMedicos, setIdsMedicos] = useState({})
+    // const [medicos, setMedicos] = useState({})
 
     // Modal For Add/Edit Inreso
     const [isIngresoModalOpen, setIsIngresoModalOpen] = useState(false);
@@ -82,7 +82,7 @@ export default function Ingresos() {
 
         getBalancesData(ids)
 
-        setIdsMedicos(ids); // Used to get the percents to create the pie chart
+        // setMedicos(medicos); // Used to get the percents to create the pie chart
     }
 
     const getBalancesData = (medicos) => {
@@ -242,7 +242,7 @@ export default function Ingresos() {
 
             <Table columns={columns} dataSource={ingresosData} size='small' />
 
-            {/* <PatientsChart ids_medicos={idsMedicos}/> */}
+            <PatientsChart ids_medicos={medicosData}/>
 
             <IngersosHosptal ids_hospitales={ids_hospitales} />
 

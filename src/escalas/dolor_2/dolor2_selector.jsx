@@ -1,19 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./PainZoneSelector.css";
-import logo from '../../assets/Logo.jpeg'
+import body from '../../assets/body.jpg'
+import { Button, Checkbox } from "antd";
 
-const PainZoneSelector = () => {
+const PainZoneSelector = ({ setDolorZone, setIrradiates }) => {
     const canvasRef = useRef(null);
     const [point, setPoint] = useState(null);
     const [arrow, setArrow] = useState(null);
     const [drawingArrow, setDrawingArrow] = useState(false);
-    const [startPoint, setStartPoint] = useState(null);
+    const [radiates, setRadiates] = useState(false);
 
-    const restartCanva = () => {
-        setPoint(null)
-        setArrow(null)
-        setStartPoint(null)
-    }
+    const fillColor = "rgba(255, 0, 0, 0.5)";
+    const strokeColor = "rgba(255, 0, 0, 0.5)";
 
     const handleClick = (event) => {
         const rect = event.target.getBoundingClientRect();
@@ -22,11 +20,13 @@ const PainZoneSelector = () => {
 
         if (!point) {
             setPoint({ x, y });
-        } else if (!arrow && !drawingArrow) {
-            setStartPoint({ x, y });
-            setDrawingArrow(true);
+            setDolorZone({x,y}) // 
+            if (radiates) {
+                setDrawingArrow(true);
+            }
         } else if (drawingArrow) {
-            setArrow({ start: startPoint, end: { x, y } });
+            setArrow({ start: point, end: { x, y } });
+            setIrradiates({ start: point, end: { x, y } })
             setDrawingArrow(false);
         }
     };
@@ -39,6 +39,7 @@ const PainZoneSelector = () => {
             context.arc(point.x, point.y, 10, 0, 2 * Math.PI);
             context.fillStyle = "rgba(255, 0, 0, 0.5)";
             context.fill();
+            context.strokeStyle = strokeColor;
             context.stroke();
         }
 
@@ -75,12 +76,29 @@ const PainZoneSelector = () => {
         console.log("Arrow:", arrow);
     };
 
+    const handleReset = () => {
+        setPoint(null);
+        setArrow(null);
+        setDrawingArrow(false);
+        setRadiates(false);
+    };
+
+    const handleRadiatesChange = (event) => {
+        setRadiates(event.target.checked);
+        if (!event.target.checked) {
+            setArrow(null);
+            setDrawingArrow(false);
+        } else if (point) {
+            setDrawingArrow(true);
+        }
+    };
+
     return (
         <div className="pain-zone-selector">
-            <h3>Seleccione su zona de dolor y la dirección en que irradia el dolor</h3>
+            <h4>Seleccione su zona de dolor</h4>
             <div className="canvas-container">
                 <img
-                    src={logo}
+                    src={body}
                     alt="Cuerpo humano"
                     className="background-image"
                     onLoad={() => {
@@ -90,14 +108,30 @@ const PainZoneSelector = () => {
                     }}
                 />
                 <canvas
+                style={{borderRadius: 8, borderColor:'#6b809c'}}
                     ref={canvasRef}
-                    width={800}
-                    height={600}
+                    width={600}
+                    height={625}
                     onClick={handleClick}
                 />
             </div>
-            <button onClick={restartCanva}>Reintentar</button>
-            <button onClick={handleSave}>Guardar</button>
+            <div>
+                {/* <label>
+                    <input
+                        type="checkbox"
+                        checked={radiates}
+                        onChange={handleRadiatesChange}
+                    />
+                    El dolor se irradia
+                </label> */}
+
+                <Checkbox checked={radiates} onChange={handleRadiatesChange}><strong>El dolor se irradia</strong></Checkbox>
+            </div>
+            <div className="button-container">
+                <Button onClick={handleReset}>Borrar y volver a seleccionar</Button>
+                {/* <Button onClick={handleSave}>Guardar</Button> */}
+            </div>
+            <br />
         </div>
     );
 };

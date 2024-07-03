@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Modal, Popconfirm, message } from 'antd'
+import { Button, Modal, Popconfirm, message, Popover, Select } from 'antd'
 import { deleteData, getData, sendDataBody } from '../../resources'
 import { CreateCitaForm } from './create-cita-for-medic'
 
@@ -8,6 +8,8 @@ export default function DetailsCita({ citaForEdit, isModalOpen, setIsModalOpen, 
     const { _id: id_cita, medico: id_medico, servicio } = citaForEdit;
 
     const [citaPaid, setCitaPaid] = useState(false)
+
+    const [payMethod, setPayMethod] = useState('efectivo')
 
     const [editingCita, setEditingCita] = useState(false)
 
@@ -36,22 +38,48 @@ export default function DetailsCita({ citaForEdit, isModalOpen, setIsModalOpen, 
     const cancel = (e) => { console.log(e) }
 
     //Confirm payment
-    const confirmPayment = (e) => {
+    const confirmPayment = () => {
         const balanceBody = {
             tipo: 'ingreso',
             medico: id_medico,
             cita: id_cita,
             monto: getAmmount(servicio),
             abono: getAmmount(servicio),
-            forma_de_pago: 'Efectivo',
+            forma_de_pago: payMethod,
             fecha_hora: new Date(),
-            estado: 'pendiente',
+            estado: 'pagado',
             concepto: servicio
         }
         console.log('Balance ready to send: ', balanceBody)
         sendDataBody('balances/add', balanceBody).then((rs) => { message.success(rs.message || rs.error); checkPayment(id_cita) })
     }
 
+
+
+    const paymentOptions = [
+        { value: 'efectivo', label: 'Efectivo' },
+        { value: 'tarjeta', label: 'Tarjeta' },
+        { value: 'transferencia', label: 'Transferencia' },
+    ]
+    const handleChange = (value) => {
+        console.log(`selected ${value}`);
+        setPayMethod(value)
+    };
+    const popoverContent = (
+        <div>
+            <p>Seleccione la forma de pago</p>
+            <Select
+                size='small'
+                defaultValue="efectivo"
+                style={{
+                    width: 120,
+                }}
+                onChange={handleChange}
+                options={paymentOptions}
+            />
+            <Button size='small' type='primary' ghost onClick={confirmPayment} >Confirmar pago</Button>
+        </div>
+    );
 
 
     const getAmmount = (str) => {
@@ -78,16 +106,19 @@ export default function DetailsCita({ citaForEdit, isModalOpen, setIsModalOpen, 
                 <Button danger>Eliminar</Button>
             </Popconfirm>,
 
-            (!citaPaid && <Popconfirm
-                title="Confirmar pago"
-                description="Recibió el pago correspondiente?"
-                onConfirm={confirmPayment}
-                onCancel={cancel}
-                okText="Si"
-                cancelText="No"
-            >
-                <Button >Confirmar pago</Button>
-            </Popconfirm>),
+            // (!citaPaid && <Popconfirm
+            //     title="Confirmar pago"
+            //     description="Recibió el pago correspondiente?"
+            //     onConfirm={confirmPayment}
+            //     onCancel={cancel}
+            //     okText="Si"
+            //     cancelText="No"
+            // >
+            //     <Button >Confirmar pago</Button>
+            // </Popconfirm>),
+            (!citaPaid && <Popover content={popoverContent} title="Confirmación de pago" trigger="click">
+                <Button>Confirmar pago</Button>
+            </Popover>),
 
             <Button onClick={() => setEditingCita(!editingCita)}>{editingCita ? "Cancelar" : "Modificar"}</Button>,
             <Button onClick={handleCancel}>Cerrar</Button>

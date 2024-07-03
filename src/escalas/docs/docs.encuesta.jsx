@@ -295,7 +295,7 @@ export default function DocsEncuesta({ idpaciente, idmedico, token, protocolo, m
                     }}
                 >
                     <Button form='docs_enc' type="primary" htmlType="submit">
-                        Guardar
+                    Enviar respuestas
                     </Button>
                 </Form.Item>
 

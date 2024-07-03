@@ -3,7 +3,7 @@ import { EncuestaLoading, ThanksMessage, checkEncuesta, onFinishFailed } from '.
 import { Form, Input, Button, message, Radio } from 'antd'
 import { sendDataBody } from '../../resources'
 import { ows_catalog } from './ows.catalog'
-export default function OwsEncuesta({ idpaciente, idmedico, token,protocolo,momento }) {
+export default function OwsEncuesta({ idpaciente, idmedico, token, protocolo, momento }) {
 
     const [encuestaNotExists, setEncuestaNotExists] = useState(null)
     const [checking, setChecking] = useState(true)
@@ -93,7 +93,7 @@ export default function OwsEncuesta({ idpaciente, idmedico, token,protocolo,mome
                     }}
                 >
                     <Button form='ows_enc' type="primary" htmlType="submit">
-                        Guardar
+                        Enviar respuestas
                     </Button>
                 </Form.Item>
             </Form>

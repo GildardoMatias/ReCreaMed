@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, message } from 'antd';
-import { API, sendDataBody } from '../../resources';
+import { API, getData, sendDataBody } from '../../resources';
 import DetalleNota from './detalleNota'
 import DetalleHistoria from './detalleHistoria';
 import DetallesPaciente from '../pacientes/detalles.paciente';
@@ -15,7 +15,10 @@ export default function Expedientes({ paciente, setIsEditModalOpen }) {
     const [expedientesData, setExpedientesData] = useState(null);
     const [expedientesLoading, setExpedientesLoading] = useState(true);
     const [historia, setHistoria] = useState("");
+    const [historiaDetails, sethistoriaDetails] = useState("")
     const [notas, setNotas] = useState("");
+    const [recetas, setRecetas] = useState("");
+    const [citas, setcitas] = useState("")
 
     // Print modal
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,6 +37,7 @@ export default function Expedientes({ paciente, setIsEditModalOpen }) {
 
     useEffect(() => {
         getExpedientesData(id_paciente)
+        getPatientRegisters(id_paciente)
     }, [id_paciente])
 
 
@@ -45,13 +49,23 @@ export default function Expedientes({ paciente, setIsEditModalOpen }) {
                 // console.log("GetExpData: ", data);
                 setExpedientesData(data);
                 if (typeof data != "undefined" && data !== null) {
-                    setNotas(data.notas); setHistoria(data.historia);
+                    // setNotas(data.notas); 
+                    setHistoria(data.historia);
+                    getHistoriaData(data.historia)
                 } else { setNotas(null); setHistoria(null) }
             })
             .finally(() => setExpedientesLoading(false))
     }
 
+    const getPatientRegisters = (id_paciente) => {
+        getData(`notas/${id_paciente}`).then(rs => setNotas(rs))
+        getData(`receta/${id_paciente}`).then(rs => setRecetas(rs))
+        getData(`citas/${id_paciente}`).then(rs => setcitas(rs))
+    }
 
+    const getHistoriaData = (historia) => {
+        getData(`historia/${historia}`).then(rs => { sethistoriaDetails(rs) })
+    }
 
     async function addHistoria() {
         return sendDataBody('historias/add', {
@@ -119,7 +133,7 @@ export default function Expedientes({ paciente, setIsEditModalOpen }) {
 
 
         <Modal title="Imprimir Expediente" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={900}>
-            <ExpedienteDocument pacienteData={{ name: 'patient', phone: 123456 }} expedienteData={{ notas: [], other: [] }} />
+            <ExpedienteDocument pacienteData={paciente} expedienteData={expedientesData} notas={notas} recetas={recetas} historia={historiaDetails} citas={citas}/>
         </Modal>
 
         <DownloadConscent />

@@ -11,6 +11,8 @@ import OwsDetails from '../ows/ows.details'
 import SowsDetails from '../sows/sows.details'
 import Pcl5Details from '../pcl5/pcl5.details'
 import DocsDetails from '../docs/docs.details'
+import Dolor2Details from '../dolor_2/dolor2_details'
+import GenerateAllEscalas from './generate.escalas.all'
 
 export default function PatientsResults() {
 
@@ -46,7 +48,7 @@ export default function PatientsResults() {
 
     const getAllPacientes = async (medicos) => {
         const medicosFormatted = medicos.map(m => m._id)
-        await sendDataBody('pacientes/medicos', { medicos: medicosFormatted }).then(rs => { setAllPacientes(rs); setLoading(false) })
+        await sendDataBody('pacientes/simple/medicos', { medicos: medicosFormatted }).then(rs => { setAllPacientes(rs); setLoading(false) })
     }
 
 
@@ -351,6 +353,52 @@ export default function PatientsResults() {
         </div>
     }
 
+    const DolorTable = () => {
+
+        const dataSource = [
+            {//Fila 1
+                key: '1',
+                name: { label: 'Sociodemografico', value: 'Sociodemografico' }, // Aplicacion inicial
+                age: { label: 'PHQ9P', value: 'phq9p' }, // Aplicacion final
+            },
+            {//Fila 2
+                key: '2',
+                name: { label: 'PHQ9P', value: 'phq9p' },// Aplicacion inicial
+                age: { label: 'GAD-7', value: 'gad_7' },// Aplicacion final
+            },
+            {//Fila 3
+                key: '3',
+                name: { label: 'GAD-7', value: 'gad_7' },// Aplicacion inicial
+                age: { label: 'Escala del dolor', value: 'dolor_2' }// Aplicacion final
+            },
+            {//Fila 4
+                key: '4',
+                name: { label: 'Escala del dolor', value: 'dolor_2' },// Aplicacion inicial
+                age: { label: 'Satisfaccion', value: 'satisfaccion' }// Aplicacion final
+            }
+        ];
+
+        const columns = [
+            {
+                title: 'Aplicación inicial',
+                dataIndex: 'name',
+                key: 'name',
+                render: (_, { name }) => <Button onClick={() => searchEscala({ protocolo: 'Dolor', tipo: name.value, momento: 'inicial' })} type='link'>{name.label}</Button>
+            },
+            {
+                title: 'Aplicación final',
+                dataIndex: 'age',
+                key: 'age',
+                render: (_, { age }) => <Button onClick={() => searchEscala({ protocolo: 'Dolor', tipo: age.value, momento: 'final' })} type='link'>{age.label}</Button>
+            },
+        ];
+
+        return <div>
+            <h6>Dolor</h6>
+            <Table dataSource={dataSource} columns={columns} />
+        </div>
+    }
+
     const EstresPTTable = () => {
 
         const dataSource = [
@@ -428,6 +476,8 @@ export default function PatientsResults() {
                 />
             </Form.Item>
 
+            <GenerateAllEscalas selectedPatient={selectedPatient} /> 
+
 
             {
                 patientScalas ?
@@ -438,10 +488,12 @@ export default function PatientsResults() {
                         <TocTable />
                         <AlcoholismoTable />
                         <OpioidesTable />
+                        <DolorTable />
                         <EstresPTTable />
                     </div> :
                     <p>Seleccione un paciente de la lista de arriba</p>
             }
+
 
 
             {tipoFound === 'gad_7' && <Gad7Details   {...detailModalParams} />}
@@ -452,6 +504,7 @@ export default function PatientsResults() {
             {tipoFound === 'emca' && <EmcaDetails {...detailModalParams} />}
             {tipoFound === 'ows' && <OwsDetails {...detailModalParams} />}
             {tipoFound === 'sows' && <SowsDetails {...detailModalParams} />}
+            {tipoFound === 'dolor_2' && <Dolor2Details {...detailModalParams} />}
             {tipoFound === 'pcl_5' && <Pcl5Details  {...detailModalParams} />}
 
         </div>

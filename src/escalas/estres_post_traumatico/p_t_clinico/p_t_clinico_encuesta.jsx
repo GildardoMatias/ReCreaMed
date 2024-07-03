@@ -181,7 +181,7 @@ export default function PTClinicoEncuesta(props) {
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }} >
                     <Button type="primary" htmlType="submit">
-                        Guardar
+                        Enviar respuestas
                     </Button>
                 </Form.Item>
             </Form>

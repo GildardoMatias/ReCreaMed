@@ -98,7 +98,7 @@ export default function Gad7Encuesta({ idpaciente, idmedico, token, protocolo, m
                     }}
                 >
                     <Button form='gad7_enc' type="primary" htmlType="submit">
-                        Guardar
+                    Enviar respuestas
                     </Button>
                 </Form.Item>
             </Form>

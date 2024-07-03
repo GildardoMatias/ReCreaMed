@@ -190,7 +190,7 @@ export default function KetaminaEncuesta(props) {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Guardar
+            Enviar respuestas
           </Button>
         </Form.Item>
       </Form>

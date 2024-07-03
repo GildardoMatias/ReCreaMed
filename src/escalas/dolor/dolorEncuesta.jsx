@@ -175,7 +175,7 @@ export default function DolorEncuesta(props) {
                     }}
                 >
                     <Button form='dolor_esc' type="primary" htmlType="submit">
-                        Guardar
+                        Enviar respuestas
                     </Button>
                 </Form.Item>
             </Form>

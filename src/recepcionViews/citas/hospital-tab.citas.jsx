@@ -89,7 +89,7 @@ const HospitalTab = ({ id_hospital, hospital }) => {
 
             // Calcular la fecha dentro de una semana
             const fechaDentroDeUnaSemana = new Date();
-            fechaDentroDeUnaSemana.setDate(fechaActual.getDate() + 31);
+            fechaDentroDeUnaSemana.setDate(fechaActual.getDate() + 50);
             setInitialDates({ start_date: fechaHaceUnaSemana, end_date: fechaDentroDeUnaSemana }) // Nos servirá más adelante al crear citas
             getCitasData(fechaHaceUnaSemana, fechaDentroDeUnaSemana)
             // setLoadedSuccessfully(true);

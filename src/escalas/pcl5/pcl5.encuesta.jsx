@@ -60,7 +60,7 @@ export default function Pcl5Encuesta({ idpaciente, idmedico, token, protocolo, m
     const inputRules = [{ required: true, message: 'Conteste correctamente' }];
 
     const Instructions = () => {
-        return <p style={{textAlign: 'justify'}}>
+        return <p style={{ textAlign: 'justify' }}>
             <strong> <u>Instrucciones:</u>  </strong>
             Este cuestionario pregunta acerca de los problemas que usted pudo haber tenido después de una experiencia muy estresante que implica la muerte real o amenaza, lesiones graves o violencia sexual. Podría ser algo que le haya pasado directamente, algo que fue testigo, o algo que le haya pasado a un familiar cercano o un amigo cercano. Algunos ejemplos son un grave accidente, fuego, desastre como un huracán, tornado o terremoto, ataque o abuso físico o sexual; guerra; homicidio; o el suicidio.
             Primero por favor responda a algunas preguntas acerca de su peor caso, que para este cuestionario significa el caso que en la actualidad le molesta más. Esto podría ser uno de los ejemplos anteriores o alguna otra experiencia estresante. También podría ser un solo evento (por ejemplo, un accidente de coche) o múltiples eventos similares (por ejemplo, múltiples eventos estresantes en zona de guerra o abuso sexual repetido).
@@ -177,7 +177,7 @@ export default function Pcl5Encuesta({ idpaciente, idmedico, token, protocolo, m
                     }}
                 >
                     <Button form='pcl5_enc' type="primary" htmlType="submit">
-                        Guardar
+                        Enviar respuestas
                     </Button>
                 </Form.Item>
             </Form>
