@@ -13,6 +13,7 @@ import Pcl5Details from '../pcl5/pcl5.details'
 import DocsDetails from '../docs/docs.details'
 import Dolor2Details from '../dolor_2/dolor2_details'
 import GenerateAllEscalas from './generate.escalas.all'
+import CsvEscalas from './csv.escalas'
 
 export default function PatientsResults() {
 
@@ -451,33 +452,39 @@ export default function PatientsResults() {
     return (
         <div className='mainContainer'>
 
-            <h5>Resultados de escalas de los diferentes pacientes</h5>
+            <div style={{display: 'flex', width: '100',flexDirection: 'row', justifyContent: 'space-between'}}>
+                <h5>Resultados de escalas</h5>
+                <CsvEscalas />
+            </div>
 
-            <Form.Item label="Paciente" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
-                style={{ alignItems: 'center', paddingTop: 20 }}
-                labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
 
-                <Select
-                    showSearch
-                    filterOption={filterOption}
-                    onChange={handlePatientChange}
-                    placeholder='Selecciona un paciente'
-                    value={selectedPatient}
-                    options={
-                        allPacientes.map(p => (
-                            {
-                                ...p,
-                                key: p._id,
-                                value: p._id,
-                                label: p.name
-                            }
-                        ))
-                    }
-                />
-            </Form.Item>
 
-            <GenerateAllEscalas selectedPatient={selectedPatient} /> 
+            <div className='fila'>
+                <Form.Item name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                    style={{ alignItems: 'center', paddingTop: 20 }}
+                    labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
 
+                    <Select
+                        showSearch
+                        filterOption={filterOption}
+                        onChange={handlePatientChange}
+                        placeholder={<span className='desc'>Selecciona un paciente</span>}
+                        value={selectedPatient}
+                        style={{ width: 280 }}
+                        options={
+                            allPacientes.map(p => (
+                                {
+                                    ...p,
+                                    key: p._id,
+                                    value: p._id,
+                                    label: p.name
+                                }
+                            ))
+                        }
+                    />
+                </Form.Item>
+                <GenerateAllEscalas selectedPatient={selectedPatient} />
+            </div>
 
             {
                 patientScalas ?
@@ -491,7 +498,7 @@ export default function PatientsResults() {
                         <DolorTable />
                         <EstresPTTable />
                     </div> :
-                    <p>Seleccione un paciente de la lista de arriba</p>
+                    <p>Seleccione un paciente de la lista de arriba para ver sus resultados de escalas</p>
             }
 
 

@@ -32,7 +32,7 @@ export default function GenerateAllEscalas({ selectedPatient }) {
 
     return (
         <div>
-            <Button type="primary" onClick={showModal}>
+            <Button disabled={!selectedPatient} ghost type="primary" onClick={showModal}>
                 Generar escalas
             </Button>
             <Modal title="Nuevas escalas" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={700}>

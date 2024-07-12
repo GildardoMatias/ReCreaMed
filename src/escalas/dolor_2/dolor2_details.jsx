@@ -13,14 +13,16 @@ export default function Dolor2Details({ isModalOpen, handleOk, handleCancel, esc
         context.canvas.width = context.canvas.offsetWidth;
         context.canvas.height = context.canvas.offsetHeight;
 
+        
         context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-
+        
         if (point) {
             context.beginPath();
             context.arc(point.x, point.y, 10, 0, 2 * Math.PI);
             context.fillStyle = "rgba(255, 0, 0, 0.5)";
             context.fill();
             context.stroke();
+            console.log('ANCHO ', context.canvas.width)
             console.log('onDrawPoint ', point)
         }
 
@@ -54,11 +56,12 @@ export default function Dolor2Details({ isModalOpen, handleOk, handleCancel, esc
             const validArrow = arrow && arrow.start && arrow.end;
             draw(context, point, validArrow ? arrow : null);
             console.log('POINT ', point)
-
         }, [point, arrow]);
 
         return (
             <div className="pain-zone-results">
+                <br />
+                <span className='desc'>Zona de dolor/irradiacion</span>
                 <div style={{ position: 'relative', textAlign: 'center', marginBottom: '20px' }}>
                     <img src={body} alt="Example" style={{ width: '100%' }} onLoad={() => {
                         const canvas = canvasRef.current;
@@ -67,7 +70,7 @@ export default function Dolor2Details({ isModalOpen, handleOk, handleCancel, esc
                     }} />
                     <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 2 ,borderRadius: 8, borderColor:'#6b809c'}} />
                 </div>
-                <h3>Resultados de la Zona de Dolor</h3>
+                
                 {/* <div className="canvas-container">
                     <img
                         src={body}
@@ -99,7 +102,7 @@ export default function Dolor2Details({ isModalOpen, handleOk, handleCancel, esc
         </Card>
     }
     return (
-        <Modal title="Respuestas escala de dolor" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={600} destroyOnClose>
+        <Modal title="Respuestas escala de dolor" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={640} destroyOnClose>
             {/* <img
                 src={body}
                 alt="Cuerpo humano"
@@ -115,8 +118,8 @@ export default function Dolor2Details({ isModalOpen, handleOk, handleCancel, esc
             <RowCard labelKey={1} responseKey='two' />
             <RowCard labelKey={2} responseKey='tree' />
 
-            {JSON.stringify(escalaDetails.zona)}
-            {JSON.stringify(escalaDetails.irradia)}
+            {/* {JSON.stringify(escalaDetails.zona)}
+            {JSON.stringify(escalaDetails.irradia)} */}
 
             {
                 escalaDetails.zona &&
