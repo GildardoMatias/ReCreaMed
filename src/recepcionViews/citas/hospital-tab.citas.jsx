@@ -89,7 +89,7 @@ const HospitalTab = ({ id_hospital, hospital }) => {
 
             // Calcular la fecha dentro de una semana
             const fechaDentroDeUnaSemana = new Date();
-            fechaDentroDeUnaSemana.setDate(fechaActual.getDate() + 50);
+            fechaDentroDeUnaSemana.setDate(fechaActual.getDate() + 7);
             setInitialDates({ start_date: fechaHaceUnaSemana, end_date: fechaDentroDeUnaSemana }) // Nos servirá más adelante al crear citas
             getCitasData(fechaHaceUnaSemana, fechaDentroDeUnaSemana)
             // setLoadedSuccessfully(true);
@@ -106,7 +106,7 @@ const HospitalTab = ({ id_hospital, hospital }) => {
                 const servicioInfo = serviceList.find(servicioItem => servicioItem._id === servicio);
                 if (servicioInfo) {
 
-                    
+
                     cita.color = servicioInfo.color;
                 }
 
@@ -196,8 +196,15 @@ const HospitalTab = ({ id_hospital, hospital }) => {
                     onSelectSlot={handleSlotSelection}
                     onRangeChange={(range) => {
                         console.log('------------- On Date Changes -----------------')
-                        console.log('Start ', range)
-                        console.log('End ', range.end)
+                        // console.log('Start ', range)
+                        if (range.start && range.end) {
+                            console.log('Month ', range)
+                            getCitasData(range.start,range.end)
+                        } else if (Array.isArray(range)) {
+                            getCitasData(range[0],range.at(-1))
+                            console.log('Week ', { start: range[0], end: range.at(-1) })
+                        }
+                        // console.log('Range as it: ', {start: range[0], end: range.at(-1) })
 
                     }}
                 />
@@ -211,7 +218,7 @@ const HospitalTab = ({ id_hospital, hospital }) => {
     }
 
     // Si los datos no cargaron correctamente, muestra un mensaje de error
-    return <p>Citas no cargadas correctamente</p>;
+    return <p>Cargando citas</p>;
 }
 
 export default HospitalTab;

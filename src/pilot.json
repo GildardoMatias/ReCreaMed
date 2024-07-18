@@ -1,80 +1,9 @@
-{
-    "_id": "65e2249513d255e0e9ff4541",
-    "rol": "Paciente",
-    "horarios": [],
-    "medicos_asignados": [
-        {
-            "_id": "6508745fc9a7fe5b60ea0f6c",
-            "horarios": [
-                {
-                    "sucursal": "65087382c9a7fe5b60ea0e7a",
-                    "horario": "L - V de 9am a 3pm",
-                    "_id": "6508745fc9a7fe5b60ea0f6d"
-                }
-            ],
-            "name": "Mariana Leal",
-            "configuracion": {
-                "costo_cita": 350,
-                "tratamientos_ofrecidos": [
-                    {
-                        "tratamiento": "Valoración",
-                        "costo": 400,
-                        "color": "#3174ad",
-                        "_id": "6531797e83776ca8ad729fe5"
-                    },
-                    {
-                        "tratamiento": "Fisioterapia",
-                        "costo": 350,
-                        "color": "#A0E03C",
-                        "_id": "6531799583776ca8ad729ff0"
-                    }
-                ],
-                "_id": "6531799583776ca8ad729fee"
-            }
-        }
-    ],
-    "name": "KATHERIN CABRERA PINEDA",
-    "email": "KATHERIN_CABRERA",
-    "password": "$2b$10$8nKZCR/mDaK./nnHVjJ9LOjmY0uC21I.OakxRIDT2CKityv408F.e",
-    "telefono": 4433803455,
-    "estatus": 0,
-    "universidades": [],
-    "sexo": "M",
-    "edad": 25,
-    "ocupacion": "EMPLEADO",
-    "estado_civil": "Casado",
-    "tratamiento_actual": [],
-    "enfermedades_familiares": [],
-    "enfermedades_medicas": [],
-    "tipo": "FISIO",
-    "fisio_data": {
-        "motivo_visita": "DOLOR EN MUÑECA",
-        "referido_medico": "N",
-        "enterado_mosotros": "REDES SOCIALES",
-        "enfermedad": false,
-        "medicamento": false,
-        "intervenido": false,
-        "tabaquismo": false,
-        "drogas": false,
-        "alcoholismo": false,
-        "suplemento": false,
-        "fractura": false,
-        "cancer": false,
-        "dabetes": false,
-        "hipertension": false,
-        "enfermedad_mental": false,
-        "neurologicas": false,
-        "cardiopatias": false,
-        "reumaticas": false,
-        "malformaciones": false,
-        "deporte": "VOLEIBOL",
-        "frecuencia": "2 VECES A LA SEMANA",
-        "desde_cuando": "DESDE LOS 10 AÑOS",
-        "recreatvo": "RECREATIVO",
-        "_id": "65e2249513d255e0e9ff4542"
-    },
-    "createdAt": "2024-03-01T18:55:17.058Z",
-    "updatedAt": "2024-03-01T18:55:17.058Z",
-    "__v": 0,
-    "fecha_nacimiento": "2024-03-13T02:33:05.694Z"
-}
+[
+    "2024-07-21T06:00:00.000Z",
+    "2024-07-22T06:00:00.000Z",
+    "2024-07-23T06:00:00.000Z",
+    "2024-07-24T06:00:00.000Z",
+    "2024-07-25T06:00:00.000Z",
+    "2024-07-26T06:00:00.000Z",
+    "2024-07-27T06:00:00.000Z"
+]

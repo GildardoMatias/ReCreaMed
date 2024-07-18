@@ -42,24 +42,10 @@ export default function GenerateAllEscalas({ selectedPatient }) {
         setSelectedMedico(null)
     };
 
-    let l = `https://sistema.recreamed.com/gad_7_public/${selectedMedico}/${selectedPatient}/${Date.now()}/depreres/inicial`
-    let l2 = `https://sistema.recreamed.com/gad_7_public/${selectedMedico}/${selectedPatient}/${Date.now()}/depreres/final`
-
-    let l3 = `https://sistema.recreamed.com/phq9p_public/${selectedMedico}/${selectedPatient}/${Date.now()}/depreres/inicial`
-    let l4 = `https://sistema.recreamed.com/phq9p_public/${selectedMedico}/${selectedPatient}/${Date.now()}/depreres/final`
-
-    let l5 = `https://sistema.recreamed.com/cssrs_public/${selectedMedico}/${selectedPatient}/${Date.now()}/depreres/inicial`
-    let l6 = `https://sistema.recreamed.com/cssrs_public/${selectedMedico}/${selectedPatient}/${Date.now()}/depreres/final`
-
-    let l7 = `https://sistema.recreamed.com/thi_public/${selectedMedico}/${selectedPatient}/${Date.now()}/depreres/inicial`
-    let l8 = `https://sistema.recreamed.com/thi_public/${selectedMedico}/${selectedPatient}/${Date.now()}/depreres/final`
-
-    let l9 = `https://sistema.recreamed.com/docs_public/${selectedMedico}/${selectedPatient}/${Date.now()}/depreres/inicial`
-    let l10 = `https://sistema.recreamed.com/docs_public/${selectedMedico}/${selectedPatient}/${Date.now()}/depreres/final`
-
+  
     const NewLink = ({ label, tipo, prot, mom }) => {
-        // const l = `https://sistema.recreamed.com/${tipo}_public/${selectedMedico}/${selectedPatient}/${Date.now()}/${prot}/${mom}`;
-        const l = `http://localhost:3000/${tipo}_public/${selectedMedico}/${selectedPatient}/${Date.now()}/${prot}/${mom}`;
+        const l = `https://sistema.recreamed.com/${tipo}_public/${selectedMedico}/${selectedPatient}/${Date.now()}/${prot}/${mom}`;
+        // const l = `http://localhost:3000/${tipo}_public/${selectedMedico}/${selectedPatient}/${Date.now()}/${prot}/${mom}`;
         return <div>
             <Card size='small' bordered={false}>
                 <Card.Grid onClick={() => copyLink(l)} style={{ border: '1px solid white', borderRadius: 8, padding: 8, width: '100%', cursor: 'pointer' }} hoverable>
@@ -234,18 +220,8 @@ export default function GenerateAllEscalas({ selectedPatient }) {
                             <NewLink label='Satisfaccion' tipo='satisfaccion' prot='estrespt' mom='final' />
                         </div>
 
-
                         <br />
-                        {/* <span>{l}</span> <br /><br />
-                        <span>{l2}</span><br /><br />
-                        <span>{l3}</span> <br /><br />
-                        <span>{l4}</span><br /><br />
-                        <span>{l5}</span> <br /><br />
-                        <span>{l6}</span><br /><br />
-                        <span>{l7}</span> <br /><br />
-                        <span>{l8}</span><br /><br />
-                        <span>{l9}</span> <br /><br />
-                        <span>{l10}</span><br /><br /> */}
+                     
                     </div>
                 }
 
