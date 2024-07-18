@@ -105,6 +105,8 @@ const HospitalTab = ({ id_hospital, hospital }) => {
                 const servicio = cita.id_servicio; // Colorze cita
                 const servicioInfo = serviceList.find(servicioItem => servicioItem._id === servicio);
                 if (servicioInfo) {
+
+                    
                     cita.color = servicioInfo.color;
                 }
 
@@ -193,7 +195,7 @@ const HospitalTab = ({ id_hospital, hospital }) => {
                     // onSelectSlot={handleSlotSelection}
                     onSelectSlot={handleSlotSelection}
                     onRangeChange={(range) => {
-
+                        console.log('------------- On Date Changes -----------------')
                         console.log('Start ', range)
                         console.log('End ', range.end)
 

@@ -19,7 +19,7 @@
     "jspdf": "^2.5.1",
     "moment": "^2.29.4",
     "react": "^17.0.2",
-    "react-big-calendar": "^1.6.3",
+    "react-big-calendar": "^1.13.1",
     "react-bootstrap": "^2.9.1",
     "react-dom": "^17.0.2",
     "react-google-calendar-api": "^2.3.0",
@@ -28,6 +28,9 @@
     "react-scripts": "4.0.3",
     "sheetjs-style": "^0.15.8",
     "web-vitals": "^1.1.2"
+  },
+  "devDependencies": {
+    "@babel/runtime": "^7.24.8"
   },
   "resolutions": {
     "@react-pdf/font": "2.2.0"
