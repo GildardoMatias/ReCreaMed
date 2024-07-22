@@ -89,7 +89,7 @@ const HospitalTab = ({ id_hospital, hospital }) => {
 
             // Calcular la fecha dentro de una semana
             const fechaDentroDeUnaSemana = new Date();
-            fechaDentroDeUnaSemana.setDate(fechaActual.getDate() + 31);
+            fechaDentroDeUnaSemana.setDate(fechaActual.getDate() + 7);
             setInitialDates({ start_date: fechaHaceUnaSemana, end_date: fechaDentroDeUnaSemana }) // Nos servirá más adelante al crear citas
             getCitasData(fechaHaceUnaSemana, fechaDentroDeUnaSemana)
             // setLoadedSuccessfully(true);
@@ -194,8 +194,13 @@ const HospitalTab = ({ id_hospital, hospital }) => {
                     onSelectSlot={handleSlotSelection}
                     onRangeChange={(range) => {
 
-                        console.log('Start ', range)
-                        console.log('End ', range.end)
+                        if (range.start && range.end) {
+                            console.log('Month ', range)
+                            getCitasData(range.start, range.end)
+                        } else if (Array.isArray(range)) {
+                            getCitasData(range[0], range.at(-1))
+                            console.log('Week ', { start: range[0], end: range.at(-1) })
+                        }
 
                     }}
                 />

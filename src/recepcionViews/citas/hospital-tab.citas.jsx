@@ -195,16 +195,14 @@ const HospitalTab = ({ id_hospital, hospital }) => {
                     // onSelectSlot={handleSlotSelection}
                     onSelectSlot={handleSlotSelection}
                     onRangeChange={(range) => {
-                        console.log('------------- On Date Changes -----------------')
-                        // console.log('Start ', range)
+
                         if (range.start && range.end) {
                             console.log('Month ', range)
-                            getCitasData(range.start,range.end)
+                            getCitasData(range.start, range.end)
                         } else if (Array.isArray(range)) {
-                            getCitasData(range[0],range.at(-1))
+                            getCitasData(range[0], range.at(-1))
                             console.log('Week ', { start: range[0], end: range.at(-1) })
                         }
-                        // console.log('Range as it: ', {start: range[0], end: range.at(-1) })
 
                     }}
                 />
@@ -218,7 +216,7 @@ const HospitalTab = ({ id_hospital, hospital }) => {
     }
 
     // Si los datos no cargaron correctamente, muestra un mensaje de error
-    return <p>Cargando citas</p>;
+    return <p>Citas no cargadas correctamente</p>;
 }
 
 export default HospitalTab;
