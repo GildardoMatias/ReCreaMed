@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Citas from './citas/citas'
 import Expedientes from './expedientes/expedientes'
 import Perfil from './perfil/perfil'
-import Home from './home/home'
+// import Home from './home/home'
 import icon from '../assets/Icon.png';
 import { Footer, logout } from '../resources'
 import { usuario } from '../resources'

@@ -5,7 +5,7 @@ import Loading from '../../loading'
 import CreateCita, { CreateCitaForm } from './cita.create'
 import { Button, Modal, Popconfirm } from 'antd'
 import dayjs from 'dayjs';
-import { GoogleOutlined } from '@ant-design/icons'
+// import { GoogleOutlined } from '@ant-design/icons'
 import AuthButton from './auth.button';
 // import CitaGoogle from './cita.google';
 // import '@dayjs/locale/es-mx';

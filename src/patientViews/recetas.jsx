@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Tag, Space, Button, Modal } from 'antd';
+import { Table,  Space, Button, Modal } from 'antd';
 
 
 export default function Recetas() {
@@ -21,7 +21,7 @@ export default function Recetas() {
             title: 'ID Receta',
             dataIndex: 'key',
             key: '_id',
-            render: text => <a>{text}</a>,
+            // render: text => <a>{text}</a>,
         },
         {
             title: 'ID Nota',

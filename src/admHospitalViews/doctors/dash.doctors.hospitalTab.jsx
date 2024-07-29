@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Avatar, Button,message } from 'antd'
+import { Table, Avatar, Button } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { getData } from '../../resources'
 import Loading from '../../loading'
 import ReportsDoctors from './reports.doctors'
+import PatientsChart from './patients-chart'
 
 export default function HospitalTab(props) {
   const [doctorsData, setDoctorsData] = useState([])
@@ -19,7 +20,9 @@ export default function HospitalTab(props) {
   // Before all, get DoctorsData
   useEffect(() => { getDoctorsData() }, [])
   const getDoctorsData = () => {
-    getData(`users/hospital/${props.id_hospital}`).then((rs) => { setDoctorsData(rs) }).finally(() => setLoading(false))
+    getData(`users/hospital/${props.id_hospital}`).then((rs) => {
+      setDoctorsData(rs)
+    }).finally(() => setLoading(false))
   }
   const columns = [
     {
@@ -28,7 +31,7 @@ export default function HospitalTab(props) {
       key: 'avatar',
       render: (_, { avatar }) => {
         return avatar.length > 9 ?
-          <img width={64} src={'https://api.recreamed.com/images/' + avatar} alt='ProfilePic' style={{borderRadius: 6}} /> :
+          <img width={64} src={'https://api.recreamed.com/images/' + avatar} alt='ProfilePic' style={{ borderRadius: 6 }} /> :
           <Avatar size={64} icon={<UserOutlined />} className='btnIconCentered' />
       }
     },
@@ -48,12 +51,12 @@ export default function HospitalTab(props) {
       key: 'telefono',
     },
     {
-      title: 'Reporte mensual de citas',
+      title: 'Reporte de citas',
       dataIndex: 'reporte',
       key: 'reporte',
       render: (_, { _id }) => {
         return <div>
-          <Button onClick={() => {message.info(_id) ; setMedicForDetails(_id); setIsModalOpen(true) }}>
+          <Button onClick={() => {  setMedicForDetails(_id); setIsModalOpen(true) }}>
             Ver reporte
           </Button>
         </div>
@@ -67,7 +70,10 @@ export default function HospitalTab(props) {
   return <div>
     <h6>Doctores del hospital {props.hospital}</h6>
 
+
     <Table dataSource={doctorsData} columns={columns} />
+    
+    <PatientsChart doctors_data={doctorsData} />
 
     <ReportsDoctors isModalOpen={isModalOpen} handleOk={handleOk} id_medico={medicForDetails} />
   </div>

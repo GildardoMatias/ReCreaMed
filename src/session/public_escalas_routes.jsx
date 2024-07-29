@@ -33,7 +33,7 @@ export function KetaminaPublic() {
 
 // Depresion 1 
 export function DepresionQidsPublic() {
-    let { idmedico, idpaciente, key, protocolo, momento } = useParams();
+    let { idmedico, idpaciente, key } = useParams();
     console.log(key)
     return (
         <div>
@@ -44,7 +44,7 @@ export function DepresionQidsPublic() {
 
 // Depresion 2 gpc 
 export function DepresionEspanolPublic() {
-    let { idmedico, idpaciente, key, protocolo, momento } = useParams();
+    let { idmedico, idpaciente, key } = useParams();
     console.log(key)
     return (
         <div>
@@ -55,7 +55,7 @@ export function DepresionEspanolPublic() {
 
 // Dolor
 export function HeadachePublic() {
-    let { idmedico, idpaciente, key, protocolo, momento } = useParams();
+    let { idmedico, idpaciente, key } = useParams();
     console.log(key)
     return (
         <div>
@@ -67,7 +67,7 @@ export function HeadachePublic() {
 
 // Post Trauma 1 
 export function PostTraumaticoPublic() {
-    let { idmedico, idpaciente, key, protocolo, momento } = useParams();
+    let { idmedico, idpaciente, key } = useParams();
     console.log(key)
     return (
         <div>
@@ -78,7 +78,7 @@ export function PostTraumaticoPublic() {
 
 // Post Trauma 2 Clinico Hoja Verde
 export function PostTraumaticoClinicoPublic() {
-    let { idmedico, idpaciente, key, protocolo, momento } = useParams();
+    let { idmedico, idpaciente, key } = useParams();
     console.log(key)
     return (
         <div>
@@ -89,7 +89,7 @@ export function PostTraumaticoClinicoPublic() {
 
 // Post Trauma Mexicana
 export function PostTraumaticoMX() {
-    let { idmedico, idpaciente, key, protocolo, momento } = useParams();
+    let { idmedico, idpaciente, key } = useParams();
     console.log(key)
     return (
         <div>

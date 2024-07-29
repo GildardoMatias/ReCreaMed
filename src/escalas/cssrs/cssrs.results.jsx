@@ -5,6 +5,7 @@ import { Button, Table, Modal } from 'antd'
 // import Gad7Details from './gad7.details'
 import EscalasCreateGeneralLink from '../escalasCreateGeneralLink'
 import CssrsDetails from './cssrs.details'
+import Loading from '../../loading'
 
 
 export default function CssrsResults() {
@@ -53,6 +54,9 @@ export default function CssrsResults() {
             </>),
         },
     ]
+
+
+    if(loading) return <Loading/>
 
     return (
         <div>

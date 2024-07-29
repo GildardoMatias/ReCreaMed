@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { getData, sendData, sendDataBody } from '../../resources'
-import { Button, Form, Input } from 'antd'
+import { sendDataBody } from '../../resources'
+import { Button} from 'antd'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from './checkoutForm';
@@ -9,10 +9,10 @@ const stripePromise = loadStripe('pk_test_51KtKDMAGvuqPNUwvUumU2NTmwdxD6v0QHYeew
 
 export default function Stripe() {
 
-    const [setupBegan, setSetupBegan] = useState(false)
+    const [, setSetupBegan] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(null)
-    const [account, setAccount] = useState({})
+    const [, setAccount] = useState({})
     const [clientSecret, setClientSecret] = useState(null)
 
 
@@ -88,20 +88,18 @@ export default function Stripe() {
     }
 
     // Finalizar form de los datos requeridos
-    const onFinish = (values) => {
-        setIsLoading(true)
-        console.log('Success:', values);
-        sendDataBody('stripe/account/save', values).then((rs) => {
-            if (rs.success) fetchAccount()
-            else {
-                setError(rs.message)
-                setIsLoading(false)
-            }
-        })
-    };
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    }
+    // const onFinish = (values) => {
+    //     setIsLoading(true)
+    //     console.log('Success:', values);
+    //     sendDataBody('stripe/account/save', values).then((rs) => {
+    //         if (rs.success) fetchAccount()
+    //         else {
+    //             setError(rs.message)
+    //             setIsLoading(false)
+    //         }
+    //     })
+    // };
+   
 
     if (isLoading) return <p>Cargando...</p>
 

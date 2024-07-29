@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Table, Space, Popconfirm } from 'antd'
+import { Button, Table, Space } from 'antd'
 import { getData, sendDataBody, usuario } from '../../resources'
 import Loading from '../../loading'
 import Detalles from './details.corte'
@@ -7,7 +7,7 @@ import CreateCorte from './create.corte'
 
 export default function Cortes() {
 
-    const [balance, setBalance] = useState({})
+    // const [balance, setBalance] = useState({})
     const [cortesData, setCortesData] = useState([])
     const [loading, setLoading] = useState(true)
     // For details modal
@@ -38,19 +38,19 @@ export default function Cortes() {
         }).finally(() => setLoading(false))
     }
 
-    const createCorte = () => {
-        const newCorte = {
-            medico: usuario._id,
-            fecha_inicio: cortesData.length === 0 ? new Date() : cortesData.at(0).fecha_cierre,
-            fecha_cierre: new Date(),
-            comentario: ''
-        }
-        console.log('ready to send ', newCorte)
-        sendDataBody('cortes/add', newCorte).then((rs) => {
-            console.log(rs);
-            getCortesData()
-        })
-    }
+    // const createCorte = () => {
+    //     const newCorte = {
+    //         medico: usuario._id,
+    //         fecha_inicio: cortesData.length === 0 ? new Date() : cortesData.at(0).fecha_cierre,
+    //         fecha_cierre: new Date(),
+    //         comentario: ''
+    //     }
+    //     console.log('ready to send ', newCorte)
+    //     sendDataBody('cortes/add', newCorte).then((rs) => {
+    //         console.log(rs);
+    //         getCortesData()
+    //     })
+    // }
 
 
     const columns = [

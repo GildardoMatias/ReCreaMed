@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState  } from 'react'
 import { Card, Button, Image, Modal, message, Upload, Input, Form, InputNumber } from 'antd';
-import { UploadOutlined, PlusOutlined, EditOutlined, ExperimentOutlined, DownloadOutlined } from '@ant-design/icons';
+import { UploadOutlined, PlusOutlined, EditOutlined, ExperimentOutlined  } from '@ant-design/icons';
 import { updateData, usuario, API, IMAGE_API } from '../../resources';
-const { TextArea } = Input;
+
 
 // estudios will be to notas/estudios/upload
 // foto will be to images/upload
 
-const numbers = ['Primera', 'Segunda', 'Tercera']
+
 
 export default function NotasEvolucion({ _notas_evolucion, id_nota }) {
-
-    const [newEstudio, setNewEstudio] = useState(null) //initially on database eill be [], onFinish or on Edit will insert this
-    const [evoImage, setEvoImage] = useState(null)
 
     const [estudiosFiles, setEstudiosFiles] = useState([])
     const [imagesFiles, setImagesFiles] = useState([])

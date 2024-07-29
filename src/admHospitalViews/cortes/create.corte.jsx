@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Modal, Form, Input, DatePicker } from 'antd';
 import dayjs from 'dayjs';
 
-import { getData, sendDataBody, usuario, ids_hospitales } from '../../resources'
+// import { getData, sendDataBody, usuario, ids_hospitales } from '../../resources'
 
 
 export default function CreateCorte({ isModalOpen, handleOk, handleCancel, onFinish }) {

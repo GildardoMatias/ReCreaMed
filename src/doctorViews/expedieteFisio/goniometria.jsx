@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Table, Form, Input, Radio, InputNumber, Modal, message } from 'antd';
+import { Button,  Table, Form, Input, Radio, InputNumber, Modal, message } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { updateData } from '../../resources';
 

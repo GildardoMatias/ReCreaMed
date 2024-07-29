@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { API, deleteData, sendDataBody } from '../../resources';
+import { API, sendDataBody } from '../../resources';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Modal, Popconfirm, Button, Select } from 'antd'
 import dayjs from 'dayjs';
-import CreateCita, { CreateCitaForm } from './create-cita-for-medic';
+import CreateCita from './create-cita-for-medic';
 import Loading from '../../loading';
 import DetailsCita from './details-cita';
 import RegisterPatientReception from './register.patient';
@@ -161,7 +160,9 @@ const HospitalTab = ({ id_hospital, hospital }) => {
 
     if (serviceList === null || pacientesData === null) {
         // Muestra un mensaje de carga mientras se obtienen los datos
-        return <Loading />
+        return <div style={{ height: 500 }}>
+            <Loading />
+        </div>
     }
 
     if (loadedSuccessfully) {
@@ -216,7 +217,9 @@ const HospitalTab = ({ id_hospital, hospital }) => {
     }
 
     // Si los datos no cargaron correctamente, muestra un mensaje de error
-    return <p>Citas no cargadas correctamente</p>;
+    return <div style={{height: 500}}>
+        <p className='datos'>Citas no cargadas correctamente</p>;
+    </div>
 }
 
 export default HospitalTab;

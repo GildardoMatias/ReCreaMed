@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Button, Modal, Form, Input, Select, message, DatePicker, InputNumber } from 'antd';
-import { getData, sendDataBody, updateData } from '../../resources';
+import { sendDataBody, updateData } from '../../resources';
 // ADMIN CREATE INGRESO
 export default function CreateBalanceHosptal({id_hospital, tipo, balanceForEdit, setBalanceForEdit, setIsModalOpen, isModalOpen, getIngresos}) {
 
     const isCreating = !balanceForEdit || Object.keys(balanceForEdit).length === 0;
-    
-    const [loading, setLoading] = useState(true)
+
 
     const handleOk = () => { setIsModalOpen(false) };
     const handleCancel = () => {

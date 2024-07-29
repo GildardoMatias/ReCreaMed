@@ -34,10 +34,7 @@ export default function Register() {
       .catch(error => console.error('Error:', error))
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
-
+  
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       <Select

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Space, Button, Divider, Image } from 'antd';
+import { Row, Col, Space, Button,  Image } from 'antd';
 import { Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { API, usuario } from '../../resources';

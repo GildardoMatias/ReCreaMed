@@ -8,7 +8,7 @@ import CreateBalance from './create-ingreso';
 import Loading from '../../loading';
 import Ticket from './ticket-for-print';
 import IngersosHosptal from './ingresos.hospital';
-import PatientsChart from './patients-chart';
+import WeekCitas from './week.citas';
 
 const { Text } = Typography;
 
@@ -69,7 +69,7 @@ export default function Ingresos() {
 
         medicos.forEach(m => { m.label = m.name; m.value = m._id; })// to pass to create modal
         setMedicosData(medicos) // to pass to create modal and select
-
+        
         // const lastFechaCierre = await getData(`cortes/${usuario._id}`).then((rs) => {
         //     setFirstFecha(rs.at(0).fecha_cierre)
         //     setLastFecha(rs.length > 1 ? rs.at(-1).fecha_cierre : subtractMonths(new Date(), 3))
@@ -242,9 +242,9 @@ export default function Ingresos() {
 
             <Table columns={columns} dataSource={ingresosData} size='small' />
 
-            <PatientsChart ids_medicos={medicosData}/>
-
             <IngersosHosptal ids_hospitales={ids_hospitales} />
+
+            <WeekCitas medicos={medicosData} />
 
             {/* Ingreso */}
             <CreateBalance tipo='ingreso' balanceForEdit={ingresoForEdit} setBalanceForEdit={setIngresoForEdit} setIsModalOpen={setIsIngresoModalOpen} isModalOpen={isIngresoModalOpen} getIngresos={getIngresos} medico={medico} medicosData={medicosData} />

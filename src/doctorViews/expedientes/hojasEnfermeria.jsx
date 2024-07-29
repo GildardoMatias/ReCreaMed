@@ -22,7 +22,6 @@ export default function HojasEnfermeria({ hojas_enfermeria, id_nota, datosPacien
     const [isLogoSelected, setIsLogoSelected] = useState(false)
 
     // Modal for details
-    const showModal = () => { setIsModalOpen(true) };
     const handleOk = () => { setIsModalOpen(false); setHojaEdit(null) };
     const handleCancel = () => { setHojaEdit(null); setIsModalOpen(false) };
 
@@ -33,8 +32,7 @@ export default function HojasEnfermeria({ hojas_enfermeria, id_nota, datosPacien
     const handleAddCancel = () => { setIsAddModalOpen(false) };
 
     const gridStyle = { width: '14%', textAlign: 'center', height: '40' }
-    const gridStyle2 = { width: '20%', textAlign: 'center', height: 60, padding: 4 }
-
+   
     const onFinish = (values) => {
         console.log('prev hojas ', hojas_enfermeria)
 

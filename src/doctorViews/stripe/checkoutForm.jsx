@@ -1,11 +1,11 @@
 import React from 'react'
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
-import { Button, Form, Input } from 'antd'
+
 import { useState } from 'react'
 
 export default function CheckoutForm() {
 
-    const [isProcessing, setIsProcessing] = useState(false)
+    // const [isProcessing, setIsProcessing] = useState(false)
     const [message, setMessage] = useState("")
 
     const stripe = useStripe()
@@ -15,7 +15,7 @@ export default function CheckoutForm() {
         // values.preventDefault();
         // console.log('Success:', values);
         if (!stripe || !elements) return;
-        setIsProcessing(true)
+        // setIsProcessing(true)
         const { error, paymentIntent } = await stripe.confirmPayment({
             elements,
             confirmParams: {
@@ -26,11 +26,10 @@ export default function CheckoutForm() {
         if (error) setMessage(error.message)
         else if (paymentIntent && paymentIntent.status === 'succeeded') setMessage(`PaymentStatus ${paymentIntent.status}`)
         else setMessage('Error Inesperado')
-        setIsProcessing(false)
+        // setIsProcessing(false)
     };
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
+  
+    
 
     return (
         <div>

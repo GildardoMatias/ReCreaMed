@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import { Form, Input, Button, Row, Col, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 // import { Upload } from 'antd';

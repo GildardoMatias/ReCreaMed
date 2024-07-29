@@ -28,7 +28,7 @@ export default function Detalles(props) {
             let totalEfectivo = 0;
             let totalTarjeta = 0;
             let totalTransferencia = 0;
-            let listOfDeudors = [];
+            
             rs.forEach(c => {
 
 

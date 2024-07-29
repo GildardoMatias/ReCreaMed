@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react'
-import { Button, Table, Space, Select, Popconfirm, Switch } from 'antd'
+import { Button, Table, Space } from 'antd'
 import { getData, sendDataBody, usuario, ids_hospitales } from '../../resources'
-import Loading from '../../loading'
+
 import Detalles from './details.corte'
 import CreateCorte from './create.corte'
 
 export default function Cortes() {
-    const [medico, setMedico] = useState(null)
-    const [balance, setBalance] = useState({})
+    // const [medico, setMedico] = useState(null)
     const [cortesData, setCortesData] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [medicosData, setMedicosData] = useState([]) // For populate medics select
+    // const [loading, setLoading] = useState(true)
+    // const [medicosData, setMedicosData] = useState([]) // For populate medics select
 
     // Toggles between for medic/for hospital
-    const [viewTipeMedics, setViewTipeMedics] = useState(true)
+    // const [viewTipeMedics, setViewTipeMedics] = useState(true)
 
     // Data before all
     const [idsMedicos, setIdsMedicos] = useState([])
@@ -49,16 +48,16 @@ export default function Cortes() {
                 return doc._id
             });
             rs.forEach(m => { m.value = m._id; m.label = m.name })
-            setMedicosData(rs)
+            // setMedicosData(rs)
             setIdsMedicos(md)
-        }).finally(() => setLoading(false))
+        })
     }
 
     const getCortesData = () => {
         getData(`cortes/${usuario._id}`).then((rs) => {
             console.log('cortesData', rs)
             setCortesData(rs.reverse())
-        }).finally(() => { setLoading(false) })
+        })
     }
 
     const createCorte = (values) => {
@@ -74,7 +73,7 @@ export default function Cortes() {
         })
     }
 
-    const handleDoctorChange = (value) => { setMedico(value); getCortesData(value); };
+    // const handleDoctorChange = (value) => { setMedico(value); getCortesData(value); };
 
     const columns = [
         {
@@ -106,10 +105,10 @@ export default function Cortes() {
         }
     ];
 
-    const onChange = (checked) => {
-        console.log(`switch to ${checked}`);
-        setViewTipeMedics(checked);
-    };
+    // const onChange = (checked) => {
+    //     console.log(`switch to ${checked}`);
+    //     setViewTipeMedics(checked);
+    // };
 
 
     return <div className='mainContainer'>

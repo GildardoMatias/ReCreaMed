@@ -14,6 +14,7 @@ import { usuario } from '../resources'
 import Cortes from './cortes/main.cortes';
 import Receptionists from './receptionists/main.receptionists';
 import Enfermeros from './enfermeros/main.enfermeros';
+import Home from './home/home'
 
 const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); window.location.href = '/'; }
 
@@ -91,7 +92,7 @@ export default function AdminHospitalApp() {
           <PerfilAdministrador />
         </Route>
         <Route path="/">
-          <Users />
+          <Home />
         </Route>
 
       </Switch>

@@ -7,7 +7,7 @@ import Arial from '../../assets/fonts/arial/arial.ttf'
 import Calibri from '../../assets/fonts/calibri/calibri.ttf'
 
 import Logo from '../../assets/Logo.png'
-import { usuario, IMAGE_API, getData } from '../../resources';
+import {  getData } from '../../resources';
 
 function ExoneracionDocument({ namePaciente, idHospital, historia, notas, recetas }) {
 

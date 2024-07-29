@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Select, List, Row, Col } from 'antd'
+import { Button, Select,  Row, Col } from 'antd'
 import { API } from '../../resources'
 import Loading from '../../loading'
 import { usuario } from '../../resources'
 import Expedientes from '../expedientes/expedientes'
 // import DetallesPaciente from './detalles.paciente_old'
-import DetallesPaciente from './detalles.paciente'
+// import DetallesPaciente from './detalles.paciente'
 import Register from './register.patient'
-import { PlusOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs'
 import ExpedienteFisio from '../expedieteFisio/expediente'
 import RegisterFisio from './register.patent.fisio'

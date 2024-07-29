@@ -84,11 +84,11 @@ export default function PerfilAdministrador() {
   }
 
   return (
-    <div className='mainContainer'>
+    <div className='mainContainer' >
 
       <Space>
         <h3>PERFIL</h3>
-        <Button onClick={() => editPerfil(profileData)} type="primary" shape="circle" icon={<FormOutlined />} className='btnIconCentered' />
+        <Button onClick={() => editPerfil(profileData)} style={{backgroundColor: '#f0f2f5'}} type="primary" shape="circle" icon={<FormOutlined />} className='btnIconCentered' />
       </Space>
       <br /><br />
       {isLoading ? <Loading /> :

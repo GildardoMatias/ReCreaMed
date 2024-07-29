@@ -7,7 +7,7 @@ export default function CreateBalance(props) {
     const isCreating = !props.balanceForEdit;
 
     const [pacientesData, setPacientesData] = useState([])
-    const [loading, setLoading] = useState(true)
+  
 
     const handleOk = () => { props.setIsModalOpen(false) };
     const handleCancel = () => { props.setIsModalOpen(false); props.setBalanceForEdit(null) };
@@ -33,7 +33,7 @@ export default function CreateBalance(props) {
                 console.log('Pacientes: ', rs)
                 setPacientesData(rs)
             }
-        }).finally(() => { setLoading(false) })
+        })
         // }
     }
     // End of filtering patients to show in select

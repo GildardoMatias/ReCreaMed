@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Space, Button, Card, Modal, Popconfirm, Avatar } from 'antd'
+import { Table, Space, Button,  Modal, Popconfirm, Avatar } from 'antd'
 import { API, deleteData } from '../../resources';
 import Loading from '../../loading';
 import Register from './register.patient'
@@ -7,15 +7,14 @@ import { UserOutlined } from '@ant-design/icons'
 
 export default function Dash() {
 
-  const [usuario, setUsuario] = useState({});
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  // const [usuario, setUsuario] = useState({});
+  // const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [isLoading, setILoading] = useState(true);
   const [pacientesData, setPacientesData] = useState([]);
   const [patientForEdit, setPatientForEdit] = useState(null)
-  const showModal = () => { setIsModalVisible(true); };
-  const handleOk = () => { setIsModalVisible(false); };
-  const handleCancel = () => { setIsModalVisible(false); };
+  // const handleOk = () => { setIsModalVisible(false); };
+  // const handleCancel = () => { setIsModalVisible(false); };
   const handleOkEdit = () => { setIsEditModalVisible(false); };
   const handleCancelEdit = () => { setIsEditModalVisible(false); };
 
@@ -108,26 +107,26 @@ export default function Dash() {
     }
   ];
 
-  const gridStyle = {
-    width: '50%',
-    height: '50px',
-    textAlign: 'center',
-    display: 'inline-flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  };
+  // const gridStyle = {
+  //   width: '50%',
+  //   height: '50px',
+  //   textAlign: 'center',
+  //   display: 'inline-flex',
+  //   justifyContent: 'center',
+  //   alignItems: 'center'
+  // };
 
-  function DetalleUsuario() {
-    return <div>
-      <Card bordered={false}>
-        {
-          Object.keys(usuario).map(k => {
-            return <><Card.Grid style={gridStyle}>{k}</Card.Grid><Card.Grid style={gridStyle} size='small'>{usuario[k]}</Card.Grid></>
-          })
-        }
-      </Card>
-    </div>
-  }
+  // function DetalleUsuario() {
+  //   return <div>
+  //     <Card bordered={false}>
+  //       {
+  //         Object.keys(usuario).map(k => {
+  //           return <><Card.Grid style={gridStyle}>{k}</Card.Grid><Card.Grid style={gridStyle} size='small'>{usuario[k]}</Card.Grid></>
+  //         })
+  //       }
+  //     </Card>
+  //   </div>
+  // }
 
   return (
     <div>
@@ -136,9 +135,9 @@ export default function Dash() {
 
         <Table dataSource={pacientesData} columns={columns} />
       }
-      <Modal width={800} title={<h4>Datos del paciente </h4>} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose={true}>
+      {/* <Modal width={800} title={<h4>Datos del paciente </h4>} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose={true}>
         <DetalleUsuario />
-      </Modal>
+      </Modal> */}
 
       <Modal width={1000} title={<h4>Editar Paciente</h4>} open={isEditModalVisible} onOk={handleOkEdit} onCancel={handleCancelEdit} destroyOnClose
         footer={[]}

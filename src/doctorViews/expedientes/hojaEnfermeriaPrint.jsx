@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
-import Logo from '../../assets/Logo.png'
-import { usuario, IMAGE_API } from '../../resources';
+import {  IMAGE_API } from '../../resources';
 
 // export default function HojaDocument(receta, logoHospital, nombreHospital, datosPaciente) {
 export default function HojaDocument({ nombreHospital, logoHospital, receta, datosPaciente }) {

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
 import Logo from '../../assets/Logo.png'
-import { usuario, IMAGE_API } from '../../resources';
+import { usuario } from '../../resources';
 
 export default function ExpedienteDocument({ pacienteData, expedienteData, historia, notas, recetas, citas }) {
 

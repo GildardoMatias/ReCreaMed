@@ -9,10 +9,8 @@ export default function Dash() {
 
   const [pacientesData, setPacientesData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [view, setview] = useState('tabla')
-  const views = {
-    'tabla': 'tabla'
-  }
+ 
+
 
   useEffect(() => {
     getPacientesData()
@@ -67,10 +65,7 @@ export default function Dash() {
 
   ];
 
-  const tablaPacientes = () => {
-
-  }
-
+  
   return (
     <div>
       <h4>Pacientes</h4>

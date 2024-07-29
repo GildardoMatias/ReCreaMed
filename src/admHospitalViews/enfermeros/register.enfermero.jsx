@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, message, Space, Row, Col, Upload } from 'antd'
 import { MinusCircleOutlined, PlusOutlined, InboxOutlined } from '@ant-design/icons';
-import { Divider, Select } from 'antd';
+import {  Select } from 'antd';
 import { S_API, getData, API } from '../../resources'
 const { Option } = Select;
 const { Dragger } = Upload;
@@ -136,23 +136,8 @@ export default function Register(props) {
       </Select>
     </Form.Item>
   );
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
-      </Select>
-    </Form.Item>
-  );
 
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
   return (
     <div>
       {

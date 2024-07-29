@@ -85,9 +85,9 @@ export function Login() {
                 <Checkbox>Mantener la sesion</Checkbox>
               </Form.Item>
 
-              <a className="login-form-forgot" href="">
+              {/* <a className="login-form-forgot" href="#">
                 Recuperar contraseña
-              </a>
+              </a> */}
             </Form.Item>
 
             <Form.Item>

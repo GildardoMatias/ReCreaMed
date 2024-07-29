@@ -3,7 +3,7 @@ import { Button, Modal, Typography, Table } from 'antd'
 import * as FileSaver from 'file-saver';
 import XLSX from "sheetjs-style";
 
-import { sendDataBody, getData, usuario, deleteData } from '../../resources'
+import { sendDataBody } from '../../resources'
 import CorteDocument from "../../doctorViews/cortes/corteForPrint";
 
 const { Text } = Typography;
@@ -13,12 +13,12 @@ export default function Detalles(props) {
 
     const [isPrinting, setIsPrinting] = useState(false)
 
-    const [pacientesData, setPacientesData] = useState([])
+    // const [pacientesData, setPacientesData] = useState([])
 
     const [totales, setTotales] = useState({})
     const handleOk = () => { props.setIsModalOpen(false) };
 
-    useEffect(() => { return getPacientesData() }, [])
+    // useEffect(() => { return getPacientesData() }, [])
 
     // Here creates the main data
     useEffect(() => {
@@ -60,11 +60,11 @@ export default function Detalles(props) {
 
 
     // Give me the patients to match names
-    const getPacientesData = () => { getData(`mispacientes/${usuario._id}`).then((rs) => { setPacientesData(rs); }) }
-    const MatchPatient = ({ paciente }) => {
-        const patient = pacientesData.find((p) => paciente === p._id)
-        return <div>{patient ? patient.name : <Text disabled>Paciente eliminado o no existente</Text>} <p style={{ fontSize: 10 }}>Tomado de la cita</p></div>
-    }
+    // const getPacientesData = () => { getData(`mispacientes/${usuario._id}`).then((rs) => {  }) }
+    // const MatchPatient = ({ paciente }) => {
+    //     const patient = pacientesData.find((p) => paciente === p._id)
+    //     return <div>{patient ? patient.name : <Text disabled>Paciente eliminado o no existente</Text>} <p style={{ fontSize: 10 }}>Tomado de la cita</p></div>
+    // }
     const columns = [
         {
             title: 'Paciente',

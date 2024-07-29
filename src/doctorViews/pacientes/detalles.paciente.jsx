@@ -1,7 +1,7 @@
 import React from 'react'
-import { Avatar, Card, Divider, Button, Row, Col } from 'antd';
+import { Avatar, Button } from 'antd';
 import { FormOutlined, UserOutlined, MailOutlined, MobileOutlined } from '@ant-design/icons';
-import DetallesFisioModal from './detalles.fisio.modal';
+// import DetallesFisioModal from './detalles.fisio.modal';
 
 export default function DetallesPaciente({ paciente, setIsEditModalOpen }) {
 

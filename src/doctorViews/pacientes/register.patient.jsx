@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react'
-import { Form, Input, Button, message, Space, Divider, Upload, Switch, Modal, DatePicker } from 'antd'
+import { Form, Input, Button, message,  Divider, Upload, Switch, Modal, DatePicker } from 'antd'
 import { InputNumber, Select } from 'antd';
 import { S_API, API, usuario, estados } from '../../resources'
 import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
 import { useEffect } from 'react';
-import RegisterFisio from './register.patent.fisio';
+// import RegisterFisio from './register.patent.fisio';
 // const { Dragger } = Upload;
 
 

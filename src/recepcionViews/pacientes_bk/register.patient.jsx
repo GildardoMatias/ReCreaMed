@@ -102,30 +102,8 @@ export default function Register(props) {
     console.log('Failed:', errorInfo);
   };
 
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select
-        defaultValue='+52'
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="+52">+52</Option>
-      </Select>
-    </Form.Item>
-  );
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
-      </Select>
-    </Form.Item>
-  );
+ 
+  
   //Start upload props Upload File
   const dragDropProps = {
     name: 'file',

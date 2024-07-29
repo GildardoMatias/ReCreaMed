@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Tabs, Select } from 'antd'
 import { myHospitals } from '../../resources'
-import { Table, Avatar } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import { Table} from 'antd'
 import { getData } from '../../resources'
 import Loading from '../../loading'
 
@@ -32,9 +31,8 @@ function HospitalTab(props) {
     const [loading, setLoading] = useState(false)
 
     // To show Schedules
-    const [receptionist, setReceptionist] = useState(null)
+    // const [receptionist, setReceptionist] = useState(null)
     const [shedule, setShedule] = useState([])
-    const [loadinSchedules, setLoadinSchedules] = useState(true)
 
     const scheduleColumns = [
         // {
@@ -68,33 +66,33 @@ function HospitalTab(props) {
     const getReceptorsData = () => {
         getData('users_by_rol/Recepcion').then((rs) => { setReceptorsData(rs) }).finally(() => setLoading(false))
     }
-    const columns = [
-        {
-            title: 'Avatar',
-            dataIndex: 'avatar',
-            key: 'avatar',
-            render: (_, { avatar }) => {
-                return avatar.length > 9 ?
-                    <img width={64} src={'https://api.recreamed.com/images/' + avatar} alt='ProfilePic' /> :
-                    <Avatar size={64} icon={<UserOutlined />} className='btnIconCentered' />
-            }
-        },
-        {
-            title: 'Nombre',
-            dataIndex: 'name',
-            key: 'name',
-        },
-        {
-            title: 'Correo',
-            dataIndex: 'email',
-            key: 'email',
-        },
-        {
-            title: 'Telefono',
-            dataIndex: 'telefono',
-            key: 'telefono',
-        },
-    ];
+    // const columns = [
+    //     {
+    //         title: 'Avatar',
+    //         dataIndex: 'avatar',
+    //         key: 'avatar',
+    //         render: (_, { avatar }) => {
+    //             return avatar.length > 9 ?
+    //                 <img width={64} src={'https://api.recreamed.com/images/' + avatar} alt='ProfilePic' /> :
+    //                 <Avatar size={64} icon={<UserOutlined />} className='btnIconCentered' />
+    //         }
+    //     },
+    //     {
+    //         title: 'Nombre',
+    //         dataIndex: 'name',
+    //         key: 'name',
+    //     },
+    //     {
+    //         title: 'Correo',
+    //         dataIndex: 'email',
+    //         key: 'email',
+    //     },
+    //     {
+    //         title: 'Telefono',
+    //         dataIndex: 'telefono',
+    //         key: 'telefono',
+    //     },
+    // ];
     const myReceptors = (id_hospital) => {
         let doctorsFound = [];
         receptorsrData.forEach(receptor => {
@@ -117,11 +115,9 @@ function HospitalTab(props) {
         const horarios = await getData(`asistencias/${value}`)
         console.log(horarios)
         setShedule(horarios)
-        setReceptionist(value)
+        // setReceptionist(value)
     };
 
-    const getSchedules = () => {
-    }
 
     if (loading) return <Loading />
 

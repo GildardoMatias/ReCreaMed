@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button } from 'antd'
-import { CloudDownloadOutlined, AccountBookOutlined, BookOutlined } from '@ant-design/icons'
+import { CloudDownloadOutlined,  BookOutlined } from '@ant-design/icons'
 
 import DetallesPaciente from '../pacientes/detalles.paciente'
 import DetalleHistoria from './historia';

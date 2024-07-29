@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Table } from 'antd';
 import Loading from '../../loading';
-import { dateOptions, sendData } from '../../resources';
+import { dateOptions, sendData, sendDataBody } from '../../resources';
 
 export default function ReportsDoctors({ id_medico, isModalOpen, handleOk }) {
 
@@ -10,9 +10,25 @@ export default function ReportsDoctors({ id_medico, isModalOpen, handleOk }) {
 
     useEffect(() => { getCitasData() }, [isModalOpen])
 
+    function getCurrentWeek() {
+        const now = new Date();
+        const dayOfWeek = now.getDay(); // 0 (Sunday) to 6 (Saturday)
 
+        // Adjust to get Monday (0 if today is Monday, -6 if today is Sunday)
+        const diffToMonday = (dayOfWeek + 6) % 7;
 
+        const monday = new Date(now);
+        monday.setDate(now.getDate() - diffToMonday);
+        monday.setHours(0, 0, 0, 0); // Set to start of the day
 
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
+        sunday.setHours(23, 59, 59, 999); // Set to end of the day
+
+        return { start_date: monday, end_date: sunday };
+    }
+
+    
     const getCitasData = () => {
         setLoading(true)
         if (id_medico) {
@@ -47,11 +63,11 @@ export default function ReportsDoctors({ id_medico, isModalOpen, handleOk }) {
             dataIndex: 'servicio',
             key: 'age',
         },
-        
+
     ];
 
     return (
-        <Modal title="Reporte mensual de citas " open={isModalOpen} onOk={handleOk} onCancel={handleOk} width={800} destroyOnClose>
+        <Modal title="Reporte de citas " open={isModalOpen} onOk={handleOk} onCancel={handleOk} width={800} destroyOnClose>
             {
                 loading ? <Loading /> :
                     <div>
@@ -63,8 +79,10 @@ export default function ReportsDoctors({ id_medico, isModalOpen, handleOk }) {
                             JSON.stringify(citasData)
                         } */}
 
-                        <Table dataSource={citasData} columns={columns} />
 
+
+                        <h4>Citas este més</h4>
+                        <Table dataSource={citasData} columns={columns} />
 
                     </div>
             }

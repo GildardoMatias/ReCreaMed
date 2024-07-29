@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Tag, Button, Typography, Modal } from 'antd';
 import { CheckCircleTwoTone } from '@ant-design/icons'
-import { deleteData, getData, usuario } from '../../resources';
+import {  getData, usuario } from '../../resources';
 import CreateBalance from './create-balance';
 import Ticket from './ticket-for-print';
 

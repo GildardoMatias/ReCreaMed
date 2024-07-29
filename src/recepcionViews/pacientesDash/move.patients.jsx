@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Form, Input, Select, message } from 'antd';
+import { Button, Form,  Select, message } from 'antd';
 import { API } from '../../resources';
 import { usuario } from '../../resources';
 const { Option } = Select;

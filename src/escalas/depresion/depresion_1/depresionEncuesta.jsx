@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Switch, Button, Radio, Space, Row, Col, Select, message, Divider } from 'antd'
+import { Form, Switch, Button, Radio, Space, Row, Col, message } from 'antd'
 import { depresion_catalog, depresion_catalog2, disminucion_apetito, perdida_peso, aumento_apetito, aumento_peso } from './depresion_catalog'
 import { Card } from 'react-bootstrap'
 import { getData, sendDataBody } from '../../../resources';
@@ -44,13 +44,13 @@ export default function DepresionEncuesta(props) {
       if (values[i] > high1_4) high1_4 = values[i]
     }
     // El mayor de la 6 a la 9
-    for (var i = 6; i < 10; i++) {
-      if (values[i] > high6_9) high6_9 = values[i]
+    for (var j = 6; j < 10; j++) {
+      if (values[j] > high6_9) high6_9 = values[j]
     }
     // console.log('6-9', high6_9)
     // Suma de la 10 a la 14
-    for (var i = 10; i < 15; i++) {
-      _score += values[i]
+    for (var k = 10; k < 15; k++) {
+      _score += values[k]
     }
     // Suma el mayor enre 15 y 16 y sumarlo
     values[15] > values[16] ? _score += values[15] : _score += values[16];
@@ -77,12 +77,10 @@ export default function DepresionEncuesta(props) {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
     errorInfo.errorFields.map((p) => {
-      message.error('Conteste la pregunta ' + p.name)
+      return message.error('Conteste la pregunta ' + p.name)
     })
   };
-  const handleChange = (value) => {
-    // console.log(`selected ${value}`);
-  };
+
 
   // Loading state
   if (checking) return <div style={{ paddingTop: 180 }}>
@@ -250,7 +248,7 @@ export default function DepresionEncuesta(props) {
           wrapperCol={{ offset: 8, span: 16 }}
         >
           <Button type="primary" htmlType="submit">
-          Enviar respuestas
+            Enviar respuestas
           </Button>
         </Form.Item>
       </Form>

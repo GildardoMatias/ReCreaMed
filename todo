@@ -19,6 +19,9 @@ al editar, se ponmga automaticamente el médico
 
 -Enfermeria, al registrar cita, no crear forma de pago, hasta después cuando se modifique   -> Reverse instead on oncreate move to onedit
 
+Pacientes por semana en balances.
+Contador de pacientes, en médicos
+
 -entrar a la cita y poner un botón de registrar pago
 
 ---Habilitar expediente para administrador

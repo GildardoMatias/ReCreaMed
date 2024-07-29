@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Form, Select, Input, Button, message, Switch, DatePicker } from 'antd'
-import { sendDataBody, updateData, ids_hospitales } from '../../resources';
+import { sendDataBody, updateData } from '../../resources';
 
 // admin and receipt shares create-cita, hospital-tab.citas and create-cita-for-medic
 // ONLY RECEIPT CANT DELETE, SO, FIRST EDIT RECEIPTIONIST
@@ -8,7 +8,7 @@ import { sendDataBody, updateData, ids_hospitales } from '../../resources';
 
 export function CreateCitaForm(props) {
 
-    const isCreating = !props.cita || Object.keys(props.cita).length === 0;
+    // const isCreating = !props.cita || Object.keys(props.cita).length === 0;
 
     // const [medicosLoading, setMedicosLoading] = useState(true)
     const [medicos, setMedicos] = useState([])//Set Medicos for select
@@ -18,11 +18,11 @@ export function CreateCitaForm(props) {
     const [errorMessage, setErrorMessage] = useState("")
     const [enableCreateCita, setEnableCreateCita] = useState(true)
     // Body of cita
-    const [isOnline, setIsOnline] = useState(false)
-    const [costo, setCosto] = useState(0)
+    // const [isOnline, setIsOnline] = useState(false)
+    // const [costo, setCosto] = useState(0)
 
-    const [costoBaseCita, setCostoBaseCita] = useState(0)
-    const [usesCostoBase, setUsesCostoBase] = useState(false)
+    // const [costoBaseCita, setCostoBaseCita] = useState(0)
+    // const [usesCostoBase, setUsesCostoBase] = useState(false)
 
 
     useEffect(() => {
@@ -44,7 +44,7 @@ export function CreateCitaForm(props) {
 
     // Form Methods
     const onFinish = (values) => {
-        const tipo_pago = values.tipo_pago;
+        // const tipo_pago = values.tipo_pago;
         values.sucursal = props.hospital;
         delete values.tratamiento;
         values.id_servicio = values.servicio.key;
@@ -67,20 +67,20 @@ export function CreateCitaForm(props) {
         }
     }
 
-    const createBalance = (_cita, medico, _fecha_hora, tipo_pago, _concepto) => {
-        const balanceBody = {
-            tipo: 'ingreso',
-            medico: medico,
-            cita: _cita,
-            monto: costo,
-            forma_de_pago: tipo_pago,
-            fecha_hora: _fecha_hora,
-            estado: 'pendiente',
-            concepto: _concepto
-        }
-        console.log('Balance ready to send: ', balanceBody)
-        sendDataBody('balances/add', balanceBody).then((rs) => { message.success(rs.message || rs.error); console.log(rs) })
-    }
+    // const createBalance = (_cita, medico, _fecha_hora, tipo_pago, _concepto) => {
+    //     const balanceBody = {
+    //         tipo: 'ingreso',
+    //         medico: medico,
+    //         cita: _cita,
+    //         monto: costo,
+    //         forma_de_pago: tipo_pago,
+    //         fecha_hora: _fecha_hora,
+    //         estado: 'pendiente',
+    //         concepto: _concepto
+    //     }
+    //     console.log('Balance ready to send: ', balanceBody)
+    //     sendDataBody('balances/add', balanceBody).then((rs) => { message.success(rs.message || rs.error); console.log(rs) })
+    // }
 
 
     const onFinishFailed = (errorInfo) => {
@@ -123,8 +123,8 @@ export function CreateCitaForm(props) {
                 tratamientos_ofrecidos.forEach(t => {
                     t.key = t._id; t.label = `${t.tratamiento} - $${t.costo} - ${t.observaciones ?? ""}`; t.value = t.costo + "-" + t._id; t.title = t.tratamiento; 
                 });
-                const { configuracion: { costo_cita = 0 } } = found;
-                setCostoBaseCita(costo_cita)
+                // const { configuracion: { costo_cita = 0 } } = found;
+                // setCostoBaseCita(costo_cita)
                 setServicios(tratamientos_ofrecidos)
             }
             else {
@@ -138,22 +138,21 @@ export function CreateCitaForm(props) {
     }
 
     const onSwitch = (checked) => {
-        setIsOnline(checked)
+        // setIsOnline(checked)
     };
 
     // Handle change for select servicio
     const handleServicioChange = (selected) => {
         var cobro = selected.value.split("-")[0];
-        setCosto(cobro)
+        // setCosto(cobro)
         console.log(`selected service`, selected);
         console.log(`selected cobro`, cobro);
     };
 
-    const onSwitchCosoBase = (checked) => {
-        // if(checked)se
-        console.log(`switch to ${checked}`);
-        setUsesCostoBase(checked)
-    };
+    // const onSwitchCosoBase = (checked) => {
+    //     console.log(`switch to ${checked}`);
+    //     setUsesCostoBase(checked)
+    // };
 
     const timeOptions = [
         { label: 'Media Hora', value: 30 },
@@ -168,11 +167,6 @@ export function CreateCitaForm(props) {
         { label: 'Cinco Horas y Media', value: 300 },
     ]
 
-    const paymentOptions = [
-        { value: 'efectivo', label: 'Efectivo' },
-        { value: 'tarjeta', label: 'Tarjeta' },
-        { value: 'transferencia', label: 'Transferencia' },
-    ]
 
     return <Form name="nueva_cita_admin" labelCol={{ span: 8 }} wrapperCol={{ span: 14 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off"
         initialValues={props.cita ? props.cita : { isOnline: false, tratamiento: 'Sin servicio', fecha_hora: props.fecha_hora, duracion: 60 }}>
@@ -257,17 +251,15 @@ export function CreateCitaForm(props) {
 
 export default function CreateCita(props) {
 
-    const [enableCreate, setEnableCreate] = useState(true)
     // Handle Modal Visibility
     const handCreateleOk = () => { props.setIsModalOpen(false) }
     const handCreateleCancel = () => { props.setIsModalOpen(false) }
-
 
     return (
         <Modal title="Nueva Cita" open={props.isOpenModal} onOk={handCreateleOk} onCancel={handCreateleCancel} destroyOnClose width={600}
             footer={[
                 <Button onClick={handCreateleCancel}>Cancelar</Button>,
-                <Button type="primary" htmlType="submit" form='nueva_cita_admin' disabled={!enableCreate}>
+                <Button type="primary" htmlType="submit" form='nueva_cita_admin' >
                     Guardar
                 </Button>
             ]}

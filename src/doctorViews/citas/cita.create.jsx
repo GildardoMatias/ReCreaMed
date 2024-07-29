@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, Form, Select, Input, Button, message, Switch, DatePicker, InputNumber } from 'antd'
+import { Modal, Form, Select, Input, Button, message, Switch, DatePicker } from 'antd'
 import { getData, myHospitals, sendDataBody, updateData, usuario } from '../../resources';
-import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
 import { createEvent } from './auth.button';
 
 
@@ -12,14 +11,14 @@ export function CreateCitaForm(props) {
 
     myHospitals.forEach(h => { h.value = h._id; h.label = h.nombre; });
 
-    const [medicosData, setMedicosData] = useState([])
+    
     // Select patient for cerate cita
     const [misPacientes, setMisPacientes] = useState([])
 
 
     // Body of cita
-    const [isOnline, setIsOnline] = useState(false)
-    const [hospital, setHospital] = useState(null)
+    // const [isOnline, setIsOnline] = useState(false)
+    // const [hospital, setHospital] = useState(null)
     const [usesCostoBase, setUsesCostoBase] = useState(false)
 
     const [costo, setCosto] = useState(0)
@@ -84,7 +83,7 @@ export function CreateCitaForm(props) {
         console.log('Failed:', errorInfo);
     };
 
-    const handleHospitalChange = (value) => { console.log('Selected Hospital: ', value); setHospital(value) };
+    const handleHospitalChange = (value) => { console.log('Selected Hospital: ', value);  };
     const handlePacienteChange = (value) => { console.log('Selected Hospital: ', value); };
 
     // Select tratamiento old
@@ -100,7 +99,7 @@ export function CreateCitaForm(props) {
 
     const onSwitch = (checked) => {
         console.log(`switch to ${checked}`);
-        setIsOnline(checked)
+        // setIsOnline(checked)
     };
     const onSwitchCosoBase = (checked) => {
         // if(checked)se

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Button, Tag, Modal } from 'antd'
+import { Table, Button, Tag } from 'antd'
 import CreateBalanceHosptal from './create-ingreso-hosptal';
 import { getData } from '../../resources';
-import Loading from '../../loading';
+// import Loading from '../../loading';
 
 export default function IngersosHosptal({ ids_hospitales }) {
 
     const [ingresosData, setIngresosData] = useState([])
-    const [loading, setLoading] = useState(true)
+    // const [loading, setLoading] = useState(true)
     const [isIngresoModalOpen, setIsIngresoModalOpen] = useState(false); // Modal For Add/Edit Inreso
     const [isGastooModalOpen, setIsGastoModalOpen] = useState(false); // Modal For Add/Edit Gasto
   
@@ -18,7 +18,7 @@ export default function IngersosHosptal({ ids_hospitales }) {
     const getIngresos = () => {
         getData(`balances/hospital/${ids_hospitales[0]}`).then((rs) => {
             setIngresosData(rs)
-        }).finally(() => setLoading(false))
+        })
     }
 
     const columns = [
@@ -118,7 +118,7 @@ export default function IngersosHosptal({ ids_hospitales }) {
             <Button ghost size='small' onClick={() => setIsGastoModalOpen(true)} type='primary'  >Agregar Nuevo Gasto del Hospital</Button>
         </div>
 
-        <Table dataSource={ingresosData} columns={columns} size='small' />;
+        <Table dataSource={ingresosData} columns={columns} size='small' />
 
         {/* Ingreso of Hospital*/}
         <CreateBalanceHosptal tipo='ingreso' setIsModalOpen={setIsIngresoModalOpen} isModalOpen={isIngresoModalOpen} getIngresos={getIngresos} id_hospital={ids_hospitales[0]} />

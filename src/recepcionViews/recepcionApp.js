@@ -133,8 +133,8 @@ export default function RecepcionApp() {
 
 
         <Route path="/">
-          <MainPacientes />
-
+          {/* <MainPacientes /> */}
+          <Home />
         </Route>
 
       </Switch>

@@ -114,15 +114,7 @@ export default function DetalleReceta({ recetas, id_nota, paciente }) {
     }
 
 
-    const gridStyle = {
-        width: '100%',
-        height: '32',
-        textAlign: 'center',
-        display: 'inline-flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-    };
-
+  
     return <div>
         <Card
         // title={<>Recetas <Button className='btnIconCentered' onClick={() => setIsModalVisible(true)} size='small' type="primary" shape="circle" icon={<PlusOutlined />} ghost /></>}

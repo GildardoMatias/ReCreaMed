@@ -16,25 +16,25 @@ export default function DetalleNota(props) {
 
     const [notaData, setNotaData] = useState([]);
     const [notaLoading, setnotaLoading] = useState(true);
-    const [notaForEdit, setNotaForEdit] = useState("")
+    // const [notaForEdit, setNotaForEdit] = useState("")
     // Add Nota Modal
     const [isModalVisible, setIsModalVisible] = useState(false);
     const handleOk = () => { setIsModalVisible(false) };
     const handleCancel = () => { setIsModalVisible(false) };
     // End of Add Nota Modal
+    
     // Edit Nota Modal
-    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-    const handleEditOk = () => { setIsEditModalVisible(false) };
-    const handleEditCancel = () => { setIsEditModalVisible(false) };
-    const editarNota = async (n) => { await setNotaForEdit(n); setIsEditModalVisible(true) }
+    // const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    // const handleEditOk = () => { setIsEditModalVisible(false) };
+    // const handleEditCancel = () => { setIsEditModalVisible(false) };
+    // const editarNota = async (n) => { await setNotaForEdit(n); setIsEditModalVisible(true) }
     // End of Edit Nota Modal
+
     // Edit Nota fields
-    const [editingEntradas, setEditingEntradas] = useState(false)
+    // const [editingEntradas, setEditingEntradas] = useState(false)
     // const [editingDiagnostico, setEditingDiagnostico] = useState(false)
 
-    const [notasLen, setNotasLen] = useState(null)
-    const [counterPilot, setCounterPilot] = useState(0)
-
+   
     const id_paciente = props.paciente;
 
     useEffect(() => {
@@ -330,9 +330,9 @@ export default function DetalleNota(props) {
             <NuevaNota id_expediente={props.id_expediente} paciente={id_paciente} prevExpNotas={props.prevExpNotas} setIsModalVisible={setIsModalVisible} />
         </Modal>
 
-        <Modal title="Editar Nota" open={isEditModalVisible} onOk={handleEditOk} onCancel={handleEditCancel} width={680} footer={[]} destroyOnClose>
+        {/* <Modal title="Editar Nota" open={isEditModalVisible} onOk={handleEditOk} onCancel={handleEditCancel} width={680} footer={[]} destroyOnClose>
             <NuevaNota nota={notaForEdit} setIsModalVisible={setIsEditModalVisible} />
-        </Modal>
+        </Modal> */}
 
 
 

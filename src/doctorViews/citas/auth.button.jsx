@@ -5,8 +5,8 @@ import { GoogleOutlined, CheckCircleOutlined } from '@ant-design/icons'
 
 //const CLIENT_ID = '245971086169-jepmkkhrdegtq034l5644n51p5jeh7d5.apps.googleusercontent.com'; // D3 personal
 const CLIENT_ID = '91034098034-9nsi5epfbpd5ld2gu8629v125je8i151.apps.googleusercontent.com'; // recreameds
-const CLIENT_SECRET = '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'; // Reemplaza con tu secreto de cliente
-const REDIRECT_URI = 'http://localhost:3000'; // Reemplaza con tu URI de redirección
+// const CLIENT_SECRET = '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'; // Reemplaza con tu secreto de cliente
+// const REDIRECT_URI = 'http://localhost:3000'; // Reemplaza con tu URI de redirección
 //const API_KEY = 'AIzaSyDNI5xyDzbiMaI2qp7j0ou2YL0N61RYkXA' // Personal D3
 const API_KEY = 'AIzaSyB4mdJOL1daKPbkvg3T3-Bw_zLHtCq8umo'
 

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Modal, Form, Input, Slider, Divider, Radio, InputNumber, Button, Space, Select, message } from 'antd'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { Modal, Form, Input, Slider, Divider, Radio, InputNumber, Button,  Select, message } from 'antd'
+
 import { sendDataBody } from '../../resources'
 
 // It's called nota, but actually is the complete expedient 

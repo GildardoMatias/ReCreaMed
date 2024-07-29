@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Tag, Button, Typography, Card, Modal, Row, Col, Switch, Select } from 'antd';
 import { CheckCircleTwoTone } from '@ant-design/icons'
-import { getData, usuario, sendDataBody, ids_hospitales, deleteData } from '../../resources';
+import { getData, usuario, sendDataBody, ids_hospitales  } from '../../resources';
 import CreateBalance from './create-ingreso';
 import Loading from '../../loading';
 import Ticket from './ticket-for-print';
@@ -33,14 +33,14 @@ export default function Ingresos() {
     const handleTicketCancel = () => { setIsTicketModalOpen(false); setIsLogoSelected(false) };
 
     // Modal For Add/Edit Gasto
-    const [isEgresoModalOpen, setIsEgresoModalOpen] = useState(false)
-    const showEgresoModal = () => { setIsEgresoModalOpen(true) };
+    // const [isEgresoModalOpen, setIsEgresoModalOpen] = useState(false)
+    // const showEgresoModal = () => { setIsEgresoModalOpen(true) };
 
     // Toggles between for medic/for hospital
     const [viewTipeMedics, setViewTipeMedics] = useState(false)
 
-    const [lastFecha, setLastFecha] = useState("")
-    const [firstFecha, setFirstFecha] = useState("")
+    // const [lastFecha, setLastFecha] = useState("")
+    // const [firstFecha, setFirstFecha] = useState("")
 
 
     function subtractMonths(date, months) { date.setMonth(date.getMonth() - months); return date; }

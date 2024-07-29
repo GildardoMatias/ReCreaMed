@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { API, deleteData, sendDataBody } from '../../resources';
+import { API, sendDataBody } from '../../resources';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Modal, Popconfirm, Button, Select } from 'antd'
 import dayjs from 'dayjs';
-import CreateCita, { CreateCitaForm } from './create-cita-for-medic';
+import CreateCita from './create-cita-for-medic';
 import Loading from '../../loading';
 import DetailsCita from './details-cita';
 import RegisterPatientReception from './register.patient';

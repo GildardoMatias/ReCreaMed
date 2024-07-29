@@ -6,7 +6,7 @@ import { Button } from 'antd'
 import MisCitas from './misCitas'
 import Recetas from './recetas'
 import Perfil from './perfil';
-import Home from './home/home';
+// import Home from './home/home';
 import { usuario } from '../resources'
 
 const logout = () => { localStorage.removeItem('sessionToken'); localStorage.removeItem('userType'); window.location.href = '/'; }

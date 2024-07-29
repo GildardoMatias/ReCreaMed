@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Space, Button, Select, Tabs, Row, Col } from 'antd'
+import {  Button, Select, Tabs, Row, Col } from 'antd'
 import { API } from '../../resources'
 import Loading from '../../loading'
 import { usuario } from '../../resources'
-import Expedientes from '../expedientes/expedientes'
+// import Expedientes from '../expedientes/expedientes'
 import DetallesPaciente from './detalles.paciente'
 import Register from './register.patient'
 import { PlusOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons';
@@ -14,7 +14,7 @@ export default function MainPacientes() {
 
   const [pacientesData, setPacientesData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [paciente, setPaciente] = useState(null)
+  // const [paciente, setPaciente] = useState(null)
   const [adding, setAdding] = useState(false)
   const [activePatient, setActivePatient] = useState(pacientesData[0]?._id)
 
@@ -34,14 +34,11 @@ export default function MainPacientes() {
           paciente.value = paciente.name;
         });
         console.log(data); setPacientesData(data);
-        if (data && data.length > 0) setPaciente(data[0]._id)
+        // if (data && data.length > 0) setPaciente(data[0]._id)
       })
       .finally(() => setIsLoading(false))
   }
 
-  const onSelect = (data) => {
-    console.log('onSelect', data);
-  };
 
   const onChange = (data) => {
     console.log('onchangeSearchInput', data)
@@ -81,10 +78,10 @@ export default function MainPacientes() {
         isLoading ? <Loading /> :
           adding ? <Register setAdding={setAdding} /> :
             <div style={{ border: '1px solid #D6D6D6', borderRadius: 12, padding: 12 }}>
-              <Tabs activeKey={activePatient} tabPosition='left' onTabClick={(k, e) => { console.log('OnTABClick', k); setPaciente(k) }} style={{ marginTop: 6 }}>
+              <Tabs activeKey={activePatient} tabPosition='left' onTabClick={(k, e) => { console.log('OnTABClick', k);  }} style={{ marginTop: 6 }}>
                 {
                   pacientesData.map((pt) => {
-                    return <TabPane tab={<><UserOutlined />{pt.name} <PhoneOutlined style={{ marginBottom: 2 }} />{pt.telefono}</>} key={pt._id} onClick={() => { setPaciente(pt._id) }}>
+                    return <TabPane tab={<><UserOutlined />{pt.name} <PhoneOutlined style={{ marginBottom: 2 }} />{pt.telefono}</>} key={pt._id}>
                       <DetallesPaciente paciente={pt._id} />
                     </TabPane>
                   })

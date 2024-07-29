@@ -160,29 +160,22 @@ export default function Register(props) {
       .catch(error => console.error('Error:', error))
   };
 
-  const onFinishEdit = (values) => {
-    values.avatar = avatar;
-    // values.estatus = '1';
-    // values.rol = 'Paciente';
-    // delete values.confirm;
-    // delete values.prefix;
-    // delete values.agreement;
+  // const onFinishEdit = (values) => {
+  //   values.avatar = avatar;
 
-    console.log(values)
-    fetch(API + '/users/updateUser/:_id', {
-      method: 'PUT',
-      body: JSON.stringify(values),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(res => res.json())
-      .then(response => { console.log('Success:', response); message.success(response.message || response.error); })
-      .catch(error => console.error('Error:', error))
-  };
+  //   console.log(values)
+  //   fetch(API + '/users/updateUser/:_id', {
+  //     method: 'PUT',
+  //     body: JSON.stringify(values),
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   }).then(res => res.json())
+  //     .then(response => { console.log('Success:', response); message.success(response.message || response.error); })
+  //     .catch(error => console.error('Error:', error))
+  // };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -195,18 +188,7 @@ export default function Register(props) {
       </Select>
     </Form.Item>
   );
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select
-        style={{
-          width: 70,
-        }}
-      >
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
-      </Select>
-    </Form.Item>
-  );
+  
   return (
     <div>
       <h4>Registrar Usuario</h4>

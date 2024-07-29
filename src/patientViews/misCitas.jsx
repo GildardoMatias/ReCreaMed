@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Space, Row, Col, Button, Modal, Form, Input, message, DatePicker } from 'antd';
+import {  Row, Col, Button, Modal, Form, Input, message, DatePicker } from 'antd';
 import { Calendar, Badge } from 'antd';
-import { API, getData } from '../resources';
+import { API } from '../resources';
 import { usuario } from '../resources';
-import Loading from '../loading'
+// import Loading from '../loading'
 // import { API } from '../resources'
 // import Stripe from './stripe/stripe';
 
 export default function MisCitas() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [citasData, setCitasData] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
+    // const [isLoading, setIsLoading] = useState(true)
     const [cita, setCita] = useState({})
     const [isDetailVisible, setIsDetailVisible] = useState(false);
 
@@ -26,7 +26,7 @@ export default function MisCitas() {
             .then(data => {
                 console.log(data); setCitasData(data);
             })
-            .finally(() => setIsLoading(false))
+            
     }
 
     // Add Modal
@@ -37,39 +37,39 @@ export default function MisCitas() {
     const handleDetailOk = () => { setIsDetailVisible(false); };
     const handleDetailCancel = () => { setIsDetailVisible(false); };
 
-    const columns = [
-        {
-            title: 'Fecha y Hora',
-            dataIndex: 'fecha_hora',
-            key: 'fecha_hora',
-            render: text => <a>{text}</a>,
-        },
-        {
-            title: 'Paciente',
-            dataIndex: 'id_usuario',
-            key: 'id_usuario',
-        },
-        {
-            title: 'Sucursal',
-            dataIndex: 'id_sucursal',
-            key: 'v',
-        },
-        {
-            title: 'Comentarios',
-            dataIndex: 'comentarios',
-            key: 'comentarios',
-        },
-        {
-            title: 'Detalles',
-            key: 'detalles',
-            render: (text, record) => (
-                <Space size="middle">
-                    {/* <a href>Enlace</a> */}
-                    <Button>Enlace</Button>
-                </Space>
-            ),
-        },
-    ];
+    // const columns = [
+    //     {
+    //         title: 'Fecha y Hora',
+    //         dataIndex: 'fecha_hora',
+    //         key: 'fecha_hora',
+    //         render: text => <a>{text}</a>,
+    //     },
+    //     {
+    //         title: 'Paciente',
+    //         dataIndex: 'id_usuario',
+    //         key: 'id_usuario',
+    //     },
+    //     {
+    //         title: 'Sucursal',
+    //         dataIndex: 'id_sucursal',
+    //         key: 'v',
+    //     },
+    //     {
+    //         title: 'Comentarios',
+    //         dataIndex: 'comentarios',
+    //         key: 'comentarios',
+    //     },
+    //     {
+    //         title: 'Detalles',
+    //         key: 'detalles',
+    //         render: (text, record) => (
+    //             <Space size="middle">
+    //                 {/* <a href>Enlace</a> */}
+    //                 <Button>Enlace</Button>
+    //             </Space>
+    //         ),
+    //     },
+    // ];
 
     const onFinish = (values) => {
         values.medico = usuario._id;

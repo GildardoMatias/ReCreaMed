@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Select, Space, Form, Button, message } from 'antd'
+import { Select,  Form, Button, message } from 'antd'
 import { getData, updateData, usuario } from '../../resources';
 import { useState } from 'react';
 const id_sucursales = usuario && usuario.horarios.map(function (item) {

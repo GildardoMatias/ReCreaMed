@@ -4,12 +4,12 @@ import { updateData, pre_colors } from '../../resources';
 
 export default function AddService({ isOpen, handleClose, service, profileData, getProfileData }) {
 
-    const [initialService, setinitialService] = useState(null)
+    // const [initialService, setinitialService] = useState(null)
 
-    useEffect(() => {
-        console.log('before', profileData)
-        setinitialService(service)
-    }, [service])
+    // useEffect(() => {
+    //     console.log('before', profileData)
+    //     // setinitialService(service)
+    // }, [service])
 
     const onFinish = async (values) => {
         if (values.color.metaColor) values.color = '#' + values.color.metaColor.originalInput;
@@ -30,11 +30,11 @@ export default function AddService({ isOpen, handleClose, service, profileData, 
 
     }
 
-    useEffect(() => {
-        return () => {
-            setinitialService(null)
-        }
-    }, [])
+    // useEffect(() => {
+    //     return () => {
+    //         setinitialService(null)
+    //     }
+    // }, [])
 
     return (
         <Modal title={service ? "Editar Servicio" : "Agregar Servicio"} open={isOpen} onCancel={handleClose} destroyOnClose
