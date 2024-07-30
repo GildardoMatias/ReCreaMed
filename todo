@@ -13,6 +13,8 @@ Porcentajes de pacientes en administrador y recepcion
 Escalas agrupadas
 
 ----------------------------------------------------------
+npx update-browserslist-db@latest
+
 PatientsChart - admin
 
 al editar, se ponmga automaticamente el médico

@@ -10,7 +10,7 @@ export default function IngersosHosptal({ ids_hospitales }) {
     // const [loading, setLoading] = useState(true)
     const [isIngresoModalOpen, setIsIngresoModalOpen] = useState(false); // Modal For Add/Edit Inreso
     const [isGastooModalOpen, setIsGastoModalOpen] = useState(false); // Modal For Add/Edit Gasto
-  
+
     useEffect(() => {
         getIngresos()
     }, [])
@@ -110,7 +110,7 @@ export default function IngersosHosptal({ ids_hospitales }) {
     // if (loading) return <Loading />
 
     return <div>
-
+        
         <div style={{ display: 'flex', flexDirection: 'row', gap: 12, alignItems: 'center' }}>
             <h4>Ingresos del hospital</h4>
             {/* {JSON.stringify(ids_hospitales)} For view another hospitals , create a select with ids_hospitales as options and a state for hospital selected and pass ir as a param into createBalance*/}

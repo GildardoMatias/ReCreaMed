@@ -69,7 +69,7 @@ export default function Ingresos() {
 
         medicos.forEach(m => { m.label = m.name; m.value = m._id; })// to pass to create modal
         setMedicosData(medicos) // to pass to create modal and select
-        
+
         // const lastFechaCierre = await getData(`cortes/${usuario._id}`).then((rs) => {
         //     setFirstFecha(rs.at(0).fecha_cierre)
         //     setLastFecha(rs.length > 1 ? rs.at(-1).fecha_cierre : subtractMonths(new Date(), 3))
@@ -92,7 +92,7 @@ export default function Ingresos() {
         }
         // console.log('Balances body',body)
         sendDataBody('balances', body).then((rs) => {
-            console.log('alances', rs)
+            console.log('medicos', medicos)
             rs.forEach((i) => { i.doctor = i.medico; i.medico = i.medico._id; if (i.paciente) { i.usuario = i.paciente; i.paciente = i.paciente._id; } })
             setIngresosData(rs)
         }).finally(() => setLoading(false))
