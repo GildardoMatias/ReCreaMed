@@ -1,135 +1,91 @@
-import React, { Component } from 'react'
-import { Row, Col, Statistic, Card } from 'antd'
-// import { Pie, Line } from '@ant-design/charts';
-import './home.css'
+import React, { useEffect, useState } from 'react'
+import { Row } from 'antd'
+import RoleCard from './role.card'
+import StatisticCard from './statistic.card'
+import PatientCounter from './patient.counter'
+import Services from './services'
+import Ingresos from './ingresos'
+import Gastos from './gastos'
+import { getData, ids_hospitales, myHospitals, usuario } from '../../resources'
 
-export class Home extends Component {
+export default function Home() {
 
-    dataPie = [
-        {
-            type: 'F01',
-            value: 9,
-        },
-        {
-            type: 'F05',
-            value: 4,
-        },
-        {
-            type: 'F09',
-            value: 7,
-        },
-        {
-            type: 'F13',
-            value: 2,
-        },
-        {
-            type: 'F16',
-            value: 12,
-        },
-        {
-            type: 'F22',
-            value: 3,
-        },
-    ];
+    const [medicsData, setMedicsData] = useState([])
 
-    configPie = {
-        appendPadding: 10,
-        data: this.dataPie,
-        angleField: 'value',
-        colorField: 'type',
-        height: 450,
-        radius: 0.8,
-        label: {
-            type: 'inner',
-            offset: '-0.5',
-            content: '{name} {percentage}',
-            style: {
-                fill: '#fff',
-                fontSize: 14,
-                textAlign: 'center',
-            },
-        },
-    };
+    useEffect(() => {
+        const getMedics = async () => {
+            const meds = await getData(`users/hospital/${ids_hospitales[0]}`)
+            setMedicsData(meds)
+        }
+        getMedics()
+    }, [])
 
-    dataLine = [
-        { mes: 'Junio', consultas: 24 },
-        { mes: 'Julio', consultas: 17 },
-        { mes: 'Agosto', consultas: 22 },
-        { mes: 'Septiembre', consultas: 15 },
-        { mes: 'Octubre', consultas: 18 }
-    ];
+    return (
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', paddingTop: 20 }}>
 
-    configLine = {
-        data: this.dataLine,
-        height: 410,
-        xField: 'mes',
-        yField: 'consultas',
-        color: '#01B075',
-        point: {
-            size: 5,
-            shape: 'diamond',
-            color: '#01B075'
-        },
-        label: {
-            style: {
-                fill: '#aaa',
-                fontSize: 16,
-                stroke: '#01B075'
-            },
-        },
-    };
-    render() {
-        return (
-            <>
+
+            <div style={{ width: '70%' }}>
+
+
+                <div style={{ display: 'flex' }}>
+                    <img width={120} src={'https://api.recreamed.com/images/' + myHospitals[0]['logo']} alt="Logo" />
+                    <div style={{ marginLeft: 8, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        <span className='nombre'>{myHospitals[0]['nombre']}</span>
+                        <span className='datos'>{usuario.rol}</span>
+                    </div>
+                </div>
+                <br />
+                <br />
+
+                <Row style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    {/* <Row style={{ display: 'flex', flexDirection: 'row', gap: 30 }}> */}
+
+                    <RoleCard color='#71357b' rol='medicos' />
+
+                    <RoleCard color='#95d0d4' rol='pacientes' />
+
+                    <RoleCard color='#fe7e51' rol='enfermeros' />
+
+                    <RoleCard color='#fe7e51' rol='recepcionistas' />
+
+                </Row>
+
 
                 <br />
-                <div className="contenedor">
-                    <Row gutter={30}>
-                        <Col xs={24} sm={12} lg={6}>
-                            <Card className="cardsContenedor" hoverable bordered={false}>
-                                <Statistic title="Total Hospitales" value="4" valueStyle={{ color: 'white' }} style={{ backgroundColor: '#4BA6FE', borderRadius: 12 }} className="cardsContenido" />
-                            </Card>
-                        </Col>
-                        <Col xs={24} sm={12} lg={6}>
-                            <Card className="cardsContenedor" hoverable bordered={false}>
-                                <Statistic title="Total Medicos" value="14" valueStyle={{ color: 'white' }} style={{ backgroundColor: '#FF838A', borderRadius: 12 }} className="cardsContenido" />
-                            </Card>
-                        </Col>
+                <br />
 
-                        <Col xs={24} sm={12} lg={6}>
-                            <Card className="cardsContenedor" hoverable bordered={false}>
-                                <Statistic title="Total Pacientes" value="241" valueStyle={{ color: 'white' }} style={{ backgroundColor: '#18D0C2', borderRadius: 12 }} className="cardsContenido" />
-                            </Card>
-                        </Col>
-                        <Col xs={24} sm={12} lg={6}>
-                            <Card className="cardsContenedor" hoverable bordered={false}>
-                                <Statistic title="Citas Hoy" value={47} valueStyle={{ color: 'white' }} style={{ backgroundColor: '#847DFC', borderRadius: 12 }} className="cardsContenido" />
-                            </Card>
-                        </Col>
-                    </Row>
-                    <Row gutter={20}>
-                        <Col xs={24} md={12} style={{textAlign:'center'}}>
-                            <h5 style={{color: '#1F263C'}}>Diagnosticos</h5>
-                        </Col>
-                        <Col xs={24} md={12} style={{textAlign:'center'}}>
-                            <h5>Citas</h5>
-                        </Col>
-                    </Row>
-                    <Row gutter={20}>
-                        <Col xs={24} md={12} className="graficaCircular">
-                            {/* <Pie {...this.configPie} style={{ backgroundColor: '#1F263C', borderRadius: 12 }} /> */}
-                        </Col>
 
-                        <Col xs={24} md={12}>
-                            {/* <Line {...this.configLine} style={{ backgroundColor: '#1F263C', padding: '20px', borderRadius: 12 }} /> */}
-                        </Col>
-                    </Row>
+                <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
+                    <div style={{ width: '28%' }}>
+                        <span className='desc'>Estadisticas de hoy</span>
+
+                        <StatisticCard id='ct' label='Citas hoy' left_color='#0d6efd' idmeds={medicsData} />
+
+                        <StatisticCard id='pt' label='Pacientes registrados hoy' left_color='#FF6B6B' idmeds={medicsData} />
+
+                        {/* <StatisticCard id='it' label='Ingresos hoy' left_color='#6a3873' idmeds={medicsData} /> */}
+
+                        {/* <StatisticCard id='iy' label='Ingresos ayer' left_color='#91cdcd' idmeds={medicsData} /> */}
+
+                    </div>
+
+
+                    <div style={{ width: '70%' }}>
+
+                        <PatientCounter medicsData={medicsData} />
+
+                        <Services medicosData={medicsData} />
+
+                        {/* <Ingresos idmeds={medicsData} /> */}
+
+                        {/* <Gastos /> */}
+
+
+                    </div>
 
                 </div>
-
-            </>
-        )
-    }
+                <br />
+            </div>
+        </div >
+    )
 }
-
-export default Home

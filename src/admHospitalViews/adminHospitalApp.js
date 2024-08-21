@@ -93,6 +93,7 @@ export default function AdminHospitalApp() {
         </Route>
         <Route path="/">
           <Home />
+          {/* <Users /> */}
         </Route>
 
       </Switch>

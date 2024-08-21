@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Select,  Row, Col } from 'antd'
+import { Button, Select, Row, Col } from 'antd'
 import { API } from '../../resources'
 import Loading from '../../loading'
 import { usuario } from '../../resources'
@@ -34,7 +34,7 @@ export default function MainPacientes() {
 
   useEffect(() => {
     getPacientesData()
-  }, [isRegisterModalOpen,isRegisterFisioModal,isEditFisioModalOpen])
+  }, [isRegisterModalOpen, isRegisterFisioModal, isEditFisioModalOpen])
 
   const getPacientesData = () => {
     fetch(API + `mispacientes/${usuario._id}`)
@@ -68,6 +68,7 @@ export default function MainPacientes() {
   };
 
   if (isLoading) return <Loading />
+
 
   return (
     <div className='mainContainer' style={{ backgroundColor: '#f5f6f8' }}>
@@ -109,7 +110,11 @@ export default function MainPacientes() {
       {
         TIPO === 'FISIO' ?
           <ExpedienteFisio paciente={activePatient} setIsEditModalOpen={setIsEditFisioModalOpen} /> :
-          <Expedientes paciente={activePatient} setIsEditModalOpen={setIsEditModalOpen} />
+          <div>{
+            pacientesData.length === 0 ? <div style={{ padding: 12, width: '100%', height: 400, borderRadius: 12, backgroundColor: 'white' }} className='nombre'>Sin pacientes registrados</div> :
+              < Expedientes paciente={activePatient} setIsEditModalOpen={setIsEditModalOpen} />
+          }
+          </div>
       }
 
       {/* Modal For Register */}

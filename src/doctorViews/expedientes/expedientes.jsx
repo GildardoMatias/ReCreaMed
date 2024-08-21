@@ -10,7 +10,7 @@ import ExpedienteDocument from './expedienteForPrint';
 // import { jsPDF } from "jspdf";
 
 
-export default function Expedientes({ paciente, setIsEditModalOpen }) {
+export default function Expedientes({ paciente = {}, setIsEditModalOpen }) {
 
     const [expedientesData, setExpedientesData] = useState(null);
     const [expedientesLoading, setExpedientesLoading] = useState(true);

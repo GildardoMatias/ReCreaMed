@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Row } from 'antd'
 import RoleCard from './role.card'
 import StatisticCard from './statistic.card'
@@ -6,28 +6,47 @@ import PatientCounter from './patient.counter'
 import Services from './services'
 import Ingresos from './ingresos'
 import Gastos from './gastos'
+import { getData, ids_hospitales, myHospitals } from '../../resources'
 
 export default function Home() {
+
+    const [medicsData, setMedicsData] = useState([])
+
+    useEffect(() => {
+        const getMedics = async () => {
+            const meds = await getData(`users/hospital/${ids_hospitales[0]}`)
+            setMedicsData(meds)
+        }
+        getMedics()
+    }, [])
+
     return (
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center', paddingTop: 20 }}>
 
 
-            <div style={{ width: '50%' }}>
-                <br />
-                <span className='nombre'>Administrador</span>
-                <br />
-                <span className='datos'>Hospital</span>
+            <div style={{ width: '70%' }}>
 
+
+                <div style={{ display: 'flex' }}>
+                    <img width={120} src={'https://api.recreamed.com/images/' + myHospitals[0]['logo']} alt="Logo" />
+                    <div style={{ marginLeft: 8, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        <span className='nombre'>{myHospitals[0]['nombre']}</span>
+                        <span className='datos'>Administrador</span>
+                    </div>
+                </div>
                 <br />
                 <br />
 
                 <Row style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    {/* <Row style={{ display: 'flex', flexDirection: 'row', gap: 30 }}> */}
 
                     <RoleCard color='#71357b' rol='medicos' />
 
                     <RoleCard color='#95d0d4' rol='pacientes' />
 
                     <RoleCard color='#fe7e51' rol='enfermeros' />
+
+                    <RoleCard color='#fe7e51' rol='recepcionistas' />
 
                 </Row>
 
@@ -37,29 +56,29 @@ export default function Home() {
 
 
                 <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
-                    <div style={{ width: '38%' }}>
+                    <div style={{ width: '28%' }}>
                         <span className='desc'>Estadisticas de hoy</span>
 
-                        <StatisticCard id='pt' label='Pacientes registrados hoy' left_color='#FF6B6B' />
+                        <StatisticCard id='ct' label='Citas hoy' left_color='#0d6efd' idmeds={medicsData} />
 
-                        <StatisticCard id='it' label='Ingresos hoy' left_color='#6a3873' />
+                        <StatisticCard id='pt' label='Pacientes registrados hoy' left_color='#FF6B6B' idmeds={medicsData} />
 
-                        <StatisticCard id='iy' label='Ingresos ayer' left_color='#91cdcd' />
+                        <StatisticCard id='it' label='Ingresos hoy' left_color='#6a3873' idmeds={medicsData} />
 
-                        <StatisticCard id='ct' label='Citas hoy' left_color='#0d6efd' />
+                        <StatisticCard id='iy' label='Ingresos ayer' left_color='#91cdcd' idmeds={medicsData} />
 
                     </div>
 
 
-                    <div style={{ width: '58%' }}>
+                    <div style={{ width: '70%' }}>
 
-                        <PatientCounter />
+                        <PatientCounter medicsData={medicsData} />
 
-                        <Services />
+                        <Services medicosData={medicsData} />
 
-                        <Ingresos />
+                        <Ingresos idmeds={medicsData} />
 
-                        <Gastos />
+                        {/* <Gastos /> */}
 
 
                     </div>

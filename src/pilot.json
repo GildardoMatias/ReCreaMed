@@ -1,9 +1,259 @@
 [
-    "2024-07-21T06:00:00.000Z",
-    "2024-07-22T06:00:00.000Z",
-    "2024-07-23T06:00:00.000Z",
-    "2024-07-24T06:00:00.000Z",
-    "2024-07-25T06:00:00.000Z",
-    "2024-07-26T06:00:00.000Z",
-    "2024-07-27T06:00:00.000Z"
+    {
+        "_id": "63311bdb9811c8b706435c2c",
+        "rol": "Medico",
+        "horarios": [
+            {
+                "sucursal": {
+                    "_id": "62e9357f14629809cdfc2c72",
+                    "logo": "e73a58d2-55a1-45ad-8b87-6b5911ccffa5.jpg",
+                    "nombre": "CIDERALT"
+                },
+                "_id": "6331f6be9811c8b706435d47"
+            }
+        ],
+        "medicos_asignados": [],
+        "name": "Tzihueriti Castillo",
+        "email": "tzihue@hotmail.com",
+        "password": "$2b$10$P76WVr0hJDCTsqTDtLC33uAjNziJfVwOB2RlitJGZjAkUvcGNt8j6",
+        "avatar": "noimg.jpg",
+        "telefono": 4432369926,
+        "estatus": 1,
+        "createdAt": "2022-09-26T03:26:19.875Z",
+        "updatedAt": "2024-07-30T01:02:55.356Z",
+        "__v": 0,
+        "configuracion": {
+            "tratamientos_ofrecidos": [
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "Ketamina con Terapia",
+                    "costo": 3600,
+                    "color": "#1677FF",
+                    "_id": "6554e971011c5d15e516c6ad"
+                },
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "Ketamina",
+                    "costo": 3000,
+                    "color": "#1677FF",
+                    "_id": "6554e976011c5d15e516c6ea"
+                },
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "TA",
+                    "costo": 24000,
+                    "color": "#722ED1",
+                    "_id": "6554e97b011c5d15e516c704"
+                },
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "EMT 15min",
+                    "costo": 1500,
+                    "color": "#FA8C16",
+                    "_id": "6531727583776ca8ad729758"
+                },
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "EMT 30min",
+                    "costo": 3000,
+                    "color": "#FA8C16",
+                    "_id": "6531727983776ca8ad729772"
+                },
+                {
+                    "tratamiento": "Bloqueo",
+                    "observaciones": "Bloqueo de citas",
+                    "costo": 0,
+                    "color": "#000000",
+                    "_id": "661711e8b0c5f426d2e3b5b4"
+                },
+                {
+                    "tratamiento": "DNA",
+                    "observaciones": "Toma de muestras",
+                    "costo": 0,
+                    "color": "#FF80AB",
+                    "_id": "661711fab0c5f426d2e3b5d1"
+                }
+            ],
+            "_id": "661711fab0c5f426d2e3b5ca"
+        },
+        "enfermedades_familiares": [],
+        "enfermedades_medicas": [],
+        "tratamiento_actual": [],
+        "universidades": [],
+        "tipo": "PSIQ"
+    },
+    {
+        "_id": "63311b999811c8b706435c24",
+        "rol": "Medico",
+        "horarios": [
+            {
+                "sucursal": {
+                    "_id": "62e9357f14629809cdfc2c72",
+                    "logo": "e73a58d2-55a1-45ad-8b87-6b5911ccffa5.jpg",
+                    "nombre": "CIDERALT"
+                },
+                "horario": "Abierto",
+                "_id": "6452b0977b419c87bc5ee469"
+            }
+        ],
+        "medicos_asignados": [],
+        "name": "David Israel Farias Anda",
+        "email": "israel_difa@hotmail.com",
+        "password": "$2b$10$UKIjpulkyKIo5ZD0xVjbuuFVKyErzHDvnCJuYb4bHLRHZnxRu4yxy",
+        "avatar": "e198d179-0291-43fa-949e-2e769f54cf2d.jpg",
+        "telefono": 5539402052,
+        "estatus": 1,
+        "createdAt": "2022-09-26T03:25:14.016Z",
+        "updatedAt": "2024-07-30T01:02:38.729Z",
+        "__v": 0,
+        "configuracion": {
+            "tratamientos_ofrecidos": [
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "Ketamina",
+                    "costo": 3000,
+                    "color": "#1677FF",
+                    "_id": "6554e6fed0c21c88d7160af9"
+                },
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "Ketamina con Terapia",
+                    "costo": 3600,
+                    "color": "#1677FF",
+                    "_id": "6554e703d0c21c88d7160b13"
+                },
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "TA",
+                    "costo": 24000,
+                    "color": "#722ED1",
+                    "_id": "6554e709d0c21c88d7160b2d"
+                },
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "EMT 15min",
+                    "costo": 1500,
+                    "color": "#FA8C16",
+                    "_id": "653171cd83776ca8ad72954b"
+                },
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "EMT 30min",
+                    "costo": 3000,
+                    "color": "#FA8C16",
+                    "_id": "653171d483776ca8ad729565"
+                },
+                {
+                    "tratamiento": "Bloqueo",
+                    "observaciones": "Bloqueo de citas",
+                    "costo": 0,
+                    "color": "#000000",
+                    "_id": "66171186b0c5f426d2e3b483"
+                },
+                {
+                    "tratamiento": "DNA",
+                    "observaciones": "Toma de muestras",
+                    "costo": 0,
+                    "color": "#FF80AB",
+                    "_id": "66171179b0c5f426d2e3b465"
+                }
+            ],
+            "_id": "661710feb0c5f426d2e3b399"
+        },
+        "cedula": "9121591",
+        "certificacion": "consejo mexicano de psiquiatría",
+        "universidad": "UNAM",
+        "enfermedades_familiares": [],
+        "enfermedades_medicas": [],
+        "tratamiento_actual": [],
+        "universidades": [],
+        "tipo": "PSIQ"
+    },
+    {
+        "_id": "62fd911f578d2b4669e0e056",
+        "rol": "Medico",
+        "horarios": [
+            {
+                "sucursal": {
+                    "_id": "62e9357f14629809cdfc2c72",
+                    "logo": "e73a58d2-55a1-45ad-8b87-6b5911ccffa5.jpg",
+                    "nombre": "CIDERALT"
+                },
+                "horario": "Abierto",
+                "_id": "6331fa219811c8b706435d51"
+            }
+        ],
+        "medicos_asignados": [],
+        "name": "Misael Tapia Orozco",
+        "email": "misaeltapiao@yahoo.com",
+        "password": "$2b$10$q7P9trbSLIS7q1MTw18AquAcMpkWLUSLmxHt375zeLeZEz3V6WXhG",
+        "avatar": "noimg.jpg",
+        "telefono": 4431271635,
+        "estatus": 1,
+        "createdAt": "2022-08-18T01:08:47.450Z",
+        "updatedAt": "2024-07-30T01:02:31.280Z",
+        "__v": 0,
+        "universidad": "UMSNH",
+        "cedula": "7531578",
+        "configuracion": {
+            "tratamientos_ofrecidos": [
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "Ketamina",
+                    "costo": 3000,
+                    "color": "#1677FF",
+                    "_id": "6554e6cbd0c21c88d7160a46"
+                },
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "Ketamina con Terapia",
+                    "costo": 3600,
+                    "color": "#1677FF",
+                    "_id": "6554e6d1d0c21c88d7160a60"
+                },
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "TA",
+                    "costo": 24000,
+                    "color": "#722ED1",
+                    "_id": "6554e6e1d0c21c88d7160a7a"
+                },
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "EMT 15min",
+                    "costo": 1500,
+                    "color": "#FA8C16",
+                    "_id": "6531722683776ca8ad72966a"
+                },
+                {
+                    "tratamiento": "Servicio Médico",
+                    "observaciones": "EMT 30min",
+                    "costo": 3000,
+                    "color": "#FA8C16",
+                    "_id": "6531722a83776ca8ad72968a"
+                },
+                {
+                    "tratamiento": "Bloqueo",
+                    "observaciones": "Bloqueo de citas",
+                    "costo": 0,
+                    "color": "#000000",
+                    "_id": "661711bbb0c5f426d2e3b510"
+                },
+                {
+                    "tratamiento": "DNA",
+                    "observaciones": "Toma de muestras",
+                    "costo": 0,
+                    "color": "#FF80AB",
+                    "_id": "661711cbb0c5f426d2e3b52d"
+                }
+            ],
+            "_id": "661711cbb0c5f426d2e3b526"
+        },
+        "enfermedades_familiares": [],
+        "enfermedades_medicas": [],
+        "tratamiento_actual": [],
+        "universidades": [],
+        "especialidad": "Neuropsiquiatría",
+        "tipo": "PSIQ"
+    }
 ]
