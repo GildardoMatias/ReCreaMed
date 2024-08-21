@@ -215,7 +215,7 @@ export default function Register(props) {
         </Form.Item>
 
         {/* Start Adding Medicos ASignados */}
-        <Form.Item name="medicos_asignados" label="Medicos Asignados" rules={[{ required: true, message: 'Agrega al mennos un medico' }]} >
+        <Form.Item name="medicos_asignados" label="Médicos Asignados" rules={[{ required: true, message: 'Agrega al mennos un medico' }]} >
           <Form.List name="medicos_asignados" >
             {(fields, { add, remove }, { errors }) => (
               <>
@@ -225,7 +225,7 @@ export default function Register(props) {
                       validateTrigger={['onChange', 'onBlur']}
                       rules={[{ required: true, whitespace: true, message: "Selecciona un Medico o elimina este campo" }]}
                     >
-                      <Select options={medicosData} placeholder="Selecciona Medico" style={{ width: fields.length > 1 ? '90%' : '100%' }} />
+                      <Select options={medicosData} placeholder="Selecciona Médico" style={{ width: fields.length > 1 ? '90%' : '100%' }} />
                     </Form.Item>
                     {fields.length > 1 ? (
                       <MinusCircleOutlined

@@ -71,7 +71,7 @@ export default function HospitalTab(props) {
             key: 'name',
         },
         {
-            title: 'Medicos Asignados',
+            title: 'Médicos Asignados',
             dataIndex: 'medicos_asignados',
             key: 'medicos_asignados',
             render: (_, { medicos_asignados }) => <ul>{

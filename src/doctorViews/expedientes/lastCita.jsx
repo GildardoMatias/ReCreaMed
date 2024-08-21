@@ -48,7 +48,7 @@ export default function LastCita(props) {
             const ultimaCita = getLastCta(rs);
             // console.log('lsat cita', ultimaCita)
             setCita(ultimaCita)
-            setCitasData(rs)
+            setCitasData(rs.reverse())
             return ultimaCita
         }).then((last) => {
             return getData('balances/cita/' + last?._id)
@@ -79,13 +79,13 @@ export default function LastCita(props) {
 
 
                             </div>
-                            <HistorialCitas historial={citasData} />
+
                             {/* <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', columnGap: '10px' }}>
                              <CalendarOutlined /> {new Date(lastBalance.createdAt).toLocaleDateString()}
                          </div> */}
                         </div>
                     ) : (
-                        <p>Sin Ultimo Balance</p>
+                        <p className='desc' style={{marginTop: 6}}>Sin Último Balance</p>
                     )
             }
 
@@ -104,6 +104,8 @@ export default function LastCita(props) {
                             <li className='btnIconCentered'><CalendarOutlined style={{ marginRight: 8 }} /> Fecha: {new Date(cita.fecha_hora).toLocaleDateString()}</li><br />
 
                             <li className='btnIconCentered'><ClockCircleOutlined style={{ marginRight: 8 }} /> Hora: {cita.fecha_hora.substring(11, 16)}</li>
+
+                            <HistorialCitas historial={citasData} />
 
                             <LastBalance />
 

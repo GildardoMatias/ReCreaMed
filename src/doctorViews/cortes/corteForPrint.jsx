@@ -178,6 +178,7 @@ export default function CorteDocument({ corte, totales, logo, ingresos, hospital
                         <Image style={styles.logo} src={logo} />
                         <View>
                             <Text style={styles.title}>Corte</Text>
+
                             <Text style={styles.company}>Del {new Date(corte.fecha_inicio).toLocaleString('es-MX', dateOptions)}</Text>
                             <Text style={styles.company}>al {new Date(corte.fecha_cierre).toLocaleString('es-MX', dateOptions)} </Text>
                             <Text style={styles.company}>{hospital}</Text>
@@ -194,14 +195,14 @@ export default function CorteDocument({ corte, totales, logo, ingresos, hospital
                             <Text style={styles.tableColHeader}>FechaHora</Text>
                             <Text style={styles.tableColHeader}>Forma de pago</Text>
                             <Text style={styles.tableColHeader}>Monto</Text>
-                            <Text style={styles.tableColHeader}>Estado</Text>
+                            <Text style={styles.tableColHeader}>Abono</Text>
                         </View>
                         {ingresos.map((item) => (
                             <View style={styles.tableRow} key={item._id}>
                                 <Text style={styles.tableCol}>{new Date(item.fecha_hora).toLocaleDateString('es-MX', dateOptions)}</Text>
                                 <Text style={styles.tableCol}>{item.forma_de_pago}</Text>
                                 <Text style={styles.tableCol}>${item.monto}</Text>
-                                <Text style={styles.tableCol}>{item.estado}</Text>
+                                <Text style={styles.tableCol}>{item.abono}</Text>
                             </View>
                         ))}
                     </View>

@@ -3,7 +3,7 @@ import { Button, Modal, Typography, Table } from 'antd'
 import * as FileSaver from 'file-saver';
 import XLSX from "sheetjs-style";
 
-import { sendDataBody } from '../../resources'
+import { ids_hospitales, sendDataBody } from '../../resources'
 import CorteDocument from "../../doctorViews/cortes/corteForPrint";
 
 const { Text } = Typography;
@@ -16,6 +16,7 @@ export default function Detalles(props) {
     // const [pacientesData, setPacientesData] = useState([])
 
     const [totales, setTotales] = useState({})
+    const [ingresos, setIngresos] = useState([])
     const handleOk = () => { props.setIsModalOpen(false) };
 
     // useEffect(() => { return getPacientesData() }, [])
@@ -23,7 +24,7 @@ export default function Detalles(props) {
     // Here creates the main data
     useEffect(() => {
         sendDataBody(`balances/ingresos/corte`, props.corte).then(rs => {
-            console.log(rs)
+            setIngresos(rs)
             let totalIngresos = 0;
             let totalPendiente = 0;
             let totalCobros = rs.length;
@@ -116,7 +117,7 @@ export default function Detalles(props) {
         {
             isPrinting ?
                 // Called from Medico views
-                <CorteDocument totales={totales} logo="https://api.recreamed.com/images/bd71d914-1f11-4bea-81e5-81b55e11a4e1.jpg" company='Hospital: ' seller='Médico: ' buyer='Paciente: ' /> :
+                <CorteDocument totales={totales} logo="https://api.recreamed.com/images/bd71d914-1f11-4bea-81e5-81b55e11a4e1.jpg" corte={props.corte} hospital={ids_hospitales[0].nombre} ingresos={ingresos} /> :
                 <>
                     <h5>Total ingresos: <span style={{ color: '#3277a8' }}>${totales.ingresosTotales}</span></h5>
                     {

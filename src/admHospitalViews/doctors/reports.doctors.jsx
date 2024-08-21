@@ -7,28 +7,29 @@ export default function ReportsDoctors({ id_medico, isModalOpen, handleOk }) {
 
     const [loading, setLoading] = useState(true)
     const [citasData, setCitasData] = useState(null)
+    // const [weekCitas, setWeekCitas] = useState([])
 
     useEffect(() => { getCitasData() }, [isModalOpen])
 
-    function getCurrentWeek() {
-        const now = new Date();
-        const dayOfWeek = now.getDay(); // 0 (Sunday) to 6 (Saturday)
+    // function getCurrentWeek() {
+    //     const now = new Date();
+    //     const dayOfWeek = now.getDay(); // 0 (Sunday) to 6 (Saturday)
 
-        // Adjust to get Monday (0 if today is Monday, -6 if today is Sunday)
-        const diffToMonday = (dayOfWeek + 6) % 7;
+    //     // Adjust to get Monday (0 if today is Monday, -6 if today is Sunday)
+    //     const diffToMonday = (dayOfWeek + 6) % 7;
 
-        const monday = new Date(now);
-        monday.setDate(now.getDate() - diffToMonday);
-        monday.setHours(0, 0, 0, 0); // Set to start of the day
+    //     const monday = new Date(now);
+    //     monday.setDate(now.getDate() - diffToMonday);
+    //     monday.setHours(0, 0, 0, 0); // Set to start of the day
 
-        const sunday = new Date(monday);
-        sunday.setDate(monday.getDate() + 6);
-        sunday.setHours(23, 59, 59, 999); // Set to end of the day
+    //     const sunday = new Date(monday);
+    //     sunday.setDate(monday.getDate() + 6);
+    //     sunday.setHours(23, 59, 59, 999); // Set to end of the day
 
-        return { start_date: monday, end_date: sunday };
-    }
+    //     return { start_date: monday, end_date: sunday };
+    // }
 
-    
+
     const getCitasData = () => {
         setLoading(true)
         if (id_medico) {
@@ -38,6 +39,16 @@ export default function ReportsDoctors({ id_medico, isModalOpen, handleOk }) {
             })
         }
     }
+
+    // const getWeekCitas = () => {
+    //     const body = getCurrentWeek();
+    //     console.log('Semana: ',body)
+    //     if (id_medico) {
+    //         sendDataBody(`citas/medico/dates/${id_medico}`, body).then(rs => {
+    //             setWeekCitas(rs)
+    //         })
+    //     }
+    // }
 
     const columns = [
         {
@@ -79,10 +90,11 @@ export default function ReportsDoctors({ id_medico, isModalOpen, handleOk }) {
                             JSON.stringify(citasData)
                         } */}
 
-
-
-                        <h4>Citas este més</h4>
+                       
+                        <h4>Citas este mes</h4>
                         <Table dataSource={citasData} columns={columns} />
+
+
 
                     </div>
             }

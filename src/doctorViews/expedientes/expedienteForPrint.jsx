@@ -113,7 +113,7 @@ export default function ExpedienteDocument({ pacienteData, expedienteData, histo
                                 return <View style={{marginBottom: 6}}>
 
                                     <Text style={styles.desc}>Fecha y hora: {cita.fecha_hora}</Text>
-                                    <Text style={styles.desc}>Medico: {cita.medico.name}</Text>
+                                    <Text style={styles.desc}>Médico: {cita.medico.name}</Text>
                                     <Text style={styles.desc}>Paciente: {cita.medico.name}</Text>
                                     <Text style={styles.desc}>Servicio: {cita.servicio}</Text>
                                     <Text style={styles.desc}>Comentarios: {cita.comentarios}</Text>

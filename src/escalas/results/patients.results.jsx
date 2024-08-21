@@ -21,7 +21,7 @@ export default function PatientsResults() {
     const [allPacientes, setAllPacientes] = useState([])
     const [selectedPatient, setSelectedPatient] = useState(null)
     const [patientScalas, setPatientScalas] = useState(null)
-    const [medicos, setMedicos] = useState([]) // List of medicos able to select
+    const [medicosAsignados, setMedicosAsignados] = useState([]) // List of medicos able to select
 
 
     //Modal for details scala
@@ -57,24 +57,16 @@ export default function PatientsResults() {
     const handlePatientChange = (value) => {
         console.log('Selected Patient ', value)
         setSelectedPatient(value)
-        // const found = allPacientes.find((p) => p._id === value);
-        // if (found) {
-
-        //     let { medicos_asignados } = found
-        //     medicos_asignados.forEach((m) => {
-        //         m.label = m.name; m.value = m._id
-        //     });
-
-        //     setMedicos(medicos_asignados);
-
-        // } else {
-        //     message.error('Paciente no encontrado')
-        // }
         getPatientScalas(value)
+        getPatientData(value)
     };
 
     const getPatientScalas = (id) => {
-        getData(`encuestas/paciente/${id}`).then(rs => { console.log(rs); setPatientScalas(rs) })
+        getData(`encuestas/paciente/${id}`).then(rs => {  setPatientScalas(rs) })
+    }
+
+    const getPatientData = (id) => {
+        getData(`getuser/${id}`).then(rs => {console.log(rs); setMedicosAsignados(rs['medicos_asignados'][0]) })
     }
 
     const filterOption = (input, option) =>
@@ -483,7 +475,7 @@ export default function PatientsResults() {
                         }
                     />
                 </Form.Item>
-                <GenerateAllEscalas selectedPatient={selectedPatient} />
+                <GenerateAllEscalas selectedPatient={selectedPatient} medico={medicosAsignados}/>
             </div>
 
             {

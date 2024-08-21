@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Space, Button,  Image } from 'antd';
+import { Row, Col, Space, Button, Image } from 'antd';
 import { Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { API, usuario } from '../../resources';
@@ -7,6 +7,9 @@ import Loading from '../../loading';
 import { FormOutlined } from '@ant-design/icons';
 import PerfilEdit from './perfilEdit';
 import Configuration from './configuration';
+import Android from "../../assets/droid.png";
+import QR from "../../assets/frame.png";
+
 
 
 export default function Perfil() {
@@ -39,9 +42,9 @@ export default function Perfil() {
 
     const MiniCard = ({ universidad, carrera, cedula = '' }) => {
         return <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12, textAlign: 'left' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', width: '30%', borderBottom: 'solid 2px #f5f6f8'  }}><div className='desc'>Universidad:</div><div>{universidad}</div> </div>
-            <div style={{ display: 'flex', flexDirection: 'column', width: '30%', borderBottom: 'solid 2px #f5f6f8'  }}><div className='desc'>Carrera:</div><div>{carrera}</div></div>
-            <div style={{ display: 'flex', flexDirection: 'column', width: '30%', borderBottom: 'solid 2px #f5f6f8'  }}><div className='desc'>Cedula:</div><div>{cedula}</div></div>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '30%', borderBottom: 'solid 2px #f5f6f8' }}><div className='desc'>Universidad:</div><div>{universidad}</div> </div>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '30%', borderBottom: 'solid 2px #f5f6f8' }}><div className='desc'>Carrera:</div><div>{carrera}</div></div>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '30%', borderBottom: 'solid 2px #f5f6f8' }}><div className='desc'>Cedula:</div><div>{cedula}</div></div>
         </div>
     }
 
@@ -129,6 +132,16 @@ export default function Perfil() {
                     }
                 </div>
             }
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <div className='lcolumna' style={{ justifyContent: 'center' }}>
+                    <img width={162} src={Android} alt="recreamedLogo" />
+                    <a href='https://api.recreamed.com/images/recreamedMobile.apk'>Descargar aplicación</a>
+                </div>
+                <Image
+                    width={162}
+                    src={QR}
+                />
+            </div>
         </div>
     )
 }

@@ -110,12 +110,12 @@ export default function IngersosHosptal({ ids_hospitales }) {
     // if (loading) return <Loading />
 
     return <div>
-        
+
         <div style={{ display: 'flex', flexDirection: 'row', gap: 12, alignItems: 'center' }}>
-            <h4>Ingresos del hospital</h4>
+            <h4>Ingresos varios</h4>
             {/* {JSON.stringify(ids_hospitales)} For view another hospitals , create a select with ids_hospitales as options and a state for hospital selected and pass ir as a param into createBalance*/}
             <Button ghost size='small' onClick={() => setIsIngresoModalOpen(true)} type='primary'  >Agregar Nuevo Ingreso del Hospital</Button>
-            <Button ghost size='small' onClick={() => setIsGastoModalOpen(true)} type='primary'  >Agregar Nuevo Gasto del Hospital</Button>
+            <Button ghost size='small' onClick={() => setIsGastoModalOpen(true)} type='primary'  >Agregar Nuevo Egreso del Hospital</Button>
         </div>
 
         <Table dataSource={ingresosData} columns={columns} size='small' />

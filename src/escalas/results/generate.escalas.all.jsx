@@ -3,7 +3,7 @@ import { Button, Modal, Select, message, Card } from 'antd';
 import { getData, ids_hospitales } from '../../resources';
 
 
-export default function GenerateAllEscalas({ selectedPatient }) {
+export default function GenerateAllEscalas({ selectedPatient, medico }) {
 
     const [medicosData, setMedicosData] = useState({})
     const [selectedMedico, setSelectedMedico] = useState(null)
@@ -42,10 +42,13 @@ export default function GenerateAllEscalas({ selectedPatient }) {
         setSelectedMedico(null)
     };
 
-  
+
     const NewLink = ({ label, tipo, prot, mom }) => {
-        const l = `https://sistema.recreamed.com/${tipo}_public/${selectedMedico}/${selectedPatient}/${Date.now()}/${prot}/${mom}`;
-        // const l = `http://localhost:3000/${tipo}_public/${selectedMedico}/${selectedPatient}/${Date.now()}/${prot}/${mom}`;
+
+        const idm = medico ? medico : selectedMedico;
+
+        const l = `https://sistema.recreamed.com/${tipo}_public/${idm}/${selectedPatient}/${Date.now()}/${prot}/${mom}`;
+        // const l = `http://localhost:3000/${tipo}_public/${idm}/${selectedPatient}/${Date.now()}/${prot}/${mom}`;
         return <div>
             <Card size='small' bordered={false}>
                 <Card.Grid onClick={() => copyLink(l)} style={{ border: '1px solid white', borderRadius: 8, padding: 8, width: '100%', cursor: 'pointer' }} hoverable>
@@ -68,20 +71,25 @@ export default function GenerateAllEscalas({ selectedPatient }) {
             </Button>
             <Modal title="Nuevas escalas" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={500} destroyOnClose >
 
-                <Select
-                    showSearch
-                    onChange={handleDoctorChange}
-                    placeholder={<span className='desc'>Seleccione un médico</span>}
-                    options={medicosData}
-                    style={{ width: 300 }}
-                />
+                {
+                    medico ? <></> : <Select
+                        showSearch
+                        onChange={handleDoctorChange}
+                        placeholder={<span className='desc'>Seleccione un médico</span>}
+                        options={medicosData}
+                        style={{ width: 300 }}
+                    />
+                }
 
+
+                {/* <div>Patient: {selectedPatient}</div>
+                <div>Medico: {medico}</div> */}
 
                 {/* <div>Medicos Data : {JSON.stringify(medicosData)}</div>
                 <div>Medico Seleccionado : {selectedMedico}</div> */}
 
                 {
-                    selectedMedico && <div>
+                    (medico || selectedMedico) && <div>
 
                         <div style={{ marginTop: 8 }}>
                             <span className='nombre'>Depresion Resistente al Tratamiento</span><br />
@@ -221,7 +229,7 @@ export default function GenerateAllEscalas({ selectedPatient }) {
                         </div>
 
                         <br />
-                     
+
                     </div>
                 }
 

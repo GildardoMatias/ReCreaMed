@@ -237,7 +237,7 @@ export default function Register(props) {
                 ))}
                 <Form.Item>
                   <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
-                    Agregar Medico
+                    Agregar Médico
                   </Button>
 
                   <Form.ErrorList errors={errors} />

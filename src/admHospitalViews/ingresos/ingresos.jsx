@@ -222,17 +222,19 @@ export default function Ingresos() {
         <div className='mainContainer'>
             {/* <div>first fecha cierre {firstFecha} </div>
             <div>last fecha cierre {lastFecha} </div> */}
+            <WeekCitas medicos={medicosData} />
 
             <div style={{ display: 'flex', flexDirection: 'row', gap: 12, alignItems: 'center' }}>
-                <h4>Ingresos de{viewTipeMedics ? 'l médico' : ' todos los medicos'}</h4>
+                {/* <h4>Ingresos de{viewTipeMedics ? 'l médico' : ' todos los medicos'}</h4> */}
+                <h4>Ingresos de Servicios</h4>
                 <Button ghost size='small' onClick={showIngresoModal} type='primary'  >Agregar Nuevo Ingreso</Button>
-                <Button ghost size='small' onClick={showEgresoModal} type='primary'  >Agregar Nuevo Gasto</Button>
+                {/* <Button ghost size='small' onClick={showEgresoModal} type='primary'  >Agregar Nuevo Gasto</Button> */}
             </div>
 
             <br />
 
             <div>
-                Hospital <Switch onChange={onSwitchChange} /> Medico
+                Todos los médicos <Switch onChange={onSwitchChange} /> Un solo médico
                 {
                     viewTipeMedics && <Select options={medicosData} onChange={handleDoctorChange} style={{ width: 240, marginLeft: 16 }} placeholder='Seleccione medico' />
                 }
@@ -244,7 +246,6 @@ export default function Ingresos() {
 
             <IngersosHosptal ids_hospitales={ids_hospitales} />
 
-            <WeekCitas medicos={medicosData} />
 
             {/* Ingreso */}
             <CreateBalance tipo='ingreso' balanceForEdit={ingresoForEdit} setBalanceForEdit={setIngresoForEdit} setIsModalOpen={setIsIngresoModalOpen} isModalOpen={isIngresoModalOpen} getIngresos={getIngresos} medico={medico} medicosData={medicosData} />

@@ -137,7 +137,7 @@ export default function HojaDocument({ nombreHospital, logoHospital, receta, dat
                 </View>
 
                 <View style={styles.content}>
-                    <Text style={styles.text}>MEDICO TRATANTE:</Text>
+                    <Text style={styles.text}>MÉDICO TRATANTE:</Text>
                     {
                         medicos_asignados.map((m) => {
                             return <Text style={styles.text}>{m.name}</Text>

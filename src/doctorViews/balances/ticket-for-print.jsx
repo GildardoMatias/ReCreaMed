@@ -162,7 +162,7 @@ export default function Ticket({ ingresos, logo, idHospital, buyer }) {
                     </View>
                     <View style={styles.sellerBuyerInfo}>
                         <View>
-                            <Text style={styles.infoTitle}>Medico:</Text>
+                            <Text style={styles.infoTitle}>Médico:</Text>
                             <Text style={styles.infoText}>{ingresos[0].medico.name}</Text>
                         </View>
                         <View>

@@ -92,7 +92,7 @@ export class Home extends Component {
                         </Col>
                         <Col xs={24} sm={12} lg={6}>
                             <Card className="cardsContenedor" hoverable bordered={false}>
-                                <Statistic title="Total Medicos" value="14" valueStyle={{ color: 'white' }} style={{ backgroundColor: '#FF838A', borderRadius: 12 }} className="cardsContenido" />
+                                <Statistic title="Total Médicos" value="14" valueStyle={{ color: 'white' }} style={{ backgroundColor: '#FF838A', borderRadius: 12 }} className="cardsContenido" />
                             </Card>
                         </Col>
 

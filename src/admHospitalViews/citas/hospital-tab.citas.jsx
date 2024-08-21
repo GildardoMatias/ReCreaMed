@@ -213,7 +213,9 @@ const HospitalTab = ({ id_hospital, hospital }) => {
     }
 
     // Si los datos no cargaron correctamente, muestra un mensaje de error
-    return <p>Citas no cargadas correctamente</p>;
+    return <div className='mainContainer'>
+        <p className='datos'>Cargando citas...</p>;
+    </div>
 }
 
 export default HospitalTab;

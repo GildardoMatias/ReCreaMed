@@ -124,7 +124,7 @@ export default function CreateBalance(props) {
                     />
                 </Form.Item>
 
-                    <Form.Item label="Medico" name="medico" >
+                    <Form.Item label="Médico" name="medico" >
                         <Select options={props.medicosData} onChange={handleDoctorChange} />
                     </Form.Item>
 

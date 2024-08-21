@@ -3,11 +3,13 @@ import { API, sendDataBody } from '../../resources';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import dayjs from 'dayjs';
+import 'dayjs/locale/es-mx'
 import CreateCita from './create-cita-for-medic';
 import Loading from '../../loading';
 import DetailsCita from './details-cita';
 import RegisterPatientReception from './register.patient';
 
+dayjs.locale('es-mx')
 const localizer = dayjsLocalizer(dayjs)
 
 // admin and receipt shares hospital-tab.citas and create-cita-for-medic and details.cita
@@ -218,7 +220,7 @@ const HospitalTab = ({ id_hospital, hospital }) => {
 
     // Si los datos no cargaron correctamente, muestra un mensaje de error
     return <div style={{height: 500}}>
-        <p className='datos'>Citas no cargadas correctamente</p>;
+        <p className='datos'>Cargando citas...</p>;
     </div>
 }
 

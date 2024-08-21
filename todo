@@ -14,6 +14,21 @@ Escalas agrupadas
 
 ----------------------------------------------------------
 npx update-browserslist-db@latest
+----------------------------------------------------------
+
+Importante: Saber cuanto debe el paciente
+
+Cómo le llegaría la notificación 
+
+Hay tratamientos de >10 sesiones, Registrar tratamiento de n sesiones -> calcular costo de tratamiento -> calcular costo de pagos por partes ()
+Facturacion revisar a detalle
+
+escalas not contested
+
+sincronizacion de google en admin
+
+
+-qiotar botones ingresos y medicos al momento de crear links
 
 PatientsChart - admin
 

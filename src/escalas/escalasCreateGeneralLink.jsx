@@ -145,7 +145,7 @@ export default function EscalasCreateGeneralLink(props) {
 
             {
                 (usuario.rol === 'Administrador' || usuario.rol === 'Recepcion' || usuario.rol === 'Enfermero') &&
-                <Form.Item label="Medico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
+                <Form.Item label="Médico" name="usuario" rules={[{ required: true, message: 'Selecciona el paciente' }]}
                     style={{ alignItems: 'center', paddingTop: 20 }}
                     labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
 

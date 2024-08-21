@@ -23,7 +23,7 @@ const onChange = (key) => { console.log(key) };
 const { tipo } = usuario || 'PSIQ';
 
 const escalasPsiqMenuItems = [
-    { label: 'Resultados', key: 'item-0', children: usuario && usuario.rol === 'Enfermero' ? <PatientsResults /> : <div className='mainContainer'>No cuentas con permisos para ver los resultados agrupados</div> },
+    { label: 'Resultados', key: 'item-0', children: (usuario && (usuario.rol === 'Enfermero' || usuario.rol === 'Administrador')) ? <PatientsResults /> : <div className='mainContainer'>No cuentas con permisos para ver los resultados agrupados</div> },
     { label: 'Ketamina', key: 'item-1', children: <KetaminaResults /> },
     { label: 'Depresion', key: 'item-3', children: <DepresionMenu /> },
     { label: 'Dolor', key: 'item-4', children: <DolorResults /> },
@@ -33,12 +33,12 @@ const escalasPsiqMenuItems = [
     { label: 'PHQ9P', key: 'item-8', children: <Phq9pResults /> },
     { label: 'C-SSRS', key: 'item-9', children: <CssrsResults /> },// Must change
     { label: 'THI', key: 'item-10', children: <ThiResults /> },
-    { label: 'DOCS', key: 'item-11', children: <DocsResults/> },
+    { label: 'DOCS', key: 'item-11', children: <DocsResults /> },
     { label: 'EMCA', key: 'item-12', children: <EmcaResults /> },
     { label: 'OWS', key: 'item-13', children: <OwsResults /> },
     { label: 'SOWS', key: 'item-14', children: <SowsResults /> },
     { label: 'Dolor 2', key: 'item-15', children: <Dolor2Results /> },
-    { label: 'PCL-5', key: 'item-16', children: <Pcl5Results/> },
+    { label: 'PCL-5', key: 'item-16', children: <Pcl5Results /> },
 ];
 const escalasFisioMenuItems = [
     { label: 'Dolor', key: 'item-4', children: <DolorResults /> },

@@ -185,7 +185,7 @@ export default function Register() {
 
         <Form.Item
           name="id_medicoasignado"
-          label="Id Medico Asignado"
+          label="Id Médico Asignado"
           rules={[
             {
               required: true,

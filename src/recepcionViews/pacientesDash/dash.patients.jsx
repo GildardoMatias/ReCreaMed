@@ -38,7 +38,7 @@ export default function Dash() {
     //   key: 'age',
     // },
     {
-      title: 'Medico',
+      title: 'Médico',
       dataIndex: 'id_medicoasignado',
       key: 'id_medicoasignado',
     },

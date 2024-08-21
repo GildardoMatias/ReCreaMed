@@ -7,7 +7,7 @@ export function Login() {
 
   const onFinish = (values) => {
     delete values.remember;
-    console.log('Received values of form: ', values);
+    
 
     // Inicio de sesion
     fetch(S_API + 'login', {

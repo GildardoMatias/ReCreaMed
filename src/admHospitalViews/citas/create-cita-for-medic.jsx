@@ -158,7 +158,7 @@ export function CreateCitaForm(props) {
                 filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())} />
         </Form.Item>
 
-        <Form.Item label="Medico" name="medico" rules={[{ required: true, message: 'Selecciona Medico' }]} >
+        <Form.Item label="Médico" name="medico" rules={[{ required: true, message: 'Selecciona Medico' }]} >
             <Select options={medicos} onChange={handleMedicochange} />
         </Form.Item>
 

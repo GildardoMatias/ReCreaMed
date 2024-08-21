@@ -38,7 +38,7 @@ function Navigator() {
 
           <Nav.Link href="/">Inicio</Nav.Link>
           <Nav.Link href="pacientes">Pacientes</Nav.Link>
-          <Nav.Link href="doctores">Medicos</Nav.Link>
+          <Nav.Link href="doctores">Médicos</Nav.Link>
           <Nav.Link href="recepcionistas">Recepcionistas</Nav.Link>
           <Nav.Link href="enfermeros">Enfermeros</Nav.Link>
           <Nav.Link href="citas">Citas</Nav.Link>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Modal, Table } from 'antd';
 import { dateOptions } from '../../resources';
+import { HistoryOutlined } from '@ant-design/icons'
 
 export default function HistorialCitas({ historial }) {
 
@@ -45,8 +46,8 @@ export default function HistorialCitas({ historial }) {
     return (
         <div>
 
-            <Button size='small' type="link" onClick={showModal}>
-                Ver historial completo
+            <Button icon={<HistoryOutlined />} size='small' type="link" onClick={showModal} style={{ padding: 0, margin: 0 }}>
+                Ver historial de citas
             </Button>
 
             <Modal title="Historial de citas" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>

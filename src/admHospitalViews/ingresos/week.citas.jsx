@@ -39,7 +39,7 @@ export default function WeekCitas({ medicos }) {
             key: 'reporte',
             render: (_, { _id }) => {
                 return <div>
-                    <Button onClick={() => { openModal(_id); }}>
+                    <Button  onClick={() => { openModal(_id); }}>
                         Ver reporte
                     </Button>
                 </div>
@@ -119,9 +119,9 @@ export default function WeekCitas({ medicos }) {
     return (
         <div>
 
-            <h5>Pacientes atendidos ésta semana</h5>
+            <h4>Pacientes atendidos ésta semana</h4>
 
-            <Table dataSource={medicos} columns={columns} />
+            <Table dataSource={medicos} columns={columns} size='small' />
 
             <Modal open={isModalOpen} onOk={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)} width={800} destroyOnClose>
                 {
@@ -130,7 +130,7 @@ export default function WeekCitas({ medicos }) {
                             {/* {
                                 JSON.stringify(citasData)
                             } */}
-                            <h5>Pacientes atendidos ésta semana: {patientCounter}</h5>  <br />
+                            <h4>Pacientes atendidos ésta semana: {patientCounter}</h4>  <br />
                             <h5>Citas de ésta semana </h5>
                             <Table dataSource={citasData} columns={modalColumns} />
 

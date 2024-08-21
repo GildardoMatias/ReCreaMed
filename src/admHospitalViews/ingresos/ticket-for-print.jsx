@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
         fontSize: 10,
         paddingTop: 5,
         paddingBottom: 5,
+        textTransform: 'capitalize'
     },
     tableCellHeader: {
         margin: 'auto',
@@ -171,16 +172,16 @@ export default function Ticket({ ingresos, logo, hospital, idHospital, seller, b
                     <View style={styles.table}>
                         <View style={styles.tableRow}>
                             <Text style={styles.tableColHeader}>Concepto</Text>
-                            <Text style={styles.tableColHeader}>Cantidad</Text>
+                            <Text style={styles.tableColHeader}>Estado</Text>
+                            <Text style={styles.tableColHeader}>Forma de pago</Text>
                             <Text style={styles.tableColHeader}>Precio Unitario</Text>
-                            <Text style={styles.tableColHeader}>Subtotal</Text>
                         </View>
                         {ingresos.map((item) => (
                             <View style={styles.tableRow} key={item.id}>
                                 {/* <Text style={styles.tableCol}>{item.concepto}</Text> */}
                                 <Text style={styles.tableCol}>{item.concepto.split(["-"])[0]}</Text>
-                                <Text style={styles.tableCol}>1</Text>
-                                <Text style={styles.tableCol}>${item.monto.toFixed(2)}</Text>
+                                <Text style={styles.tableCol}>{item.estado}</Text>
+                                <Text style={styles.tableCol}>{item.forma_de_pago}</Text>
                                 <Text style={styles.tableCol}>
                                     {/* ${(item.monto * item.quantity).toFixed(2)} */}
                                     ${item.monto.toFixed(2)}

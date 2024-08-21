@@ -113,7 +113,7 @@ export default function Cortes() {
 
     return <div className='mainContainer'>
 
-        <h4>Cortes de cada Medico</h4>
+        <h4>Cortes de cada Médico</h4>
         <br />
         {/* <p className='datos'>Selecciona un medico a continuacion para ver sus cortes</p> */}
 
