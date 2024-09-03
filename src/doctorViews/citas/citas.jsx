@@ -36,6 +36,9 @@ const { configuracion: { tratamientos_ofrecidos } = {} } = usuario || {};
 
 
 export default function Citas() {
+
+    const [isGoogleSincronized, setIsGoogleSincronized] = useState(false)
+
     const [citasData, setCitasData] = useState([])
     const [loading, setLoading] = useState(true)
     const [editingCita, setEditingCita] = useState(false)
@@ -137,7 +140,7 @@ export default function Citas() {
         {/* <CitaGoogle />
         <br /> */}
 
-        <AuthButton />
+        <AuthButton setSincronized={setIsGoogleSincronized}/>
 
         {/* <Button icon={<GoogleOutlined />} >
             Sincronzar calendario
@@ -192,7 +195,7 @@ export default function Citas() {
                 <Button onClick={handleCancel}>Cerrar</Button>
             ]}>
             {editingCita ?
-                <CreateCitaForm cita={citaForEdit} setIsModalOpen={setIsModalOpen} getCitasData={getCitasData} setEditingCita={setEditingCita} />
+                <CreateCitaForm isGoogleSincronized cita={citaForEdit} setIsModalOpen={setIsModalOpen} getCitasData={getCitasData} setEditingCita={setEditingCita} />
                 : <div>{citaForEdit && <div>
                     <p><strong>Paciente </strong>{citaForEdit.paciente ? citaForEdit.paciente.name : 'Sin paciente'}</p>
                     <p><strong>Fecha </strong>{new Date(citaForEdit.fecha_hora).toLocaleDateString()}</p>

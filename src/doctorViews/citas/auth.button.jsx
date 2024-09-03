@@ -21,7 +21,7 @@ const config = {
 
 const apiCalendar = new ApiCalendar(config)
 
-export default function AuthButton() {
+export default function AuthButton({setSincronized}) {
 
     const [authText, setAuthText] = useState(null)
 
@@ -30,6 +30,7 @@ export default function AuthButton() {
             const response = await apiCalendar.handleAuthClick();
             console.log('auth-response', response)
             setAuthText(response)
+            setSincronized(true)
         } else if (name === 'sign-out') {
             apiCalendar.handleSignoutClick();
         }

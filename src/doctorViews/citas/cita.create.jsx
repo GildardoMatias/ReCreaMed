@@ -11,7 +11,7 @@ export function CreateCitaForm(props) {
 
     myHospitals.forEach(h => { h.value = h._id; h.label = h.nombre; });
 
-    
+
     // Select patient for cerate cita
     const [misPacientes, setMisPacientes] = useState([])
 
@@ -53,7 +53,7 @@ export function CreateCitaForm(props) {
             }).finally(() => { props.getCitasData(); props.setIsModalOpen(false); props.setEditingCita(false) })
         } else {
 
-              createEvent(values.fecha_hora, values.duracion, values.servicio.title || values.servicio) // Create cita google W
+            props.isGoogleSincronized && createEvent(values.fecha_hora, values.duracion, values.servicio.title || values.servicio) // Create cita google W
 
             sendDataBody('citas/add', values).then((response) => {
                 message.success(response.message || response.error);
@@ -83,7 +83,7 @@ export function CreateCitaForm(props) {
         console.log('Failed:', errorInfo);
     };
 
-    const handleHospitalChange = (value) => { console.log('Selected Hospital: ', value);  };
+    const handleHospitalChange = (value) => { console.log('Selected Hospital: ', value); };
     const handlePacienteChange = (value) => { console.log('Selected Hospital: ', value); };
 
     // Select tratamiento old
